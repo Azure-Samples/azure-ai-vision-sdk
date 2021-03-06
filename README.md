@@ -1,6 +1,6 @@
-# Project Name
+# Azure Cognitive Services Vision SDK
 
-(short, 1-3 sentenced, description of the project)
+Coming soon...
 
 ## Features
 
