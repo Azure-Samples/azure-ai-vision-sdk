@@ -1,9 +1,9 @@
 ---
-author: v-jaswel
+author: adinatru
 ms.service: cognitive-services
 ms.topic: include
-ms.date: 09/28/2020
-ms.author: v-jawe
+ms.date: 03/05/2021
+ms.author: adinatru
 ms.custom: references_regions
 ---
 
@@ -11,7 +11,7 @@ ms.custom: references_regions
 
 # Get started with Face Identification
 
-In this quickstart, you learn basic design patterns for Face Recognition using the Vision SDK, including:
+In this quickstart, you learn basic design patterns for Face Identification using the Cognitive Services Vision SDK, including:
 
 * C
 
@@ -30,9 +30,9 @@ If you want to skip straight to sample code, see the [C++ quickstart samples](ht
 | Familiarity |  You need a basic understanding of Docker concepts, such as registries, repositories, containers, and container images. You also need knowledge of basic docker commands. |
 | Face resource | To use the SDK, you must have:<br/> <br/> An Azure **Face** resource and the associated API key and the endpoint URI. Both values are available on the **Overview** and **Keys** pages for the resource. They're required to start the container.<br/> <br/> **{API_KEY}**: One of the two available resource keys on the **Keys** page<br/> <br/> **{ENDPOINT_URI}**: The endpoint as provided on the **Overview** page |
 
-## Install the Vision SDK
+## Install the Cognitive Services Vision SDK
 
-Before you can do anything, you'll need to install the Vision SDK. Currently, only Linux is supported at this time.
+Before you can do anything, you'll need to install the Cognitive Services Vision SDK. Currently, only Linux is supported at this time.
 
 * <a href="https://docs.microsoft.com/azure/cognitive-services/speech-service/quickstarts/setup-platform?tabs=linux&pivots=programming-language-cpp" target="_blank">Linux <span class="docon docon-navigate-external x-hidden-focus"></span></a>
 [comment]: <> "TODO: fix link above"
@@ -157,7 +157,7 @@ void ConnectionStatusChangedCallback(void* userData, bool connected)
 
 ## **Create a Face Configuration**
 
-To call the Face service using the Vision SDK through a docker container, you need to create a JSON configuration, which has a variety of parameters. Be sure to update the  `FaceApi_EndPoint`, `SubscriptionKey`, `FaceApi_IrPersonGroup`, and `FaceApi_ColorPersonGroup` parameters. (The endpoint will be a URL for the service, such as https://pace2ewus.cognitiveservices.azure.com/.)  This json configuration may be loaded from a file, created dynamically, or a static string.
+To call the Face service using the Cognitive Services Vision SDK through a docker container, you need to create a JSON configuration, which has a variety of parameters. Be sure to update the  `FaceApi_EndPoint`, `SubscriptionKey`, `FaceApi_IrPersonGroup`, and `FaceApi_ColorPersonGroup` parameters. (The endpoint will be a URL for the service, such as https://pace2ewus.cognitiveservices.azure.com/.)  This json configuration may be loaded from a file, created dynamically, or a static string.
 
 ```json
 {
@@ -272,8 +272,7 @@ Your MessageReceivedCallback will be called asynchronously as the face identific
 ## **Next steps**
 
 - Feel free to make changes to the FaceIdentityContainerClient code; it is just a starting point for you.
-- See the Face [reference documentation](https://docs.microsoft.com/en-us/rest/api/speakerrecognition/) for detail on classes and functions.
-- See [C#](https://github.com/Azure-Samples/cognitive-services-speech-sdk/tree/master/quickstart/csharp/dotnet/speaker-recognition) and [C++](https://github.com/Azure-Samples/cognitive-services-speech-sdk/tree/master/quickstart/cpp/windows/speaker-recognition) samples on GitHub.
+- See the Face [reference documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/face//) for detail on classes and functions.
 
 ## **Feedback**
 
