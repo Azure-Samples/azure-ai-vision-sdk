@@ -13,13 +13,13 @@ ms.custom: references_regions
 
 In this quickstart, you learn basic design patterns for Face Identification using the Cognitive Services Vision SDK, including:
 
-* C
+* Face Identification
 
 [comment]: <> "TODO: fix link above"
 
 ## Skip to samples on GitHub
 
-If you want to skip straight to sample code, see the [C++ quickstart samples](https://github.com/Azure-Samples/cognitive-services-speech-sdk/tree/master/quickstart/cpp/windows) on GitHub.
+If you want to skip straight to sample code, see the [C++ samples](https://github.com/Azure-Samples/cognitive-services-vision-sdk/tree/master/quickstart/cpp/windows) on GitHub.
 [comment]: <> "TODO: fix link above"
 
 ## Prerequisites
