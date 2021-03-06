@@ -16,7 +16,7 @@ In this quickstart, you learn basic design patterns for Face Identification usin
 
 ## Skip to samples on GitHub
 
-If you want to skip straight to sample code, see the [C++ samples](https://github.com/Azure-Samples/cognitive-services-vision-sdk/blob/main/samples/cpp/linux/Face%20Identification/sample.cpp) on GitHub...
+If you want to skip straight to sample code, see the [C++ samples](https://github.com/Azure-Samples/cognitive-services-vision-sdk/blob/main/samples/cpp/linux/Face%20Identification/sample.cpp) on GitHub.
 
 
 ## Prerequisites
