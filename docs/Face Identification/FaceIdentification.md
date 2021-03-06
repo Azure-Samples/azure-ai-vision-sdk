@@ -7,8 +7,6 @@ ms.author: adinatru
 ms.custom: references_regions
 ---
 
-[comment]: <> "TODO: fill in the above"
-
 # Get started with Face Identification
 
 In this quickstart, you learn basic design patterns for Face Identification using the Cognitive Services Vision SDK, including:
@@ -18,7 +16,7 @@ In this quickstart, you learn basic design patterns for Face Identification usin
 
 ## Skip to samples on GitHub
 
-If you want to skip straight to sample code, see the [C++ samples](https://github.com/Azure-Samples/cognitive-services-vision-sdk/tree/master/quickstart/cpp/linux) on GitHub.
+If you want to skip straight to sample code, see the [C++ samples](https://github.com/Azure-Samples/cognitive-services-vision-sdk/blob/main/samples/cpp/linux/Face%20Identification/sample.cpp) on GitHub.
 
 
 ## Prerequisites
