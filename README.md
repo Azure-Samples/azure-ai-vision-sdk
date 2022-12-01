@@ -1,57 +1,108 @@
-# Azure Cognitive Services Vision SDK
+---
+page_type: sample
+languages:
+- cpp
+- csharp
+- python
+name: "Microsoft Azure AI Vision SDK Samples"
+description: ""
+products:
+- azure
+- azure-cognitive-services
+---
 
-Coming soon...
+# Azure AI Vision SDK (Preview) Samples
+
+This repository hosts sample code for the Microsoft Azure AI Vision SDK (Preview). This includes "quickstart" samples which are short and accompanied by a detailed setup document. It is recommended you start with those. The repository also includes additional samples for more advanced scenarios.
+
+## News
+
+* [TBD] Vision SDK 0.8 (public preview) was released on January 31st, 2023, targeting Image Analysis applications on Windows and Linux platforms. [See release notes](https://github.com/Azure-Samples/azure-ai-vision-sdk-private-preview/releases/tag/0.8)
 
 ## Features
 
-This project framework provides the following features:
+This repository hosts samples that help you get started with several features of the SDK in public preview. This includes the following API sets:
 
-* Feature 1
-* Feature 2
-* ...
+* [Image Analysis](#image-analysis)
 
-## Getting Started
+Other API sets are under development.
 
-### Prerequisites
+## Support
 
-(ideally very short, if any)
+Please [open a new issue in this repo](https://github.com/Azure-Samples/azure-ai-vision-sdk/issues) if you encounter any problems building or running the samples, or have any additional questions about the SDK. This is the preferred method if getting support. Note that these issues will be visible to the public, so please do not include any sensitive information.
 
-- OS
-- Library version
-- ...
+Alternatively, you can contact Microsoft's Vision SDK development team directly by sending an e-mail to  `vision-sdk@microsoft.com`.
 
-### Installation
+## Get the SDK samples
 
-(ideally very short)
+* **Running the samples in this repository requires you to download the Azure AI Vision SDK. By doing so you acknowledge the [Azure AI Vision SDK license agreement](https://aka.ms/azai/vision/license)**.
 
-- npm install [package name]
-- mvn install
-- ...
+* The easiest way to get access to these samples is to download the content of this repo as a [ZIP file](https://github.com/Azure-Samples/azure-ai-vision-sdk/archive/master.zip).
 
-### Quickstart
-(Add steps to get up and running quickly)
+* Alternatively, you can use a Git client to clone this repository to your hard drive (`git clone https://github.com/Azure-Samples/azure-ai-vision-sdk.git`)
 
-1. git clone [repository clone url]
-2. cd [respository name]
-3. ...
+## Image Analysis
 
+### Overview
 
-## Demo
+![GitHub Logo](docs/image-analysis/image-analysis-results.png)
 
-A demo app is included to show how to use the project.
+See Microsoft documentation for an overview of [Image Analysis](https://learn.microsoft.com/azure/cognitive-services/computer-vision/overview-image-analysis). The Vision SDK Image Analysis APIs (preview) use [Image Analysis REST API v4.0 (preview)](https://westus.dev.cognitive.microsoft.com/docs/services/unified-vision-apis-public-preview-2022-10-12-preview). The Image Analysis APIs supports the extraction of one or more of the following features using a single REST call:
 
-To run the demo, follow these steps:
+* **Description** - Generates a human-readable phrase that describes the image content. For example, for the above image, "A person sitting at a table with a laptop".
+* **Tags** - Returns content tags for recognizable objects, living beings, scenery, and actions that appear in the image.
+* **Objects** - Detects various objects within an image, including their approximate location. See example in the above image: person, chair, laptop, dining table.
+* **People** - Detects people in the image, including the approximate location.
+* **Text** - Also known as **Read** or **OCR**. Performs Optical Character Recognition (OCR) and returns the text detected in the image.
+* **Cropping Suggestions** - Recommendations for cropping operations that preserve content (e.g. for thumbnail generation).
 
-(Add steps to start up the demo)
+You can either upload an image for analysis by providing the name of an image file on disk, or you can provide a publicly-accessible URL of the image.
 
-1.
-2.
-3.
+At the moment the SDK is available for the following platforms and programming languages:
 
-## Resources
+* Platforms: **Windows 10 x64 (and above), Linux x64 running Ubuntu 18.04/20.04/22.04, Debian 9/10/11, Red Hat Enterprise Linux (RHEL) 7/8, or CentOS 7/8**.
+* Programming languages: **Python, C# (.NET Core), C++**.
 
-(Any additional resources or related projects)
+Support for others platform and programming languages (including Android, iOS, MacOS) is planned for future releases.
 
-- Link to supporting information
-- Link to similar sample
-- ...
+### API Reference Documentation
+
+* C++ [TBD]
+* C# [TBD]
+* Python [TBD]
+
+### Quickstart Sample - Start here!
+
+The quickstart sample will upload a JPEG image file for analysis, returning an image description and detected objects. It can easily be modified to provide image URL and/or analyze other features.
+Click on the link below for detailed setup, build and run instructions corresponding to your platform and programing language:
+
+|Platform | Programing Language |
+| ---------- | -------- |
+| Windows x64 | [C++](quickstart/cpp/image-analysis/windows) |
+| -"- | [C# .NET Core](quickstart/csharp/image-analysis/dotnetcore/README-Windows.md) |
+| -"- | [Python](quickstart/python/image-analysis) |
+| Linux x64 | [C++](quickstart/cpp/image-analysis/linux) |
+|  -"- | [C# .NET Core](quickstart/csharp/image-analysis/dotnetcore/README-Linux.md) |
+| -"- | [Python](quickstart/python/image-analysis) |
+
+If your platform and/or programming language is not listed above, your application will need to directly implement REST calls to the Vision service by using the [Image Analysis REST API v4.0 (preview)](https://westus.dev.cognitive.microsoft.com/docs/services/unified-vision-apis-public-preview-2022-10-12-preview).
+
+### Additional Samples
+
+Additional samples come without any setup instructions. Please first refer to the relevant quickstart sample above for instruction.
+
+The samples include:
+* Anlyze all features from a JPEG image file on disk and print detailed results to the console
+* Analyze an image from a memory buffer (`FrameSource` input)
+* TBD
+
+Click on the link below corresponding to your platform and programing language:
+
+|Platform | Programing Language |
+| ---------- | -------- |
+| Windows x64 | [C++](samples/cpp/image-analysis) |
+| -"- | [C# .NET Core](samples/csharp/image-analysis/dotnetcore) |
+| -"- | [Python](samples/python/image-analysis) |
+| Linux x64 | [C++](samples/cpp/image-analysis) |
+|  -"- | [C# .NET Core](samples/csharp/image-analysis/dotnetcore) |
+| -"- | [Python](samples/python/image-analysis) |
