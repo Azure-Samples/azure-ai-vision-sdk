@@ -10,7 +10,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 * Once you have your Azure subscription, [create a Computer Vision resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesComputerVision) in the Azure portal to get your key and endpoint. After it deploys, click `Go to resource`.
 
-  * You will need the key and endpoint from the resource you create to connect your application to the Computer Vision service. You'll paste your key and endpoint into the sample code as described below.
+  * You will need the key and endpoint from the resource you create to connect your application to the Computer Vision service.
   * You can use the free pricing tier (`F0`) to try the service, and upgrade later to a paid tier for production.
 
 * A Linux x64 device, running Ubuntu 18.04/20.04/22.04, Debian 9/10/11 or Red Hat Enterprise Linux (RHEL) 7/8.
@@ -28,7 +28,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 1. **By extracting the Azure AI Vision SDK package you acknowledge the [Azure AI Vision SDK license agreement](https://aka.ms/azai/vision/license)**.
 
-1. Downloaded the following Debian packages from [this release](https://github.com/Azure-Samples/azure-ai-vision-sdk-private-preview/releases/tag/0.8.0-alpha.0.33160110) of the repository, and place them in the same folder on your device:
+1. Downloaded the following Debian packages from [this release](https://github.com/Azure-Samples/azure-ai-vision-sdk-private-preview/releases/tag/0.8.0-alpha.0.33370873) of the repository, and place them in the same folder on your device:
    * `azure-ai-vision-runtime-core-0.8.0-alpha.0.1-Linux.deb`
    * `azure-ai-vision-runtime-core-media-0.8.0-alpha.0.1-Linux.deb`
    * `azure-ai-vision-runtime-image-analysis-0.8.0-alpha.0.1-Linux.deb`
@@ -58,7 +58,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 ## Compile the sample
 
-* Download the content of this repository to your development PC. You can do that by either downloading and extracting this [ZIP file](https://github.com/Azure-Samples/azure-ai-vision-sdk/archive/master.zip), or cloning this repository using a Git client (`git clone https://github.com/Azure-Samples/azure-ai-vision-sdk.git`)
+* Download the content of this repository to your development PC. You can do that by either downloading and extracting this [ZIP file](https://github.com/Azure-Samples/azure-ai-vision-sdk/archive/master.zip), or cloning this repository using a Git client: `git clone https://github.com/Azure-Samples/azure-ai-vision-sdk.git`
 
 * Navigate to the `linux` folder of this sample, where this `README.md` file is located
 
@@ -74,16 +74,11 @@ cd build
   * To compile using make, run `make -f ../makefile`.
   * To compile using CMake, run `cmake ..`, then run `make`.
 
-You should see the resulting executable `image-analysis-samples` in the current folder.
+You should see the resulting executable `image-analysis-samples.exe` in the current folder.
 
 ## Get usage help
 
-* To get usage help, you'll first need to configure the loader's library path to point to the folder where Vision SDK shared objects are located (Note: this is likely a packaging bug. Once fixed, you will not need to do this step):
-    ```
-    export LD_LIBRARY_PATH=/usr/lib/azure-ai-vision/:$LD_LIBRARY_PATH
-    ```
-    
-* Then run it with the `-h` or `--help` flag:
+* To get usage help run the executable with the `-h` or `--help` flag:
     ```
     ./image-analysis-samples.exe -h
     ```
@@ -112,20 +107,25 @@ You will see the following output:
 
 ## Run the sample
 
-* To run the sample, you'll first need to configure the loader's library path to point to the folder where Vision SDK shared object are located (Note: this is likely a packaging bug. Once fixed, you will not need to do this step):
-    ```
-    export LD_LIBRARY_PATH=/usr/lib/azure-ai-vision/:$LD_LIBRARY_PATH
-    ```
+* Open a terminal windows where the executable `image-analysis-samples.exe` is located.
 
-* Then copy the image files `sample*.jpg` to the current folder, such that it resides in the same folder as the executable `image-analysis-samples`:
+* Copy the image files `sample*.jpg` to the current folder, such that it resides in the same folder as the executable `image-analysis-samples.exe`:
     ```
     cp ../../sample*.jpg .
     ```
     
-* Now run the application:
-    ```
-    ./image-analysis-samples.exe
-    ```
+* Run the sample in one of two ways:
+  * By specifying the vision key & endpoint as run-time arguments:
+  ```
+  ./image-analysis-samples.exe -k <your-key> -e <your-endpoint>
+  ```
+  * By first defining the appropriate environment variables, then running the executable without arguments:
+  ```
+  export COMPUTER_VISION_KEY=<your-key>
+  export COMPUTER_VISION_ENDPOINT=<your-endpoint>
+
+  ./image-analysis-samples.exe
+  ```
 
 * You should see a menu of samples to run. Enter the number corresponding to the sample you want to run, and press `Enter`. If this is your first time, start with sample 1, as it does analysis of all the visual features. The sample will run and display the results in the console window. The menu will be displayed again, so you can run another sample. Select `0` to exit the program.
 
@@ -139,9 +139,6 @@ An error message will be displayed if the sample fails to run. Here are some com
 * `Failed with error: HTTPAPI_OPEN_REQUEST_FAILED`.
   * Your endpoint may be incorrect. Make sure you correctly copied the endpoint from your Azure portal. It should be in the form `https://<your-computer-vision-resource-name>.cognitiveservices.azure.com`
 
-* `Exception with an error code: 0x73 (AZAC_ERR_FAILED_TO_OPEN_INPUT_FILE_FOR_READING)`
-  * The image file cannot be found. Make sure you copy the image file to the folder where the executable is located, and re-run.
-
 * `std::exception`
   * The image file cannot be found. Make sure you copy the image file to the folder where the executable is located, and re-run. Note: there should be a more meaningful exception message for this common case. This will be fixed in the next release.
 
@@ -150,6 +147,10 @@ An error message will be displayed if the sample fails to run. Here are some com
 The Vision SDK Debian package can be removed by running:
 
 ```
+ sudo apt-get purge azure-ai-vision-runtime-core
+ sudo apt-get purge azure-ai-vision-runtime-core-media
+ sudo apt-get purge azure-ai-vision-runtime-image-analysis
+ sudo apt-get purge azure-ai-vision-dev-core
  sudo apt-get purge azure-ai-vision-dev-image-analysis
 ```
 

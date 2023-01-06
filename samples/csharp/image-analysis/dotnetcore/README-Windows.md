@@ -10,7 +10,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 * Once you have your Azure subscription, [create a Computer Vision resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesComputerVision) in the Azure portal to get your key and endpoint. After it deploys, click `Go to resource`.
 
-  * You will need the key and endpoint from the resource you create to connect your application to the Computer Vision service. You'll paste your key and endpoint into the sample code as described below.
+  * You will need the key and endpoint from the resource you create to connect your application to the Computer Vision service.
   * You can use the free pricing tier (`F0`) to try the service, and upgrade later to a paid tier for production.
 
 * A Windows 10 (or higher) x64 PC. We only support x64 platforms at the moment.
@@ -27,11 +27,11 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 * **By compiling these samples you will download the Azure AI Vision SDK. By doing so you acknowledge the [Azure AI Vision SDK license agreement](https://aka.ms/azai/vision/license)**.
 
-* Download the content of this repository to your development PC. You can do that by either downloading and extracting this [ZIP file](https://github.com/Azure-Samples/azure-ai-vision-sdk/archive/master.zip), or cloning this repository using a Git client (`git clone https://github.com/Azure-Samples/azure-ai-vision-sdk.git`)
+* Download the content of this repository to your development PC. You can do that by either downloading and extracting this [ZIP file](https://github.com/Azure-Samples/azure-ai-vision-sdk/archive/master.zip), or cloning this repository using a Git client: `git clone https://github.com/Azure-Samples/azure-ai-vision-sdk.git`
 
-* Downloaded the following two Azure AI Vision SDK NuGet files from [this release](https://github.com/Azure-Samples/azure-ai-vision-sdk-private-preview/releases/tag/0.8.0-alpha.0.33160110) of the repository. The are named:
-  * `Azure.AI.Vision.Core.0.8.0-alpha.0.33160110.nupkg`
-  * `Azure.AI.Vision.ImageAnalysis.0.8.0-alpha.0.33160110.nupkg`
+* Downloaded the following two Azure AI Vision SDK NuGet files from [this release](https://github.com/Azure-Samples/azure-ai-vision-sdk-private-preview/releases/tag/0.8.0-alpha.0.33370873) of the repository. The are named:
+  * `Azure.AI.Vision.Core.0.8.0-alpha.0.33370873.nupkg`
+  * `Azure.AI.Vision.ImageAnalysis.0.8.0-alpha.0.33370873.nupkg`
 
 * Start Microsoft Visual Studio and select `Open a project or solution` under `Get started`.
 
@@ -41,7 +41,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 * Press `F6`, or select `Build` \> `Build Solution` to compile the sample.
 
-You should see the resulting executables `image-analysis-quickstart.exe` and `image-analysis-samples.dll` in the output folder `\bin\Debug\netcoreapp3.1` (or `\bin\Release\netcoreapp3.1`).
+You should see the resulting executables `image-analysis-samples.exe` and `image-analysis-samples.dll` in the output folder `\bin\Debug\netcoreapp3.1` (or `\bin\Release\netcoreapp3.1`).
 
 ## Get usage help
 
@@ -76,14 +76,14 @@ You will see the following output:
 
 * Open a command prompt window in the output folder where the executable was created
 
-* Make sure that the image file `sample1.jpg` is in the folder (it should have been copied into this folder by Visual Studio when you compiled the sample)
+* Make sure that the image files `sample*.jpg` are in the folder (they should have been copied into this folder by Visual Studio when you compiled the sample)
 
 * Run the sample in one of two ways:
-  1. By specifying the vision key & endpoint as run-time arguments:
+  * By specifying the vision key & endpoint as run-time arguments:
   ```
   image-analysis-samples.exe -k <your-key> -e <your-endpoint>
   ```
-  2. By first defining the appropriate environment variables, then running the executable without arguments:
+  * By first defining the appropriate environment variables, then running the executable without arguments:
   ```
   set COMPUTER_VISION_KEY=<your-key>
   set COMPUTER_VISION_ENDPOINT=<your-endpoint>

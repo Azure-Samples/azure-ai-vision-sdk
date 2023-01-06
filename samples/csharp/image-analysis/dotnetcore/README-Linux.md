@@ -10,7 +10,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 * Once you have your Azure subscription, [create a Computer Vision resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesComputerVision) in the Azure portal to get your key and endpoint. After it deploys, click `Go to resource`.
 
-  * You will need the key and endpoint from the resource you create to connect your application to the Computer Vision service. You'll paste your key and endpoint into the sample code as described below.
+  * You will need the key and endpoint from the resource you create to connect your application to the Computer Vision service.
   * You can use the free pricing tier (`F0`) to try the service, and upgrade later to a paid tier for production.
 
 * A Linux x64 machine running Ubuntu 18.04/20.04/22.04, Debian 9/10/11 or Red Hat Enterprise Linux (RHEL) 7/8
@@ -30,11 +30,11 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 * **By compiling this sample you will download the Azure AI Vision SDK. By doing so you acknowledge the [Azure AI Vision SDK license agreement](https://aka.ms/azai/vision/license)**.
 
-* Download the content of this repository to your Linux device. You can do that by either downloading and extracting this [ZIP file](https://github.com/Azure-Samples/azure-ai-vision-sdk/archive/master.zip), or cloning this repository using a Git client (`git clone https://github.com/Azure-Samples/azure-ai-vision-sdk.git`)
+* Download the content of this repository to your Linux device. You can do that by either downloading and extracting this [ZIP file](https://github.com/Azure-Samples/azure-ai-vision-sdk/archive/master.zip), or cloning this repository using a Git client: `git clone https://github.com/Azure-Samples/azure-ai-vision-sdk.git`
 
-* Downloaded the Azure AI Vision SDK NuGet file from [this release](https://github.com/Azure-Samples/azure-ai-vision-sdk-private-preview/releases/tag/0.8.0-alpha.0.33160110) of the repository.  The are named:
-  * `Azure.AI.Vision.Core.0.8.0-alpha.0.33160110.nupkg`
-  * `Azure.AI.Vision.ImageAnalysis.0.8.0-alpha.0.33160110.nupkg`
+* Downloaded the Azure AI Vision SDK NuGet file from [this release](https://github.com/Azure-Samples/azure-ai-vision-sdk-private-preview/releases/tag/0.8.0-alpha.0.33370873) of the repository.  The are named:
+  * `Azure.AI.Vision.Core.0.8.0-alpha.0.33370873.nupkg`
+  * `Azure.AI.Vision.ImageAnalysis.0.8.0-alpha.0.33370873.nupkg`
 
 * Open a terminal window in the folder `samples/csharp/image-analysis/dotnetcore` containing the project solution `image-analysis-samples.csproj`
 
@@ -81,14 +81,14 @@ You will see the following output:
 
 ## Run the samples
 
-* Make sure that the image file `sample1.jpg` is in the folder.
+* Make sure the image files `sample*.jpg` are in the folder.
 
 * Run the sample in one of two ways:
-  1. By specifying the vision key & endpoint as run-time arguments:
+  * By specifying the vision key & endpoint as run-time arguments:
   ```
   dotnet bin/Debug/netcoreapp3.1/image-analysis-samples.dll -k <your-key> -e <your-endpoint>
   ```
-  2. By first defining the appropriate environment variables, then running the executable without arguments:
+  * By first defining the appropriate environment variables, then running the executable without arguments:
   ```
   export COMPUTER_VISION_KEY=<your-key>
   export COMPUTER_VISION_ENDPOINT=<your-endpoint>

@@ -10,7 +10,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 * Once you have your Azure subscription, [create a Computer Vision resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesComputerVision) in the Azure portal to get your key and endpoint. After it deploys, click **Go to resource**.
 
-  * You will need the key and endpoint from the resource you create to connect your application to the Computer Vision service. You'll paste your key and endpoint into the sample code as described below.
+  * You will need the key and endpoint from the resource you create to connect your application to the Computer Vision service.
   * You can use the free pricing tier (`F0`) to try the service, and upgrade later to a paid tier for production.
 
 * On Windows and Linux Python 3.7 or later needs to be installed. Downloads are available [here](https://www.python.org/downloads/). Note that depending on your operating system, python version and alias set for its executable, the python executable may be `py`, `python` or `python3`. This document assumes the executable name is `python`.
@@ -32,7 +32,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 * **By downloading the Python wheel you acknowledge the [Azure AI Vision SDK license agreement](https://aka.ms/azai/vision/license)**.
 
-* Download the appropriate Python wheel (.whl) file from [this release](https://github.com/Azure-Samples/azure-ai-vision-sdk-private-preview/releases/tag/0.8.0-alpha.0.33160110) of the repository.
+* Download the appropriate Python wheel (.whl) file from [this release](https://github.com/Azure-Samples/azure-ai-vision-sdk-private-preview/releases/tag/0.8.0-alpha.0.33370873) of the repository.
 
   * Python wheels for Windows x64 have this format (`VERSION` being the SDK version): `azure_ai_vision-VERSION-py3-none-win_amd64.whl`.
 
@@ -56,7 +56,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 ## Download the samples
 
-Download the content of this repository to your development PC / Linux machine. You can do that by either downloading and extracting this [ZIP file](https://github.com/Azure-Samples/azure-ai-vision-sdk/archive/master.zip), or cloning this repository using a Git client (`git clone https://github.com/Azure-Samples/azure-ai-vision-sdk.git`)
+Download the content of this repository to your development PC / Linux machine. You can do that by either downloading and extracting this [ZIP file](https://github.com/Azure-Samples/azure-ai-vision-sdk/archive/master.zip), or cloning this repository using a Git client: `git clone https://github.com/Azure-Samples/azure-ai-vision-sdk.git`
 
 ## Get usage help
 
@@ -93,11 +93,6 @@ You will see the following output:
 
 * Open a Windows command prompt / Linux terminal and navigate to the `samples\python\image-analysis` folder, where this `README.md` file is located.
 
-* Run the sample by typing:
-    ```
-    python main.py
-    ```
-
 * Run the sample in one of two ways:
 
   * By specifying the vision key & endpoint as run-time arguments:
@@ -121,7 +116,7 @@ You will see the following output:
     python main.py
     ```
 
-* You should see a menu of samples to run. Enter the number corresponding to the sample you want to run, and press `ENTER`. If this is your first time, start with the first sample, as it does analysis of all the visual features. The sample will run and display the results in the console window. The menu will be displayed again, so you can run another sample. Select `CTRL-Z` to exit the program.
+* You should see a menu of samples to run. Enter the number corresponding to the sample you want to run, and press `ENTER`. If this is your first time, start with the first sample, as it does analysis of all the visual features. The sample will run and display the results in the console window. The menu will be displayed again, so you can run another sample. Select `CTRL-Z` (on Windows) or `CTRL-D` (on Linux) to exit the program.
 
 ## Troubleshooting
 
