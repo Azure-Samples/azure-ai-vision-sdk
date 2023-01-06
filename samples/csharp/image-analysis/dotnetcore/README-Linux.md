@@ -32,7 +32,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 * Download the content of this repository to your Linux device. You can do that by either downloading and extracting this [ZIP file](https://github.com/Azure-Samples/azure-ai-vision-sdk/archive/master.zip), or cloning this repository using a Git client: `git clone https://github.com/Azure-Samples/azure-ai-vision-sdk.git`
 
-* Downloaded the Azure AI Vision SDK NuGet file from [this release](https://github.com/Azure-Samples/azure-ai-vision-sdk-private-preview/releases/tag/0.8.0-alpha.0.33370873) of the repository.  The are named:
+* Downloaded the Azure AI Vision SDK NuGet file from [this release](https://github.com/Azure-Samples/azure-ai-vision-sdk/releases/tag/0.8.0-alpha.0.33370873) of the repository.  The are named:
   * `Azure.AI.Vision.Core.0.8.0-alpha.0.33370873.nupkg`
   * `Azure.AI.Vision.ImageAnalysis.0.8.0-alpha.0.33370873.nupkg`
 

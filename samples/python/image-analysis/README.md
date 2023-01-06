@@ -32,7 +32,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 * **By downloading the Python wheel you acknowledge the [Azure AI Vision SDK license agreement](https://aka.ms/azai/vision/license)**.
 
-* Download the appropriate Python wheel (.whl) file from [this release](https://github.com/Azure-Samples/azure-ai-vision-sdk-private-preview/releases/tag/0.8.0-alpha.0.33370873) of the repository.
+* Download the appropriate Python wheel (.whl) file from [this release](https://github.com/Azure-Samples/azure-ai-vision-sdk/releases/tag/0.8.0-alpha.0.33370873) of the repository.
 
   * Python wheels for Windows x64 have this format (`VERSION` being the SDK version): `azure_ai_vision-VERSION-py3-none-win_amd64.whl`.
 
