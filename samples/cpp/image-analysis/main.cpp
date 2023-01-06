@@ -7,9 +7,8 @@
 #include "stdafx.h"
 #include "secrets.h"
 
-extern void ImagAnalysisSample_GetAllResults(std::string endpoint, std::string key);
-extern void ImagAnalysisSample_GetResultsUsingAnalyzedEvent(std::string endpoint, std::string key);
-extern void ImagAnalysisSample_UsingFrameSource(std::string endpoint, std::string key);
+extern void ImageAnalysisSample_GetAllResults(std::string endpoint, std::string key);
+extern void ImageAnalysisSample_GetResultsUsingAnalyzedEvent(std::string endpoint, std::string key);
 
 void PrintUsage()
 {
@@ -64,11 +63,10 @@ int main(int argc, char** argv)
         std::cout << std::endl;
         std::cout << " Please choose one of the following samples:\n";
         std::cout << std::endl;
-        std::cout << " 1. Get all results, including detailed results\n";
-        std::cout << " 2. Get results using the Analyzed event\n";
-        std::cout << " 3. Using frame source\n";
+        std::cout << " 1. Analyze an image from file (all features)\n";
+        std::cout << " 2. Analyze an image URL using the Analyzed event\n";
         std::cout << std::endl;
-        std::cout << " Enter your choice 1-3 (or 0 to exit) and press enter:\n";
+        std::cout << " Enter your choice 1-2 (or 0 to exit) and press enter:\n";
         std::cout.flush();
 
         input.clear();
@@ -79,15 +77,16 @@ int main(int argc, char** argv)
             switch (input[0])
             {
             case '1':
-                ImagAnalysisSample_GetAllResults(Secrets::GetEndpoint(), Secrets::GetKey());
+                ImageAnalysisSample_GetAllResults(Secrets::GetEndpoint(), Secrets::GetKey());
                 break;
             case '2':
-                ImagAnalysisSample_GetResultsUsingAnalyzedEvent(Secrets::GetEndpoint(), Secrets::GetKey());
-                break;
-            case '3':
-                ImagAnalysisSample_UsingFrameSource(Secrets::GetEndpoint(), Secrets::GetKey());
+                ImageAnalysisSample_GetResultsUsingAnalyzedEvent(Secrets::GetEndpoint(), Secrets::GetKey());
                 break;
             case '0':
+                std::cout << " Exiting...\n";
+                break;
+            default:
+                std::cout << " Invalid selection, choose again.\n";
                 break;
             }
         }

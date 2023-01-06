@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\image-analysis-samples.cpp" />
+    <ClCompile Include="..\samples.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\secrets.cpp" />
     <ClCompile Include="..\stdafx.cpp" />
@@ -107,8 +107,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)\..\laptop-on-kitchen-table.jpg" "$(TargetDir)\"
-copy "$(SolutionDir)\..\laptop-on-kitchen-table.jpg" "$(ProjectDir)\"</Command>
+      <Command>copy "$(SolutionDir)\..\sample*.jpg" "$(TargetDir)\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -127,8 +126,7 @@ copy "$(SolutionDir)\..\laptop-on-kitchen-table.jpg" "$(ProjectDir)\"</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)\..\laptop-on-kitchen-table.jpg" "$(TargetDir)\"
-copy "$(SolutionDir)\..\laptop-on-kitchen-table.jpg" "$(ProjectDir)\"</Command>
+      <Command>copy "$(SolutionDir)\..\sample*.jpg" "$(TargetDir)\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -143,8 +141,7 @@ copy "$(SolutionDir)\..\laptop-on-kitchen-table.jpg" "$(ProjectDir)\"</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)\..\laptop-on-kitchen-table.jpg" "$(TargetDir)\"
-copy "$(SolutionDir)\..\laptop-on-kitchen-table.jpg" "$(ProjectDir)\"</Command>
+      <Command>copy "$(SolutionDir)\..\sample*.jpg" "$(TargetDir)\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -163,18 +160,19 @@ copy "$(SolutionDir)\..\laptop-on-kitchen-table.jpg" "$(ProjectDir)\"</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)\..\laptop-on-kitchen-table.jpg" "$(TargetDir)\"
-copy "$(SolutionDir)\..\laptop-on-kitchen-table.jpg" "$(ProjectDir)\"</Command>
+      <Command>copy "$(SolutionDir)\..\sample*.jpg" "$(TargetDir)\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="packages\Azure.AI.Vision.0.7.0-alpha.0.31337401\build\native\Azure.AI.Vision.targets" Condition="Exists('packages\Azure.AI.Vision.0.7.0-alpha.0.31337401\build\native\Azure.AI.Vision.targets')" />
+    <Import Project="packages\Azure.AI.Vision.Core.0.8.0-alpha.0.33370873\build\native\Azure.AI.Vision.Core.targets" Condition="Exists('packages\Azure.AI.Vision.Core.0.8.0-alpha.0.33370873\build\native\Azure.AI.Vision.Core.targets')" />
+    <Import Project="packages\Azure.AI.Vision.ImageAnalysis.0.8.0-alpha.0.33370873\build\native\Azure.AI.Vision.ImageAnalysis.targets" Condition="Exists('packages\Azure.AI.Vision.ImageAnalysis.0.8.0-alpha.0.33370873\build\native\Azure.AI.Vision.ImageAnalysis.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\Azure.AI.Vision.0.7.0-alpha.0.31337401\build\native\Azure.AI.Vision.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Azure.AI.Vision.0.7.0-alpha.0.31337401\build\native\Azure.AI.Vision.targets'))" />
+    <Error Condition="!Exists('packages\Azure.AI.Vision.Core.0.8.0-alpha.0.33370873\build\native\Azure.AI.Vision.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Azure.AI.Vision.Core.0.8.0-alpha.0.33370873\build\native\Azure.AI.Vision.Core.targets'))" />
+    <Error Condition="!Exists('packages\Azure.AI.Vision.ImageAnalysis.0.8.0-alpha.0.33370873\build\native\Azure.AI.Vision.ImageAnalysis.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Azure.AI.Vision.ImageAnalysis.0.8.0-alpha.0.33370873\build\native\Azure.AI.Vision.ImageAnalysis.targets'))" />
   </Target>
 </Project>

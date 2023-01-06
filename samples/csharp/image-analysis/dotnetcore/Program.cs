@@ -16,7 +16,7 @@ namespace ImageAnalysisSamples
             Console.WriteLine("");
             Console.WriteLine(" To run the samples:");
             Console.WriteLine("");
-            Console.WriteLine("   dotnet ImageAnalysisSamples.dll [--key|-k <your-key>] [--endpoint|-e <your-endpoint>]");
+            Console.WriteLine("   dotnet image-analysis-samples.dll [--key|-k <your-key>] [--endpoint|-e <your-endpoint>]");
             Console.WriteLine("");
             Console.WriteLine(" Where:");
             Console.WriteLine("   <your-key> - A computer vision key you get from your Azure portal.");
@@ -29,7 +29,7 @@ namespace ImageAnalysisSamples
             Console.WriteLine("");
             Console.WriteLine(" To get this usage help, run:");
             Console.WriteLine("");
-            Console.WriteLine("   dotnet ImageAnalysisSamples.dll --help|-h");
+            Console.WriteLine("   dotnet image-analysis-samples.dll --help|-h");
             Console.WriteLine("");
         }
 
@@ -52,11 +52,10 @@ namespace ImageAnalysisSamples
                 Console.WriteLine("");
                 Console.WriteLine(" Please choose one of the following samples:");
                 Console.WriteLine("");
-                Console.WriteLine(" 1. Get all results, including detailed results");
-                Console.WriteLine(" 2. Get results using the Analyzed event");
-                Console.WriteLine(" 3. Using frame source");
+                Console.WriteLine(" 1. Analyze an image from file (all features)");
+                Console.WriteLine(" 2. Analyze an image URL using the Analyzed event");
                 Console.WriteLine("");
-                Console.Write(" Your choice 1-3 (or 0 to exit): ");
+                Console.Write(" Your choice 1-2 (or 0 to exit): ");
 
                 keyChar = Console.ReadKey().KeyChar;
                 Console.WriteLine("\n");
@@ -64,19 +63,16 @@ namespace ImageAnalysisSamples
                 switch (keyChar)
                 {
                     case '1':
-                        Samples.GetAllResults(Secrets.Endpoint, Secrets.Key).Wait();
+                        Samples.GetAllResults(Secrets.Endpoint, Secrets.Key);
                         break;
                     case '2':
                         Samples.GetResultsUsingAnalyzedEvent(Secrets.Endpoint, Secrets.Key).Wait();
-                        break;
-                    case '3':
-                        Samples.UsingFrameSource(Secrets.Endpoint, Secrets.Key); /*.Wait();*/
                         break;
                     case '0':
                         Console.WriteLine(" Exiting...");
                         break;
                     default:
-                        Console.WriteLine(" Invalid input, choose again.");
+                        Console.WriteLine(" Invalid selection, choose again.");
                         break;
                 }
             } while (keyChar != '0');
