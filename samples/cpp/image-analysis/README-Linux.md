@@ -28,7 +28,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 1. **By extracting the Azure AI Vision SDK package you acknowledge the [Azure AI Vision SDK license agreement](https://aka.ms/azai/vision/license)**.
 
-1. Downloaded the following Debian packages from [this release](https://github.com/Azure-Samples/azure-ai-vision-sdk-private-preview/releases/tag/0.8.0-alpha.0.33370873) of the repository, and place them in the same folder on your device:
+1. Downloaded the following Debian packages from [this release](https://github.com/Azure-Samples/azure-ai-vision-sdk/releases/tag/0.8.0-alpha.0.33370873) of the repository, and place them in the same folder on your device:
    * `azure-ai-vision-runtime-core-0.8.0-alpha.0.1-Linux.deb`
    * `azure-ai-vision-runtime-core-media-0.8.0-alpha.0.1-Linux.deb`
    * `azure-ai-vision-runtime-image-analysis-0.8.0-alpha.0.1-Linux.deb`

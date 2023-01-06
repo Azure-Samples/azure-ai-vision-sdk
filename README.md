@@ -17,7 +17,7 @@ This repository hosts sample code and setup documents for the Microsoft Azure AI
 
 ## News
 
-* Vision SDK 0.8 (public preview) was released on February 1st, 2023, targeting Image Analysis applications on Windows and Linux platforms. [See release notes](https://github.com/Azure-Samples/azure-ai-vision-sdk-private-preview/releases/tag/0.8)
+* Vision SDK 0.8 (public preview) was released on February 1st, 2023, targeting Image Analysis applications on Windows and Linux platforms. [See release notes](https://github.com/Azure-Samples/azure-ai-vision-sdk/releases/tag/0.8.0-alpha.0.33370873)
 
 ## Features
 
