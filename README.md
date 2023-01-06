@@ -83,14 +83,14 @@ If your platform and/or programming language is not listed above, your applicati
 
 ### Samples
 
-The samples will show how to analyze an image file from local disk or an image URL. Click on the links below for detailed setup, build and run instructions corresponding to your platform and programing language.
+The samples will show how to analyze an image file from local disk or an image URL. Click on the links below for detailed setup, build and run instructions corresponding to your programing language.
 
-This is the list of samples:
+The are currently two samples, with more to come:
 
-1. Analyze all features from a JPEG image file on disk and print detailed results to the console. This is done using the synchronous (blocking) API.
+1. Analyze all features from a JPEG image file on disk and print detailed results to the console. This is done using the synchronous (blocking) API. **Start by looking at this sample first**.
 1. Analyze one feature from an image URL, using the asynchronous (non-blocking) API, while registering for an event to get the analysis results.
 
-Click on the link below corresponding to your platform and programing language:
+Click on the link below corresponding to programing language:
 
 | Programing Language |
 | -------- |

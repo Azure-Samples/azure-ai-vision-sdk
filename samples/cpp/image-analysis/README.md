@@ -4,7 +4,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 **Note that the Vision SDK is in public preview. APIs are subject to change.**
 
-Only Windows 10 (or higher) x64 and Linux x64 versions are supported at the moment, via a NuGet package.
+Only Windows 10 (or higher) x64 and Linux x64 versions are supported at the moment, via a NuGet package (for Windows) or Debian package (for Linux).
 
 For Windows x64, follow the instructions [here](README-Windows.md)
 

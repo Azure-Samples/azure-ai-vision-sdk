@@ -3,7 +3,7 @@
 Since the Azure AI Vision SDK is not yet public, the NuGet package cannot be fetched from the public nuget.org feed. Instead, you need to set up a local NuGet feed.
 
 As a first step, you should downloaded the relevant Azure AI Vision SDK NuGet files from the [latest release](https://github.com/Azure-Samples/azure-ai-vision-sdk/releases) in this repository.
-They will have names similar to `Azure.AI.Vision.Core.0.8.0-alpha.0.33160110.nupkg` and `Azure.AI.Vision.ImageAnalysis.0.8.0-alpha.0.33160110.nupkg`
+They will have names similar to `Azure.AI.Vision.Core.0.8.0-alpha.0.33370873.nupkg` and `Azure.AI.Vision.ImageAnalysis.0.8.0-alpha.0.33370873.nupkg`
 
 You have several options to set up the local feed, depending if you plan to use Visual Studio to compile the sample application (C++, C#), or if you plan to use the .NET Core CLI (C#).
 
