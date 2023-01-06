@@ -1,4 +1,4 @@
-# Contributing to [project-title]
+# Contributing to Vision SDK Samples repository
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
@@ -45,7 +45,8 @@ chances of your issue being dealt with quickly:
 * **Overview of the Issue** - if an error is being thrown a non-minified stack trace helps
 * **Version** - what version is affected (e.g. 0.1.2)
 * **Motivation for or Use Case** - explain what are you trying to do and why the current behavior is a bug for you
-* **Browsers and Operating System** - is this a problem with all browsers?
+* **Programing language and operating system**
+* **Media file or URL** - What media file or URL did you use when you saw the issue? share if possible
 * **Reproduce the Error** - provide a live example or a unambiguous set of steps
 * **Related Issues** - has a similar issue been reported before?
 * **Suggest a Fix** - if you can't fix the bug yourself, perhaps you can point to what might be
@@ -56,13 +57,11 @@ You can file new issues by providing the above information at the corresponding 
 ### <a name="submit-pr"></a> Submitting a Pull Request (PR)
 Before you submit your Pull Request (PR) consider the following guidelines:
 
-* Search the repository (https://github.com/[organization-name]/[repository-name]/pulls) for an open or closed PR
+* Search the repository (https://github.com/Azure-Samples/azure-ai-vision-sdk/pulls) for an open or closed PR
   that relates to your submission. You don't want to duplicate effort.
-
-* Make your changes in a new git fork:
-
+* Make your changes in a new git fork
 * Commit your changes using a descriptive commit message
-* Push your fork to GitHub:
+* Push your fork to GitHub
 * In GitHub, create a pull request
 * If we suggest changes then:
   * Make the required updates.

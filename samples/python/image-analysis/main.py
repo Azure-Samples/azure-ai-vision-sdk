@@ -24,7 +24,7 @@ def print_usage():
     print('     It should have the form: https://<your-computer-vision-resource-name>.cognitiveservices.azure.com')
     print()
     print(' As an alternative to specifying the above command line arguments, you can specify')
-    print(' these environment variables: {} and/or {}.'.format(secrets.environment_variable_key, secrets.environment_variable_endpoint))
+    print(' these environment variables: {} and/or {}.'.format(secrets.ENVIRONMENT_VARIABLE_KEY, secrets.ENVIRONMENT_VARIABLE_ENDPOINT))
     print()
     print(' To get this usage help, run:')
     print()
@@ -38,7 +38,6 @@ def select():
     sample_functions = [
         samples.get_all_results,
         samples.get_results_using_analyzed_event,
-        samples.using_frame_source
     ]
 
     print(' Select sample or {} to abort:'.format(abort_key))

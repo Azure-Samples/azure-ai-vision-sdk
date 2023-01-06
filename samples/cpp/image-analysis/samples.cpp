@@ -6,7 +6,7 @@
 //
 #include <memory>
 #include <iostream>
-#include <vision_api_cxx.h>
+#include <vision_api_cxx_image_analyzer.h>
 
 using namespace Azure::AI::Vision::Service;
 using namespace Azure::AI::Vision::Input;
@@ -17,12 +17,13 @@ std::string PolygonToString(std::vector<int32_t> boundingPolygon);
 
 // This sample does analysis on an image file using all visual features, and prints the results to the console,
 // including the detailed results.
-void ImagAnalysisSample_GetAllResults(std::string endpoint, std::string key)
+void ImageAnalysisSample_GetAllResults(std::string endpoint, std::string key)
 {
     std::shared_ptr<VisionServiceOptions> serviceOptions = VisionServiceOptions::FromEndpoint(endpoint, key);
 
-    // Specify the image file on disk to analyze
-    std::shared_ptr<VisionSource> imageSource = VisionSource::FromFile("laptop-on-kitchen-table.jpg");
+    // Specify the image file on disk to analyze. sample1.jpg is a good example to show most features,
+    // except Text (OCR). Use sample2.jpg for OCR.
+    std::shared_ptr<VisionSource> imageSource = VisionSource::FromFile("sample1.jpg");
 
     // Or, instead of the above, specify a publicly accessible image URL to analyze
     // (e.g. https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg)
@@ -32,10 +33,12 @@ void ImagAnalysisSample_GetAllResults(std::string endpoint, std::string key)
     std::shared_ptr<ImageAnalysisOptions> analysisOptions = ImageAnalysisOptions::Create();
 
     // Mandatory. You must set one or more features to analyze. Here we use the full set of features.
+    // Note that 'Captions' is only supported in Azure GPU regions (East US, France Central, Korea Central,
+    // North Europe Southeast Asia, West Europe, West US)
     analysisOptions->SetFeatures(
     {
         ImageAnalysisFeature::CropSuggestions,
-        ImageAnalysisFeature::Descriptions,
+        ImageAnalysisFeature::Captions,
         ImageAnalysisFeature::Objects,
         ImageAnalysisFeature::People,
         ImageAnalysisFeature::Text,
@@ -43,18 +46,28 @@ void ImagAnalysisSample_GetAllResults(std::string endpoint, std::string key)
     });
 
     // Optional, and only relevant when you select ImageAnalysisFeature::CropSuggestions.
-    // Default ratio is 1.94. Each aspect ratio needs to be in the range [0.75, 1.8].
-    analysisOptions->SetCroppingAspectRatios({1.0, 1.33});
+    // Define one or more aspect ratios for the desired cropping. Each aspect ratio needs to be in the range [0.75, 1.8].
+    // If you do not set this, the service will return one crop suggestion with the aspect ratio it sees fit.
+    analysisOptions->SetCroppingAspectRatios({0.9, 1.33});
 
-    // Optional. Default is "en" for English.
+    // Optional. Default is "en" for English. See https://aka.ms/cv-languages for a list of supported
+    // language codes and which visual features are supported for each language.
     analysisOptions->SetLanguage("en");
 
     // Optional. Default is "latest".
     analysisOptions->SetModelVersion("latest");
 
+    // Optional, and only relevant when you select ImageAnalysisFeature::Captions.
+    // Set this to "true" to get gender neutral captions (the default is "false").
+    analysisOptions->SetGenderNeutralCaptions(true);
+
     std::shared_ptr<ImageAnalyzer> analyzer = ImageAnalyzer::Create(serviceOptions, imageSource, analysisOptions);
 
     std::cout << " Please wait for image analysis results...\n\n";
+
+    // This call creates the network connection and blocks until Image Analysis results
+    // return (or an error occurred). Note that there is also an asynchronous (non-blocking)
+    // version of this method: analyzer->AnalyzeAsync().
     std::shared_ptr<ImageAnalysisResult> result = analyzer->Analyze();
 
     if (result->GetReason() == ImageAnalysisResultReason::Analyzed)
@@ -63,14 +76,14 @@ void ImagAnalysisSample_GetAllResults(std::string endpoint, std::string key)
         std::cout << " Image width = " << result->GetImageWidth().Value() << std::endl;
         std::cout << " Model version = " << result->GetModelVersion().Value() << std::endl;
 
-        const Nullable<ContentDescriptions>& descriptions = result->GetDescriptions();
-        if (descriptions.HasValue())
+        const Nullable<ContentCaptions>& captions = result->GetCaptions();
+        if (captions.HasValue())
         {
-            std::cout << " Descriptions:" << std::endl;
-            for (const ContentDescription& description : descriptions.Value())
+            std::cout << " Captions:" << std::endl;
+            for (const ContentCaption& caption : captions.Value())
             {
-                std::cout << "   \"" << description.Content;
-                std::cout << "\", Confidence " << description.Confidence << std::endl;
+                std::cout << "   \"" << caption.Content;
+                std::cout << "\", Confidence " << caption.Confidence << std::endl;
             }
         }
 
@@ -142,28 +155,70 @@ void ImagAnalysisSample_GetAllResults(std::string endpoint, std::string key)
         std::cout << "   Result ID = " << result->GetResultId() << std::endl;
         std::cout << "   JSON = " << result->GetJsonResult() << std::endl;
     }
-    else if (result->GetReason() == ImageAnalysisResultReason::Stopped)
+    else if (result->GetReason() == ImageAnalysisResultReason::Error)
     {
+        std::shared_ptr<ImageAnalysisErrorDetails> errorDetails = ImageAnalysisErrorDetails::FromResult(result);
         std::cout << " Analysis failed." << std::endl;
-        std::shared_ptr<ImageAnalysisStopDetails> stopDetails = ImageAnalysisStopDetails::FromResult(result);
-        if (stopDetails->GetReason() == ImageAnalysisStopReason::Error)
-        {
-            std::shared_ptr<ImageAnalysisErrorDetails> errorDetails = ImageAnalysisErrorDetails::FromResult(result);
-            std::cout << "   Error reason =  " << (int)errorDetails->GetReason() << std::endl;
-            std::cout << "   Error message = " << errorDetails->GetMessage() << std::endl;
-            std::cout << " Did you set the computer vision endpoint and key?" << std::endl;
-        }
+        std::cout << "   Error reason = " << (int)errorDetails->GetReason() << std::endl;
+        std::cout << "   Error code = " << errorDetails->GetErrorCode() << std::endl;
+        std::cout << "   Error message = " << errorDetails->GetMessage() << std::endl;
+        std::cout << " Did you set the computer vision endpoint and key?" << std::endl;
     }
 }
 
-void ImagAnalysisSample_GetResultsUsingAnalyzedEvent(std::string /*endpoint*/, std::string /*key*/)
+// This sample does analysis on an image URL, showing how to use the Analyzed event to get
+// the analysis result for one visual feature (tags)
+void ImageAnalysisSample_GetResultsUsingAnalyzedEvent(std::string endpoint, std::string key)
 {
-    // TODO
-}
+    auto serviceOptions = VisionServiceOptions::FromEndpoint(endpoint, key);
 
-void ImagAnalysisSample_UsingFrameSource(std::string /*endpoint*/, std::string /*key*/)
-{
-    // TODO
+    auto imageSource = VisionSource::FromUrl("https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg");
+
+    auto analysisOptions = ImageAnalysisOptions::Create();
+
+    analysisOptions->SetFeatures( { ImageAnalysisFeature::Tags } );
+
+    auto analyzer = ImageAnalyzer::Create(serviceOptions, imageSource, analysisOptions);
+
+    bool eventRaised = false;
+
+    analyzer->Analyzed.Connect([&eventRaised](const ImageAnalysisEventArgs& e)
+    {
+        auto result = e.GetResult();
+
+        if (result->GetReason() == ImageAnalysisResultReason::Analyzed)
+        {
+           auto tags = result->GetTags();
+            if (tags.HasValue())
+            {
+                std::cout << " Tags:" << std::endl;
+                for (auto tag : tags.Value())
+                {
+                    std::cout << "   \"" << tag.Name << "\"";
+                    std::cout << ", Confidence " << tag.Confidence << std::endl;
+                }
+            }
+        }
+        else if (result->GetReason() == ImageAnalysisResultReason::Error)
+        {
+            auto errorDetails = ImageAnalysisErrorDetails::FromResult(result);
+            std::cout << " Analysis failed." << std::endl;
+            std::cout << "   Error reason =  " << (int)errorDetails->GetReason() << std::endl;
+            std::cout << "   Error code = " << errorDetails->GetErrorCode() << std::endl;
+            std::cout << "   Error message = " << errorDetails->GetMessage() << std::endl;
+            std::cout << " Did you set the computer vision endpoint and key?" << std::endl;
+        }
+
+        eventRaised = true;
+    });
+
+    std::cout << " Please wait for image analysis results...\n\n";
+    analyzer->AnalyzeAsync().get();
+
+    while(!eventRaised)
+    {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
 }
 
 // Helper method to display the values of a bounding polygon

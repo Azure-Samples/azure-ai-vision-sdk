@@ -19,12 +19,13 @@ namespace ImageAnalysisSamples
     {
         // This sample does analysis on an image file using all visual features, and prints the results to the console,
         // including the detailed results.
-        public static async Task GetAllResults(string endpoint, string key)
+        public static void GetAllResults(string endpoint, string key)
         {
             var serviceOptions = new VisionServiceOptions(endpoint, key);
 
-            // Specify an image file on disk to analyze
-            var imageSource = VisionSource.FromFile("laptop-on-kitchen-table.jpg");
+            // Specify the image file on disk to analyze. sample1.jpg is a good example to show most features,
+            // except Text (OCR). Use sample2.jpg for OCR.
+            using var imageSource = VisionSource.FromFile("sample1.jpg");
 
             // Or, instead of the above, specify a publicly accessible image URL to analyze
             // (e.g. https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg)
@@ -33,33 +34,41 @@ namespace ImageAnalysisSamples
             var analysisOptions = new ImageAnalysisOptions()
             {
                 // Mandatory. You must set one or more features to analyze. Here we use the full set of features.
+                // Note that 'Captions' is only supported in Azure GPU regions (East US, France Central, Korea Central,
+                // North Europe Southeast Asia, West Europe, West US)
                 Features =
                       ImageAnalysisFeature.CropSuggestions
-                    | ImageAnalysisFeature.Descriptions
+                    | ImageAnalysisFeature.Captions
                     | ImageAnalysisFeature.Objects
                     | ImageAnalysisFeature.People
                     | ImageAnalysisFeature.Text
                     | ImageAnalysisFeature.Tags,
 
                 // Optional, and only relevant when you select ImageAnalysisFeature.CropSuggestions.
-                // Default ratio is 1.94. Each aspect ratio needs to be in the range [0.75, 1.8].
-                CroppingAspectRatios = new List<double>()
-                {
-                    1.0,
-                    1.33,
-                },
+                // Define one or more aspect ratios for the desired cropping. Each aspect ratio needs to be in the range [0.75, 1.8].
+                // If you do not set this, the service will return one crop suggestion with the aspect ratio it sees fit.
+                CroppingAspectRatios = new List<double>() { 0.9, 1.33 },
 
-                // Optional. Default is "en" for English.
+                // Optional. Default is "en" for English. See https://aka.ms/cv-languages for a list of supported
+                // language codes and which visual features are supported for each language.
                 Language = "en",
 
                 // Optional. Default is "latest".
-                ModelVersion = "latest"
+                ModelVersion = "latest",
+
+                // Optional, and only relevant when you select ImageAnalysisFeature::Captions.
+                // Set this to "true" to get gender neutral captions (the default is "false").
+                GenderNeutralCaptions = true
             };
 
             using var analyzer = new ImageAnalyzer(serviceOptions, imageSource, analysisOptions);
 
             Console.WriteLine(" Please wait for image analysis results...\n");
-            var result = await analyzer.AnalyzeAsync();
+
+            // This call creates the network connection and blocks until Image Analysis results
+            // return (or an error occurred). Note that there is also an asynchronous (non-blocking)
+            // version of this method: analyzer.AnalyzeAsync().
+            var result = analyzer.Analyze();
 
             if (result.Reason == ImageAnalysisResultReason.Analyzed)
             {
@@ -67,12 +76,12 @@ namespace ImageAnalysisSamples
                 Console.WriteLine($" Image width = {result.ImageWidth}");
                 Console.WriteLine($" Model version = {result.ModelVersion}");
 
-                if (result.Descriptions != null)
+                if (result.Captions != null)
                 {
-                    Console.WriteLine(" Descriptions:");
-                    foreach (var description in result.Descriptions)
+                    Console.WriteLine(" Captions:");
+                    foreach (var caption in result.Captions)
                     {
-                        Console.WriteLine($"   \"{description.Content}\", Confidence {description.Confidence:0.0000}");
+                        Console.WriteLine($"   \"{caption.Content}\", Confidence {caption.Confidence:0.0000}");
                     };
                 }
 
@@ -137,36 +146,38 @@ namespace ImageAnalysisSamples
             }
             else if (result.Reason == ImageAnalysisResultReason.Error)
             {
-                Console.WriteLine(" Analysis failed.");
-
                 var errorDetails = ImageAnalysisErrorDetails.FromResult(result);
+                Console.WriteLine(" Analysis failed.");
                 Console.WriteLine($"   Error reason : {errorDetails.Reason}");
+                Console.WriteLine($"   Error code : {errorDetails.ErrorCode}");
                 Console.WriteLine($"   Error message: {errorDetails.Message}");
                 Console.WriteLine(" Did you set the computer vision endpoint and key?");
             }
         }
 
         // This sample does analysis on an image URL, showing how to use the Analyzed event to get
-        // the analysis result for one visual feature
+        // the analysis result for one visual feature (tags).
         public static async Task GetResultsUsingAnalyzedEvent(string endpoint, string key)
         {
             var serviceOptions = new VisionServiceOptions(endpoint, key);
 
-            var imageSource = VisionSource.FromUrl(new Uri("https://docs.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg"));
+            using var imageSource = VisionSource.FromUrl(new Uri("https://docs.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg"));
 
-            var analysisOptions = new ImageAnalysisOptions() { Features = ImageAnalysisFeature.Descriptions };
+            var analysisOptions = new ImageAnalysisOptions() { Features = ImageAnalysisFeature.Tags };
 
             using var analyzer = new ImageAnalyzer(serviceOptions, imageSource, analysisOptions);
+
+            var tcsEventReceived  = new TaskCompletionSource<bool>();
 
             analyzer.Analyzed += (_, e) =>
             {
                 if (e.Result.Reason == ImageAnalysisResultReason.Analyzed)
                 {
-                    Console.WriteLine(" Descriptions:");
-                    foreach (var description in e.Result.Descriptions)
+                    Console.WriteLine($" Tags:");
+                    foreach (var tag in e.Result.Tags)
                     {
-                        Console.WriteLine($"  \"{description.Content}\"");
-                    };
+                        Console.WriteLine($"   \"{tag.Name}\", Confidence {tag.Confidence:0.0000}");
+                    }
                 }
                 else if (e.Result.Reason == ImageAnalysisResultReason.Error)
                 {
@@ -174,21 +185,19 @@ namespace ImageAnalysisSamples
 
                     var errorDetails = ImageAnalysisErrorDetails.FromResult(e.Result);
                     Console.WriteLine($"   Error reason : {errorDetails.Reason}");
+                    Console.WriteLine($"   Error code : {errorDetails.ErrorCode}");
                     Console.WriteLine($"   Error message: {errorDetails.Message}");
                     Console.WriteLine(" Did you set the computer vision endpoint and key?");
                 }
+
+                tcsEventReceived.SetResult(true);
             };
 
             Console.WriteLine(" Please wait for image analysis results...");
-            _ = await analyzer.AnalyzeAsync();
+            await analyzer.AnalyzeAsync();
 
-            Thread.Sleep(3000);
-        }
-
-        // This sample does analysis on an image that is provided as a memory buffer
-        public static void /*async Task*/ UsingFrameSource(string endpoint, string key)
-        {
-            // TODO
+            // Make sure we received the Analyzed event before exiting this method
+            Task.WaitAny(tcsEventReceived.Task);
         }
     }
 }

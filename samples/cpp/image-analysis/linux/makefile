@@ -15,14 +15,20 @@ ifneq ("$(CHECK_FOR_VISION_SDK)","Success")
   $(error Please set VISIONSDK_LIB_PATH to point to your extracted Vision SDK, $$VISIONSDK_LIB_PATH/libAzure-AI-Vision-Core.so should exist.)
 endif
 
-LIBS:=-lAzure-AI-Vision-Core
+LIBS:=-lAzure-AI-Vision-Extension-Image -lAzure-AI-Vision-Core -lAzure-AI-Vision-Input-File -lVision_Core -lVision_Media
 
-all: sample
+RUNPATH="-Wl,-rpath=$(VISIONSDK_LIB_PATH)"
+
+SRC=../../samples.cpp ../../secrets.cpp ../../stdafx.cpp ../../main.cpp
+
+all: image-analysis-samples.exe
 
 # Note: to run the sample after it compiled, you must set LD_LIBRARY_PATH to point to $VISIONSDK_LIB_PATH.
-sample: ../../image-analysis-samples.cpp
-	g++ $< -o $@ \
+image-analysis-samples.exe:
+	g++ $< -o $@ $(SRC)\
 	    --std=c++14 \
 	    $(patsubst %,-I%, $(VISIONSDK_INC_PATHS)) \
 	    $(patsubst %,-L%, $(VISIONSDK_LIB_PATH)) \
-	    $(LIBS)
+	    $(LIBS) \
+	    $(RUNPATH)
+

@@ -1,9 +1,0 @@
-{
-  "profiles": {
-    "ImageAnalysisSamples": {
-      "commandName": "Project",
-      "commandLineArgs": "-e https://carbon-vision.cognitiveservices.azure.com",
-      "workingDirectory": "D:\\GitHub\\Carbon.3\\private_samples\\vision\\samples\\csharp\\image-analysis\\dotnetcore\\bin\\Debug\\netcoreapp3.1"
-    }
-  }
-}
