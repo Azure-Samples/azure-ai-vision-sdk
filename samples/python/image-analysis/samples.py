@@ -38,7 +38,7 @@ def get_all_results():
 
     # Mandatory. You must set one or more features to analyze. Here we use the full set of features.
     # Note that 'Captions' is only supported in Azure GPU regions (East US, France Central, Korea Central,
-    # North Europe Southeast Asia, West Europe, West US)
+    # North Europe, Southeast Asia, West Europe, West US)
     image_analysis_options.features = (
         visionsdk.ImageAnalysisFeature.CROP_SUGGESTIONS |
         visionsdk.ImageAnalysisFeature.CAPTIONS |

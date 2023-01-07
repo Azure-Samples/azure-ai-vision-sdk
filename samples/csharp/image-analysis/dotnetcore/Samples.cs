@@ -35,7 +35,7 @@ namespace ImageAnalysisSamples
             {
                 // Mandatory. You must set one or more features to analyze. Here we use the full set of features.
                 // Note that 'Captions' is only supported in Azure GPU regions (East US, France Central, Korea Central,
-                // North Europe Southeast Asia, West Europe, West US)
+                // North Europe, Southeast Asia, West Europe, West US)
                 Features =
                       ImageAnalysisFeature.CropSuggestions
                     | ImageAnalysisFeature.Captions
