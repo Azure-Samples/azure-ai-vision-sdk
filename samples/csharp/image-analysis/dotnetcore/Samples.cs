@@ -34,11 +34,12 @@ namespace ImageAnalysisSamples
             var analysisOptions = new ImageAnalysisOptions()
             {
                 // Mandatory. You must set one or more features to analyze. Here we use the full set of features.
-                // Note that 'Captions' is only supported in Azure GPU regions (East US, France Central, Korea Central,
-                // North Europe, Southeast Asia, West Europe, West US)
+                // Note that 'Caption' is only supported in Azure GPU regions (East US, France Central, Korea Central,
+                // North Europe, Southeast Asia, West Europe, West US). Remove 'Caption' from the list below if your
+                // Computer Vision key is not from one of those regions.
                 Features =
                       ImageAnalysisFeature.CropSuggestions
-                    | ImageAnalysisFeature.Captions
+                    | ImageAnalysisFeature.Caption
                     | ImageAnalysisFeature.Objects
                     | ImageAnalysisFeature.People
                     | ImageAnalysisFeature.Text
@@ -56,9 +57,9 @@ namespace ImageAnalysisSamples
                 // Optional. Default is "latest".
                 ModelVersion = "latest",
 
-                // Optional, and only relevant when you select ImageAnalysisFeature::Captions.
-                // Set this to "true" to get gender neutral captions (the default is "false").
-                GenderNeutralCaptions = true
+                // Optional, and only relevant when you select ImageAnalysisFeature.Caption.
+                // Set this to "true" to get a gender neutral caption (the default is "false").
+                GenderNeutralCaption = true
             };
 
             using var analyzer = new ImageAnalyzer(serviceOptions, imageSource, analysisOptions);
@@ -76,13 +77,10 @@ namespace ImageAnalysisSamples
                 Console.WriteLine($" Image width = {result.ImageWidth}");
                 Console.WriteLine($" Model version = {result.ModelVersion}");
 
-                if (result.Captions != null)
+                if (result.Caption != null)
                 {
-                    Console.WriteLine(" Captions:");
-                    foreach (var caption in result.Captions)
-                    {
-                        Console.WriteLine($"   \"{caption.Content}\", Confidence {caption.Confidence:0.0000}");
-                    };
+                    Console.WriteLine(" Caption:");
+                    Console.WriteLine($"   \"{result.Caption.Content}\", Confidence {result.Caption.Confidence:0.0000}");
                 }
 
                 if (result.Objects != null)

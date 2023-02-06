@@ -28,33 +28,33 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 1. **By extracting the Azure AI Vision SDK package you acknowledge the [Azure AI Vision SDK license agreement](https://aka.ms/azai/vision/license)**.
 
-1. Downloaded the following Debian packages from [this release](https://github.com/Azure-Samples/azure-ai-vision-sdk/releases/tag/0.8.0-alpha.0.33370873) of the repository, and place them in the same folder on your device:
+1. Downloaded the following five Debian packages from [this release](https://github.com/Azure-Samples/azure-ai-vision-sdk/releases/tag/0.8.0-alpha.0.33370873) of the repository, and place them in the same folder on your device:
    * `azure-ai-vision-runtime-core-0.8.0-alpha.0.1-Linux.deb`
    * `azure-ai-vision-runtime-core-media-0.8.0-alpha.0.1-Linux.deb`
    * `azure-ai-vision-runtime-image-analysis-0.8.0-alpha.0.1-Linux.deb`
    * `azure-ai-vision-dev-core-0.8.0-alpha.0.1-Linux.deb`
    * `azure-ai-vision-dev-image-analysis-0.8.0-alpha.0.1-Linux.deb`
 
-1. Install the debian packages by running the command below, in the following order (Note: once the packages are published, you will only need to install once package, and that will automatically install all dependent packages):
+1. Install the debian packages by running the two command below, in the following order (Note: once the packages are published, you will only need to install one package, and that will automatically install all dependent packages):
 
    ```
-   sudo apt install ./azure-ai-vision-runtime-core-0.8.0-alpha.0.1-Linux.deb -y -f
-   sudo apt install ./azure-ai-vision-runtime-core-media-0.8.0-alpha.0.1-Linux.deb -y -f
-   sudo apt install ./azure-ai-vision-runtime-image-analysis-0.8.0-alpha.0.1-Linux.deb -y -f
-   sudo apt install ./azure-ai-vision-dev-core-0.8.0-alpha.0.1-Linux.deb -y -f
-   sudo apt install ./azure-ai-vision-dev-image-analysis-0.8.0-alpha.0.1-Linux.deb  -y -f
+   sudo apt install ./azure-ai-vision-runtime-*.deb -y -f
+   sudo apt install ./azure-ai-vision-dev-*.deb -y -f
    ```
 
-1. Verify installation succeeded by listing these two folders:
+1. Verify installation succeeded by listing these folders:
 
    ```
    ls -la /usr/lib/azure-ai-vision
    ls -la /usr/include/azure-ai-vision
+   ls -la /usr/share/doc/azure-ai-vision-*
    ```
 
-   You should see shared objects files named `libAzure-AI-Vision-*.so` and a few others in the first folder.
+   You should see shared object files named `libAzure-AI-Vision-*.so` and a few others in the first folder.
 
    You should see header files named `vsion_api_cxx_*.h` and others in the second folder.
+
+   You should see package documents in the /usr/share/doc/azure-ai-vision-* folders (LICENSE.md, REDIST.txt, ThirdPartyNotices.txt).
 
 ## Compile the sample
 
@@ -139,19 +139,15 @@ An error message will be displayed if the sample fails to run. Here are some com
 * `Failed with error: HTTPAPI_OPEN_REQUEST_FAILED`.
   * Your endpoint may be incorrect. Make sure you correctly copied the endpoint from your Azure portal. It should be in the form `https://<your-computer-vision-resource-name>.cognitiveservices.azure.com`
 
-* `std::exception`
-  * The image file cannot be found. Make sure you copy the image file to the folder where the executable is located, and re-run. Note: there should be a more meaningful exception message for this common case. This will be fixed in the next release.
+* `Exception with an error code: 0x73 (AZAC_ERR_FAILED_TO_OPEN_INPUT_FILE_FOR_READING) `
+  * The image file cannot be found. Make sure you copy the image file to the folder where the executable is located, and re-run.
 
 ## Cleanup
 
-The Vision SDK Debian package can be removed by running:
+The Vision SDK Debian packages can be removed by running this single command:
 
 ```
- sudo apt-get purge azure-ai-vision-runtime-core
- sudo apt-get purge azure-ai-vision-runtime-core-media
- sudo apt-get purge azure-ai-vision-runtime-image-analysis
- sudo apt-get purge azure-ai-vision-dev-core
- sudo apt-get purge azure-ai-vision-dev-image-analysis
+ sudo apt-get purge azure-ai-vision-*
 ```
 
 ## Required libraries for run-time distribution

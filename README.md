@@ -29,7 +29,7 @@ Other API sets are under development.
 
 ## Support
 
-Please [open a new issue in this repo](https://github.com/Azure-Samples/azure-ai-vision-sdk/issues) if you encounter any problems building or running the samples, or have any additional questions about the SDK. This is the preferred method if getting support. Note that these issues will be visible to the public, so please do not include any sensitive information.
+Please [open a new issue in this repo](https://github.com/Azure-Samples/azure-ai-vision-sdk/issues) if you encounter any problems building or running the samples, or have any additional questions about the SDK. This is the preferred method of getting support. Note that these issues will be visible to the public, so please do not include any sensitive information.
 
 Alternatively, you can contact Microsoft's Vision SDK development team directly by sending an e-mail to  `vision-sdk@microsoft.com`.
 
@@ -52,8 +52,8 @@ See Microsoft documentation for an overview of [Image Analysis](https://learn.mi
 * **Captions** - Generates a human-readable phrase that describes the image content. For example, for the above image, "A person sitting at a table with a laptop".
 * **Tags** - Returns content tags for recognizable objects, living beings, scenery, and actions that appear in the image.
 * **Objects** - Detects various objects within an image, including their approximate location. See example in the above image: person, chair, laptop, dining table.
-* **People** - Detects people in the image, including the approximate location.
-* **Text** - Also known as **Read** or **OCR**. Performs Optical Character Recognition (OCR) and returns the text detected in the image.
+* **People** - Detects people in the image, including their approximate location.
+* **Text** - Also known as **Read** or **OCR**. Performs Optical Character Recognition (OCR) and returns the text detected in the image, including the approximate location of every text line and word.
 * **Cropping Suggestions** - Recommendations for cropping operations that preserve content (e.g. for thumbnail generation).
 
 You can either upload an image for analysis by providing the name of an image file on disk, or you can provide a publicly-accessible URL of the image.

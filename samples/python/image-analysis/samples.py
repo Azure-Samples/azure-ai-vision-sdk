@@ -34,14 +34,15 @@ def get_all_results():
     # vision_source = visionsdk.VisionSource(url=image_url)
 
     # Set the language and one or more visual features as analysis options
-    image_analysis_options = visionsdk.ImageAnalysisOptions()
+    analysis_options = visionsdk.ImageAnalysisOptions()
 
     # Mandatory. You must set one or more features to analyze. Here we use the full set of features.
-    # Note that 'Captions' is only supported in Azure GPU regions (East US, France Central, Korea Central,
-    # North Europe, Southeast Asia, West Europe, West US)
-    image_analysis_options.features = (
+    # Note that 'CAPTION' is only supported in Azure GPU regions (East US, France Central, Korea Central,
+    # North Europe, Southeast Asia, West Europe, West US). Remove 'CAPTION' from the list below if your
+    # Computer Vision key is not from one of those regions.
+    analysis_options.features = (
         visionsdk.ImageAnalysisFeature.CROP_SUGGESTIONS |
-        visionsdk.ImageAnalysisFeature.CAPTIONS |
+        visionsdk.ImageAnalysisFeature.CAPTION |
         visionsdk.ImageAnalysisFeature.OBJECTS |
         visionsdk.ImageAnalysisFeature.PEOPLE |
         visionsdk.ImageAnalysisFeature.TEXT |
@@ -51,23 +52,21 @@ def get_all_results():
     # Optional, and only relevant when you select ImageAnalysisFeature.CROP_SUGGESTIONS.
     # Define one or more aspect ratios for the desired cropping. Each aspect ratio needs to be in the range [0.75, 1.8].
     # If you do not set this, the service will return one crop suggestion with the aspect ratio it sees fit.
-    image_analysis_options.cropping_aspect_ratios = [0.9, 1.33]
+    analysis_options.cropping_aspect_ratios = [0.9, 1.33]
 
     # Optional. Default is "en" for English. See https://aka.ms/cv-languages for a list of supported
     # language codes and which visual features are supported for each language.
-    image_analysis_options.language = 'en'
+    analysis_options.language = 'en'
 
     # Optional. Default is "latest".
-    image_analysis_options.model_version = 'latest'
+    analysis_options.model_version = 'latest'
 
-    # Optional, and only relevant when you select ImageAnalysisFeature::Captions.
-    # Set this to "true" to get gender neutral captions (the default is "false").
-    image_analysis_options.gender_neutral_captions = True
+    # Optional, and only relevant when you select ImageAnalysisFeature.CAPTION.
+    # Set this to "true" to get a gender neutral caption (the default is "false").
+    analysis_options.gender_neutral_caption = True
 
     # Create the image analyzer object
-    image_analyzer = visionsdk.ImageAnalyzer(service_options=service_options,
-                                            vision_source=vision_source,
-                                            image_analysis_options=image_analysis_options)
+    image_analyzer = visionsdk.ImageAnalyzer(service_options, vision_source, analysis_options)
 
     # Do image analysis for the specified visual features
     print()
@@ -82,10 +81,9 @@ def get_all_results():
     # Checks result.
     if result.reason == visionsdk.ImageAnalysisResultReason.ANALYZED:
 
-        if result.captions is not None:
-            print(' Captions:')
-            for caption in result.captions:
-                print('   \'{}\', Confidence {:.4f}'.format(caption.content, caption.confidence))
+        if result.caption is not None:
+            print(' Caption:')
+            print('   \'{}\', Confidence {:.4f}'.format(result.caption.content, result.caption.confidence))
 
         if result.objects is not None:
             print(' Objects:')
@@ -144,12 +142,10 @@ def get_results_using_analyzed_event():
     image_url = 'https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg'
     vision_source = visionsdk.VisionSource(url=image_url)
 
-    image_analysis_options = visionsdk.ImageAnalysisOptions()
-    image_analysis_options.features = ( visionsdk.ImageAnalysisFeature.TAGS )
+    analysis_options = visionsdk.ImageAnalysisOptions()
+    analysis_options.features = ( visionsdk.ImageAnalysisFeature.TAGS )
 
-    image_analyzer = visionsdk.ImageAnalyzer(service_options=service_options,
-                                            vision_source=vision_source,
-                                            image_analysis_options=image_analysis_options)
+    image_analyzer = visionsdk.ImageAnalyzer(service_options, vision_source, analysis_options)
 
     callback_done = False
     def analyzed_callback(args: visionsdk.ImageAnalysisEventArgs):

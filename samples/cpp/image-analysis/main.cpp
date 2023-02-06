@@ -90,9 +90,9 @@ int main(int argc, char** argv)
                 break;
             }
         }
-        catch (std::exception e)
+        catch (std::exception& e)
         {
-            std::cout << e.what();
+            std::cout << e.what() << std::endl;
         }
     } while (input[0] != '0');
 }
