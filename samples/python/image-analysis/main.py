@@ -11,6 +11,7 @@ import platform
 import secrets
 import samples
 
+
 def print_usage():
     print()
     print(' To run the samples:')
@@ -21,10 +22,12 @@ def print_usage():
     print('   <your-key> - A computer vision key you get from your Azure portal.')
     print('     It should be a 32-character HEX number.')
     print('   <your-endpoint> - A computer vision endpoint you get from your Azure portal.')
-    print('     It should have the form: https://<your-computer-vision-resource-name>.cognitiveservices.azure.com')
+    print('     It should have the form:')
+    print('     https://<your-computer-vision-resource-name>.cognitiveservices.azure.com')
     print()
     print(' As an alternative to specifying the above command line arguments, you can specify')
-    print(' these environment variables: {} and/or {}.'.format(secrets.ENVIRONMENT_VARIABLE_KEY, secrets.ENVIRONMENT_VARIABLE_ENDPOINT))
+    print(' these environment variables: {} and/or {}.'.format(secrets.ENVIRONMENT_VARIABLE_KEY,
+                                                               secrets.ENVIRONMENT_VARIABLE_ENDPOINT))
     print()
     print(' To get this usage help, run:')
     print()

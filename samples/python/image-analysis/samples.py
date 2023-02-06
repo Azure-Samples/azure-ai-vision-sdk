@@ -50,8 +50,9 @@ def get_all_results():
     )
 
     # Optional, and only relevant when you select ImageAnalysisFeature.CROP_SUGGESTIONS.
-    # Define one or more aspect ratios for the desired cropping. Each aspect ratio needs to be in the range [0.75, 1.8].
-    # If you do not set this, the service will return one crop suggestion with the aspect ratio it sees fit.
+    # Define one or more aspect ratios for the desired cropping. Each aspect ratio needs
+    # to be in the range [0.75, 1.8]. If you do not set this, the service will return one
+    # crop suggestion with the aspect ratio it sees fit.
     analysis_options.cropping_aspect_ratios = [0.9, 1.33]
 
     # Optional. Default is "en" for English. See https://aka.ms/cv-languages for a list of supported
@@ -103,7 +104,8 @@ def get_all_results():
         if result.crop_suggestions is not None:
             print(' Crop Suggestions:')
             for crop_suggestion in result.crop_suggestions:
-                print('   Aspect ratio {}: Crop suggestion {}'.format(crop_suggestion.aspect_ratio, crop_suggestion.bounding_box))
+                print('   Aspect ratio {}: Crop suggestion {}'
+                      .format(crop_suggestion.aspect_ratio, crop_suggestion.bounding_box))
 
         if result.text is not None:
             print(' Text:')
@@ -112,7 +114,8 @@ def get_all_results():
                 print('   Line: \'{}\', Bounding polygon {}'.format(line.content, points_string))
                 for word in line.words:
                     points_string = '{' + ', '.join([str(int(point)) for point in word.bounding_polygon]) + '}'
-                    print('     Word: \'{}\', Bounding polygon {}, Confidence {:.4f}'.format(word.content, points_string, word.confidence))
+                    print('     Word: \'{}\', Bounding polygon {}, Confidence {:.4f}'
+                          .format(word.content, points_string, word.confidence))
 
         print(' Image Height: {}'.format(result.image_height))
         print(' Image Width: {}'.format(result.image_width))
@@ -143,11 +146,12 @@ def get_results_using_analyzed_event():
     vision_source = visionsdk.VisionSource(url=image_url)
 
     analysis_options = visionsdk.ImageAnalysisOptions()
-    analysis_options.features = ( visionsdk.ImageAnalysisFeature.TAGS )
+    analysis_options.features = (visionsdk.ImageAnalysisFeature.TAGS)
 
     image_analyzer = visionsdk.ImageAnalyzer(service_options, vision_source, analysis_options)
 
     callback_done = False
+
     def analyzed_callback(args: visionsdk.ImageAnalysisEventArgs):
         """callback that signals analysis is done or has stopped for some reason"""
         if args.result.reason == visionsdk.ImageAnalysisResultReason.ANALYZED:
@@ -173,8 +177,7 @@ def get_results_using_analyzed_event():
     print()
     print(' Please wait for image analysis results...')
     print()
-    result = image_analyzer.analyze()
+    image_analyzer.analyze()
 
     while not callback_done:
         time.sleep(.1)
-
