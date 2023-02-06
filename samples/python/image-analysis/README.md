@@ -12,6 +12,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
   * You will need the key and endpoint from the resource you create to connect your application to the Computer Vision service.
   * You can use the free pricing tier (`F0`) to try the service, and upgrade later to a paid tier for production.
+  * Note that in order to run Image Analysis with the `Caption` feature, the Azure resource needs to be from one of the following GPU-supported regions: East US, France Central, Korea Central, North Europe, Southeast Asia, West Europe, West US.
 
 * On Windows and Linux Python 3.7 or later needs to be installed. Downloads are available [here](https://www.python.org/downloads/). Note that depending on your operating system, python version and alias set for its executable, the python executable may be `py`, `python` or `python3`. This document assumes the executable name is `python`.
 
@@ -30,22 +31,13 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 ## Install the Vision SDK
 
-* **By downloading the Python wheel you acknowledge the [Azure AI Vision SDK license agreement](https://aka.ms/azai/vision/license)**.
+* **By installing the Python wheel you acknowledge the [Azure AI Vision SDK license agreement](https://aka.ms/azai/vision/license)**.
 
-* Download the appropriate Python wheel (.whl) file from [this release](https://github.com/Azure-Samples/azure-ai-vision-sdk/releases/tag/0.8.0-alpha.0.33370873) of the repository.
-
-  * Python wheels for Windows x64 have this format (`VERSION` being the SDK version): `azure_ai_vision-VERSION-py3-none-win_amd64.whl`.
-
-  * Python wheels for Linux x64 have this format: `azure_ai_vision-VERSION-py3-none-manylinux1_x86_64.whl`.
-
-* Open a Windows command prompt / Linux terminal and install the Python wheel, by running the following (replace with your own python wheel file name):
+* Open a Windows command prompt / Linux terminal and install the Python wheel, by running the following:
 
     ```
-    python -m pip install azure_ai_vision-VERSION-py3-none-win_amd64.whl --user --force-reinstall
+    python -m pip install azure-ai-vision
     ```
-
-    On Windows, if you get warnings similar to `WARNING: Ignoring invalid distribution -ure-ai-vision` it's okay
-    to ignore. They will be addressed in the next release.
 
     On Linux, if you get an error similar to `/usr/bin/python3: No module named pip`, run the following, and then re-run the above install command:
 
@@ -79,7 +71,8 @@ You will see the following output:
    <your-key> - A computer vision key you get from your Azure portal.
      It should be a 32-character HEX number.
    <your-endpoint> - A computer vision endpoint you get from your Azure portal.
-     It should have the form: https://<your-computer-vision-resource-name>.cognitiveservices.azure.com
+     It should have the form:
+     https://<your-computer-vision-resource-name>.cognitiveservices.azure.com
 
  As an alternative to specifying the above command line arguments, you can specify
  these environment variables: COMPUTER_VISION_KEY and/or COMPUTER_VISION_ENDPOINT.
@@ -133,6 +126,9 @@ An error message will be displayed if the sample fails to run. Here are some com
 
 * `Exception with an error code: 0x73 (AZAC_ERR_FAILED_TO_OPEN_INPUT_FILE_FOR_READING)`
   * The image file cannot be found. Make sure you copy the image file to the folder where the executable is located, and re-run.
+
+* `InvalidRequest: The feature 'Caption' is not supported in this region`
+  * Your endpoint is from an Azure region that does not support the `Caption` feature. You can either change the endpoint to a supported region, or remove the `Caption` feature from the list of features to analyze.
 
 ## Cleanup
 

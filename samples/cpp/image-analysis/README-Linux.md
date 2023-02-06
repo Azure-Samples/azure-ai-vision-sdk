@@ -12,6 +12,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
   * You will need the key and endpoint from the resource you create to connect your application to the Computer Vision service.
   * You can use the free pricing tier (`F0`) to try the service, and upgrade later to a paid tier for production.
+  * Note that in order to run Image Analysis with the `Caption` feature, the Azure resource needs to be from one of the following GPU-supported regions: East US, France Central, Korea Central, North Europe, Southeast Asia, West Europe, West US.
 
 * A Linux x64 device, running Ubuntu 18.04/20.04/22.04, Debian 9/10/11 or Red Hat Enterprise Linux (RHEL) 7/8.
 
@@ -78,10 +79,10 @@ You should see the resulting executable `image-analysis-samples.exe` in the curr
 
 ## Get usage help
 
-* To get usage help run the executable with the `-h` or `--help` flag:
-    ```
-    ./image-analysis-samples.exe -h
-    ```
+To get usage help run the executable with the `-h` or `--help` flag:
+```
+./image-analysis-samples.exe -h
+```
 
 You will see the following output:
 ```
@@ -141,6 +142,9 @@ An error message will be displayed if the sample fails to run. Here are some com
 
 * `Exception with an error code: 0x73 (AZAC_ERR_FAILED_TO_OPEN_INPUT_FILE_FOR_READING) `
   * The image file cannot be found. Make sure you copy the image file to the folder where the executable is located, and re-run.
+
+* `InvalidRequest: The feature 'Caption' is not supported in this region`
+  * Your endpoint is from an Azure region that does not support the `Caption` feature. You can either change the endpoint to a supported region, or remove the `Caption` feature from the list of features to analyze.
 
 ## Cleanup
 

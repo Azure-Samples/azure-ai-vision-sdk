@@ -12,6 +12,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
   * You will need the key and endpoint from the resource you create to connect your application to the Computer Vision service.
   * You can use the free pricing tier (`F0`) to try the service, and upgrade later to a paid tier for production.
+  * Note that in order to run Image Analysis with the `Caption` feature, the Azure resource needs to be from one of the following GPU-supported regions: East US, France Central, Korea Central, North Europe, Southeast Asia, West Europe, West US.
 
 * A Windows 10 (or higher) x64 PC. We only support x64 platforms at the moment.
 
@@ -27,15 +28,9 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 * Download the content of this repository to your development PC. You can do that by either downloading and extracting this [ZIP file](https://github.com/Azure-Samples/azure-ai-vision-sdk/archive/master.zip), or cloning this repository using a Git client: `git clone https://github.com/Azure-Samples/azure-ai-vision-sdk.git`
 
-* Downloaded the following two Azure AI Vision SDK NuGet files from [this release](https://github.com/Azure-Samples/azure-ai-vision-sdk/releases/tag/0.8.0-alpha.0.33370873) of the repository. The are named:
-  * `Azure.AI.Vision.Core.0.8.0-alpha.0.33370873.nupkg`
-  * `Azure.AI.Vision.ImageAnalysis.0.8.0-alpha.0.33370873.nupkg`
-
 * Start Microsoft Visual Studio and select `Open a project or solution` under `Get started`.
 
 * Navigate to the folder containing these C++ samples, and select the solution file `image-analysis-samples.sln`.
-
-* Follow [the instructions here](/docs/common/local-nuget-feed.md) to set up a local NuGet feed using Visual Studio, so the Azure AI Vision SDK NuGet package can be used when you compile the samples.
 
 * Make sure `x64` is selected for `Solution platforms` (`Debug` or `Release`).
 
@@ -95,13 +90,6 @@ You will see the following output:
 
 ## Troubleshooting
 
-### While building
-
-* `NuGet Package restore failed for project image-analysis-samples: Unable to find version '0.8.0-alpha.0.33370873' of package 'Azure.AI.Vision.Core'`
-  * Follow [the instructions here](/docs/common/local-nuget-feed.md) to set up a local NuGet feed using Visual Studio Package Manager UI or Package Manager console, so the Azure AI Vision SDK NuGet files you downloaded can be found.
-
-### While running
-
 An error message will be displayed if the sample fails to run. Here are some common errors and how to fix them:
 
 * `401: Access denied due to invalid subscription key or wrong API endpoint. Make sure to provide a valid key for an active subscription and use a correct regional API endpoint for your resource`.
@@ -112,6 +100,9 @@ An error message will be displayed if the sample fails to run. Here are some com
 
 * `Exception with an error code: 0x73 (AZAC_ERR_FAILED_TO_OPEN_INPUT_FILE_FOR_READING)`
   * The image file cannot be found. Make sure you copy the image file to the folder where the executable is located, and re-run.
+
+* `InvalidRequest: The feature 'Caption' is not supported in this region`
+  * Your endpoint is from an Azure region that does not support the `Caption` feature. You can either change the endpoint to a supported region, or remove the `Caption` feature from the list of features to analyze.
 
 ## Required libraries for run-time distribution
 
