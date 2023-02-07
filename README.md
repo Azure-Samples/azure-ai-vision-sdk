@@ -49,11 +49,11 @@ Alternatively, you can contact Microsoft's Vision SDK development team directly 
 
 ![GitHub Logo](docs/image-analysis/image-analysis-results.png)
 
-See Microsoft documentation for an overview of [Image Analysis](https://learn.microsoft.com/azure/cognitive-services/computer-vision/overview-image-analysis). The Vision SDK Image Analysis APIs (preview) use [Image Analysis REST API v4.0 (preview)](docs/image-analysis/Image-Analysis-2023-02-01-preview-API-doc.md). The Image Analysis APIs supports the extraction of one or more of the following features using a single REST call:
+See Microsoft documentation for an overview of [Image Analysis](https://learn.microsoft.com/azure/cognitive-services/computer-vision/overview-image-analysis). The Vision SDK Image Analysis APIs (preview) uses [Image Analysis REST API v4.0 (preview)](docs/image-analysis/Image-Analysis-2023-02-01-preview-API-doc.md). The Image Analysis APIs supports the extraction of one or more of the following features using a single REST call:
 
-* **Caption** - Generates a human-readable phrase that describes the image content. For example, for the above image, "A person sitting at a table with a laptop".
+* **Caption** - Generates a human-readable phrase that describes the image content. For example, for the above image, "A person wearing a mask sitting at a table with a laptop".
 * **Tags** - Returns content tags for recognizable objects, living beings, scenery, and actions that appear in the image.
-* **Objects** - Detects various objects within an image, including their approximate location. See example in the above image: person, chair, laptop, dining table.
+* **Objects** - Detects various objects within an image, including their approximate location. See example in the above image: person, two chairs, laptop, dining table.
 * **People** - Detects people in the image, including their approximate location.
 * **Text** - Also known as **Read** or **OCR**. Performs Optical Character Recognition (OCR) and returns the text detected in the image, including the approximate location of every text line and word.
 * **Crop Suggestions** - Also known as **Smart Crop**. Recommendations for cropping operations that preserve content (e.g. for thumbnail generation).
@@ -75,7 +75,7 @@ At the moment the SDK is available for the following platforms and programming l
 
 Support for others platform and programming languages (including Android, iOS, MacOS) is planned for future releases.
 
-If your platform and/or programming language is not listed above, your application will need to directly implement REST calls to the Vision service by using the [Image Analysis REST API v4.0 (preview)](docs/image-analysis/Image-Analysis-2023-02-01-preview-API-doc.md).
+If your platform and/or programming language is not listed above, your application will need to directly implement REST calls to the Vision Service using the [Image Analysis REST API v4.0 (preview)](docs/image-analysis/Image-Analysis-2023-02-01-preview-API-doc.md).
 
 ### API Reference Documentation
 
@@ -87,7 +87,7 @@ If your platform and/or programming language is not listed above, your applicati
 
 The samples will show how to analyze an image file from local disk or an image URL. Click on the links below for detailed setup, build and run instructions corresponding to your programing language.
 
-The are currently two samples, with more to come:
+There are currently two samples, with more to come:
 
 1. Analyze all features from a JPEG image file on disk and print detailed results to the console. This is done using the synchronous (blocking) API. Start by looking at this sample first.
 1. Analyze one feature from an image URL, using the asynchronous (non-blocking) API, while registering for an event to get the analysis results.
@@ -100,4 +100,4 @@ Click on the link below corresponding to programing language:
 | [C# .NET Core](samples/csharp/image-analysis/dotnetcore) |
 | [Python](samples/python/image-analysis) |
 
-If your platform and/or programming language is not listed above, your application will need to directly implement REST calls to the Vision service by using the [Image Analysis REST API v4.0 (preview)](docs/image-analysis/Image-Analysis-2023-02-01-preview-API-doc.md).
+If your platform and/or programming language is not listed above, your application will need to directly implement REST calls to the Vision service using the [Image Analysis REST API v4.0 (preview)](docs/image-analysis/Image-Analysis-2023-02-01-preview-API-doc.md).

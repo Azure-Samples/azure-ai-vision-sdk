@@ -135,7 +135,7 @@ An error message will be displayed if the sample fails to run. Here are some com
 The Vision SDK Python package can be removed by running (replace with your own python wheel package name):
 
 ```
-python -m pip uninstall azure_ai_vision-VERSION-py3-none-win_amd64
+python -m pip uninstall azure_ai_vision
 ```
 
 ## References
