@@ -17,7 +17,9 @@ This repository hosts sample code and setup documents for the Microsoft Azure AI
 
 ## News
 
-* Vision SDK 0.8 (public preview) was released on February 1st, 2023, targeting Image Analysis applications on Windows and Linux platforms. [See release notes](https://github.com/Azure-Samples/azure-ai-vision-sdk/releases/tag/0.8.0-alpha.0.33370873)
+* Vision SDK 0.8.1-beta.1 was released on February 2023, targeting Image Analysis applications on Windows and Linux platforms.
+
+<!-- [See release notes](https://github.com/Azure-Samples/azure-ai-vision-sdk/releases/tag/0.8.0-alpha.0.33370873) -->
 
 ## Features
 
@@ -29,7 +31,7 @@ Other API sets are under development.
 
 ## Support
 
-Please [open a new issue in this repo](https://github.com/Azure-Samples/azure-ai-vision-sdk/issues) if you encounter any problems building or running the samples, or have any additional questions about the SDK. This is the preferred method if getting support. Note that these issues will be visible to the public, so please do not include any sensitive information.
+Please [open a new issue in this repo](https://github.com/Azure-Samples/azure-ai-vision-sdk/issues) if you encounter any problems building or running the samples, or have any additional questions about the SDK. This is the preferred method of getting support. Note that these issues will be visible to the public, so please do not include any sensitive information.
 
 Alternatively, you can contact Microsoft's Vision SDK development team directly by sending an e-mail to  `vision-sdk@microsoft.com`.
 
@@ -47,14 +49,14 @@ Alternatively, you can contact Microsoft's Vision SDK development team directly 
 
 ![GitHub Logo](docs/image-analysis/image-analysis-results.png)
 
-See Microsoft documentation for an overview of [Image Analysis](https://learn.microsoft.com/azure/cognitive-services/computer-vision/overview-image-analysis). The Vision SDK Image Analysis APIs (preview) use [Image Analysis REST API v4.0 (preview)](https://westus.dev.cognitive.microsoft.com/docs/services/unified-vision-apis-public-preview-2022-10-12-preview). The Image Analysis APIs supports the extraction of one or more of the following features using a single REST call:
+See Microsoft documentation for an overview of [Image Analysis](https://learn.microsoft.com/azure/cognitive-services/computer-vision/overview-image-analysis). The Vision SDK Image Analysis APIs (preview) use [Image Analysis REST API v4.0 (preview)](docs/image-analysis/Image-Analysis-2023-02-01-preview-API-doc.md). The Image Analysis APIs supports the extraction of one or more of the following features using a single REST call:
 
-* **Captions** - Generates a human-readable phrase that describes the image content. For example, for the above image, "A person sitting at a table with a laptop".
+* **Caption** - Generates a human-readable phrase that describes the image content. For example, for the above image, "A person sitting at a table with a laptop".
 * **Tags** - Returns content tags for recognizable objects, living beings, scenery, and actions that appear in the image.
 * **Objects** - Detects various objects within an image, including their approximate location. See example in the above image: person, chair, laptop, dining table.
-* **People** - Detects people in the image, including the approximate location.
-* **Text** - Also known as **Read** or **OCR**. Performs Optical Character Recognition (OCR) and returns the text detected in the image.
-* **Cropping Suggestions** - Recommendations for cropping operations that preserve content (e.g. for thumbnail generation).
+* **People** - Detects people in the image, including their approximate location.
+* **Text** - Also known as **Read** or **OCR**. Performs Optical Character Recognition (OCR) and returns the text detected in the image, including the approximate location of every text line and word.
+* **Crop Suggestions** - Also known as **Smart Crop**. Recommendations for cropping operations that preserve content (e.g. for thumbnail generation).
 
 You can either upload an image for analysis by providing the name of an image file on disk, or you can provide a publicly-accessible URL of the image.
 
@@ -73,7 +75,7 @@ At the moment the SDK is available for the following platforms and programming l
 
 Support for others platform and programming languages (including Android, iOS, MacOS) is planned for future releases.
 
-If your platform and/or programming language is not listed above, your application will need to directly implement REST calls to the Vision service by using the [Image Analysis REST API v4.0 (preview)](https://westus.dev.cognitive.microsoft.com/docs/services/unified-vision-apis-public-preview-2022-10-12-preview).
+If your platform and/or programming language is not listed above, your application will need to directly implement REST calls to the Vision service by using the [Image Analysis REST API v4.0 (preview)](docs/image-analysis/Image-Analysis-2023-02-01-preview-API-doc.md).
 
 ### API Reference Documentation
 
@@ -87,7 +89,7 @@ The samples will show how to analyze an image file from local disk or an image U
 
 The are currently two samples, with more to come:
 
-1. Analyze all features from a JPEG image file on disk and print detailed results to the console. This is done using the synchronous (blocking) API. **Start by looking at this sample first**.
+1. Analyze all features from a JPEG image file on disk and print detailed results to the console. This is done using the synchronous (blocking) API. Start by looking at this sample first.
 1. Analyze one feature from an image URL, using the asynchronous (non-blocking) API, while registering for an event to get the analysis results.
 
 Click on the link below corresponding to programing language:
@@ -98,4 +100,4 @@ Click on the link below corresponding to programing language:
 | [C# .NET Core](samples/csharp/image-analysis/dotnetcore) |
 | [Python](samples/python/image-analysis) |
 
-If your platform and/or programming language is not listed above, your application will need to directly implement REST calls to the Vision service by using the [Image Analysis REST API v4.0 (preview)](https://westus.dev.cognitive.microsoft.com/docs/services/unified-vision-apis-public-preview-2022-10-12-preview).
+If your platform and/or programming language is not listed above, your application will need to directly implement REST calls to the Vision service by using the [Image Analysis REST API v4.0 (preview)](docs/image-analysis/Image-Analysis-2023-02-01-preview-API-doc.md).

@@ -16,14 +16,16 @@ ENVIRONMENT_VARIABLE_ENDPOINT = 'COMPUTER_VISION_ENDPOINT'
 # These will be populated by the code below, by reading run-time arguments or environment variables.
 # The sample code will need both values in order to authenticate against the Image Analysis service.
 # The endpoint has the form "https://<your-computer-vision-resource-name>.cognitiveservices.azure.com".
-# The key is a 32-character HEX number (no dashes), found in the Azure portal (for example "d0dbd4c2a933a6f18c785a526da83e15").
+# The key is a 32-character HEX number (no dashes), found in the Azure portal
+# (for example "d0dbd4c2a933a6f18c785a526da83e15").
 endpoint = None
 key = None
 
 
 def load_succeeded(argv):
     """
-    Main function called to load and validate computer vision key & endpoint. Returns True on success, False on failure.
+    Main function called to load and validate computer vision key & endpoint.
+    Returns True on success, False on failure.
     """
 
     load_succeeded = load_key_succeeded(argv) and load_endpoint_succeeded(argv)
@@ -124,7 +126,8 @@ def is_valid_endpoint():
 
     if not endpoint.startswith('https://') or not endpoint.endswith('.cognitiveservices.azure.com'):
         print(' Error: Invalid value for computer vision endpoint: {}'.format(endpoint))
-        print(' It should be in the form: https://<your-computer-vision-resource-name>.cognitiveservices.azure.com')
+        print(' It should be in the form:')
+        print(' https://<your-computer-vision-resource-name>.cognitiveservices.azure.com')
         print()
         return False
 

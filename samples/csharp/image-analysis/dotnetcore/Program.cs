@@ -60,20 +60,27 @@ namespace ImageAnalysisSamples
                 keyChar = Console.ReadKey().KeyChar;
                 Console.WriteLine("\n");
 
-                switch (keyChar)
+                try
                 {
-                    case '1':
-                        Samples.GetAllResults(Secrets.Endpoint, Secrets.Key);
-                        break;
-                    case '2':
-                        Samples.GetResultsUsingAnalyzedEvent(Secrets.Endpoint, Secrets.Key).Wait();
-                        break;
-                    case '0':
-                        Console.WriteLine(" Exiting...");
-                        break;
-                    default:
-                        Console.WriteLine(" Invalid selection, choose again.");
-                        break;
+                    switch (keyChar)
+                    {
+                        case '1':
+                            Samples.GetAllResults(Secrets.Endpoint, Secrets.Key);
+                            break;
+                        case '2':
+                            Samples.GetResultsUsingAnalyzedEvent(Secrets.Endpoint, Secrets.Key).Wait();
+                            break;
+                        case '0':
+                            Console.WriteLine(" Exiting...");
+                            break;
+                        default:
+                            Console.WriteLine(" Invalid selection, choose again.");
+                            break;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
                 }
             } while (keyChar != '0');
         }

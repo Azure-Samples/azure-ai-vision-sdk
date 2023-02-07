@@ -33,12 +33,13 @@ void ImageAnalysisSample_GetAllResults(std::string endpoint, std::string key)
     std::shared_ptr<ImageAnalysisOptions> analysisOptions = ImageAnalysisOptions::Create();
 
     // Mandatory. You must set one or more features to analyze. Here we use the full set of features.
-    // Note that 'Captions' is only supported in Azure GPU regions (East US, France Central, Korea Central,
-    // North Europe, Southeast Asia, West Europe, West US)
+    // Note that 'Caption' is only supported in Azure GPU regions (East US, France Central, Korea Central,
+    // North Europe, Southeast Asia, West Europe, West US). Remove 'Caption' from the list below if your
+    // Computer Vision key is not from one of those regions.
     analysisOptions->SetFeatures(
     {
         ImageAnalysisFeature::CropSuggestions,
-        ImageAnalysisFeature::Captions,
+        ImageAnalysisFeature::Caption,
         ImageAnalysisFeature::Objects,
         ImageAnalysisFeature::People,
         ImageAnalysisFeature::Text,
@@ -57,9 +58,9 @@ void ImageAnalysisSample_GetAllResults(std::string endpoint, std::string key)
     // Optional. Default is "latest".
     analysisOptions->SetModelVersion("latest");
 
-    // Optional, and only relevant when you select ImageAnalysisFeature::Captions.
-    // Set this to "true" to get gender neutral captions (the default is "false").
-    analysisOptions->SetGenderNeutralCaptions(true);
+    // Optional, and only relevant when you select ImageAnalysisFeature::Caption.
+    // Set this to "true" to get a gender neutral caption (the default is "false").
+    analysisOptions->SetGenderNeutralCaption(true);
 
     std::shared_ptr<ImageAnalyzer> analyzer = ImageAnalyzer::Create(serviceOptions, imageSource, analysisOptions);
 
@@ -76,15 +77,11 @@ void ImageAnalysisSample_GetAllResults(std::string endpoint, std::string key)
         std::cout << " Image width = " << result->GetImageWidth().Value() << std::endl;
         std::cout << " Model version = " << result->GetModelVersion().Value() << std::endl;
 
-        const Nullable<ContentCaptions>& captions = result->GetCaptions();
-        if (captions.HasValue())
+        const Nullable<ContentCaption>& caption = result->GetCaption();
+        if (caption.HasValue())
         {
-            std::cout << " Captions:" << std::endl;
-            for (const ContentCaption& caption : captions.Value())
-            {
-                std::cout << "   \"" << caption.Content;
-                std::cout << "\", Confidence " << caption.Confidence << std::endl;
-            }
+            std::cout << " Caption:" << std::endl;
+            std::cout << "   \"" << caption.Value().Content << "\", Confidence " << caption.Value().Confidence << std::endl;
         }
 
         const Nullable<DetectedObjects>& objects = result->GetObjects();
