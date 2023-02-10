@@ -27,21 +27,29 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 ## Install the Vision SDK from a Debian package (.deb)
 
-1. **By extracting the Azure AI Vision SDK package you acknowledge the [Azure AI Vision SDK license agreement](https://aka.ms/azai/vision/license)**.
+1. **By installing the Azure AI Vision SDK package you acknowledge the [Azure AI Vision SDK license agreement](https://aka.ms/azai/vision/license)**.
 
-1. Downloaded the following five Debian packages from [this release](https://github.com/Azure-Samples/azure-ai-vision-sdk/releases/tag/0.8.0-alpha.0.33370873) of the repository, and place them in the same folder on your device:
-   * `azure-ai-vision-runtime-core-0.8.0-alpha.0.1-Linux.deb`
-   * `azure-ai-vision-runtime-core-media-0.8.0-alpha.0.1-Linux.deb`
-   * `azure-ai-vision-runtime-image-analysis-0.8.0-alpha.0.1-Linux.deb`
-   * `azure-ai-vision-dev-core-0.8.0-alpha.0.1-Linux.deb`
-   * `azure-ai-vision-dev-image-analysis-0.8.0-alpha.0.1-Linux.deb`
+1. The debian package is hosted on a Microsoft feed. To install the package, you first need to add the Microsoft feed to your device's package manager. To do that, run the following commands:
 
-1. Install the debian packages by running the two command below, in the following order (Note: once the packages are published, you will only need to install one package, and that will automatically install all dependent packages):
-
+   ```sh
+   sudo apt install wget dpkg
+   wget "https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb"
+   sudo dpkg -i packages-microsoft-prod.deb 
    ```
-   sudo apt install ./azure-ai-vision-runtime-*.deb -y -f
-   sudo apt install ./azure-ai-vision-dev-*.deb -y -f
-   ```
+
+1. Now install the Vision SDK Debian package required to build the sample:
+
+    ```sh
+    sudo apt update
+    sudo apt install azure-ai-vision-dev-image-analysis
+    ```
+
+1. Notice that the above package _azure-ai-vision-dev-image-analysis_ depends on additional Vision SDK packages, which will be installed automatically. Run `apt list azure-ai-vision*` to see the list of installed Vision SDK packages:
+   * _azure-ai-vision-dev-core_
+   * _azure-ai-vision-dev-image-analysis_
+   * _azure-ai-vision-runtime-core_
+   * _azure-ai-vision-runtime-core-media_
+   * _azure-ai-vision-runtime-image-analysis_
 
 1. Verify installation succeeded by listing these folders:
 
@@ -65,10 +73,10 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 * Create a `build` folder under the `linux` folder, where the executable will be built, and navigate to that folder:
 
-```sh
-mkdir build 
-cd build
-```
+    ```sh
+    mkdir build 
+    cd build
+    ```
 
 * A Makefile is provided for direct compilation using the `make` command. Alternatively, a `CMakeLists.txt` is also provided if you prefer to compile the sample using the `cmake` command:
 
@@ -80,11 +88,13 @@ You should see the resulting executable `image-analysis-samples.exe` in the curr
 ## Get usage help
 
 To get usage help run the executable with the `-h` or `--help` flag:
-```
+
+```sh
 ./image-analysis-samples.exe -h
 ```
 
 You will see the following output:
+
 ```
  Azure AI Vision SDK - Image Analysis Samples
 
@@ -165,6 +175,11 @@ libAzure-AI-Vision-Extension-Image.so
 libVision_Core.so
 libVision_Media.so
 ```
+
+If you would like to install Vision SDK packages to support run-time distribution of your application, you only need to install the following _azure-ai-vision-runtime_ packages. Note however that they will contain more libraries than mentioned about, since the core packages are used by other Vision SDK APIs.
+   * _azure-ai-vision-runtime-core_
+   * _azure-ai-vision-runtime-core-media_
+   * _azure-ai-vision-runtime-image-analysis_
 
 ## References
 
