@@ -51,7 +51,7 @@ Alternatively, you can contact Microsoft's Vision SDK development team directly 
 
 See Microsoft documentation for an overview of [Image Analysis](https://learn.microsoft.com/azure/cognitive-services/computer-vision/overview-image-analysis). The Vision SDK Image Analysis APIs (preview) uses [Image Analysis REST API v4.0 (preview)](docs/image-analysis/Image-Analysis-2023-02-01-preview-API-doc.md). The Image Analysis APIs supports the extraction of one or more of the following features using a single REST call:
 
-* **Caption** - Generates a human-readable phrase that describes the image content. For example, for the above image, "A person wearing a mask sitting at a table with a laptop".
+* **Caption** - Generates a human-readable phrase that describes the image content. For example, for the above image, "A woman wearing a mask sitting at a table with a laptop".
 * **Tags** - Returns content tags for recognizable objects, living beings, scenery, and actions that appear in the image.
 * **Objects** - Detects various objects within an image, including their approximate location. See example in the above image: person, two chairs, laptop, dining table.
 * **People** - Detects people in the image, including their approximate location.
