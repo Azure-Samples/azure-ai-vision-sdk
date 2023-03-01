@@ -83,9 +83,13 @@ If your platform and/or programming language is not listed above, your applicati
 
 ### API Reference Documentation
 
-* C++ [TBD]
-* C# [TBD]
-* Python [TBD]
+* [C++ API Reference Documents](TBD)
+* [C# .NET Core API Reference Documents](https://review.learn.microsoft.com/dotnet/api/azure.ai.vision.imageanalysis)
+* [Python API Reference Documents](https://review.learn.microsoft.com/en-us/python/api/azure-ai-vision/?view=azure-python-preview&branch=sai-testbranch)
+
+<!-- C# https://review.learn.microsoft.com/en-us/dotnet/api/azure.ai.vision.imageanalysis?view=azure-dotnet-preview&branch=smoke-test-preview -->
+
+<!-- Python https://review.learn.microsoft.com/en-us/python/api/azure-ai-vision/?view=azure-python-preview&branch=sai-testbranch -->
 
 ### Samples
 
