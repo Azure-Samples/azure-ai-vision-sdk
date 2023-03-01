@@ -147,10 +147,12 @@ void ImageAnalysisSample_GetAllResults(std::string endpoint, std::string key)
             }
         }
 
-        std::cout << " Detailed result:\n";;
-        std::cout << "   Image ID = " << result->GetImageId() << std::endl;
-        std::cout << "   Result ID = " << result->GetResultId() << std::endl;
-        std::cout << "   JSON = " << result->GetJsonResult() << std::endl;
+        std::shared_ptr<ImageAnalysisResultDetails> resultDetails = ImageAnalysisResultDetails::FromResult(result);
+        std::cout << " Result details:\n";;
+        std::cout << "   Image ID = " << resultDetails->GetImageId() << std::endl;
+        std::cout << "   Result ID = " << resultDetails->GetResultId() << std::endl;
+        std::cout << "   Connection URL = " << resultDetails->GetConnectionUrl() << std::endl;
+        std::cout << "   JSON result = " << resultDetails->GetJsonResult() << std::endl;
     }
     else if (result->GetReason() == ImageAnalysisResultReason::Error)
     {
@@ -215,6 +217,61 @@ void ImageAnalysisSample_GetResultsUsingAnalyzedEvent(std::string endpoint, std:
     while(!eventRaised)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+}
+
+// This sample does analysis on an image file using a given custom-trained model, and shows how
+// to get the detected objects and/or tags
+void ImageAnalysisSample_GetCustomModelResults(std::string endpoint, std::string key)
+{
+    std::shared_ptr<VisionServiceOptions> serviceOptions = VisionServiceOptions::FromEndpoint(endpoint, key);
+
+    std::shared_ptr<VisionSource> imageSource = VisionSource::FromFile("sample1.jpg");
+
+    std::shared_ptr<ImageAnalysisOptions> analysisOptions = ImageAnalysisOptions::Create();
+
+    // Set your custom model name here
+    analysisOptions->SetModelName("MyCustomModelName");
+
+    std::shared_ptr<ImageAnalyzer> analyzer = ImageAnalyzer::Create(serviceOptions, imageSource, analysisOptions);
+
+    std::shared_ptr<ImageAnalysisResult> result = analyzer->Analyze();
+
+    if (result->GetReason() == ImageAnalysisResultReason::Analyzed)
+    {
+        // Use the GetCustomObjects() & GetCustomTags() methods to get the results
+
+        const Nullable<DetectedObjects>& objects = result->GetCustomObjects();
+        if (objects.HasValue())
+        {
+            std::cout << " Custom objects:" << std::endl;
+            for (const DetectedObject& object : objects.Value())
+            {
+                std::cout << "   \"" << object.Name << "\", ";
+                std::cout << "Bounding box " << object.BoundingBox.ToString();
+                std::cout << ", Confidence " << object.Confidence << std::endl;
+            }
+        }
+
+        const Nullable<ContentTags>& tags = result->GetCustomTags();
+        if (tags.HasValue())
+        {
+            std::cout << " Custom tags:" << std::endl;
+            for (const ContentTag& tag : tags.Value())
+            {
+                std::cout << "   \"" << tag.Name << "\"";
+                std::cout << ", Confidence " << tag.Confidence << std::endl;
+            }
+        }
+    }
+    else if (result->GetReason() == ImageAnalysisResultReason::Error)
+    {
+        std::shared_ptr<ImageAnalysisErrorDetails> errorDetails = ImageAnalysisErrorDetails::FromResult(result);
+        std::cout << " Analysis failed." << std::endl;
+        std::cout << "   Error reason = " << (int)errorDetails->GetReason() << std::endl;
+        std::cout << "   Error code = " << errorDetails->GetErrorCode() << std::endl;
+        std::cout << "   Error message = " << errorDetails->GetMessage() << std::endl;
+        std::cout << " Did you set the computer vision endpoint and key?" << std::endl;
     }
 }
 

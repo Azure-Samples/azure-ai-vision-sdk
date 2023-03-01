@@ -9,6 +9,7 @@
 
 extern void ImageAnalysisSample_GetAllResults(std::string endpoint, std::string key);
 extern void ImageAnalysisSample_GetResultsUsingAnalyzedEvent(std::string endpoint, std::string key);
+extern void ImageAnalysisSample_GetCustomModelResults(std::string endpoint, std::string key);
 
 void PrintUsage()
 {
@@ -65,8 +66,9 @@ int main(int argc, char** argv)
         std::cout << std::endl;
         std::cout << " 1. Analyze an image from file (all features)\n";
         std::cout << " 2. Analyze an image URL using the Analyzed event\n";
+        std::cout << " 3. Analyze using a custom-trained model\n";
         std::cout << std::endl;
-        std::cout << " Enter your choice 1-2 (or 0 to exit) and press enter:\n";
+        std::cout << " Enter your choice 1-3 (or 0 to exit) and press enter:\n";
         std::cout.flush();
 
         input.clear();
@@ -81,6 +83,9 @@ int main(int argc, char** argv)
                 break;
             case '2':
                 ImageAnalysisSample_GetResultsUsingAnalyzedEvent(Secrets::GetEndpoint(), Secrets::GetKey());
+                break;
+            case '3':
+                ImageAnalysisSample_GetCustomModelResults(Secrets::GetEndpoint(), Secrets::GetKey());
                 break;
             case '0':
                 std::cout << " Exiting...\n";

@@ -82,6 +82,10 @@ def get_all_results():
     # Checks result.
     if result.reason == visionsdk.ImageAnalysisResultReason.ANALYZED:
 
+        print(' Image height: {}'.format(result.image_height))
+        print(' Image width: {}'.format(result.image_width))
+        print(' Model version: {}'.format(result.model_version))
+
         if result.caption is not None:
             print(' Caption:')
             print('   \'{}\', Confidence {:.4f}'.format(result.caption.content, result.caption.confidence))
@@ -117,12 +121,12 @@ def get_all_results():
                     print('     Word: \'{}\', Bounding polygon {}, Confidence {:.4f}'
                           .format(word.content, points_string, word.confidence))
 
-        print(' Image Height: {}'.format(result.image_height))
-        print(' Image Width: {}'.format(result.image_width))
-        print(' Image ID: {}'.format(result.image_id))
-        print(' Result ID: {}'.format(result.result_id))
-        print(' Model Version: {}'.format(result.model_version))
-        print(' JSON Result: {}'.format(result.json_result))
+        result_details = visionsdk.ImageAnalysisResultDetails.from_result(result)
+        print(' Result details:')
+        print('   Image ID: {}'.format(result_details.image_id))
+        print('   Result ID: {}'.format(result_details.result_id))
+        print('   Connection URL: {}'.format(result_details.connection_url))
+        print('   JSON result: {}'.format(result_details.json_result))
 
     elif result.reason == visionsdk.ImageAnalysisResultReason.ERROR:
 
@@ -181,3 +185,44 @@ def get_results_using_analyzed_event():
 
     while not callback_done:
         time.sleep(.1)
+
+
+def get_custom_model_results():
+    """
+    This sample does analysis on an image file using a given custom-trained model, and shows how
+    to get the detected objects and/or tags.
+    """
+
+    service_options = visionsdk.VisionServiceOptions(secrets.endpoint, secrets.key)
+
+    vision_source = visionsdk.VisionSource(filename='sample1.jpg')
+
+    analysis_options = visionsdk.ImageAnalysisOptions()
+
+    # Set your custom model name here
+    analysis_options.model_name = 'MyCustomModelName'
+
+    image_analyzer = visionsdk.ImageAnalyzer(service_options, vision_source, analysis_options)
+
+    result = image_analyzer.analyze()
+
+    if result.reason == visionsdk.ImageAnalysisResultReason.ANALYZED:
+
+        if result.custom_objects is not None:
+            print(' Custom Objects:')
+            for object in result.custom_objects:
+                print('   \'{}\', {} Confidence: {:.4f}'.format(object.name, object.bounding_box, object.confidence))
+
+        if result.custom_tags is not None:
+            print(' Custom Tags:')
+            for tag in result.custom_tags:
+                print('   \'{}\', Confidence {:.4f}'.format(tag.name, tag.confidence))
+
+    elif result.reason == visionsdk.ImageAnalysisResultReason.ERROR:
+
+        error_details = visionsdk.ImageAnalysisErrorDetails.from_result(result)
+        print(" Analysis failed.")
+        print("   Error reason: {}".format(error_details.reason))
+        print("   Error code: {}".format(error_details.error_code))
+        print("   Error message: {}".format(error_details.message))
+        print(" Did you set the computer vision endpoint and key?")
