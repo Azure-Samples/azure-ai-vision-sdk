@@ -45,7 +45,7 @@ chances of your issue being dealt with quickly:
 * **Overview of the Issue** - if an error is being thrown a non-minified stack trace helps
 * **Version** - what version is affected (e.g. 0.1.2)
 * **Motivation for or Use Case** - explain what are you trying to do and why the current behavior is a bug for you
-* **Programing language and operating system**
+* **Programming language and operating system**
 * **Media file or URL** - What media file or URL did you use when you saw the issue? share if possible
 * **Reproduce the Error** - provide a live example or a unambiguous set of steps
 * **Related Issues** - has a similar issue been reported before?

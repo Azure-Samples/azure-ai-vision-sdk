@@ -17,7 +17,7 @@ This repository hosts sample code and setup documents for the Microsoft Azure AI
 
 ## News
 
-* Vision SDK 0.8.1-beta.1 was released on February 2023, targeting Image Analysis applications on Windows and Linux platforms.
+* Vision SDK 0.9.0-beta.1 was released on March 2023, targeting Image Analysis applications on Windows and Linux platforms.
 
 <!-- [See release notes](https://github.com/Azure-Samples/azure-ai-vision-sdk/releases/tag/0.8.0-alpha.0.33370873) -->
 
@@ -37,11 +37,15 @@ Alternatively, you can contact Microsoft's Vision SDK development team directly 
 
 ## Get the SDK samples
 
-* **Running the samples in this repository requires you to download the Azure AI Vision SDK. By doing so you acknowledge the [Azure AI Vision SDK license agreement](https://aka.ms/azai/vision/license)**.
+* **Running the samples in this repository requires you to install the Azure AI Vision SDK. By doing so you acknowledge the [Azure AI Vision SDK license agreement](https://aka.ms/azai/vision/license)**.
 
 * The easiest way to get access to these samples is to download the content of this repo as a [ZIP file](https://github.com/Azure-Samples/azure-ai-vision-sdk/archive/master.zip).
 
-* Alternatively, you can use a Git client to clone this repository to your hard drive by running `git clone https://github.com/Azure-Samples/azure-ai-vision-sdk.git`
+* Alternatively, you can use a Git client to clone this repository to your hard drive by running
+
+  ```
+  git clone https://github.com/Azure-Samples/azure-ai-vision-sdk.git
+  ```
 
 ## Image Analysis
 
@@ -75,7 +79,7 @@ At the moment the SDK is available for the following platforms and programming l
 
 Support for others platform and programming languages (including Android, iOS, MacOS) is planned for future releases.
 
-If your platform and/or programming language is not listed above, your application will need to directly implement REST calls to the Vision Service using the [Image Analysis REST API v4.0 (preview)](docs/image-analysis/Image-Analysis-2023-02-01-preview-API-doc.md).
+If your platform and/or programming language is not listed above, your application will need to directly implement REST calls to the Vision Service using the [Image Analysis REST API v4.0 (preview)](https://aka.ms/vision-4-0-ref).
 
 ### API Reference Documentation
 
@@ -85,19 +89,20 @@ If your platform and/or programming language is not listed above, your applicati
 
 ### Samples
 
-The samples will show how to analyze an image file from local disk or an image URL. Click on the links below for detailed setup, build and run instructions corresponding to your programing language.
+The samples will show how to analyze an image file from local disk or an image URL. Click on the links below for detailed setup, build and run instructions corresponding to your programming language.
 
-There are currently two samples, with more to come:
+There are currently three samples, with more to come:
 
 1. Analyze all features from a JPEG image file on disk and print detailed results to the console. This is done using the synchronous (blocking) API. Start by looking at this sample first.
 1. Analyze one feature from an image URL, using the asynchronous (non-blocking) API, while registering for an event to get the analysis results.
+1. Analyze an image using a custom-trained model. To run this sample, you first need to create a custom model. See [Image Analysis overview](https://learn.microsoft.com/azure/cognitive-services/computer-vision/overview-image-analysis) for more deatils.
 
-Click on the link below corresponding to programing language:
+Click on the link below corresponding to programming language:
 
-| Programing Language |
+| Programming Language |
 | -------- |
 | [C++](samples/cpp/image-analysis) |
 | [C# .NET Core](samples/csharp/image-analysis/dotnetcore) |
 | [Python](samples/python/image-analysis) |
 
-If your platform and/or programming language is not listed above, your application will need to directly implement REST calls to the Vision service using the [Image Analysis REST API v4.0 (preview)](docs/image-analysis/Image-Analysis-2023-02-01-preview-API-doc.md).
+If your platform and/or programming language is not listed above, your application will need to directly implement REST calls to the Vision service using the [Image Analysis REST API v4.0 (preview)](https://aka.ms/vision-4-0-ref).
