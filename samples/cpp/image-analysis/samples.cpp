@@ -136,7 +136,7 @@ void ImageAnalysisSample_GetAllResults(std::string endpoint, std::string key)
             for (const DetectedTextLine& line : detectedText.Value().Lines)
             {
                 std::cout << "   Line: \"" << line.Content << "\"";
-                std::cout << ", Bounding polygon " << PolygonToString(line.BoundingPolygon) << "}\n";
+                std::cout << ", Bounding polygon " << PolygonToString(line.BoundingPolygon) << std::endl;
 
                 for (const DetectedTextWord& word: line.Words)
                 {
