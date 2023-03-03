@@ -41,6 +41,7 @@ def select():
     sample_functions = [
         samples.get_all_results,
         samples.get_results_using_analyzed_event,
+        samples.get_custom_model_results
     ]
 
     print(' Select sample or {} to abort:'.format(abort_key))

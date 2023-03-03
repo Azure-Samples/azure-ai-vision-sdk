@@ -18,50 +18,37 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\samples.cpp" />
-    <ClCompile Include="..\main.cpp" />
-    <ClCompile Include="..\secrets.cpp" />
-    <ClCompile Include="..\stdafx.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\secrets.h" />
-    <ClInclude Include="..\stdafx.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{58617320-ba67-4055-ae2f-cbda6c7ca558}</ProjectGuid>
-    <RootNamespace>imageanalysissamples</RootNamespace>
+    <ProjectGuid>{179f6970-c656-4ead-80e9-a27e521e64f7}</ProjectGuid>
+    <RootNamespace>My3</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -83,18 +70,6 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -106,9 +81,6 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>copy "$(SolutionDir)\..\sample*.jpg" "$(TargetDir)\"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -125,9 +97,6 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>copy "$(SolutionDir)\..\sample*.jpg" "$(TargetDir)\"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -140,9 +109,6 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>copy "$(SolutionDir)\..\sample*.jpg" "$(TargetDir)\"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -159,20 +125,23 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>copy "$(SolutionDir)\..\sample*.jpg" "$(TargetDir)\"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="3.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="packages\Azure.AI.Vision.ImageAnalysis.0.9.0-beta.1\build\native\Azure.AI.Vision.ImageAnalysis.targets" Condition="Exists('packages\Azure.AI.Vision.ImageAnalysis.0.9.0-beta.1\build\native\Azure.AI.Vision.ImageAnalysis.targets')" />
-    <Import Project="packages\Azure.AI.Vision.Core.0.9.0-beta.1\build\native\Azure.AI.Vision.Core.targets" Condition="Exists('packages\Azure.AI.Vision.Core.0.9.0-beta.1\build\native\Azure.AI.Vision.Core.targets')" />
+    <Import Project="..\packages\Azure.AI.Vision.Core.0.9.0-rc.2\build\native\Azure.AI.Vision.Core.targets" Condition="Exists('..\packages\Azure.AI.Vision.Core.0.9.0-rc.2\build\native\Azure.AI.Vision.Core.targets')" />
+    <Import Project="..\packages\Azure.AI.Vision.ImageAnalysis.0.9.0-rc.2\build\native\Azure.AI.Vision.ImageAnalysis.targets" Condition="Exists('..\packages\Azure.AI.Vision.ImageAnalysis.0.9.0-rc.2\build\native\Azure.AI.Vision.ImageAnalysis.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\Azure.AI.Vision.ImageAnalysis.0.9.0-beta.1\build\native\Azure.AI.Vision.ImageAnalysis.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Azure.AI.Vision.ImageAnalysis.0.9.0-beta.1\build\native\Azure.AI.Vision.ImageAnalysis.targets'))" />
-    <Error Condition="!Exists('packages\Azure.AI.Vision.Core.0.9.0-beta.1\build\native\Azure.AI.Vision.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Azure.AI.Vision.Core.0.9.0-beta.1\build\native\Azure.AI.Vision.Core.targets'))" />
+    <Error Condition="!Exists('..\packages\Azure.AI.Vision.Core.0.9.0-rc.2\build\native\Azure.AI.Vision.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Azure.AI.Vision.Core.0.9.0-rc.2\build\native\Azure.AI.Vision.Core.targets'))" />
+    <Error Condition="!Exists('..\packages\Azure.AI.Vision.ImageAnalysis.0.9.0-rc.2\build\native\Azure.AI.Vision.ImageAnalysis.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Azure.AI.Vision.ImageAnalysis.0.9.0-rc.2\build\native\Azure.AI.Vision.ImageAnalysis.targets'))" />
   </Target>
 </Project>

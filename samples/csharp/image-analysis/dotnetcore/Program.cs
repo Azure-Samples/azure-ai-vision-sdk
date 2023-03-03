@@ -54,8 +54,9 @@ namespace ImageAnalysisSamples
                 Console.WriteLine("");
                 Console.WriteLine(" 1. Analyze an image from file (all features)");
                 Console.WriteLine(" 2. Analyze an image URL using the Analyzed event");
+                Console.WriteLine(" 3. Analyze using a custom-trained model");
                 Console.WriteLine("");
-                Console.Write(" Your choice 1-2 (or 0 to exit): ");
+                Console.Write(" Your choice 1-3 (or 0 to exit): ");
 
                 keyChar = Console.ReadKey().KeyChar;
                 Console.WriteLine("\n");
@@ -69,6 +70,9 @@ namespace ImageAnalysisSamples
                             break;
                         case '2':
                             Samples.GetResultsUsingAnalyzedEvent(Secrets.Endpoint, Secrets.Key).Wait();
+                            break;
+                        case '3':
+                            Samples.GetCustomModelResults(Secrets.Endpoint, Secrets.Key);
                             break;
                         case '0':
                             Console.WriteLine(" Exiting...");

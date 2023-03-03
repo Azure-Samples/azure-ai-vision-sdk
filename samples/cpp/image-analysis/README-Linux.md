@@ -80,8 +80,8 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 * A Makefile is provided for direct compilation using the `make` command. Alternatively, a `CMakeLists.txt` is also provided if you prefer to compile the sample using the `cmake` command:
 
-  * To compile using make, run `make -f ../makefile`.
-  * To compile using CMake, run `cmake ..`, then run `make`.
+  * To compile using make, run `make -f ../makefile`
+  * To compile using CMake, run `cmake ..`, then run `make`
 
 You should see the resulting executable `image-analysis-samples.exe` in the current folder.
 

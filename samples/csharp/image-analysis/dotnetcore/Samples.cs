@@ -10,7 +10,6 @@ using Azure.AI.Vision.ImageAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace ImageAnalysisSamples
@@ -136,11 +135,12 @@ namespace ImageAnalysisSamples
                     }
                 }
 
-                var detailedResult = ImageAnalysisResultDetails.FromResult(result);
-                Console.WriteLine($" Detailed result:");
-                Console.WriteLine($"   Image ID = {detailedResult.ImageId}");
-                Console.WriteLine($"   Result ID = {detailedResult.ResultId}");
-                Console.WriteLine($"   JSON = {detailedResult.JsonResult}");
+                var resultDetails = ImageAnalysisResultDetails.FromResult(result);
+                Console.WriteLine($" Result details:");
+                Console.WriteLine($"   Image ID = {resultDetails.ImageId}");
+                Console.WriteLine($"   Result ID = {resultDetails.ResultId}");
+                Console.WriteLine($"   Connection URL = {resultDetails.ConnectionUrl}");
+                Console.WriteLine($"   JSON result = {resultDetails.JsonResult}");
             }
             else if (result.Reason == ImageAnalysisResultReason.Error)
             {
@@ -196,6 +196,57 @@ namespace ImageAnalysisSamples
 
             // Make sure we received the Analyzed event before exiting this method
             Task.WaitAny(tcsEventReceived.Task);
+        }
+
+        // This sample does analysis on an image file using a given custom-trained model, and shows how
+        // to get the detected objects and/or tags.
+        public static void GetCustomModelResults(string endpoint, string key)
+        {
+            var serviceOptions = new VisionServiceOptions(endpoint, key);
+
+            using var imageSource = VisionSource.FromFile("sample1.jpg");
+
+            var analysisOptions = new ImageAnalysisOptions()
+            {
+                // Set your custom model name here
+                ModelName = "MyCustomModelName"
+            };
+
+            using var analyzer = new ImageAnalyzer(serviceOptions, imageSource, analysisOptions);
+
+            var result = analyzer.Analyze();
+
+            if (result.Reason == ImageAnalysisResultReason.Analyzed)
+            {
+                // Use the CustomObjects & CustomTags properties to get the results
+
+                if (result.CustomObjects != null)
+                {
+                    Console.WriteLine(" Custom Objects:");
+                    foreach (var detectedObject in result.CustomObjects)
+                    {
+                        Console.WriteLine($"   \"{detectedObject.Name}\", Bounding box {detectedObject.BoundingBox}, Confidence {detectedObject.Confidence:0.0000}");
+                    }
+                }
+
+                if (result.CustomTags != null)
+                {
+                    Console.WriteLine($" Custom Tags:");
+                    foreach (var tag in result.CustomTags)
+                    {
+                        Console.WriteLine($"   \"{tag.Name}\", Confidence {tag.Confidence:0.0000}");
+                    }
+                }
+            }
+            else if (result.Reason == ImageAnalysisResultReason.Error)
+            {
+                var errorDetails = ImageAnalysisErrorDetails.FromResult(result);
+                Console.WriteLine(" Analysis failed.");
+                Console.WriteLine($"   Error reason : {errorDetails.Reason}");
+                Console.WriteLine($"   Error code : {errorDetails.ErrorCode}");
+                Console.WriteLine($"   Error message: {errorDetails.Message}");
+                Console.WriteLine(" Did you set the computer vision endpoint and key?");
+            }
         }
     }
 }
