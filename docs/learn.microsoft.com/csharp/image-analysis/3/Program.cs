@@ -20,7 +20,6 @@ class Program
 
         var analysisOptions = new ImageAnalysisOptions()
         {
-            // Set your custom model name here
             ModelName = "MyCustomModelName"
         };
 
