@@ -32,7 +32,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 * Start Microsoft Visual Studio and select `Open a project or solution` under `Get started`.
 
-* Navigate to the folder containing these C++ samples, and select the solution file `image-analysis-samples.sln`.
+* Navigate to the folder containing these C# samples, and select the solution file `image-analysis-samples.sln`.
 
 * Press `F6`, or select `Build` \> `Build Solution` to compile the sample.
 
