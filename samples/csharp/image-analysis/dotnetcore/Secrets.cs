@@ -16,8 +16,8 @@ namespace ImageAnalysisSamples
     {
         // These are the names of the environment variables you can set if you want to specify
         // secrets using environment variables instead of command-line arguments
-        public static readonly string EnvironmentVariableKey = "COMPUTER_VISION_KEY";
-        public static readonly string EnvironmentVariableEndpoint = "COMPUTER_VISION_ENDPOINT";
+        public static readonly string EnvironmentVariableKey = "VISION_KEY";
+        public static readonly string EnvironmentVariableEndpoint = "VISION_ENDPOINT";
 
         // Get these properties only after a call to LoadSucceed returned true
         public static string Key { get; private set; }

@@ -60,7 +60,7 @@ You will see the following output:
      It should have the form: https://<your-computer-vision-resource-name>.cognitiveservices.azure.com
 
  As an alternative to specifying the above command line arguments, you can specify
- these environment variables: COMPUTER_VISION_KEY and/or COMPUTER_VISION_ENDPOINT.
+ these environment variables: VISION_KEY and/or VISION_ENDPOINT.
 
  To get this usage help, run:
 
@@ -80,8 +80,8 @@ You will see the following output:
   ```
   * By first defining the appropriate environment variables, then running the executable without arguments:
   ```
-  set COMPUTER_VISION_KEY=<your-key>
-  set COMPUTER_VISION_ENDPOINT=<your-endpoint>
+  set VISION_KEY=<your-key>
+  set VISION_ENDPOINT=<your-endpoint>
 
   image-analysis-samples.exe
   ```

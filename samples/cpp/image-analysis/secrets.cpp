@@ -7,8 +7,8 @@
 #include "stdafx.h"
 #include "secrets.h"
 
-const std::string Secrets::EnvironmentVariableKey = "COMPUTER_VISION_KEY";
-const std::string Secrets::EnvironmentVariableEndpoint = "COMPUTER_VISION_ENDPOINT";
+const std::string Secrets::EnvironmentVariableKey = "VISION_KEY";
+const std::string Secrets::EnvironmentVariableEndpoint = "VISION_ENDPOINT";
 
 std::string Secrets::key;
 std::string Secrets::endpoint;

@@ -10,8 +10,8 @@ secrets from environment variables, and then again from command line arguments.
 
 # These are the constant names of the environment variables you can set if you want to specify
 # secrets using environment variables instead of command-line arguments
-ENVIRONMENT_VARIABLE_KEY = 'COMPUTER_VISION_KEY'
-ENVIRONMENT_VARIABLE_ENDPOINT = 'COMPUTER_VISION_ENDPOINT'
+ENVIRONMENT_VARIABLE_KEY = 'VISION_KEY'
+ENVIRONMENT_VARIABLE_ENDPOINT = 'VISION_ENDPOINT'
 
 # These will be populated by the code below, by reading run-time arguments or environment variables.
 # The sample code will need both values in order to authenticate against the Image Analysis service.
