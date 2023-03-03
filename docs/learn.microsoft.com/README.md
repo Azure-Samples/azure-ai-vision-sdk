@@ -4,4 +4,4 @@ This folder contains source code that is integrated (embedded) in Microsoft's [C
 
 It is formatted to fit those documents, with little source code comments and less functionality. It also includes "tag" comments such as `// <snippet-single> ... // </snippet-single>` that are used by our document build system to embedded source code in published documents.
 
-Please see the sources code under the [samples](..\..\samples) folder instead for the full set of samples, with source code comments and supporting setup, compile and run instructions for multiple platforms.
+Please see the sources code under the [samples](/samples) folder instead for the full set of samples, with source code comments and supporting setup, compile and run instructions for multiple platforms.

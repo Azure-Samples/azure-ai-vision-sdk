@@ -81,16 +81,6 @@ Support for others platform and programming languages (including Android, iOS, M
 
 If your platform and/or programming language is not listed above, your application will need to directly implement REST calls to the Vision Service using the [Image Analysis REST API v4.0 (preview)](https://aka.ms/vision-4-0-ref).
 
-### API Reference Documentation
-
-* [C++ API Reference Documents](TBD)
-* [C# .NET Core API Reference Documents](https://review.learn.microsoft.com/dotnet/api/azure.ai.vision.imageanalysis)
-* [Python API Reference Documents](https://review.learn.microsoft.com/en-us/python/api/azure-ai-vision/?view=azure-python-preview&branch=sai-testbranch)
-
-<!-- C# https://review.learn.microsoft.com/en-us/dotnet/api/azure.ai.vision.imageanalysis?view=azure-dotnet-preview&branch=smoke-test-preview -->
-
-<!-- Python https://review.learn.microsoft.com/en-us/python/api/azure-ai-vision/?view=azure-python-preview&branch=sai-testbranch -->
-
 ### Samples
 
 The samples will show how to analyze an image file from local disk or an image URL. Click on the links below for detailed setup, build and run instructions corresponding to your programming language.
@@ -110,3 +100,10 @@ Click on the link below corresponding to programming language:
 | [Python](samples/python/image-analysis) |
 
 If your platform and/or programming language is not listed above, your application will need to directly implement REST calls to the Vision service using the [Image Analysis REST API v4.0 (preview)](https://aka.ms/vision-4-0-ref).
+
+### API Reference Documentation
+
+* [C++ API Reference Documents]( https://learn.microsoft.com/cpp/api/azure.ai.vision.imageanalysis)
+* [C# .NET Core API Reference Documents](https://learn.microsoft.com/dotnet/api/azure.ai.vision.imageanalysis)
+* [Python API Reference Documents](https://learn.microsoft.com/python/api/azure-ai-vision)
+
