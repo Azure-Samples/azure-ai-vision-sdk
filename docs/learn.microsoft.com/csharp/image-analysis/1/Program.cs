@@ -12,7 +12,9 @@ class Program
 {
     static void AnalyzeImage()
     {
-        var serviceOptions = new VisionServiceOptions("PASTE_YOUR_COMPUTER_VISION_ENDPOINT_HERE", "PASTE_YOUR_COMPUTER_VISION_SUBSCRIPTION_KEY_HERE");
+        var serviceOptions = new VisionServiceOptions(
+            Environment.GetEnvironmentVariable("VISION_ENDPOINT"),
+            Environment.GetEnvironmentVariable("VISION_KEY"));
 
         var imageSource = VisionSource.FromUrl(new Uri("https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg"));
 

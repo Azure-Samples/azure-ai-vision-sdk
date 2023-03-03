@@ -103,7 +103,7 @@ If your platform and/or programming language is not listed above, your applicati
 
 ### API Reference Documentation
 
-* [C++ API Reference Documents]( https://learn.microsoft.com/cpp/api/azure.ai.vision.imageanalysis)
+* [C++ API Reference Documents](https://learn.microsoft.com/cpp/cognitive-services/vision)
 * [C# .NET Core API Reference Documents](https://learn.microsoft.com/dotnet/api/azure.ai.vision.imageanalysis)
 * [Python API Reference Documents](https://learn.microsoft.com/python/api/azure-ai-vision)
 

@@ -12,13 +12,14 @@ class Program
 {
     static void AnalyzeImage()
     {
-        var serviceOptions = new VisionServiceOptions("PASTE_YOUR_COMPUTER_VISION_ENDPOINT_HERE", "PASTE_YOUR_COMPUTER_VISION_SUBSCRIPTION_KEY_HERE");
+        var serviceOptions = new VisionServiceOptions(
+            Environment.GetEnvironmentVariable("VISION_ENDPOINT"),
+            Environment.GetEnvironmentVariable("VISION_KEY"));
 
         var imageSource = VisionSource.FromUrl(new Uri("https://csspeechstorage.blob.core.windows.net/drop/TestData/images/ocr-sample.jpg"));
 
         var analysisOptions = new ImageAnalysisOptions()
         {
-            // Set your custom model name here
             ModelName = "MyCustomModelName"
         };
 

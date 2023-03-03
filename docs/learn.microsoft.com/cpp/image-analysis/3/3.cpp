@@ -9,27 +9,31 @@ using namespace Azure::AI::Vision::ImageAnalysis;
 using namespace Azure::AI::Vision::Input;
 using namespace Azure::AI::Vision::Service;
 
+std::string GetEnvironmentVariable(const std::string name);
+
 void AnalyzeImage()
 {
-    std::shared_ptr<VisionServiceOptions> serviceOptions = VisionServiceOptions::FromEndpoint("PASTE_YOUR_COMPUTER_VISION_ENDPOINT_HERE", "PASTE_YOUR_COMPUTER_VISION_SUBSCRIPTION_KEY_HERE");
+    auto serviceOptions = VisionServiceOptions::FromEndpoint(
+        GetEnvironmentVariable("VISION_ENDPOINT"),
+        GetEnvironmentVariable("VISION_KEY"));
 
-    std::shared_ptr<VisionSource> imageSource = VisionSource::FromFile("sample1.jpg");
+    auto imageSource = VisionSource::FromUrl("https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg");
 
-    std::shared_ptr<ImageAnalysisOptions> analysisOptions = ImageAnalysisOptions::Create();
+    auto analysisOptions = ImageAnalysisOptions::Create();
 
     analysisOptions->SetModelName("MyCustomModelName");
 
-    std::shared_ptr<ImageAnalyzer> analyzer = ImageAnalyzer::Create(serviceOptions, imageSource, analysisOptions);
+    auto analyzer = ImageAnalyzer::Create(serviceOptions, imageSource, analysisOptions);
 
-    std::shared_ptr<ImageAnalysisResult> result = analyzer->Analyze();
+    auto result = analyzer->Analyze();
 
     if (result->GetReason() == ImageAnalysisResultReason::Analyzed)
     {
-        const Nullable<DetectedObjects>& objects = result->GetCustomObjects();
+        const auto objects = result->GetCustomObjects();
         if (objects.HasValue())
         {
             std::cout << " Custom objects:" << std::endl;
-            for (const DetectedObject& object : objects.Value())
+            for (const auto object : objects.Value())
             {
                 std::cout << "   \"" << object.Name << "\", ";
                 std::cout << "Bounding box " << object.BoundingBox.ToString();
@@ -37,11 +41,11 @@ void AnalyzeImage()
             }
         }
 
-        const Nullable<ContentTags>& tags = result->GetCustomTags();
+        const auto tags = result->GetCustomTags();
         if (tags.HasValue())
         {
             std::cout << " Custom tags:" << std::endl;
-            for (const ContentTag& tag : tags.Value())
+            for (const auto tag : tags.Value())
             {
                 std::cout << "   \"" << tag.Name << "\"";
                 std::cout << ", Confidence " << tag.Confidence << std::endl;
@@ -50,13 +54,33 @@ void AnalyzeImage()
     }
     else if (result->GetReason() == ImageAnalysisResultReason::Error)
     {
-        std::shared_ptr<ImageAnalysisErrorDetails> errorDetails = ImageAnalysisErrorDetails::FromResult(result);
+        auto errorDetails = ImageAnalysisErrorDetails::FromResult(result);
         std::cout << " Analysis failed." << std::endl;
         std::cout << "   Error reason = " << (int)errorDetails->GetReason() << std::endl;
         std::cout << "   Error code = " << errorDetails->GetErrorCode() << std::endl;
         std::cout << "   Error message = " << errorDetails->GetMessage() << std::endl;
-        std::cout << " Did you set the computer vision endpoint and key?" << std::endl;
     }
+}
+
+std::string GetEnvironmentVariable(const std::string name)
+{
+#if defined(_MSC_VER)
+    size_t size = 0;
+    char buffer[1024];
+    getenv_s(&size, nullptr, 0, name.c_str());
+    if (size > 0 && size < sizeof(buffer))
+    {
+        getenv_s(&size, buffer, size, name.c_str());
+        return std::string{ buffer };
+    }
+#else
+    const char* value = getenv(name.c_str());
+    if (value != nullptr)
+    {
+        return std::string{ value };
+    }
+#endif
+    return std::string{ "" };
 }
 
 int main()

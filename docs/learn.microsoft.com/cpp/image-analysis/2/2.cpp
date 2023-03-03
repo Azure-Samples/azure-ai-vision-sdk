@@ -10,15 +10,17 @@ using namespace Azure::AI::Vision::Input;
 using namespace Azure::AI::Vision::Service;
 
 std::string PolygonToString(std::vector<int32_t> boundingPolygon);
+std::string GetEnvironmentVariable(const std::string name);
 
 void AnalyzeImage()
 {
-    std::shared_ptr<VisionServiceOptions> serviceOptions = VisionServiceOptions::FromEndpoint("PASTE_YOUR_COMPUTER_VISION_ENDPOINT_HERE", "PASTE_YOUR_COMPUTER_VISION_SUBSCRIPTION_KEY_HERE");
+    auto serviceOptions = VisionServiceOptions::FromEndpoint(
+        GetEnvironmentVariable("VISION_ENDPOINT"),
+        GetEnvironmentVariable("VISION_KEY"));
 
-    //std::shared_ptr<VisionSource> imageSource = VisionSource::FromUrl("https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg");
-    std::shared_ptr<VisionSource> imageSource = VisionSource::FromUrl("https://csspeechstorage.blob.core.windows.net/drop/TestData/images/ocr-sample.jpg");
+    auto imageSource = VisionSource::FromUrl("https://csspeechstorage.blob.core.windows.net/drop/TestData/images/ocr-sample.jpg");
 
-    std::shared_ptr<ImageAnalysisOptions> analysisOptions = ImageAnalysisOptions::Create();
+    auto analysisOptions = ImageAnalysisOptions::Create();
 
     analysisOptions->SetFeatures(
         {
@@ -30,9 +32,9 @@ void AnalyzeImage()
 
     analysisOptions->SetGenderNeutralCaption(true);
 
-    std::shared_ptr<ImageAnalyzer> analyzer = ImageAnalyzer::Create(serviceOptions, imageSource, analysisOptions);
+    auto analyzer = ImageAnalyzer::Create(serviceOptions, imageSource, analysisOptions);
 
-    std::shared_ptr<ImageAnalysisResult> result = analyzer->Analyze();
+    auto result = analyzer->Analyze();
 
     if (result->GetReason() == ImageAnalysisResultReason::Analyzed)
     {
@@ -40,23 +42,23 @@ void AnalyzeImage()
         std::cout << " Image width = " << result->GetImageWidth().Value() << std::endl;
         std::cout << " Model version = " << result->GetModelVersion().Value() << std::endl;
 
-        const Nullable<ContentCaption>& caption = result->GetCaption();
+        const auto caption = result->GetCaption();
         if (caption.HasValue())
         {
             std::cout << " Caption:" << std::endl;
             std::cout << "   \"" << caption.Value().Content << "\", Confidence " << caption.Value().Confidence << std::endl;
         }
 
-        const Nullable<DetectedText>& detectedText = result->GetText();
+        const auto detectedText = result->GetText();
         if (detectedText.HasValue())
         {
             std::cout << " Text:\n";
-            for (const DetectedTextLine& line : detectedText.Value().Lines)
+            for (const auto line : detectedText.Value().Lines)
             {
                 std::cout << "   Line: \"" << line.Content << "\"";
                 std::cout << ", Bounding polygon " << PolygonToString(line.BoundingPolygon) << std::endl;
 
-                for (const DetectedTextWord& word : line.Words)
+                for (const auto word : line.Words)
                 {
                     std::cout << "     Word: \"" << word.Content << "\"";
                     std::cout << ", Bounding polygon " << PolygonToString(word.BoundingPolygon);
@@ -65,7 +67,7 @@ void AnalyzeImage()
             }
         }
 
-        std::shared_ptr<ImageAnalysisResultDetails> resultDetails = ImageAnalysisResultDetails::FromResult(result);
+        auto resultDetails = ImageAnalysisResultDetails::FromResult(result);
         std::cout << " Result details:\n";;
         std::cout << "   Image ID = " << resultDetails->GetImageId() << std::endl;
         std::cout << "   Result ID = " << resultDetails->GetResultId() << std::endl;
@@ -74,7 +76,7 @@ void AnalyzeImage()
     }
     else if (result->GetReason() == ImageAnalysisResultReason::Error)
     {
-        std::shared_ptr<ImageAnalysisErrorDetails> errorDetails = ImageAnalysisErrorDetails::FromResult(result);
+        auto errorDetails = ImageAnalysisErrorDetails::FromResult(result);
         std::cout << " Analysis failed." << std::endl;
         std::cout << "   Error reason = " << (int)errorDetails->GetReason() << std::endl;
         std::cout << "   Error code = " << errorDetails->GetErrorCode() << std::endl;
@@ -95,6 +97,26 @@ std::string PolygonToString(std::vector<int32_t> boundingPolygon)
     return out;
 }
 
+std::string GetEnvironmentVariable(const std::string name)
+{
+#if defined(_MSC_VER)
+    size_t size = 0;
+    char buffer[1024];
+    getenv_s(&size, nullptr, 0, name.c_str());
+    if (size > 0 && size < sizeof(buffer))
+    {
+        getenv_s(&size, buffer, size, name.c_str());
+        return std::string{ buffer };
+    }
+#else
+    const char* value = getenv(name.c_str());
+    if (value != nullptr)
+    {
+        return std::string{ value };
+    }
+#endif
+    return std::string{ "" };
+}
 
 int main()
 {

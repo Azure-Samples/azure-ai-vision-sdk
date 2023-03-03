@@ -75,7 +75,7 @@ You will see the following output:
      https://<your-computer-vision-resource-name>.cognitiveservices.azure.com
 
  As an alternative to specifying the above command line arguments, you can specify
- these environment variables: COMPUTER_VISION_KEY and/or COMPUTER_VISION_ENDPOINT.
+ these environment variables: VISION_KEY and/or VISION_ENDPOINT.
 
  To get this usage help, run:
 
@@ -97,15 +97,15 @@ You will see the following output:
 
     * On Windows:
     ```
-    set COMPUTER_VISION_KEY=<your-key>
-    set COMPUTER_VISION_ENDPOINT=<your-endpoint>
+    set VISION_KEY=<your-key>
+    set VISION_ENDPOINT=<your-endpoint>
     python main.py
     ```
 
     * On Linux:
     ```
-    export COMPUTER_VISION_KEY=<your-key>
-    export COMPUTER_VISION_ENDPOINT=<your-endpoint>
+    export VISION_KEY=<your-key>
+    export VISION_ENDPOINT=<your-endpoint>
     python main.py
     ```
 
