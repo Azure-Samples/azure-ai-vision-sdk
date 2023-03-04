@@ -17,7 +17,8 @@ void AnalyzeImage()
         GetEnvironmentVariable("VISION_ENDPOINT"),
         GetEnvironmentVariable("VISION_KEY"));
 
-    auto imageSource = VisionSource::FromUrl("https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg");
+    auto imageSource = VisionSource::FromUrl(
+        "https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png");
 
     auto analysisOptions = ImageAnalysisOptions::Create();
 

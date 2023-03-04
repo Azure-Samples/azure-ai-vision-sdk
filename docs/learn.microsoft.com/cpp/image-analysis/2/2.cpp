@@ -18,7 +18,8 @@ void AnalyzeImage()
         GetEnvironmentVariable("VISION_ENDPOINT"),
         GetEnvironmentVariable("VISION_KEY"));
 
-    auto imageSource = VisionSource::FromUrl("https://csspeechstorage.blob.core.windows.net/drop/TestData/images/ocr-sample.jpg");
+    auto imageSource = VisionSource::FromUrl(
+        "https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png");
 
     auto analysisOptions = ImageAnalysisOptions::Create();
 
@@ -38,10 +39,6 @@ void AnalyzeImage()
 
     if (result->GetReason() == ImageAnalysisResultReason::Analyzed)
     {
-        std::cout << " Image height = " << result->GetImageHeight().Value() << std::endl;
-        std::cout << " Image width = " << result->GetImageWidth().Value() << std::endl;
-        std::cout << " Model version = " << result->GetModelVersion().Value() << std::endl;
-
         const auto caption = result->GetCaption();
         if (caption.HasValue())
         {
@@ -66,13 +63,6 @@ void AnalyzeImage()
                 }
             }
         }
-
-        auto resultDetails = ImageAnalysisResultDetails::FromResult(result);
-        std::cout << " Result details:\n";;
-        std::cout << "   Image ID = " << resultDetails->GetImageId() << std::endl;
-        std::cout << "   Result ID = " << resultDetails->GetResultId() << std::endl;
-        std::cout << "   Connection URL = " << resultDetails->GetConnectionUrl() << std::endl;
-        std::cout << "   JSON result = " << resultDetails->GetJsonResult() << std::endl;
     }
     else if (result->GetReason() == ImageAnalysisResultReason::Error)
     {
