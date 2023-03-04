@@ -27,18 +27,18 @@ def get_all_results():
 
     # Specify the image file on disk to analyze. sample1.jpg is a good example to show most features,
     # except Text (OCR). Use sample2.jpg for OCR.
-    vision_source = visionsdk.VisionSource(filename='sample1.jpg')
+    vision_source = visionsdk.VisionSource(filename="sample1.jpg")
 
     # Or, instead of the above, specify a publicly accessible image URL to analyze. For example:
-    # image_url = 'https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg'
+    # image_url = "https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg"
     # vision_source = visionsdk.VisionSource(url=image_url)
 
     # Set the language and one or more visual features as analysis options
     analysis_options = visionsdk.ImageAnalysisOptions()
 
     # Mandatory. You must set one or more features to analyze. Here we use the full set of features.
-    # Note that 'CAPTION' is only supported in Azure GPU regions (East US, France Central, Korea Central,
-    # North Europe, Southeast Asia, West Europe, West US). Remove 'CAPTION' from the list below if your
+    # Note that "CAPTION" is only supported in Azure GPU regions (East US, France Central, Korea Central,
+    # North Europe, Southeast Asia, West Europe, West US). Remove "CAPTION" from the list below if your
     # Computer Vision key is not from one of those regions.
     analysis_options.features = (
         visionsdk.ImageAnalysisFeature.CROP_SUGGESTIONS |
@@ -57,10 +57,10 @@ def get_all_results():
 
     # Optional. Default is "en" for English. See https://aka.ms/cv-languages for a list of supported
     # language codes and which visual features are supported for each language.
-    analysis_options.language = 'en'
+    analysis_options.language = "en"
 
     # Optional. Default is "latest".
-    analysis_options.model_version = 'latest'
+    analysis_options.model_version = "latest"
 
     # Optional, and only relevant when you select ImageAnalysisFeature.CAPTION.
     # Set this to "true" to get a gender neutral caption (the default is "false").
@@ -71,7 +71,7 @@ def get_all_results():
 
     # Do image analysis for the specified visual features
     print()
-    print(' Please wait for image analysis results...')
+    print(" Please wait for image analysis results...")
     print()
 
     # This call creates the network connection and blocks until Image Analysis results
@@ -82,51 +82,51 @@ def get_all_results():
     # Checks result.
     if result.reason == visionsdk.ImageAnalysisResultReason.ANALYZED:
 
-        print(' Image height: {}'.format(result.image_height))
-        print(' Image width: {}'.format(result.image_width))
-        print(' Model version: {}'.format(result.model_version))
+        print(" Image height: {}".format(result.image_height))
+        print(" Image width: {}".format(result.image_width))
+        print(" Model version: {}".format(result.model_version))
 
         if result.caption is not None:
-            print(' Caption:')
-            print('   \'{}\', Confidence {:.4f}'.format(result.caption.content, result.caption.confidence))
+            print(" Caption:")
+            print("   '{}', Confidence {:.4f}".format(result.caption.content, result.caption.confidence))
 
         if result.objects is not None:
-            print(' Objects:')
+            print(" Objects:")
             for object in result.objects:
-                print('   \'{}\', {} Confidence: {:.4f}'.format(object.name, object.bounding_box, object.confidence))
+                print("   '{}', {} Confidence: {:.4f}".format(object.name, object.bounding_box, object.confidence))
 
         if result.tags is not None:
-            print(' Tags:')
+            print(" Tags:")
             for tag in result.tags:
-                print('   \'{}\', Confidence {:.4f}'.format(tag.name, tag.confidence))
+                print("   '{}', Confidence {:.4f}".format(tag.name, tag.confidence))
 
         if result.people is not None:
-            print(' People:')
+            print(" People:")
             for person in result.people:
-                print('   {}, Confidence {:.4f}'.format(person.bounding_box, person.confidence))
+                print("   {}, Confidence {:.4f}".format(person.bounding_box, person.confidence))
 
         if result.crop_suggestions is not None:
-            print(' Crop Suggestions:')
+            print(" Crop Suggestions:")
             for crop_suggestion in result.crop_suggestions:
-                print('   Aspect ratio {}: Crop suggestion {}'
+                print("   Aspect ratio {}: Crop suggestion {}"
                       .format(crop_suggestion.aspect_ratio, crop_suggestion.bounding_box))
 
         if result.text is not None:
-            print(' Text:')
+            print(" Text:")
             for line in result.text.lines:
-                points_string = '{' + ', '.join([str(int(point)) for point in line.bounding_polygon]) + '}'
-                print('   Line: \'{}\', Bounding polygon {}'.format(line.content, points_string))
+                points_string = "{" + ", ".join([str(int(point)) for point in line.bounding_polygon]) + "}"
+                print("   Line: '{}', Bounding polygon {}".format(line.content, points_string))
                 for word in line.words:
-                    points_string = '{' + ', '.join([str(int(point)) for point in word.bounding_polygon]) + '}'
-                    print('     Word: \'{}\', Bounding polygon {}, Confidence {:.4f}'
+                    points_string = "{" + ", ".join([str(int(point)) for point in word.bounding_polygon]) + "}"
+                    print("     Word: '{}', Bounding polygon {}, Confidence {:.4f}"
                           .format(word.content, points_string, word.confidence))
 
         result_details = visionsdk.ImageAnalysisResultDetails.from_result(result)
-        print(' Result details:')
-        print('   Image ID: {}'.format(result_details.image_id))
-        print('   Result ID: {}'.format(result_details.result_id))
-        print('   Connection URL: {}'.format(result_details.connection_url))
-        print('   JSON result: {}'.format(result_details.json_result))
+        print(" Result details:")
+        print("   Image ID: {}".format(result_details.image_id))
+        print("   Result ID: {}".format(result_details.result_id))
+        print("   Connection URL: {}".format(result_details.connection_url))
+        print("   JSON result: {}".format(result_details.json_result))
 
     elif result.reason == visionsdk.ImageAnalysisResultReason.ERROR:
 
@@ -146,7 +146,7 @@ def get_results_using_analyzed_event():
 
     service_options = visionsdk.VisionServiceOptions(secrets.endpoint, secrets.key)
 
-    image_url = 'https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg'
+    image_url = "https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg"
     vision_source = visionsdk.VisionSource(url=image_url)
 
     analysis_options = visionsdk.ImageAnalysisOptions()
@@ -161,9 +161,9 @@ def get_results_using_analyzed_event():
         if args.result.reason == visionsdk.ImageAnalysisResultReason.ANALYZED:
 
             if args.result.tags is not None:
-                print(' Tags:')
+                print(" Tags:")
                 for tag in args.result.tags:
-                    print('   \'{}\', Confidence {:.4f}'.format(tag.name, tag.confidence))
+                    print("   '{}', Confidence {:.4f}".format(tag.name, tag.confidence))
 
         elif args.result.reason == visionsdk.ImageAnalysisResultReason.ERROR:
             error_details = visionsdk.ImageAnalysisErrorDetails.from_result(args.result)
@@ -179,7 +179,7 @@ def get_results_using_analyzed_event():
     image_analyzer.analyzed.connect(analyzed_callback)
 
     print()
-    print(' Please wait for image analysis results...')
+    print(" Please wait for image analysis results...")
     print()
     image_analyzer.analyze()
 
@@ -195,12 +195,12 @@ def get_custom_model_results():
 
     service_options = visionsdk.VisionServiceOptions(secrets.endpoint, secrets.key)
 
-    vision_source = visionsdk.VisionSource(filename='sample1.jpg')
+    vision_source = visionsdk.VisionSource(filename="sample1.jpg")
 
     analysis_options = visionsdk.ImageAnalysisOptions()
 
     # Set your custom model name here
-    analysis_options.model_name = 'MyCustomModelName'
+    analysis_options.model_name = "MyCustomModelName"
 
     image_analyzer = visionsdk.ImageAnalyzer(service_options, vision_source, analysis_options)
 
@@ -209,14 +209,14 @@ def get_custom_model_results():
     if result.reason == visionsdk.ImageAnalysisResultReason.ANALYZED:
 
         if result.custom_objects is not None:
-            print(' Custom Objects:')
+            print(" Custom Objects:")
             for object in result.custom_objects:
-                print('   \'{}\', {} Confidence: {:.4f}'.format(object.name, object.bounding_box, object.confidence))
+                print("   '{}', {} Confidence: {:.4f}".format(object.name, object.bounding_box, object.confidence))
 
         if result.custom_tags is not None:
-            print(' Custom Tags:')
+            print(" Custom Tags:")
             for tag in result.custom_tags:
-                print('   \'{}\', Confidence {:.4f}'.format(tag.name, tag.confidence))
+                print("   '{}', Confidence {:.4f}".format(tag.name, tag.confidence))
 
     elif result.reason == visionsdk.ImageAnalysisResultReason.ERROR:
 
