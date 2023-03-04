@@ -16,7 +16,8 @@ class Program
             Environment.GetEnvironmentVariable("VISION_ENDPOINT"),
             Environment.GetEnvironmentVariable("VISION_KEY"));
 
-        var imageSource = VisionSource.FromUrl(new Uri("https://csspeechstorage.blob.core.windows.net/drop/TestData/images/ocr-sample.jpg"));
+        var imageSource = VisionSource.FromUrl(
+            new Uri("https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png"));
 
         var analysisOptions = new ImageAnalysisOptions()
         {
@@ -33,10 +34,6 @@ class Program
 
         if (result.Reason == ImageAnalysisResultReason.Analyzed)
         {
-            Console.WriteLine($" Image height = {result.ImageHeight}");
-            Console.WriteLine($" Image width = {result.ImageWidth}");
-            Console.WriteLine($" Model version = {result.ModelVersion}");
-
             if (result.Caption != null)
             {
                 Console.WriteLine(" Caption:");
@@ -58,13 +55,6 @@ class Program
                     }
                 }
             }
-
-            var resultDetails = ImageAnalysisResultDetails.FromResult(result);
-            Console.WriteLine($" Result details:");
-            Console.WriteLine($"   Image ID = {resultDetails.ImageId}");
-            Console.WriteLine($"   Result ID = {resultDetails.ResultId}");
-            Console.WriteLine($"   Connection URL = {resultDetails.ConnectionUrl}");
-            Console.WriteLine($"   JSON result = {resultDetails.JsonResult}");
         }
         else if (result.Reason == ImageAnalysisResultReason.Error)
         {

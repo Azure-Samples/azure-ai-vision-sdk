@@ -16,7 +16,8 @@ class Program
             Environment.GetEnvironmentVariable("VISION_ENDPOINT"),
             Environment.GetEnvironmentVariable("VISION_KEY"));
 
-        var imageSource = VisionSource.FromUrl(new Uri("https://csspeechstorage.blob.core.windows.net/drop/TestData/images/ocr-sample.jpg"));
+        var imageSource = VisionSource.FromUrl(
+            new Uri("https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png"));
 
         var analysisOptions = new ImageAnalysisOptions()
         {
