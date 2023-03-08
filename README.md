@@ -9,6 +9,7 @@ description: ""
 products:
 - azure
 - azure-cognitive-services
+- azure-computer-vision
 ---
 
 # Azure AI Vision SDK (Preview) Samples
