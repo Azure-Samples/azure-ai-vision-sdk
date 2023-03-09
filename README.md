@@ -1,13 +1,12 @@
 ---
 page_type: sample
 languages:
-- cpp
 - csharp
 - python
-name: "Microsoft Azure AI Vision SDK Samples"
-description: ""
+- cpp
+name: "Azure Image Analysis samples"
+description: "C++, C# and Python samples for Image Analysis using Azure AI Vision SDK (Preview)"
 products:
-- azure
 - azure-cognitive-services
 - azure-computer-vision
 ---
