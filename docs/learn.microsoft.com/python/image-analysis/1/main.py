@@ -1,7 +1,7 @@
 # Copyright (c) Microsoft. All rights reserved.
 # Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
 
-# <snippet-single>
+# <snippet_single>
 import os
 import azure.ai.vision as sdk
 
@@ -88,4 +88,4 @@ elif result.reason == sdk.ImageAnalysisResultReason.ERROR:
     print("   Error reason: {}".format(error_details.reason))
     print("   Error code: {}".format(error_details.error_code))
     print("   Error message: {}".format(error_details.message))
-# <snippet-single>
+# <snippet_single>

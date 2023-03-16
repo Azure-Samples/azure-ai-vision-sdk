@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
 //
-// <snippet-single>
+// <snippet_single>
 #include <vision_api_cxx_image_analyzer.h>
 
 using namespace Azure::AI::Vision::ImageAnalysis;
@@ -121,4 +121,4 @@ int main()
 
     return 0;
 }
-// </snippet-single>
+// </snippet_single>

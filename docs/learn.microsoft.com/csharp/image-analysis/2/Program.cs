@@ -3,7 +3,7 @@
 // Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
 //
 
-// <snippet-single>
+// <snippet_single>
 using Azure.AI.Vision.Core.Input;
 using Azure.AI.Vision.Core.Options;
 using Azure.AI.Vision.ImageAnalysis;
@@ -78,4 +78,4 @@ class Program
         }
     }
 }
-// </snippet-single>
+// </snippet_single>
