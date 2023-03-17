@@ -50,4 +50,4 @@ elif result.reason == sdk.ImageAnalysisResultReason.ERROR:
     print("   Error reason: {}".format(error_details.reason))
     print("   Error code: {}".format(error_details.error_code))
     print("   Error message: {}".format(error_details.message))
-# <snippet_single>
+# </snippet_single>
