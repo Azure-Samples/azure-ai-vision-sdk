@@ -120,7 +120,7 @@ namespace ImageAnalysisSamples
                 return false;
             }
 
-            if (!Regex.IsMatch(endpoint, @"^https://\S+\.cognitiveservices\.azure\.com$"))
+            if (!Regex.IsMatch(endpoint, @"^https://\S+\.cognitiveservices\.azure\.com/?$"))
             {
                 Console.WriteLine($" Error: Invalid value for computer vision endpoint: {endpoint}.");
                 Console.WriteLine(" It should be in the form: https://<your-computer-vision-resource-name>.cognitiveservices.azure.com");
