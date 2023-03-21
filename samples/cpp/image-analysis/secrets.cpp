@@ -97,7 +97,7 @@ bool Secrets::IsValidEndpoint(std::string endpoint)
         return false;
     }
 
-    std::regex validEndpointFormat(R"(^https://\S+\.cognitiveservices\.azure\.com$)");
+    std::regex validEndpointFormat(R"(^https://\S+\.cognitiveservices\.azure\.com/?$)");
     if (!std::regex_match(endpoint, validEndpointFormat))
     {
         std::cout << " Error: Invalid value for computer vision endpoint: " << endpoint << std::endl;

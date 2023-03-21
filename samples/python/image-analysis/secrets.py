@@ -8,6 +8,8 @@ They should be loaded at run-time from a secure location. In these samples we fi
 secrets from environment variables, and then again from command line arguments.
 """
 
+import re
+
 # These are the constant names of the environment variables you can set if you want to specify
 # secrets using environment variables instead of command-line arguments
 ENVIRONMENT_VARIABLE_KEY = "VISION_KEY"
@@ -124,11 +126,12 @@ def is_valid_endpoint():
         print()
         return False
 
-    if not endpoint.startswith("https://") or not endpoint.endswith(".cognitiveservices.azure.com"):
+    if re.search(r"^https://\S+\.cognitiveservices\.azure\.com/?$", endpoint):
+        return True
+    else:
         print(" Error: Invalid value for computer vision endpoint: {}".format(endpoint))
         print(" It should be in the form:")
         print(" https://<your-computer-vision-resource-name>.cognitiveservices.azure.com")
         print()
         return False
 
-    return True
