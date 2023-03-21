@@ -3,8 +3,8 @@
 """
 Azure AI Vision SDK -- Python Image Analysis Samples
 """
+import load_secrets
 import time
-import secrets
 
 try:
     import azure.ai.vision as visionsdk
@@ -23,7 +23,7 @@ def get_all_results():
     and prints the results to the console, including the detailed results.
     """
 
-    service_options = visionsdk.VisionServiceOptions(secrets.endpoint, secrets.key)
+    service_options = visionsdk.VisionServiceOptions(load_secrets.endpoint, load_secrets.key)
 
     # Specify the image file on disk to analyze. sample1.jpg is a good example to show most features,
     # except Text (OCR). Use sample2.jpg for OCR.
@@ -144,7 +144,7 @@ def get_results_using_analyzed_event():
     Analyzed event to get the analysis result for one visual feature.
     """
 
-    service_options = visionsdk.VisionServiceOptions(secrets.endpoint, secrets.key)
+    service_options = visionsdk.VisionServiceOptions(load_secrets.endpoint, load_secrets.key)
 
     image_url = "https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg"
     vision_source = visionsdk.VisionSource(url=image_url)
@@ -193,7 +193,7 @@ def get_custom_model_results():
     to get the detected objects and/or tags.
     """
 
-    service_options = visionsdk.VisionServiceOptions(secrets.endpoint, secrets.key)
+    service_options = visionsdk.VisionServiceOptions(load_secrets.endpoint, load_secrets.key)
 
     vision_source = visionsdk.VisionSource(filename="sample1.jpg")
 
