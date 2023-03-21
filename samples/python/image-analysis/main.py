@@ -6,10 +6,10 @@ Azure AI Vision SDK -- Python Image Analysis Samples
 Main entry point for the sample application.
 """
 
-import sys
+import load_secrets
 import platform
-import secrets
 import samples
+import sys
 
 
 def print_usage():
@@ -76,7 +76,7 @@ for arg in sys.argv:
         print_usage()
         sys.exit(0)
 
-if not secrets.load_succeeded(sys.argv):
+if not load_secrets.load_succeeded(sys.argv):
     print_usage()
     sys.exit(1)
 
