@@ -27,6 +27,7 @@ void AnalyzeImage()
         {
             ImageAnalysisFeature::CropSuggestions,
             ImageAnalysisFeature::Caption,
+            ImageAnalysisFeature::DenseCaptions,
             ImageAnalysisFeature::Objects,
             ImageAnalysisFeature::People,
             ImageAnalysisFeature::Text,
@@ -54,6 +55,18 @@ void AnalyzeImage()
         {
             std::cout << " Caption:" << std::endl;
             std::cout << "   \"" << caption.Value().Content << "\", Confidence " << caption.Value().Confidence << std::endl;
+        }
+
+        const auto denseCaptions = result->GetDenseCaptions();
+        if (denseCaptions.HasValue())
+        {
+            std::cout << " Dense Captions:" << std::endl;
+            for (const auto caption : denseCaptions.Value())
+            {
+                std::cout << "   \"" << caption.Content << "\", ";
+                std::cout << "Bounding box " << caption.BoundingBox.ToString();
+                std::cout << ", Confidence " << caption.Confidence << std::endl;
+            }
         }
 
         const auto objects = result->GetObjects();

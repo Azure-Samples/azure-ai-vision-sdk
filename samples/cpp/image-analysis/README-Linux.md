@@ -192,7 +192,7 @@ An error message will be displayed if the sample fails to run. Here are some com
   * The image file cannot be found. Make sure you copy the image file to the folder where the executable is located, and re-run.
 
 * `InvalidRequest: The feature 'Caption' is not supported in this region`
-  * Your endpoint is from an Azure region that does not support the `Caption` feature. You can either change the endpoint to a supported region, or remove the `Caption` feature from the list of features to analyze.
+  * Your endpoint is from an Azure region that does not support the `Caption` and `DenseCaptions` features. You can either change the endpoint to a supported region, or remove the `Caption` and `DenseCaptions` features from the list of features to analyze.
 
 ## Cleanup
 

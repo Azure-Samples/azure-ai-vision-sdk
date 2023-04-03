@@ -5,9 +5,8 @@
 import os
 import azure.ai.vision as sdk
 
-service_options = sdk.VisionServiceOptions(
-     os.environ["VISION_ENDPOINT"],
-     os.environ["VISION_KEY"])
+service_options = sdk.VisionServiceOptions(os.environ["VISION_ENDPOINT"],
+                                           os.environ["VISION_KEY"])
 
 vision_source = sdk.VisionSource(
     url="https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png")
@@ -41,7 +40,7 @@ if result.reason == sdk.ImageAnalysisResultReason.ANALYZED:
             for word in line.words:
                 points_string = "{" + ", ".join([str(int(point)) for point in word.bounding_polygon]) + "}"
                 print("     Word: '{}', Bounding polygon {}, Confidence {:.4f}"
-                        .format(word.content, points_string, word.confidence))
+                      .format(word.content, points_string, word.confidence))
 
 elif result.reason == sdk.ImageAnalysisResultReason.ERROR:
 
