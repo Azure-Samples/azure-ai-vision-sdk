@@ -1,4 +1,4 @@
-﻿//
+//
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
 //
@@ -14,7 +14,7 @@ class Program
     {
         var serviceOptions = new VisionServiceOptions(
             Environment.GetEnvironmentVariable("VISION_ENDPOINT"),
-            Environment.GetEnvironmentVariable("VISION_KEY"));
+            new AzureKeyCredential(Environment.GetEnvironmentVariable("VISION_KEY")));
 
         var imageSource = VisionSource.FromUrl(
             new Uri("https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png"));

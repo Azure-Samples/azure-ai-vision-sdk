@@ -5,9 +5,8 @@
 import os
 import azure.ai.vision as sdk
 
-service_options = sdk.VisionServiceOptions(
-     os.environ["VISION_ENDPOINT"],
-     os.environ["VISION_KEY"])
+service_options = sdk.VisionServiceOptions(os.environ["VISION_ENDPOINT"],
+                                           os.environ["VISION_KEY"])
 
 vision_source = sdk.VisionSource(
     url="https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png")
@@ -39,4 +38,4 @@ elif result.reason == sdk.ImageAnalysisResultReason.ERROR:
     print("   Error reason: {}".format(error_details.reason))
     print("   Error code: {}".format(error_details.error_code))
     print("   Error message: {}".format(error_details.message))
-# <snippet_single>
+# </snippet_single>

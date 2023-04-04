@@ -4,6 +4,7 @@
 //
 // Azure AI Vision SDK -- C# Image Analysis Samples
 //
+using Azure;
 using Azure.AI.Vision.Core.Input;
 using Azure.AI.Vision.Core.Options;
 using Azure.AI.Vision.ImageAnalysis;
@@ -20,7 +21,7 @@ namespace ImageAnalysisSamples
         // including the detailed results.
         public static void GetAllResults(string endpoint, string key)
         {
-            var serviceOptions = new VisionServiceOptions(endpoint, key);
+            var serviceOptions = new VisionServiceOptions(endpoint, new AzureKeyCredential(key));
 
             // Specify the image file on disk to analyze. sample1.jpg is a good example to show most features,
             // except Text (OCR). Use sample2.jpg for OCR.
@@ -33,12 +34,13 @@ namespace ImageAnalysisSamples
             var analysisOptions = new ImageAnalysisOptions()
             {
                 // Mandatory. You must set one or more features to analyze. Here we use the full set of features.
-                // Note that 'Caption' is only supported in Azure GPU regions (East US, France Central, Korea Central,
-                // North Europe, Southeast Asia, West Europe, West US). Remove 'Caption' from the list below if your
+                // Note that 'Caption' and 'DenseCaptions' are only supported in Azure GPU regions (East US, France Central, Korea Central,
+                // North Europe, Southeast Asia, West Europe, West US). Remove 'Caption' and 'DenseCaptions' from the list below if your
                 // Computer Vision key is not from one of those regions.
                 Features =
                       ImageAnalysisFeature.CropSuggestions
                     | ImageAnalysisFeature.Caption
+                    | ImageAnalysisFeature.DenseCaptions
                     | ImageAnalysisFeature.Objects
                     | ImageAnalysisFeature.People
                     | ImageAnalysisFeature.Text
@@ -80,6 +82,15 @@ namespace ImageAnalysisSamples
                 {
                     Console.WriteLine(" Caption:");
                     Console.WriteLine($"   \"{result.Caption.Content}\", Confidence {result.Caption.Confidence:0.0000}");
+                }
+
+                if (result.DenseCaptions != null)
+                {
+                    Console.WriteLine(" Dense Captions:");
+                    foreach (var caption in result.DenseCaptions)
+                    {
+                        Console.WriteLine($"   \"{caption.Content}\", Bounding box {caption.BoundingBox}, Confidence {caption.Confidence:0.0000}");
+                    }
                 }
 
                 if (result.Objects != null)
@@ -157,7 +168,7 @@ namespace ImageAnalysisSamples
         // the analysis result for one visual feature (tags).
         public static async Task GetResultsUsingAnalyzedEvent(string endpoint, string key)
         {
-            var serviceOptions = new VisionServiceOptions(endpoint, key);
+            var serviceOptions = new VisionServiceOptions(endpoint, new AzureKeyCredential(key));
 
             using var imageSource = VisionSource.FromUrl(new Uri("https://docs.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg"));
 
@@ -202,7 +213,7 @@ namespace ImageAnalysisSamples
         // to get the detected objects and/or tags.
         public static void GetCustomModelResults(string endpoint, string key)
         {
-            var serviceOptions = new VisionServiceOptions(endpoint, key);
+            var serviceOptions = new VisionServiceOptions(endpoint, new AzureKeyCredential(key));
 
             using var imageSource = VisionSource.FromFile("sample1.jpg");
 

@@ -1,4 +1,4 @@
-﻿//
+//
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
 //
@@ -14,7 +14,7 @@ class Program
     {
         var serviceOptions = new VisionServiceOptions(
             Environment.GetEnvironmentVariable("VISION_ENDPOINT"),
-            Environment.GetEnvironmentVariable("VISION_KEY"));
+            new AzureKeyCredential(Environment.GetEnvironmentVariable("VISION_KEY")));
 
         var imageSource = VisionSource.FromUrl(
             new Uri("https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png"));
@@ -24,6 +24,7 @@ class Program
             Features =
                   ImageAnalysisFeature.CropSuggestions
                 | ImageAnalysisFeature.Caption
+                | ImageAnalysisFeature.DenseCaptions
                 | ImageAnalysisFeature.Objects
                 | ImageAnalysisFeature.People
                 | ImageAnalysisFeature.Text
@@ -50,6 +51,15 @@ class Program
             {
                 Console.WriteLine(" Caption:");
                 Console.WriteLine($"   \"{result.Caption.Content}\", Confidence {result.Caption.Confidence:0.0000}");
+            }
+
+            if (result.DenseCaptions != null)
+            {
+                Console.WriteLine(" Dense Captions:");
+                foreach (var caption in result.DenseCaptions)
+                {
+                    Console.WriteLine($"   \"{caption.Content}\", Bounding box {caption.BoundingBox}, Confidence {caption.Confidence:0.0000}");
+                }
             }
 
             if (result.Objects != null)

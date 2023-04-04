@@ -33,13 +33,14 @@ void ImageAnalysisSample_GetAllResults(std::string endpoint, std::string key)
     std::shared_ptr<ImageAnalysisOptions> analysisOptions = ImageAnalysisOptions::Create();
 
     // Mandatory. You must set one or more features to analyze. Here we use the full set of features.
-    // Note that 'Caption' is only supported in Azure GPU regions (East US, France Central, Korea Central,
-    // North Europe, Southeast Asia, West Europe, West US). Remove 'Caption' from the list below if your
+    // Note that 'Caption' and 'DenseCaptions' are only supported in Azure GPU regions (East US, France Central, Korea Central,
+    // North Europe, Southeast Asia, West Europe, West US). Remove 'Caption' and 'DenseCaptions' from the list below if your
     // Computer Vision key is not from one of those regions.
     analysisOptions->SetFeatures(
     {
         ImageAnalysisFeature::CropSuggestions,
         ImageAnalysisFeature::Caption,
+        ImageAnalysisFeature::DenseCaptions,
         ImageAnalysisFeature::Objects,
         ImageAnalysisFeature::People,
         ImageAnalysisFeature::Text,
@@ -82,6 +83,18 @@ void ImageAnalysisSample_GetAllResults(std::string endpoint, std::string key)
         {
             std::cout << " Caption:" << std::endl;
             std::cout << "   \"" << caption.Value().Content << "\", Confidence " << caption.Value().Confidence << std::endl;
+        }
+
+        const Nullable<DenseCaptions>& denseCaptions = result->GetDenseCaptions();
+        if (denseCaptions.HasValue())
+        {
+            std::cout << " Dense Captions:" << std::endl;
+            for (const ContentCaption& caption : denseCaptions.Value())
+            {
+                std::cout << "   \"" << caption.Content << "\", ";
+                std::cout << "Bounding box " << caption.BoundingBox.ToString();
+                std::cout << ", Confidence " << caption.Confidence << std::endl;
+            }
         }
 
         const Nullable<DetectedObjects>& objects = result->GetObjects();

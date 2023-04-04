@@ -17,9 +17,8 @@ This repository hosts sample code and setup documents for the Microsoft Azure AI
 
 ## News
 
-* Vision SDK 0.9.0-beta.1 was released on March 2023, targeting Image Analysis applications on Windows and Linux platforms.
-
-<!-- [See release notes](https://github.com/Azure-Samples/azure-ai-vision-sdk/releases/tag/0.8.0-alpha.0.33370873) -->
+* **Vision SDK 0.10.0-beta.1** released April 2023. Image Analysis APIs were updated to support Dense Captions.
+* **Vision SDK 0.9.0-beta.1** first released on March 2023, targeting Image Analysis applications on Windows and Linux platforms.
 
 ## Features
 
@@ -55,7 +54,8 @@ Alternatively, you can contact Microsoft's Vision SDK development team directly 
 
 See Microsoft documentation for an overview of [Image Analysis](https://learn.microsoft.com/azure/cognitive-services/computer-vision/overview-image-analysis). The Vision SDK Image Analysis APIs (preview) uses [Image Analysis REST API v4.0 (preview)](docs/image-analysis/Image-Analysis-2023-02-01-preview-API-doc.md). The Image Analysis APIs supports the extraction of one or more of the following features using a single REST call:
 
-* **Caption** - Generates a human-readable phrase that describes the image content. For example, for the above image, "A woman wearing a mask sitting at a table with a laptop".
+* **Caption** - Generates a human-readable phrase that describes the whole image content. For example, for the above image, "A woman wearing a mask sitting at a table with a laptop".
+* **Dense Captions** - Generates a human-readable phrase that describes the whole image content, and up to 9 additional descriptions that describe sub-regions of the image.
 * **Tags** - Returns content tags for recognizable objects, living beings, scenery, and actions that appear in the image.
 * **Objects** - Detects various objects within an image, including their approximate location. See example in the above image: person, two chairs, laptop, dining table.
 * **People** - Detects people in the image, including their approximate location.

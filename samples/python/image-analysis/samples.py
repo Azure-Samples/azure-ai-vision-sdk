@@ -37,12 +37,13 @@ def get_all_results():
     analysis_options = visionsdk.ImageAnalysisOptions()
 
     # Mandatory. You must set one or more features to analyze. Here we use the full set of features.
-    # Note that "CAPTION" is only supported in Azure GPU regions (East US, France Central, Korea Central,
-    # North Europe, Southeast Asia, West Europe, West US). Remove "CAPTION" from the list below if your
-    # Computer Vision key is not from one of those regions.
+    # Note that "CAPTION" and "DENSE_CAPTIONS" are only supported in Azure GPU regions (East US, France Central,
+    # Korea Central, North Europe, Southeast Asia, West Europe, West US). Remove "CAPTION" and "DENSE_CAPTIONS"
+    # from the list below if your Computer Vision key is not from one of those regions.
     analysis_options.features = (
         visionsdk.ImageAnalysisFeature.CROP_SUGGESTIONS |
         visionsdk.ImageAnalysisFeature.CAPTION |
+        visionsdk.ImageAnalysisFeature.DENSE_CAPTIONS |
         visionsdk.ImageAnalysisFeature.OBJECTS |
         visionsdk.ImageAnalysisFeature.PEOPLE |
         visionsdk.ImageAnalysisFeature.TEXT |
@@ -90,10 +91,15 @@ def get_all_results():
             print(" Caption:")
             print("   '{}', Confidence {:.4f}".format(result.caption.content, result.caption.confidence))
 
+        if result.dense_captions is not None:
+            print(" Dense Captions:")
+            for caption in result.dense_captions:
+                print("   '{}', {}, Confidence: {:.4f}".format(caption.content, caption.bounding_box, caption.confidence))
+
         if result.objects is not None:
             print(" Objects:")
             for object in result.objects:
-                print("   '{}', {} Confidence: {:.4f}".format(object.name, object.bounding_box, object.confidence))
+                print("   '{}', {}, Confidence: {:.4f}".format(object.name, object.bounding_box, object.confidence))
 
         if result.tags is not None:
             print(" Tags:")
