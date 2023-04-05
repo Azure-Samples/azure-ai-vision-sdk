@@ -4,6 +4,7 @@
 //
 
 // <snippet_single>
+using Azure;
 using Azure.AI.Vision.Core.Input;
 using Azure.AI.Vision.Core.Options;
 using Azure.AI.Vision.ImageAnalysis;
