@@ -65,7 +65,7 @@ The Image Analysis APIs supports the extraction of one or more of the following 
 * **Text** - Also known as **Read** or **OCR**. Performs Optical Character Recognition (OCR) and returns the text detected in the image, including the approximate location of every text line and word.
 * **Crop Suggestions** - Also known as **Smart Crop**. Recommendations for cropping operations that preserve content (e.g. for thumbnail generation).
 
-The Image Analysis APis also support background removal (segmentation). This feature can either output an image of the detected foreground object with a transparent background, or a gray-scale alpha matte image showing the opacity of the detected foreground object.
+The Image Analysis APis also support **background removal** (segmentation). This feature can either output an image of the detected foreground object with a transparent background, or a gray-scale alpha matte image showing the opacity of the detected foreground object.
 
 For all scenarios, you can either upload an image for analysis by providing the name of an image file on disk, or you can provide a publicly-accessible URL of the image.
 
