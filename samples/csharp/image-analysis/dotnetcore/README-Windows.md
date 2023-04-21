@@ -96,7 +96,7 @@ You will see the following output:
 
 * The compile:
     ```cmd
-    dotnet build image-analysis-samples.csproj
+    dotnet build
     ```
 
 * To run:
@@ -129,7 +129,7 @@ An error message will be displayed if the sample fails to run. Here are some com
 The output folder contains many DLL files needed to support different sets of Vision SDK APIs. For Image Analysis, only the following subset is needed when you distribute a run-time package of your application:
 
 ```
-Azure-AI-Vision-Core-CSharp.dll
+Azure.AI.Vision.Common.dll
 Azure-AI-Vision-ImageAnalyzer-CSharp.dll
 runtimes\win-x64\native\Azure-AI-Vision-Core.dll
 runtimes\win-x64\native\Azure-AI-Vision-Extension-Image.dll

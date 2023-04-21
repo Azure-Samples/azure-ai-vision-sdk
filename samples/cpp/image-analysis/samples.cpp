@@ -4,8 +4,7 @@
 //
 // Azure AI Vision SDK -- C++ Image Analysis Samples
 //
-#include <memory>
-#include <iostream>
+#include <fstream>
 #include <vision_api_cxx_image_analyzer.h>
 
 using namespace Azure::AI::Vision::Service;
@@ -17,7 +16,7 @@ std::string PolygonToString(std::vector<int32_t> boundingPolygon);
 
 // This sample does analysis on an image file using all visual features, and prints the results to the console,
 // including the detailed results.
-void ImageAnalysisSample_GetAllResults(std::string endpoint, std::string key)
+void ImageAnalysisSample_Analyze(std::string endpoint, std::string key)
 {
     std::shared_ptr<VisionServiceOptions> serviceOptions = VisionServiceOptions::FromEndpoint(endpoint, key);
 
@@ -65,7 +64,7 @@ void ImageAnalysisSample_GetAllResults(std::string endpoint, std::string key)
 
     std::shared_ptr<ImageAnalyzer> analyzer = ImageAnalyzer::Create(serviceOptions, imageSource, analysisOptions);
 
-    std::cout << " Please wait for image analysis results...\n\n";
+    std::cout << " Please wait for image analysis results..." << std::endl << std::endl;
 
     // This call creates the network connection and blocks until Image Analysis results
     // return (or an error occurred). Note that there is also an asynchronous (non-blocking)
@@ -180,7 +179,7 @@ void ImageAnalysisSample_GetAllResults(std::string endpoint, std::string key)
 
 // This sample does analysis on an image URL, showing how to use the Analyzed event to get
 // the analysis result for one visual feature (tags)
-void ImageAnalysisSample_GetResultsUsingAnalyzedEvent(std::string endpoint, std::string key)
+void ImageAnalysisSample_AnalyzeAsync(std::string endpoint, std::string key)
 {
     auto serviceOptions = VisionServiceOptions::FromEndpoint(endpoint, key);
 
@@ -224,7 +223,7 @@ void ImageAnalysisSample_GetResultsUsingAnalyzedEvent(std::string endpoint, std:
         eventRaised = true;
     });
 
-    std::cout << " Please wait for image analysis results...\n\n";
+    std::cout << " Please wait for image analysis results..." << std::endl << std::endl;
     analyzer->AnalyzeAsync().get();
 
     while(!eventRaised)
@@ -235,7 +234,7 @@ void ImageAnalysisSample_GetResultsUsingAnalyzedEvent(std::string endpoint, std:
 
 // This sample does analysis on an image file using a given custom-trained model, and shows how
 // to get the detected objects and/or tags
-void ImageAnalysisSample_GetCustomModelResults(std::string endpoint, std::string key)
+void ImageAnalysisSample_AnalyzeWithCustomModel(std::string endpoint, std::string key)
 {
     std::shared_ptr<VisionServiceOptions> serviceOptions = VisionServiceOptions::FromEndpoint(endpoint, key);
 
@@ -276,6 +275,64 @@ void ImageAnalysisSample_GetCustomModelResults(std::string endpoint, std::string
                 std::cout << ", Confidence " << tag.Confidence << std::endl;
             }
         }
+    }
+    else if (result->GetReason() == ImageAnalysisResultReason::Error)
+    {
+        std::shared_ptr<ImageAnalysisErrorDetails> errorDetails = ImageAnalysisErrorDetails::FromResult(result);
+        std::cout << " Analysis failed." << std::endl;
+        std::cout << "   Error reason = " << (int)errorDetails->GetReason() << std::endl;
+        std::cout << "   Error code = " << errorDetails->GetErrorCode() << std::endl;
+        std::cout << "   Error message = " << errorDetails->GetMessage() << std::endl;
+        std::cout << " Did you set the computer vision endpoint and key?" << std::endl;
+    }
+}
+
+// This sample does segmentation of an input image and writes the
+// resulting background-removed image or foreground matte image to disk
+void ImageAnalysisSample_Segment(std::string endpoint, std::string key)
+{
+    std::shared_ptr<VisionServiceOptions> serviceOptions = VisionServiceOptions::FromEndpoint(endpoint, key);
+
+    std::shared_ptr<VisionSource> imageSource = VisionSource::FromFile("sample1.jpg");
+
+    // Or, instead of the above, specify a publicly accessible image URL to analyze
+    // (e.g. https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg)
+    //std::shared_ptr<VisionSource> imageSource = VisionSource::FromUrl("YourImageURL");
+
+    std::shared_ptr<ImageAnalysisOptions> analysisOptions = ImageAnalysisOptions::Create();
+
+    // Set one of two segmentation options: 'ImageSegmentationMode::BackgroundRemoval' or
+    // 'ImageSegmentationMode::ForegroundMatting'
+    analysisOptions->SetSegmentationMode(ImageSegmentationMode::BackgroundRemoval);
+
+    std::shared_ptr<ImageAnalyzer> analyzer = ImageAnalyzer::Create(serviceOptions, imageSource, analysisOptions);
+
+    std::cout << " Please wait for image analysis results..." << std::endl << std::endl;
+
+    // This call creates the network connection and blocks until Image Analysis results
+    // return (or an error occurred). Note that there is also an asynchronous (non-blocking)
+    // version of this method: analyzer->AnalyzeAsync().
+    std::shared_ptr<ImageAnalysisResult> result = analyzer->Analyze();
+
+    if (result->GetReason() == ImageAnalysisResultReason::Analyzed)
+    {
+        SegmentationResult segmentationResult = result->GetSegmentationResult().Value();
+
+        // Get the resulting output image buffer (PNG format)
+        std::shared_ptr<uint8_t> imageBuffer = segmentationResult.GetImageBuffer();
+        uint32_t imageBufferSize = segmentationResult.GetImageBufferSize();
+        std::cout << " Segmentation result:" << std::endl;
+        std::cout << "   Output image buffer size (bytes) = " << imageBufferSize << std::endl;
+
+        // Get output image size
+        std::cout << "   Output image height = " << segmentationResult.GetImageHeight() << std::endl;
+        std::cout << "   Output image width = " << segmentationResult.GetImageWidth() << std::endl;
+
+        // Write the buffer to a file
+        std::string outputImageFile = "output.png";
+        std::ofstream file(outputImageFile, std::ios::binary);
+        file.write(reinterpret_cast<const char*>(imageBuffer.get()), imageBufferSize);
+        std::cout << "   File " << outputImageFile << " written to disk" << std::endl;
     }
     else if (result->GetReason() == ImageAnalysisResultReason::Error)
     {

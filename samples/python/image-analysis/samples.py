@@ -17,7 +17,7 @@ except ImportError:
     sys.exit(1)
 
 
-def get_all_results():
+def image_analysis_sample_analyze():
     """
     This sample does analysis on an image file using all visual features
     and prints the results to the console, including the detailed results.
@@ -144,7 +144,7 @@ def get_all_results():
         print(" Did you set the computer vision endpoint and key?")
 
 
-def get_results_using_analyzed_event():
+def image_analysis_sample_analyze_async():
     """
     This sample does analysis on an image URL, showing how to use the
     Analyzed event to get the analysis result for one visual feature.
@@ -193,7 +193,7 @@ def get_results_using_analyzed_event():
         time.sleep(.1)
 
 
-def get_custom_model_results():
+def image_analysis_sample_analyze_with_custom_model():
     """
     This sample does analysis on an image file using a given custom-trained model, and shows how
     to get the detected objects and/or tags.
@@ -223,6 +223,68 @@ def get_custom_model_results():
             print(" Custom Tags:")
             for tag in result.custom_tags:
                 print("   '{}', Confidence {:.4f}".format(tag.name, tag.confidence))
+
+    elif result.reason == visionsdk.ImageAnalysisResultReason.ERROR:
+
+        error_details = visionsdk.ImageAnalysisErrorDetails.from_result(result)
+        print(" Analysis failed.")
+        print("   Error reason: {}".format(error_details.reason))
+        print("   Error code: {}".format(error_details.error_code))
+        print("   Error message: {}".format(error_details.message))
+        print(" Did you set the computer vision endpoint and key?")
+
+
+def image_analysis_sample_segment():
+    """
+    This sample does segmentation of an input image and writes the
+    resulting background-removed image or foreground matte image to disk
+    """
+
+    service_options = visionsdk.VisionServiceOptions(load_secrets.endpoint, load_secrets.key)
+
+    # Specify the image file on disk to analyze. sample1.jpg is a good example to show most features,
+    # except Text (OCR). Use sample2.jpg for OCR.
+    vision_source = visionsdk.VisionSource(filename="sample1.jpg")
+
+    # Or, instead of the above, specify a publicly accessible image URL to analyze. For example:
+    # image_url = "https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg"
+    # vision_source = visionsdk.VisionSource(url=image_url)
+
+    analysis_options = visionsdk.ImageAnalysisOptions()
+
+    # Set one of two segmentation options: 'ImageSegmentationMode.BACKGROUND_REMOVAL' or
+    # 'ImageSegmentationMode.FOREGROUND_MATTING'
+    analysis_options.segmentation_mode = visionsdk.ImageSegmentationMode.BACKGROUND_REMOVAL
+
+    # Create the image analyzer object
+    image_analyzer = visionsdk.ImageAnalyzer(service_options, vision_source, analysis_options)
+
+    # Do image analysis for the specified visual features
+    print()
+    print(" Please wait for image analysis results...")
+    print()
+
+    # This call creates the network connection and blocks until image segmentation results
+    # return (or an error occurred). Note that there is also an asynchronous (non-blocking)
+    # version of this method: image_analyzer.analyze_async().
+    result = image_analyzer.analyze()
+
+    if result.reason == visionsdk.ImageAnalysisResultReason.ANALYZED:
+
+        # Get the resulting output image buffer (PNG format)
+        image_buffer = result.segmentation_result.image_buffer
+        print(" Segmentation result:")
+        print("   Output image buffer size (bytes) = {}".format(len(image_buffer)))
+
+        # Get output image size
+        print("   Output image height = {}".format(result.segmentation_result.image_height))
+        print("   Output image width = {}".format(result.segmentation_result.image_width))
+
+        # Write the buffer to a file
+        output_image_file = "output.png"
+        with open(output_image_file, 'wb') as binary_file:
+            binary_file.write(image_buffer)
+        print("   File {} written to disk".format(output_image_file));
 
     elif result.reason == visionsdk.ImageAnalysisResultReason.ERROR:
 

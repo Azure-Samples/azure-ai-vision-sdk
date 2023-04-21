@@ -37,7 +37,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 * Compile the sample by running:
   ```
-  dotnet build image-analysis-samples.csproj
+  dotnet build
   ```
 
 * When the build succeeds, you should see these resulting files:
@@ -114,7 +114,7 @@ An error message will be displayed if the sample fails to run. Here are some com
 The output folder contains many .so files needed to support different sets of Vision SDK APIs. For Image Analysis, only the following subset is needed when you distribute a run-time package of your application:
 
 ```
-Azure-AI-Vision-Core-CSharp.dll
+Azure.AI.Vision.Common.dll
 Azure-AI-Vision-ImageAnalyzer-CSharp.dll
 runtimes\linux-x64\native\Azure-AI-Vision-Core.so
 runtimes\linux-x64\native\Azure-AI-Vision-Extension-Image.so

@@ -39,9 +39,10 @@ def select():
     abort_key = "Ctrl-Z" if "Windows" == platform.system() else "Ctrl-D"
 
     sample_functions = [
-        samples.get_all_results,
-        samples.get_results_using_analyzed_event,
-        samples.get_custom_model_results
+        samples.image_analysis_sample_analyze,
+        samples.image_analysis_sample_analyze_async,
+        samples.image_analysis_sample_analyze_with_custom_model,
+        samples.image_analysis_sample_segment
     ]
 
     print(" Select sample or {} to abort:".format(abort_key))
