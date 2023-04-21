@@ -153,7 +153,7 @@ public class Samples
             Console.WriteLine($"   Connection URL = {resultDetails.ConnectionUrl}");
             Console.WriteLine($"   JSON result = {resultDetails.JsonResult}");
         }
-        else if (result.Reason == ImageAnalysisResultReason.Error)
+        else // result.Reason == ImageAnalysisResultReason.Error
         {
             var errorDetails = ImageAnalysisErrorDetails.FromResult(result);
             Console.WriteLine(" Analysis failed.");
@@ -188,7 +188,7 @@ public class Samples
                     Console.WriteLine($"   \"{tag.Name}\", Confidence {tag.Confidence:0.0000}");
                 }
             }
-            else if (e.Result.Reason == ImageAnalysisResultReason.Error)
+            else // e.Result.Reason == ImageAnalysisResultReason.Error
             {
                 Console.WriteLine(" Analysis failed.");
 
@@ -249,7 +249,7 @@ public class Samples
                 }
             }
         }
-        else if (result.Reason == ImageAnalysisResultReason.Error)
+        else // result.Reason == ImageAnalysisResultReason.Error
         {
             var errorDetails = ImageAnalysisErrorDetails.FromResult(result);
             Console.WriteLine(" Analysis failed.");
@@ -309,7 +309,7 @@ public class Samples
             }
             Console.WriteLine($"   File {outputImageFile} written to disk");
         }
-        else if (result.Reason == ImageAnalysisResultReason.Error)
+        else // result.Reason == ImageAnalysisResultReason.Error
         {
             var errorDetails = ImageAnalysisErrorDetails.FromResult(result);
             Console.WriteLine(" Analysis failed.");

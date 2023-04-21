@@ -1,7 +1,5 @@
-//
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
-//
 
 // <snippet_single>
 using Azure;
@@ -123,7 +121,7 @@ class Program
             Console.WriteLine($"   Connection URL = {resultDetails.ConnectionUrl}");
             Console.WriteLine($"   JSON result = {resultDetails.JsonResult}");
         }
-        else if (result.Reason == ImageAnalysisResultReason.Error)
+        else
         {
             var errorDetails = ImageAnalysisErrorDetails.FromResult(result);
             Console.WriteLine(" Analysis failed.");

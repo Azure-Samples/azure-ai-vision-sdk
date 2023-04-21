@@ -27,7 +27,7 @@ void PrintUsage()
     std::cout << "   <your-endpoint> - A computer vision endpoint you get from your Azure portal.\n";
     std::cout << "     It should have the form: https://<your-computer-vision-resource-name>.cognitiveservices.azure.com\n";
     std::cout << std::endl;
-    std::cout << " As an alternative to specifying the above command line arguments, you can specify\n";
+    std::cout << " As an alternative to specifying the above command line arguments, you can define\n";
     std::cout << " these environment variables: " << Secrets::EnvironmentVariableKey << " and " << Secrets::EnvironmentVariableEndpoint << "\n";
     std::cout << std::endl;
     std::cout << " To get this usage help, run:\n";

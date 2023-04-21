@@ -166,7 +166,7 @@ void ImageAnalysisSample_Analyze(std::string endpoint, std::string key)
         std::cout << "   Connection URL = " << resultDetails->GetConnectionUrl() << std::endl;
         std::cout << "   JSON result = " << resultDetails->GetJsonResult() << std::endl;
     }
-    else if (result->GetReason() == ImageAnalysisResultReason::Error)
+    else // result->GetReason() == ImageAnalysisResultReason::Error
     {
         std::shared_ptr<ImageAnalysisErrorDetails> errorDetails = ImageAnalysisErrorDetails::FromResult(result);
         std::cout << " Analysis failed." << std::endl;
@@ -210,7 +210,7 @@ void ImageAnalysisSample_AnalyzeAsync(std::string endpoint, std::string key)
                 }
             }
         }
-        else if (result->GetReason() == ImageAnalysisResultReason::Error)
+        else // result->GetReason() == ImageAnalysisResultReason::Error
         {
             auto errorDetails = ImageAnalysisErrorDetails::FromResult(result);
             std::cout << " Analysis failed." << std::endl;
@@ -276,7 +276,7 @@ void ImageAnalysisSample_AnalyzeWithCustomModel(std::string endpoint, std::strin
             }
         }
     }
-    else if (result->GetReason() == ImageAnalysisResultReason::Error)
+    else // result->GetReason() == ImageAnalysisResultReason::Error
     {
         std::shared_ptr<ImageAnalysisErrorDetails> errorDetails = ImageAnalysisErrorDetails::FromResult(result);
         std::cout << " Analysis failed." << std::endl;
@@ -334,7 +334,7 @@ void ImageAnalysisSample_Segment(std::string endpoint, std::string key)
         file.write(reinterpret_cast<const char*>(imageBuffer.get()), imageBufferSize);
         std::cout << "   File " << outputImageFile << " written to disk" << std::endl;
     }
-    else if (result->GetReason() == ImageAnalysisResultReason::Error)
+    else // result->GetReason() == ImageAnalysisResultReason::Error
     {
         std::shared_ptr<ImageAnalysisErrorDetails> errorDetails = ImageAnalysisErrorDetails::FromResult(result);
         std::cout << " Analysis failed." << std::endl;

@@ -1,7 +1,6 @@
-//
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
-//
+
 // <snippet_single>
 #include <vision_api_cxx_image_analyzer.h>
 
@@ -139,7 +138,7 @@ void AnalyzeImage()
         std::cout << "   Connection URL = " << resultDetails->GetConnectionUrl() << std::endl;
         std::cout << "   JSON result = " << resultDetails->GetJsonResult() << std::endl;
     }
-    else if (result->GetReason() == ImageAnalysisResultReason::Error)
+    else
     {
         auto errorDetails = ImageAnalysisErrorDetails::FromResult(result);
         std::cout << " Analysis failed." << std::endl;

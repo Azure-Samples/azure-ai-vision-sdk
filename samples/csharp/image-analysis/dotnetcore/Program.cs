@@ -22,7 +22,7 @@ class Program
         Console.WriteLine("   <your-endpoint> - A computer vision endpoint you get from your Azure portal.");
         Console.WriteLine("     It should have the form: https://<your-computer-vision-resource-name>.cognitiveservices.azure.com");
         Console.WriteLine("");
-        Console.WriteLine(" As an alternative to specifying the above command line arguments, you can specify");
+        Console.WriteLine(" As an alternative to specifying the above command line arguments, you can define");
         Console.WriteLine($" these environment variables: {Secrets.EnvironmentVariableKey} and/or {Secrets.EnvironmentVariableEndpoint}.");
         Console.WriteLine("");
         Console.WriteLine(" To get this usage help, run:");

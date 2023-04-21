@@ -25,7 +25,7 @@ def print_usage():
     print("     It should have the form:")
     print("     https://<your-computer-vision-resource-name>.cognitiveservices.azure.com")
     print()
-    print(" As an alternative to specifying the above command line arguments, you can specify")
+    print(" As an alternative to specifying the above command line arguments, you can define")
     print(" these environment variables: {} and/or {}.".format(load_secrets.ENVIRONMENT_VARIABLE_KEY,
                                                                load_secrets.ENVIRONMENT_VARIABLE_ENDPOINT))
     print()
