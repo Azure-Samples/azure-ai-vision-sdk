@@ -16,7 +16,7 @@ set(VISIONSDK_LIB_PATH /usr/lib/azure-ai-vision)
 set(VISIONSDK_INC_PATH /usr/include/azure-ai-vision)
 
 # Check that Vision SDK binaries are found
-find_library(AZURE_AI_VISION_CORE libAzure-AI-Vision-Core.so PATHS ${VISIONSDK_LIB_PATH} REQUIRED)
+find_library(AZURE_AI_VISION_CORE libAzure-AI-Vision-Native.so PATHS ${VISIONSDK_LIB_PATH} REQUIRED)
 find_library(AZURE_AI_VISION_EXTENSION_IMAGE libAzure-AI-Vision-Extension-Image.so PATHS ${VISIONSDK_LIB_PATH} REQUIRED)
 find_library(AZURE_AI_VISION_INPUT_FILE libAzure-AI-Vision-Input-File.so PATHS ${VISIONSDK_LIB_PATH} REQUIRED)
 find_library(VISION_CORE libVision_Core.so PATHS ${VISIONSDK_LIB_PATH} REQUIRED)

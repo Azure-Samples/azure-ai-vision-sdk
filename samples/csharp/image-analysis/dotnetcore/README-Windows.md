@@ -130,8 +130,8 @@ The output folder contains many DLL files needed to support different sets of Vi
 
 ```
 Azure.AI.Vision.Common.dll
-Azure-AI-Vision-ImageAnalyzer-CSharp.dll
-runtimes\win-x64\native\Azure-AI-Vision-Core.dll
+Azure.AI.Vision.ImageAnalysis.dll
+runtimes\win-x64\native\Azure-AI-Vision-Native.dll
 runtimes\win-x64\native\Azure-AI-Vision-Extension-Image.dll
 runtimes\win-x64\native\Azure-AI-Vision-Input-File.dll
 runtimes\win-x64\native\turbojpeg.dll

@@ -207,7 +207,7 @@ The Vision SDK Debian packages can be removed by running this single command:
 The folder `/usr/lib/azure-ai-vision` contains several shared object libraries (`.so` files), needed to support different sets of Vision SDK APIs. For Image Analysis, only the following subset is needed when you distribute a run-time package of your application:
 
 ```
-libAzure-AI-Vision-Core.so
+libAzure-AI-Vision-Native.so
 libAzure-AI-Vision-Input-File.so
 libAzure-AI-Vision-Extension-Image.so
 libVision_Core.so

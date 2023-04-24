@@ -109,7 +109,7 @@ An error message will be displayed if the sample fails to run. Here are some com
 The output folder contains many DLL files needed to support different sets of Vision SDK APIs. For Image Analysis, only the following subset is needed when you distribute a run-time package of your application:
 
 ```txt
-Azure-AI-Vision-Core.dll
+Azure-AI-Vision-Native.dll
 Azure-AI-Vision-Extension-Image.dll
 Azure-AI-Vision-Input-File.dll
 turbojpeg.dll

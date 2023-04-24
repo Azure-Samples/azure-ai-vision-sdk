@@ -115,8 +115,8 @@ The output folder contains many .so files needed to support different sets of Vi
 
 ```
 Azure.AI.Vision.Common.dll
-Azure-AI-Vision-ImageAnalyzer-CSharp.dll
-runtimes\linux-x64\native\Azure-AI-Vision-Core.so
+Azure.AI.Vision.ImageAnalysis.dll
+runtimes\linux-x64\native\Azure-AI-Vision-Native.so
 runtimes\linux-x64\native\Azure-AI-Vision-Extension-Image.so
 runtimes\linux-x64\native\Azure-AI-Vision-Input-File.so
 runtimes\linux-x64\native\Vision_Core.so
