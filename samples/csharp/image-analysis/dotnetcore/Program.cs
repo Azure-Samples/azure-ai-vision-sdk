@@ -50,9 +50,9 @@ class Program
             Console.WriteLine("");
             Console.WriteLine(" Please choose one of the following samples:");
             Console.WriteLine("");
-            Console.WriteLine(" 1. Analyze an image from file (all features)");
-            Console.WriteLine(" 2. Analyze an image URL using the Analyzed event");
-            Console.WriteLine(" 3. Analyze using a custom-trained model");
+            Console.WriteLine(" 1. Analyze image from file, all features, synchronous (blocking)");
+            Console.WriteLine(" 2. Analyze image from URL, asynchronous (non-blocking)");
+            Console.WriteLine(" 3. Analyze image using a custom-trained model");
             Console.WriteLine(" 4. Background removal");
             Console.WriteLine("");
             Console.Write(" Your choice 1-4 (or 0 to exit): ");

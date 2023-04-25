@@ -67,9 +67,9 @@ int main(int argc, char** argv)
         std::cout << std::endl;
         std::cout << " Please choose one of the following samples:\n";
         std::cout << std::endl;
-        std::cout << " 1. Analyze an image from file (all features)\n";
-        std::cout << " 2. Analyze an image URL using the Analyzed event\n";
-        std::cout << " 3. Analyze using a custom-trained model\n";
+        std::cout << " 1. Analyze image from file, all features, synchronous (blocking)\n";
+        std::cout << " 2. Analyze image from URL, asynchronous (non-blocking)\n";
+        std::cout << " 3. Analyze image using a custom-trained model\n";
         std::cout << " 4. Background removal\n";
         std::cout << std::endl;
         std::cout << " Enter your choice 1-4 (or 0 to exit) and press enter:\n";

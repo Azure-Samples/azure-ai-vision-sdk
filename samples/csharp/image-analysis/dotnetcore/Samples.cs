@@ -17,7 +17,8 @@ using System.Threading.Tasks;
 
 public class Samples
 {
-    // This sample does analysis on an image file using all visual features, and prints the results to the console,
+    // This sample does analysis on an image file using all visual features
+    // and a synchronous (blocking) call. It prints the results to the console,
     // including the detailed results.
     public static void ImageAnalysisSample_Analyze(string endpoint, string key)
     {
@@ -164,8 +165,8 @@ public class Samples
         }
     }
 
-    // This sample does analysis on an image URL, showing how to use the Analyzed event to get
-    // the analysis result for one visual feature (tags).
+    // This sample does analysis on an image URL, using an asynchronous (non-blocking)
+    // call to analyze one visual feature (Tags).
     public static async Task ImageAnalysisSample_AnalyzeAsync(string endpoint, string key)
     {
         var serviceOptions = new VisionServiceOptions(endpoint, new AzureKeyCredential(key));
@@ -261,7 +262,7 @@ public class Samples
     }
 
     // This sample does segmentation of an input image and writes the
-    // resulting background-removed image or foreground matte image to disk
+    // resulting background-removed image or foreground matte image to disk.
     public static void ImageAnalysisSample_Segment(string endpoint, string key)
     {
         var serviceOptions = new VisionServiceOptions(endpoint, new AzureKeyCredential(key));

@@ -16,11 +16,14 @@ except ImportError:
     import sys
     sys.exit(1)
 
-
+"""
+This sample does analysis on an image file using all visual features
+and a synchronous (blocking) call. It prints the results to the console,
+including the detailed results.
+"""
 def image_analysis_sample_analyze():
     """
-    This sample does analysis on an image file using all visual features
-    and prints the results to the console, including the detailed results.
+    Analyze image from file, all features, synchronous (blocking)
     """
 
     service_options = visionsdk.VisionServiceOptions(load_secrets.endpoint, load_secrets.key)
@@ -144,10 +147,13 @@ def image_analysis_sample_analyze():
         print(" Did you set the computer vision endpoint and key?")
 
 
+"""
+This sample does analysis on an image URL, using an asynchronous (non-blocking)
+call to analyze one visual feature (Tags).
+"""
 def image_analysis_sample_analyze_async():
     """
-    This sample does analysis on an image URL, showing how to use the
-    Analyzed event to get the analysis result for one visual feature.
+    Analyze image from URL, asynchronous (non-blocking)
     """
 
     service_options = visionsdk.VisionServiceOptions(load_secrets.endpoint, load_secrets.key)
@@ -193,10 +199,13 @@ def image_analysis_sample_analyze_async():
         time.sleep(.1)
 
 
+"""
+This sample does analysis on an image file using a given custom-trained model,
+and shows how to get the detected objects and/or tags.
+"""
 def image_analysis_sample_analyze_with_custom_model():
     """
-    This sample does analysis on an image file using a given custom-trained model, and shows how
-    to get the detected objects and/or tags.
+    Analyze image using a custom-trained model
     """
 
     service_options = visionsdk.VisionServiceOptions(load_secrets.endpoint, load_secrets.key)
@@ -234,10 +243,13 @@ def image_analysis_sample_analyze_with_custom_model():
         print(" Did you set the computer vision endpoint and key?")
 
 
+"""
+This sample does segmentation of an input image and writes the
+resulting background-removed image or foreground matte image to disk.
+"""
 def image_analysis_sample_segment():
     """
-    This sample does segmentation of an input image and writes the
-    resulting background-removed image or foreground matte image to disk
+    Background removal
     """
 
     service_options = visionsdk.VisionServiceOptions(load_secrets.endpoint, load_secrets.key)

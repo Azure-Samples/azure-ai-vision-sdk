@@ -14,7 +14,8 @@ using namespace Azure::AI::Vision::ImageAnalysis;
 // Forward declaration of helper functions
 std::string PolygonToString(std::vector<int32_t> boundingPolygon);
 
-// This sample does analysis on an image file using all visual features, and prints the results to the console,
+// This sample does analysis on an image file using all visual features
+// and a synchronous (blocking) call. It prints the results to the console,
 // including the detailed results.
 void ImageAnalysisSample_Analyze(std::string endpoint, std::string key)
 {
@@ -177,8 +178,8 @@ void ImageAnalysisSample_Analyze(std::string endpoint, std::string key)
     }
 }
 
-// This sample does analysis on an image URL, showing how to use the Analyzed event to get
-// the analysis result for one visual feature (tags)
+// This sample does analysis on an image URL, using an asynchronous (non-blocking)
+// call to analyze one visual feature (Tags)
 void ImageAnalysisSample_AnalyzeAsync(std::string endpoint, std::string key)
 {
     auto serviceOptions = VisionServiceOptions::FromEndpoint(endpoint, key);
@@ -288,7 +289,7 @@ void ImageAnalysisSample_AnalyzeWithCustomModel(std::string endpoint, std::strin
 }
 
 // This sample does segmentation of an input image and writes the
-// resulting background-removed image or foreground matte image to disk
+// resulting background-removed image or foreground matte image to disk.
 void ImageAnalysisSample_Segment(std::string endpoint, std::string key)
 {
     std::shared_ptr<VisionServiceOptions> serviceOptions = VisionServiceOptions::FromEndpoint(endpoint, key);
