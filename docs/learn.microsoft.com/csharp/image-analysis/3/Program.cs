@@ -18,11 +18,14 @@ class Program
         using var imageSource = VisionSource.FromUrl(
             new Uri("https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png"));
 
+        // <model_name>
         var analysisOptions = new ImageAnalysisOptions()
         {
             ModelName = "MyCustomModelName"
         };
+        // </model_name>
 
+        // <analyze>
         using var analyzer = new ImageAnalyzer(serviceOptions, imageSource, analysisOptions);
 
         var result = analyzer.Analyze();
@@ -55,6 +58,7 @@ class Program
             Console.WriteLine($"   Error code : {errorDetails.ErrorCode}");
             Console.WriteLine($"   Error message: {errorDetails.Message}");
         }
+        // </analyze>
     }
 
     static void Main()

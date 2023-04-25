@@ -45,7 +45,7 @@ if result.reason == sdk.ImageAnalysisResultReason.ANALYZED:
                 print("     Word: '{}', Bounding polygon {}, Confidence {:.4f}"
                       .format(word.content, points_string, word.confidence))
 
-elif result.reason == sdk.ImageAnalysisResultReason.ERROR:
+else:
 
     error_details = sdk.ImageAnalysisErrorDetails.from_result(result)
     print(" Analysis failed.")

@@ -13,13 +13,18 @@ std::string GetEnvironmentVariable(const std::string name);
 
 void AnalyzeImage()
 {
+    // <vision_service_options>
     auto serviceOptions = VisionServiceOptions::FromEndpoint(
          GetEnvironmentVariable("VISION_ENDPOINT"),
          GetEnvironmentVariable("VISION_KEY"));
+    // </vision_service_options>
 
+    // <vision_source>
     auto imageSource = VisionSource::FromUrl(
         "https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png");
+    // </vision_source>
 
+    // <visual_features>
     auto analysisOptions = ImageAnalysisOptions::Create();
 
     analysisOptions->SetFeatures(
@@ -32,13 +37,21 @@ void AnalyzeImage()
             ImageAnalysisFeature::Text,
             ImageAnalysisFeature::Tags
         });
+    // </visual_features>
 
+    // <cropping_aspect_rations>
     analysisOptions->SetCroppingAspectRatios({ 0.9, 1.33 });
+    // </cropping_aspect_rations>
 
+    // <language>
     analysisOptions->SetLanguage("en");
+    // </language>
 
+    // <gender_neutral_caption>
     analysisOptions->SetGenderNeutralCaption(true);
+    // </gender_neutral_caption>
 
+    // <analyze>
     auto analyzer = ImageAnalyzer::Create(serviceOptions, imageSource, analysisOptions);
 
     auto result = analyzer->Analyze();
@@ -146,8 +159,10 @@ void AnalyzeImage()
         std::cout << "   Error code = " << errorDetails->GetErrorCode() << std::endl;
         std::cout << "   Error message = " << errorDetails->GetMessage() << std::endl;
     }
+    // </analyze>
 }
 
+// <polygon-to-string>
 std::string PolygonToString(std::vector<int32_t> boundingPolygon)
 {
     std::string out = "{";
@@ -160,6 +175,7 @@ std::string PolygonToString(std::vector<int32_t> boundingPolygon)
     out += "}";
     return out;
 }
+// </polygon-to-string>
 
 std::string GetEnvironmentVariable(const std::string name)
 {
