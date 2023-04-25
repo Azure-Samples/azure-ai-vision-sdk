@@ -64,10 +64,10 @@ Installing the Vision SDK package will require your device to support the APT/De
     ```
 
 1. Notice that the above package _azure-ai-vision-dev-image-analysis_ depends on additional Vision SDK packages, which will be installed automatically. Run `apt list azure-ai-vision*` to see the list of installed Vision SDK packages:
-   * _azure-ai-vision-dev-core_
+   * _azure-ai-vision-dev-common_
    * _azure-ai-vision-dev-image-analysis_
-   * _azure-ai-vision-runtime-core_
-   * _azure-ai-vision-runtime-core-media_
+   * _azure-ai-vision-runtime-common_
+   * _azure-ai-vision-runtime-common-media_
    * _azure-ai-vision-runtime-image-analysis_
 
 ### Other Linux platforms
@@ -75,16 +75,16 @@ Installing the Vision SDK package will require your device to support the APT/De
 1. **By installing the Azure AI Vision SDK package you acknowledge the [Azure AI Vision SDK license agreement](https://aka.ms/azai/vision/license)**.
 
 1. Directly download the following 5 packages to your device:
-    1. [azure-ai-vision-dev-core-0.9.0~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-dev-core/azure-ai-vision-dev-core-0.9.0~beta.1-Linux.deb)
+    1. [azure-ai-vision-dev-common-0.9.0~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-dev-common/azure-ai-vision-dev-common-0.9.0~beta.1-Linux.deb)
     1. [azure-ai-vision-dev-image-analysis-0.9.0~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-dev-image-analysis/azure-ai-vision-dev-image-analysis-0.9.0~beta.1-Linux.deb)
-    1. [azure-ai-vision-runtime-core-0.9.0~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-runtime-core/azure-ai-vision-runtime-core-0.9.0~beta.1-Linux.deb)
-    1. [azure-ai-vision-runtime-core-media-0.9.0~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-runtime-core-media/azure-ai-vision-runtime-core-media-0.9.0~beta.1-Linux.deb)
+    1. [azure-ai-vision-runtime-common-0.9.0~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-runtime-common/azure-ai-vision-runtime-common-0.9.0~beta.1-Linux.deb)
+    1. [azure-ai-vision-runtime-common-media-0.9.0~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-runtime-common-media/azure-ai-vision-runtime-common-media-0.9.0~beta.1-Linux.deb)
     1. [azure-ai-vision-runtime-image-analysis-0.9.0~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-runtime-image-analysis/azure-ai-vision-runtime-image-analysis-0.9.0~beta.1-Linux.deb)
 
 1. Install the 5 packages:
     ```sh
     sudo apt update
-    sudo apt install ./azure-ai-vision-dev-core-0.9.0~beta.1-Linux.deb ./azure-ai-vision-dev-image-analysis-0.9.0~beta.1-Linux.deb ./azure-ai-vision-runtime-core-0.9.0~beta.1-Linux.deb ./azure-ai-vision-runtime-core-media-0.9.0~beta.1-Linux.deb ./azure-ai-vision-runtime-image-analysis-0.9.0~beta.1-Linux.deb
+    sudo apt install ./azure-ai-vision-dev-common-0.9.0~beta.1-Linux.deb ./azure-ai-vision-dev-image-analysis-0.9.0~beta.1-Linux.deb ./azure-ai-vision-runtime-common-0.9.0~beta.1-Linux.deb ./azure-ai-vision-runtime-common-media-0.9.0~beta.1-Linux.deb ./azure-ai-vision-runtime-image-analysis-0.9.0~beta.1-Linux.deb
     ```
 
 ### Verify installation
@@ -214,9 +214,9 @@ libVision_Core.so
 libVision_Media.so
 ```
 
-If you would like to install Vision SDK packages to support run-time distribution of your application, you only need to install the following _azure-ai-vision-runtime_ packages. Note however that they will contain more libraries than mentioned about, since the core packages are used by other Vision SDK APIs.
-   * _azure-ai-vision-runtime-core_
-   * _azure-ai-vision-runtime-core-media_
+If you would like to install Vision SDK packages to support run-time distribution of your application, you only need to install the following _azure-ai-vision-runtime_ packages. Note however that they will contain more libraries than mentioned about, since the common packages are used by other Vision SDK APIs.
+   * _azure-ai-vision-runtime-common_
+   * _azure-ai-vision-runtime-common-media_
    * _azure-ai-vision-runtime-image-analysis_
 
 ## References
