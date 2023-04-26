@@ -28,9 +28,8 @@ def image_analysis_sample_analyze():
 
     service_options = visionsdk.VisionServiceOptions(load_secrets.endpoint, load_secrets.key)
 
-    # Specify the image file on disk to analyze. sample1.jpg is a good example to show most features,
-    # except Text (OCR). Use sample2.jpg for OCR.
-    vision_source = visionsdk.VisionSource(filename="sample1.jpg")
+    # Specify the image file on disk to analyze. sample1jpg is a good example to show most features
+    vision_source = visionsdk.VisionSource(filename="sample.jpg")
 
     # Or, instead of the above, specify a publicly accessible image URL to analyze. For example:
     # image_url = "https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg"
@@ -137,7 +136,7 @@ def image_analysis_sample_analyze():
         print("   Connection URL: {}".format(result_details.connection_url))
         print("   JSON result: {}".format(result_details.json_result))
 
-    elif result.reason == visionsdk.ImageAnalysisResultReason.ERROR:
+    else:
 
         error_details = visionsdk.ImageAnalysisErrorDetails.from_result(result)
         print(" Analysis failed.")
@@ -177,7 +176,7 @@ def image_analysis_sample_analyze_async():
                 for tag in args.result.tags:
                     print("   '{}', Confidence {:.4f}".format(tag.name, tag.confidence))
 
-        elif args.result.reason == visionsdk.ImageAnalysisResultReason.ERROR:
+        else:
             error_details = visionsdk.ImageAnalysisErrorDetails.from_result(args.result)
             print(" Analysis failed.")
             print("   Error reason: {}".format(error_details.reason))
@@ -210,7 +209,7 @@ def image_analysis_sample_analyze_with_custom_model():
 
     service_options = visionsdk.VisionServiceOptions(load_secrets.endpoint, load_secrets.key)
 
-    vision_source = visionsdk.VisionSource(filename="sample1.jpg")
+    vision_source = visionsdk.VisionSource(filename="sample.jpg")
 
     analysis_options = visionsdk.ImageAnalysisOptions()
 
@@ -233,7 +232,7 @@ def image_analysis_sample_analyze_with_custom_model():
             for tag in result.custom_tags:
                 print("   '{}', Confidence {:.4f}".format(tag.name, tag.confidence))
 
-    elif result.reason == visionsdk.ImageAnalysisResultReason.ERROR:
+    else:
 
         error_details = visionsdk.ImageAnalysisErrorDetails.from_result(result)
         print(" Analysis failed.")
@@ -254,9 +253,9 @@ def image_analysis_sample_segment():
 
     service_options = visionsdk.VisionServiceOptions(load_secrets.endpoint, load_secrets.key)
 
-    # Specify the image file on disk to analyze. sample1.jpg is a good example to show most features,
+    # Specify the image file on disk to analyze. sample.jpg is a good example to show most features,
     # except Text (OCR). Use sample2.jpg for OCR.
-    vision_source = visionsdk.VisionSource(filename="sample1.jpg")
+    vision_source = visionsdk.VisionSource(filename="sample.jpg")
 
     # Or, instead of the above, specify a publicly accessible image URL to analyze. For example:
     # image_url = "https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg"
@@ -298,7 +297,7 @@ def image_analysis_sample_segment():
             binary_file.write(image_buffer)
         print("   File {} written to disk".format(output_image_file));
 
-    elif result.reason == visionsdk.ImageAnalysisResultReason.ERROR:
+    else:
 
         error_details = visionsdk.ImageAnalysisErrorDetails.from_result(result)
         print(" Analysis failed.")

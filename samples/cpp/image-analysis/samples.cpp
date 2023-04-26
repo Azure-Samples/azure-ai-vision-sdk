@@ -21,9 +21,8 @@ void ImageAnalysisSample_Analyze(std::string endpoint, std::string key)
 {
     std::shared_ptr<VisionServiceOptions> serviceOptions = VisionServiceOptions::FromEndpoint(endpoint, key);
 
-    // Specify the image file on disk to analyze. sample1.jpg is a good example to show most features,
-    // except Text (OCR). Use sample2.jpg for OCR.
-    std::shared_ptr<VisionSource> imageSource = VisionSource::FromFile("sample1.jpg");
+    // Specify the image file on disk to analyze. sample.jpg is a good example to show most features
+    std::shared_ptr<VisionSource> imageSource = VisionSource::FromFile("sample.jpg");
 
     // Or, instead of the above, specify a publicly accessible image URL to analyze
     // (e.g. https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg)
@@ -239,7 +238,7 @@ void ImageAnalysisSample_AnalyzeWithCustomModel(std::string endpoint, std::strin
 {
     std::shared_ptr<VisionServiceOptions> serviceOptions = VisionServiceOptions::FromEndpoint(endpoint, key);
 
-    std::shared_ptr<VisionSource> imageSource = VisionSource::FromFile("sample1.jpg");
+    std::shared_ptr<VisionSource> imageSource = VisionSource::FromFile("sample.jpg");
 
     std::shared_ptr<ImageAnalysisOptions> analysisOptions = ImageAnalysisOptions::Create();
 
@@ -294,7 +293,7 @@ void ImageAnalysisSample_Segment(std::string endpoint, std::string key)
 {
     std::shared_ptr<VisionServiceOptions> serviceOptions = VisionServiceOptions::FromEndpoint(endpoint, key);
 
-    std::shared_ptr<VisionSource> imageSource = VisionSource::FromFile("sample1.jpg");
+    std::shared_ptr<VisionSource> imageSource = VisionSource::FromFile("sample.jpg");
 
     // Or, instead of the above, specify a publicly accessible image URL to analyze
     // (e.g. https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg)

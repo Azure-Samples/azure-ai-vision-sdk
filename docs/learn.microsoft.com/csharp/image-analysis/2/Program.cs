@@ -4,7 +4,6 @@
 // This code is integrated into this public document:
 // https://learn.microsoft.com/azure/cognitive-services/computer-vision/quickstarts-sdk/image-analysis-client-library-40?tabs=visual-studio%2Cwindows&pivots=programming-language-csharp#analyze-image
 
-
 // <snippet_single>
 using Azure;
 using Azure.AI.Vision.Common.Input;

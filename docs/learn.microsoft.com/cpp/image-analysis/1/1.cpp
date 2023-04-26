@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
+//
+// This code is integrated into this public document:
+// https://learn.microsoft.com/azure/cognitive-services/computer-vision/how-to/call-analyze-image-40?tabs=cpp
 
 // <snippet_single>
 #include <vision_api_cxx_image_analyzer.h>
@@ -177,6 +180,7 @@ std::string PolygonToString(std::vector<int32_t> boundingPolygon)
 }
 // </polygon-to-string>
 
+// <get-env-var>
 std::string GetEnvironmentVariable(const std::string name)
 {
 #if defined(_MSC_VER)
@@ -197,6 +201,7 @@ std::string GetEnvironmentVariable(const std::string name)
 #endif
     return std::string{""};
 }
+// </get-env-var>
 
 int main()
 {

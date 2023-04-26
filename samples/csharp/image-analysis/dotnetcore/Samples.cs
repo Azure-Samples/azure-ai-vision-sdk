@@ -24,9 +24,8 @@ public class Samples
     {
         var serviceOptions = new VisionServiceOptions(endpoint, new AzureKeyCredential(key));
 
-        // Specify the image file on disk to analyze. sample1.jpg is a good example to show most features,
-        // except Text (OCR). Use sample2.jpg for OCR.
-        using var imageSource = VisionSource.FromFile("sample1.jpg");
+        // Specify the image file on disk to analyze. sample.jpg is a good example to show most features
+        using var imageSource = VisionSource.FromFile("sample.jpg");
 
         // Or, instead of the above, specify a publicly accessible image URL to analyze
         // (e.g. https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg)
@@ -216,7 +215,7 @@ public class Samples
     {
         var serviceOptions = new VisionServiceOptions(endpoint, new AzureKeyCredential(key));
 
-        using var imageSource = VisionSource.FromFile("sample1.jpg");
+        using var imageSource = VisionSource.FromFile("sample.jpg");
 
         var analysisOptions = new ImageAnalysisOptions()
         {
@@ -267,7 +266,7 @@ public class Samples
     {
         var serviceOptions = new VisionServiceOptions(endpoint, new AzureKeyCredential(key));
 
-        using var imageSource = VisionSource.FromFile("sample1.jpg");
+        using var imageSource = VisionSource.FromFile("sample.jpg");
 
         // Or, instead of the above, specify a publicly accessible image URL to analyze
         // (e.g. https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg)
