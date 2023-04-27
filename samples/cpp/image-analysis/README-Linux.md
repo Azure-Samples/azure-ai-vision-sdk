@@ -119,7 +119,7 @@ You should see package documents in the /usr/share/doc/azure-ai-vision-* folders
 * A Makefile is provided for direct compilation using the `make` command. Alternatively, a `CMakeLists.txt` is also provided if you prefer to compile the sample using the `cmake` command:
 
   * To compile using make, run `make -f ../makefile`
-  * To compile using CMake, run `cmake ..`, then run `make`
+  * To compile using CMake, run `cmake ..` then run `make`
 
 You should see the resulting executable `image-analysis-samples.exe` in the current folder.
 
@@ -158,9 +158,9 @@ You will see the following output:
 
 * Open a terminal windows where the executable `image-analysis-samples.exe` is located.
 
-* Copy the image files `sample*.jpg` to the current folder, such that it resides in the same folder as the executable `image-analysis-samples.exe`:
+* Copy the image file `sample.jpg` to the current folder, such that it resides in the same folder as the executable `image-analysis-samples.exe`:
     ```
-    cp ../../sample*.jpg .
+    cp ../../sample.jpg .
     ```
     
 * Run the sample in one of two ways:
@@ -219,7 +219,8 @@ If you would like to install Vision SDK packages to support run-time distributio
    * _azure-ai-vision-runtime-common-media_
    * _azure-ai-vision-runtime-image-analysis_
 
-## References
+## Additional resources
 
-* Quickstart article on the SDK documentation site (TBD)
-* Vision SDK API reference for C++ (TBD)
+* [Quickstart article on learn.microsoft](https://learn.microsoft.com/azure/cognitive-services/computer-vision/quickstarts-sdk/image-analysis-client-library-40?tabs=visual-studio%2Clinux&pivots=programming-language-cpp)
+* [How-to guide on learn.microsoft](https://learn.microsoft.com/azure/cognitive-services/computer-vision/how-to/call-analyze-image-40?tabs=cpp)
+* [Vision SDK API reference for C++](https://learn.microsoft.com/cpp/cognitive-services/vision/)

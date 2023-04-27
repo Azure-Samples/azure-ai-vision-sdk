@@ -6,6 +6,9 @@
 # Output files generated when running Vision SDK samples
 output.png
 
+# Ignore build folder, for those who follow the README instructions for building C++ Image Analysis sample on Linux
+samples/cpp/image-analysis/linux/build/*
+
 # User-specific files
 *.rsuser
 *.suo

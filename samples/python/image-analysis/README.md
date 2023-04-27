@@ -138,7 +138,8 @@ The Vision SDK Python package can be removed by running (replace with your own p
 python -m pip uninstall azure_ai_vision
 ```
 
-## References
+## Additional resources
 
-* Quickstart article on the SDK documentation site (TBD)
-* Azure AI Vision SDK API reference for Python (TBD)
+* [Quickstart article on learn.microsoft](https://learn.microsoft.com/azure/cognitive-services/computer-vision/quickstarts-sdk/image-analysis-client-library-40?tabs=visual-studio%2Cwindows&pivots=programming-language-python)
+* [How-to guide on learn.microsoft](https://learn.microsoft.com/azure/cognitive-services/computer-vision/how-to/call-analyze-image-40?tabs=python)
+* [Vision SDK API reference for C#](https://learn.microsoft.com/python/api/azure-ai-vision)
