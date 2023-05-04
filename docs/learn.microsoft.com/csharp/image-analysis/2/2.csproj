@@ -8,8 +8,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;CS8604</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;CS8604</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Azure.AI.Vision.ImageAnalysis" Version="0.10.0-beta.1" />
+    <PackageReference Include="Azure.AI.Vision.ImageAnalysis" Version="0.11.1-beta.1" />
   </ItemGroup>
 
 </Project>

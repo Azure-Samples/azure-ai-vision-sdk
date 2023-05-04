@@ -71,7 +71,7 @@ You will see the following output:
 
 * Open a command prompt window in the output folder where the executable was created
 
-* Make sure that the image files `sample*.jpg` are in the folder (they should have been copied into this folder by Visual Studio when you compiled the sample)
+* Make sure that the image file `sample.jpg` is in the folder (it should have been copied into this folder by Visual Studio when you compiled the sample)
 
 * Run the sample in one of two ways:
   * By specifying the vision key & endpoint as run-time arguments:
@@ -96,16 +96,12 @@ You will see the following output:
 
 * The compile:
     ```cmd
-    dotnet build image-analysis-samples.csproj
+    dotnet build
     ```
 
 * To run:
     ```cmd
-    dotnet bin\Debug\netcoreapp3.1\image-analysis-samples.dll
-    ```
-  or:
-    ```cmd
-    bin\Debug\netcoreapp3.1\image-analysis-samples.exe
+    dotnet run
     ```
 
 ## Troubleshooting
@@ -129,9 +125,9 @@ An error message will be displayed if the sample fails to run. Here are some com
 The output folder contains many DLL files needed to support different sets of Vision SDK APIs. For Image Analysis, only the following subset is needed when you distribute a run-time package of your application:
 
 ```
-Azure-AI-Vision-Core-CSharp.dll
-Azure-AI-Vision-ImageAnalyzer-CSharp.dll
-runtimes\win-x64\native\Azure-AI-Vision-Core.dll
+Azure.AI.Vision.Common.dll
+Azure.AI.Vision.ImageAnalysis.dll
+runtimes\win-x64\native\Azure-AI-Vision-Native.dll
 runtimes\win-x64\native\Azure-AI-Vision-Extension-Image.dll
 runtimes\win-x64\native\Azure-AI-Vision-Input-File.dll
 runtimes\win-x64\native\turbojpeg.dll
@@ -139,7 +135,10 @@ runtimes\win-x64\native\Vision_Core.dll
 runtimes\win-x64\native\Vision_Media.dll
 ```
 
-## References
+## Additional resources
 
-* Quickstart article on the SDK documentation site (TBD)
-* Vision SDK API reference for C# (TBD)
+* [Quickstart article on learn.microsoft](https://learn.microsoft.com/azure/cognitive-services/computer-vision/quickstarts-sdk/image-analysis-client-library-40?tabs=visual-studio%2Cwindows&pivots=programming-language-csharp)
+* [How-to guide on learn.microsoft](https://learn.microsoft.com/azure/cognitive-services/computer-vision/how-to/call-analyze-image-40?tabs=csharp)
+* [Vision SDK API reference for C#](https://learn.microsoft.com/dotnet/api/azure.ai.vision.imageanalysis?view=azure-dotnet-preview)
+
+

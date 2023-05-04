@@ -10,12 +10,12 @@ VISIONSDK_LIB_PATH:=/usr/lib/azure-ai-vision
 VISIONSDK_INC_PATHS:=/usr/include/azure-ai-vision
 
 # Check that Vision SDK library path is configured correctly
-CHECK_FOR_VISION_SDK := $(shell test -f $(VISIONSDK_LIB_PATH)/libAzure-AI-Vision-Core.so && echo Success)
+CHECK_FOR_VISION_SDK := $(shell test -f $(VISIONSDK_LIB_PATH)/libAzure-AI-Vision-Native.so && echo Success)
 ifneq ("$(CHECK_FOR_VISION_SDK)","Success")
-  $(error Please set VISIONSDK_LIB_PATH to point to your extracted Vision SDK, $$VISIONSDK_LIB_PATH/libAzure-AI-Vision-Core.so should exist.)
+  $(error Please set VISIONSDK_LIB_PATH to point to your extracted Vision SDK, $$VISIONSDK_LIB_PATH/libAzure-AI-Vision-Native.so should exist.)
 endif
 
-LIBS:=-lAzure-AI-Vision-Extension-Image -lAzure-AI-Vision-Core -lAzure-AI-Vision-Input-File -lVision_Core -lVision_Media
+LIBS:=-lAzure-AI-Vision-Extension-Image -lAzure-AI-Vision-Native -lAzure-AI-Vision-Input-File -lVision_Core -lVision_Media
 
 RUNPATH="-Wl,-rpath=$(VISIONSDK_LIB_PATH)"
 

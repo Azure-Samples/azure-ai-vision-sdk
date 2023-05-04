@@ -4,7 +4,6 @@
 //
 // Azure AI Vision SDK -- C++ Image Analysis Samples
 //
-#include "stdafx.h"
 
 class Secrets
 {

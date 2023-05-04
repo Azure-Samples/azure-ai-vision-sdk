@@ -1,12 +1,13 @@
-//
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
 //
+// This code is integrated into this public document:
+// https://learn.microsoft.com/azure/cognitive-services/computer-vision/quickstarts-sdk/image-analysis-client-library-40?tabs=visual-studio%2Cwindows&pivots=programming-language-csharp#analyze-image
 
 // <snippet_single>
 using Azure;
-using Azure.AI.Vision.Core.Input;
-using Azure.AI.Vision.Core.Options;
+using Azure.AI.Vision.Common.Input;
+using Azure.AI.Vision.Common.Options;
 using Azure.AI.Vision.ImageAnalysis;
 
 class Program
@@ -17,7 +18,7 @@ class Program
             Environment.GetEnvironmentVariable("VISION_ENDPOINT"),
             new AzureKeyCredential(Environment.GetEnvironmentVariable("VISION_KEY")));
 
-        var imageSource = VisionSource.FromUrl(
+        using var imageSource = VisionSource.FromUrl(
             new Uri("https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png"));
 
         var analysisOptions = new ImageAnalysisOptions()
@@ -57,7 +58,7 @@ class Program
                 }
             }
         }
-        else if (result.Reason == ImageAnalysisResultReason.Error)
+        else
         {
             var errorDetails = ImageAnalysisErrorDetails.FromResult(result);
             Console.WriteLine(" Analysis failed.");

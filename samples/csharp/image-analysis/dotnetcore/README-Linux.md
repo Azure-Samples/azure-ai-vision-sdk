@@ -37,7 +37,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 * Compile the sample by running:
   ```
-  dotnet build image-analysis-samples.csproj
+  dotnet build
   ```
 
 * When the build succeeds, you should see these resulting files:
@@ -49,7 +49,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 To get usage help run with the `-h` or `--help` flag:
 ```
-dotnet bin/Debug/netcoreapp3.1/image-analysis-samples.dll -h
+dotnet run -- -h
 ```
 
 You will see the following output:
@@ -71,24 +71,24 @@ You will see the following output:
 
  To get this usage help, run:
 
-   dotnet image-analysis-samples.dll --help|-h
+   dotnet -- --help|-h
 ```
 
 ## Run the samples
 
-* Make sure the image files `sample*.jpg` are in the folder.
+* Make sure the image file `sample.jpg` is in the folder.
 
 * Run the sample in one of two ways:
   * By specifying the vision key & endpoint as run-time arguments:
   ```
-  dotnet bin/Debug/netcoreapp3.1/image-analysis-samples.dll -k <your-key> -e <your-endpoint>
+  dotnet run -k <your-key> -e <your-endpoint>
   ```
   * By first defining the appropriate environment variables, then running the executable without arguments:
   ```
   export VISION_KEY=<your-key>
   export VISION_ENDPOINT=<your-endpoint>
 
-  dotnet bin/Debug/netcoreapp3.1/image-analysis-samples.dll
+  dotnet run
   ```
 
 * You should see a menu of samples to run. Enter the number corresponding to the sample you want to run. If this is your first time, start with sample 1, as it does analysis of all the visual features. The sample will run and display the results in the console window. The menu will be displayed again, so you can run another sample. Select `0` to exit the program.
@@ -114,16 +114,18 @@ An error message will be displayed if the sample fails to run. Here are some com
 The output folder contains many .so files needed to support different sets of Vision SDK APIs. For Image Analysis, only the following subset is needed when you distribute a run-time package of your application:
 
 ```
-Azure-AI-Vision-Core-CSharp.dll
-Azure-AI-Vision-ImageAnalyzer-CSharp.dll
-runtimes\linux-x64\native\Azure-AI-Vision-Core.so
+Azure.AI.Vision.Common.dll
+Azure.AI.Vision.ImageAnalysis.dll
+runtimes\linux-x64\native\Azure-AI-Vision-Native.so
 runtimes\linux-x64\native\Azure-AI-Vision-Extension-Image.so
 runtimes\linux-x64\native\Azure-AI-Vision-Input-File.so
 runtimes\linux-x64\native\Vision_Core.so
 runtimes\linux-x64\native\Vision_Media.so
 ```
 
-## References
+## Additional resources
 
-* Quickstart article on the SDK documentation site (TBD)
-* Vision SDK API reference for C# (TBD)
+* [Quickstart article on learn.microsoft](https://learn.microsoft.com/azure/cognitive-services/computer-vision/quickstarts-sdk/image-analysis-client-library-40?tabs=cli%2Clinux&pivots=programming-language-csharp)
+* [How-to guide on learn.microsoft](https://learn.microsoft.com/azure/cognitive-services/computer-vision/how-to/call-analyze-image-40?tabs=csharp)
+* [Vision SDK API reference for C#](https://learn.microsoft.com/dotnet/api/azure.ai.vision.imageanalysis?view=azure-dotnet-preview)
+

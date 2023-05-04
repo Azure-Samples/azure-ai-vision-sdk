@@ -1,4 +1,3 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33414.496
@@ -8,6 +7,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2", "2\2.vcxproj", "{319FA605-ED4C-451B-A51F-3A460132F406}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3", "3\3.vcxproj", "{179F6970-C656-4EAD-80E9-A27E521E64F7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "segmentation", "segmentation\segmentation.vcxproj", "{8635527C-81E4-4304-9614-FA2A0F22FB72}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +42,14 @@ Global
 		{179F6970-C656-4EAD-80E9-A27E521E64F7}.Release|x64.Build.0 = Release|x64
 		{179F6970-C656-4EAD-80E9-A27E521E64F7}.Release|x86.ActiveCfg = Release|Win32
 		{179F6970-C656-4EAD-80E9-A27E521E64F7}.Release|x86.Build.0 = Release|Win32
+		{8635527C-81E4-4304-9614-FA2A0F22FB72}.Debug|x64.ActiveCfg = Debug|x64
+		{8635527C-81E4-4304-9614-FA2A0F22FB72}.Debug|x64.Build.0 = Debug|x64
+		{8635527C-81E4-4304-9614-FA2A0F22FB72}.Debug|x86.ActiveCfg = Debug|Win32
+		{8635527C-81E4-4304-9614-FA2A0F22FB72}.Debug|x86.Build.0 = Debug|Win32
+		{8635527C-81E4-4304-9614-FA2A0F22FB72}.Release|x64.ActiveCfg = Release|x64
+		{8635527C-81E4-4304-9614-FA2A0F22FB72}.Release|x64.Build.0 = Release|x64
+		{8635527C-81E4-4304-9614-FA2A0F22FB72}.Release|x86.ActiveCfg = Release|Win32
+		{8635527C-81E4-4304-9614-FA2A0F22FB72}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

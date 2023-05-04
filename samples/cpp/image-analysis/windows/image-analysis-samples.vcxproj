@@ -22,11 +22,9 @@
     <ClCompile Include="..\samples.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\secrets.cpp" />
-    <ClCompile Include="..\stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\secrets.h" />
-    <ClInclude Include="..\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -107,7 +105,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)\..\sample*.jpg" "$(TargetDir)\"</Command>
+      <Command>copy "$(SolutionDir)\..\sample.jpg" "$(TargetDir)\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -126,7 +124,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)\..\sample*.jpg" "$(TargetDir)\"</Command>
+      <Command>copy "$(SolutionDir)\..\sample.jpg" "$(TargetDir)\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -141,7 +139,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)\..\sample*.jpg" "$(TargetDir)\"</Command>
+      <Command>copy "$(SolutionDir)\..\sample.jpg" "$(TargetDir)\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -160,19 +158,19 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)\..\sample*.jpg" "$(TargetDir)\"</Command>
+      <Command>copy "$(SolutionDir)\..\sample.jpg" "$(TargetDir)\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="packages\Azure.AI.Vision.ImageAnalysis.0.10.0-beta.1\build\native\Azure.AI.Vision.ImageAnalysis.targets" Condition="Exists('packages\Azure.AI.Vision.ImageAnalysis.0.10.0-beta.1\build\native\Azure.AI.Vision.ImageAnalysis.targets')" />
-    <Import Project="packages\Azure.AI.Vision.Core.0.10.0-beta.1\build\native\Azure.AI.Vision.Core.targets" Condition="Exists('packages\Azure.AI.Vision.Core.0.10.0-beta.1\build\native\Azure.AI.Vision.Core.targets')" />
+    <Import Project="packages\Azure.AI.Vision.ImageAnalysis.0.11.1-beta.1\build\native\Azure.AI.Vision.ImageAnalysis.targets" Condition="Exists('packages\Azure.AI.Vision.ImageAnalysis.0.11.1-beta.1\build\native\Azure.AI.Vision.ImageAnalysis.targets')" />
+    <Import Project="packages\Azure.AI.Vision.Common.0.11.1-beta.1\build\native\Azure.AI.Vision.Common.targets" Condition="Exists('packages\Azure.AI.Vision.Common.0.11.1-beta.1\build\native\Azure.AI.Vision.Common.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\Azure.AI.Vision.ImageAnalysis.0.10.0-beta.1\build\native\Azure.AI.Vision.ImageAnalysis.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Azure.AI.Vision.ImageAnalysis.0.10.0-beta.1\build\native\Azure.AI.Vision.ImageAnalysis.targets'))" />
-    <Error Condition="!Exists('packages\Azure.AI.Vision.Core.0.10.0-beta.1\build\native\Azure.AI.Vision.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Azure.AI.Vision.Core.0.10.0-beta.1\build\native\Azure.AI.Vision.Core.targets'))" />
+    <Error Condition="!Exists('packages\Azure.AI.Vision.ImageAnalysis.0.11.1-beta.1\build\native\Azure.AI.Vision.ImageAnalysis.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Azure.AI.Vision.ImageAnalysis.0.11.1-beta.1\build\native\Azure.AI.Vision.ImageAnalysis.targets'))" />
+    <Error Condition="!Exists('packages\Azure.AI.Vision.Common.0.11.1-beta.1\build\native\Azure.AI.Vision.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Azure.AI.Vision.Common.0.11.1-beta.1\build\native\Azure.AI.Vision.Common.targets'))" />
   </Target>
 </Project>

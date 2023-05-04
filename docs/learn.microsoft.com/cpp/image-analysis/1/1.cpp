@@ -1,7 +1,9 @@
-//
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
 //
+// This code is integrated into this public document:
+// https://learn.microsoft.com/azure/cognitive-services/computer-vision/how-to/call-analyze-image-40?tabs=cpp
+
 // <snippet_single>
 #include <vision_api_cxx_image_analyzer.h>
 
@@ -14,13 +16,18 @@ std::string GetEnvironmentVariable(const std::string name);
 
 void AnalyzeImage()
 {
+    // <vision_service_options>
     auto serviceOptions = VisionServiceOptions::FromEndpoint(
          GetEnvironmentVariable("VISION_ENDPOINT"),
          GetEnvironmentVariable("VISION_KEY"));
+    // </vision_service_options>
 
+    // <vision_source>
     auto imageSource = VisionSource::FromUrl(
         "https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png");
+    // </vision_source>
 
+    // <visual_features>
     auto analysisOptions = ImageAnalysisOptions::Create();
 
     analysisOptions->SetFeatures(
@@ -33,13 +40,21 @@ void AnalyzeImage()
             ImageAnalysisFeature::Text,
             ImageAnalysisFeature::Tags
         });
+    // </visual_features>
 
+    // <cropping_aspect_rations>
     analysisOptions->SetCroppingAspectRatios({ 0.9, 1.33 });
+    // </cropping_aspect_rations>
 
+    // <language>
     analysisOptions->SetLanguage("en");
+    // </language>
 
+    // <gender_neutral_caption>
     analysisOptions->SetGenderNeutralCaption(true);
+    // </gender_neutral_caption>
 
+    // <analyze>
     auto analyzer = ImageAnalyzer::Create(serviceOptions, imageSource, analysisOptions);
 
     auto result = analyzer->Analyze();
@@ -139,7 +154,7 @@ void AnalyzeImage()
         std::cout << "   Connection URL = " << resultDetails->GetConnectionUrl() << std::endl;
         std::cout << "   JSON result = " << resultDetails->GetJsonResult() << std::endl;
     }
-    else if (result->GetReason() == ImageAnalysisResultReason::Error)
+    else
     {
         auto errorDetails = ImageAnalysisErrorDetails::FromResult(result);
         std::cout << " Analysis failed." << std::endl;
@@ -147,8 +162,10 @@ void AnalyzeImage()
         std::cout << "   Error code = " << errorDetails->GetErrorCode() << std::endl;
         std::cout << "   Error message = " << errorDetails->GetMessage() << std::endl;
     }
+    // </analyze>
 }
 
+// <polygon-to-string>
 std::string PolygonToString(std::vector<int32_t> boundingPolygon)
 {
     std::string out = "{";
@@ -161,7 +178,9 @@ std::string PolygonToString(std::vector<int32_t> boundingPolygon)
     out += "}";
     return out;
 }
+// </polygon-to-string>
 
+// <get-env-var>
 std::string GetEnvironmentVariable(const std::string name)
 {
 #if defined(_MSC_VER)
@@ -182,6 +201,7 @@ std::string GetEnvironmentVariable(const std::string name)
 #endif
     return std::string{""};
 }
+// </get-env-var>
 
 int main()
 {

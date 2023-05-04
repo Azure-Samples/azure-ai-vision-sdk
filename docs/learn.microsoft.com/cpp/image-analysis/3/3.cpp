@@ -1,7 +1,9 @@
-//
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
 //
+// This code is integrated into this public document:
+// https://learn.microsoft.com/azure/cognitive-services/computer-vision/how-to/call-analyze-image-40?tabs=cpp#custom-model
+
 // <snippet_single>
 #include <vision_api_cxx_image_analyzer.h>
 
@@ -20,10 +22,13 @@ void AnalyzeImage()
     auto imageSource = VisionSource::FromUrl(
         "https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png");
 
+    // <model_name>
     auto analysisOptions = ImageAnalysisOptions::Create();
 
     analysisOptions->SetModelName("MyCustomModelName");
+    // </model_name>
 
+    // <analyze>
     auto analyzer = ImageAnalyzer::Create(serviceOptions, imageSource, analysisOptions);
 
     auto result = analyzer->Analyze();
@@ -53,7 +58,7 @@ void AnalyzeImage()
             }
         }
     }
-    else if (result->GetReason() == ImageAnalysisResultReason::Error)
+    else
     {
         auto errorDetails = ImageAnalysisErrorDetails::FromResult(result);
         std::cout << " Analysis failed." << std::endl;
@@ -61,6 +66,7 @@ void AnalyzeImage()
         std::cout << "   Error code = " << errorDetails->GetErrorCode() << std::endl;
         std::cout << "   Error message = " << errorDetails->GetMessage() << std::endl;
     }
+    // </analyze>
 }
 
 std::string GetEnvironmentVariable(const std::string name)

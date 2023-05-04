@@ -1,25 +1,31 @@
-//
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
 //
+// This code is integrated into this public document:
+// https://learn.microsoft.com/en-us/azure/cognitive-services/computer-vision/how-to/call-analyze-image-40?tabs=csharp
 
 // <snippet_single>
 using Azure;
-using Azure.AI.Vision.Core.Input;
-using Azure.AI.Vision.Core.Options;
+using Azure.AI.Vision.Common.Input;
+using Azure.AI.Vision.Common.Options;
 using Azure.AI.Vision.ImageAnalysis;
 
 class Program
 {
     static void AnalyzeImage()
     {
+        // <vision_service_options>
         var serviceOptions = new VisionServiceOptions(
             Environment.GetEnvironmentVariable("VISION_ENDPOINT"),
             new AzureKeyCredential(Environment.GetEnvironmentVariable("VISION_KEY")));
+        // </vision_service_options>
 
-        var imageSource = VisionSource.FromUrl(
+        // <vision_source>
+        using var imageSource = VisionSource.FromUrl(
             new Uri("https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png"));
+        // </vision_source>
 
+        // <visual_features>
         var analysisOptions = new ImageAnalysisOptions()
         {
             Features =
@@ -30,14 +36,22 @@ class Program
                 | ImageAnalysisFeature.People
                 | ImageAnalysisFeature.Text
                 | ImageAnalysisFeature.Tags,
-
-            CroppingAspectRatios = new List<double>() { 0.9, 1.33 },
-
-            Language = "en",
-
-            GenderNeutralCaption = true
         };
+        // </visual_features>
 
+        // <cropping_aspect_rations>
+        analysisOptions.CroppingAspectRatios = new List<double>() { 0.9, 1.33 };
+        // </cropping_aspect_rations>
+
+        // <language>
+        analysisOptions.Language = "en";
+        // </language>
+
+        // <gender_neutral_caption>
+        analysisOptions.GenderNeutralCaption = true;
+        // </gender_neutral_caption>
+
+        // <analyze>
         using var analyzer = new ImageAnalyzer(serviceOptions, imageSource, analysisOptions);
 
         var result = analyzer.Analyze();
@@ -123,7 +137,7 @@ class Program
             Console.WriteLine($"   Connection URL = {resultDetails.ConnectionUrl}");
             Console.WriteLine($"   JSON result = {resultDetails.JsonResult}");
         }
-        else if (result.Reason == ImageAnalysisResultReason.Error)
+        else
         {
             var errorDetails = ImageAnalysisErrorDetails.FromResult(result);
             Console.WriteLine(" Analysis failed.");
@@ -131,6 +145,7 @@ class Program
             Console.WriteLine($"   Error code : {errorDetails.ErrorCode}");
             Console.WriteLine($"   Error message: {errorDetails.Message}");
         }
+        // </analyze>
     }
 
     static void Main()

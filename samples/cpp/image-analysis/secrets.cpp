@@ -4,7 +4,11 @@
 //
 // Azure AI Vision SDK -- C++ Image Analysis Samples
 //
-#include "stdafx.h"
+
+#include <iostream>
+#include <regex>
+#include <string>
+#include <vector>
 #include "secrets.h"
 
 const std::string Secrets::EnvironmentVariableKey = "VISION_KEY";

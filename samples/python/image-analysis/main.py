@@ -25,7 +25,7 @@ def print_usage():
     print("     It should have the form:")
     print("     https://<your-computer-vision-resource-name>.cognitiveservices.azure.com")
     print()
-    print(" As an alternative to specifying the above command line arguments, you can specify")
+    print(" As an alternative to specifying the above command line arguments, you can define")
     print(" these environment variables: {} and/or {}.".format(load_secrets.ENVIRONMENT_VARIABLE_KEY,
                                                                load_secrets.ENVIRONMENT_VARIABLE_ENDPOINT))
     print()
@@ -39,9 +39,10 @@ def select():
     abort_key = "Ctrl-Z" if "Windows" == platform.system() else "Ctrl-D"
 
     sample_functions = [
-        samples.get_all_results,
-        samples.get_results_using_analyzed_event,
-        samples.get_custom_model_results
+        samples.image_analysis_sample_analyze,
+        samples.image_analysis_sample_analyze_async,
+        samples.image_analysis_sample_analyze_with_custom_model,
+        samples.image_analysis_sample_segment
     ]
 
     print(" Select sample or {} to abort:".format(abort_key))

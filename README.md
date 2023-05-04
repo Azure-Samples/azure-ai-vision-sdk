@@ -17,7 +17,8 @@ This repository hosts sample code and setup documents for the Microsoft Azure AI
 
 ## News
 
-* **Vision SDK 0.10.0-beta.1** released April 2023. Image Analysis APIs were updated to support Dense Captions.
+* **Vision SDK 0.11.1-beta.1** released May 2023. Image Analysis APIs were updated to support [Background Removal](https://learn.microsoft.com/azure/cognitive-services/computer-vision/concept-background-removal).
+* **Vision SDK 0.10.0-beta.1** released April 2023. Image Analysis APIs were updated to support [Dense Captions](https://learn.microsoft.com/en-us/azure/cognitive-services/computer-vision/concept-describe-images-40?tabs=dense).
 * **Vision SDK 0.9.0-beta.1** first released on March 2023, targeting Image Analysis applications on Windows and Linux platforms.
 
 ## Features
@@ -52,7 +53,9 @@ Alternatively, you can contact Microsoft's Vision SDK development team directly 
 
 ![GitHub Logo](docs/image-analysis/image-analysis-results.png)
 
-See Microsoft documentation for an overview of [Image Analysis](https://learn.microsoft.com/azure/cognitive-services/computer-vision/overview-image-analysis). The Vision SDK Image Analysis APIs (preview) uses [Image Analysis REST API v4.0 (preview)](docs/image-analysis/Image-Analysis-2023-02-01-preview-API-doc.md). The Image Analysis APIs supports the extraction of one or more of the following features using a single REST call:
+See Microsoft documentation for an overview of [Image Analysis](https://learn.microsoft.com/azure/cognitive-services/computer-vision/overview-image-analysis). The Vision SDK Image Analysis APIs (preview) uses [Image Analysis REST API v4.0 (preview)](docs/image-analysis/Image-Analysis-2023-02-01-preview-API-doc.md). 
+
+The Image Analysis APIs supports the extraction of one or more of the following visual features using a single REST call:
 
 * **Caption** - Generates a human-readable phrase that describes the whole image content. For example, for the above image, "A woman wearing a mask sitting at a table with a laptop".
 * **Dense Captions** - Generates a human-readable phrase that describes the whole image content, and up to 9 additional descriptions that describe sub-regions of the image.
@@ -62,7 +65,9 @@ See Microsoft documentation for an overview of [Image Analysis](https://learn.mi
 * **Text** - Also known as **Read** or **OCR**. Performs Optical Character Recognition (OCR) and returns the text detected in the image, including the approximate location of every text line and word.
 * **Crop Suggestions** - Also known as **Smart Crop**. Recommendations for cropping operations that preserve content (e.g. for thumbnail generation).
 
-You can either upload an image for analysis by providing the name of an image file on disk, or you can provide a publicly-accessible URL of the image.
+The Image Analysis APIs also support **background removal** (segmentation). This feature can either output an image of the detected foreground object with a transparent background, or a gray-scale alpha matte image showing the opacity of the detected foreground object.
+
+For all scenarios, you can either upload an image for analysis by providing the name of an image file on disk, or you can provide a publicly-accessible URL of the image.
 
 ### Supported Programming Languages and Platforms
 
@@ -91,11 +96,12 @@ The samples will show how to analyze an image file from local disk or an image U
 | [C# .NET Core](samples/csharp/image-analysis/dotnetcore) |
 | [Python](samples/python/image-analysis) |
 
-There are currently three samples, with more to come:
+There are currently four samples, with more to come:
 
 1. Analyze all features from a JPEG image file on disk and print detailed results to the console. This is done using the synchronous (blocking) API. Start by looking at this sample first.
 1. Analyze one feature from an image URL, using the asynchronous (non-blocking) API, while registering for an event to get the analysis results.
 1. Analyze an image using a custom-trained model. To run this sample, you first need to create a custom model. See [Image Analysis overview](https://learn.microsoft.com/azure/cognitive-services/computer-vision/overview-image-analysis) for more details.
+1. Analyze an image for background removal (segmentation).
 
 If your platform and/or programming language is not listed above, your application will need to directly implement REST calls to the Vision service using the [Image Analysis REST API v4.0 (preview)](https://aka.ms/vision-4-0-ref).
 
