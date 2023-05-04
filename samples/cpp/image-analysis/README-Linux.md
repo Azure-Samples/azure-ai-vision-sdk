@@ -23,7 +23,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
   sudo apt-get install build-essential libssl-dev wget
   ```
 
-  * On **Ubuntu 22.04 LTS** it is also required to download and install the latest **libssl1.1** package from [here](http://security.ubuntu.com/ubuntu/pool/main/o/openssl)
+  * On **Ubuntu 22.04 LTS** it is also required to download and install the latest **libssl1.1** package from [here](http://security.ubuntu.com/ubuntu/pool/main/o/openssl). Ubuntu 22.04 includes **libssl3** and no longer includes **libssl1.1**, which the Vision SDK needs.
 
 ## Install the Vision SDK package
 
@@ -75,16 +75,16 @@ Installing the Vision SDK package will require your device to support the APT/De
 1. **By installing the Azure AI Vision SDK package you acknowledge the [Azure AI Vision SDK license agreement](https://aka.ms/azai/vision/license)**.
 
 1. Directly download the following 5 packages to your device:
-    1. [azure-ai-vision-dev-common-0.9.0~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-dev-common/azure-ai-vision-dev-common-0.9.0~beta.1-Linux.deb)
-    1. [azure-ai-vision-dev-image-analysis-0.9.0~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-dev-image-analysis/azure-ai-vision-dev-image-analysis-0.9.0~beta.1-Linux.deb)
-    1. [azure-ai-vision-runtime-common-0.9.0~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-runtime-common/azure-ai-vision-runtime-common-0.9.0~beta.1-Linux.deb)
-    1. [azure-ai-vision-runtime-common-media-0.9.0~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-runtime-common-media/azure-ai-vision-runtime-common-media-0.9.0~beta.1-Linux.deb)
-    1. [azure-ai-vision-runtime-image-analysis-0.9.0~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-runtime-image-analysis/azure-ai-vision-runtime-image-analysis-0.9.0~beta.1-Linux.deb)
+    1. [azure-ai-vision-dev-common-0.11.1~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-dev-common/azure-ai-vision-dev-common-0.11.1~beta.1-Linux.deb)
+    1. [azure-ai-vision-dev-image-analysis-0.11.1~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-dev-image-analysis/azure-ai-vision-dev-image-analysis-0.11.1~beta.1-Linux.deb)
+    1. [azure-ai-vision-runtime-common-0.11.1~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-runtime-common/azure-ai-vision-runtime-common-0.11.1~beta.1-Linux.deb)
+    1. [azure-ai-vision-runtime-common-media-0.11.1~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-runtime-common-media/azure-ai-vision-runtime-common-media-0.11.1~beta.1-Linux.deb)
+    1. [azure-ai-vision-runtime-image-analysis-0.11.1~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-runtime-image-analysis/azure-ai-vision-runtime-image-analysis-0.11.1~beta.1-Linux.deb)
 
 1. Install the 5 packages:
     ```sh
     sudo apt update
-    sudo apt install ./azure-ai-vision-dev-common-0.9.0~beta.1-Linux.deb ./azure-ai-vision-dev-image-analysis-0.9.0~beta.1-Linux.deb ./azure-ai-vision-runtime-common-0.9.0~beta.1-Linux.deb ./azure-ai-vision-runtime-common-media-0.9.0~beta.1-Linux.deb ./azure-ai-vision-runtime-image-analysis-0.9.0~beta.1-Linux.deb
+    sudo apt install ./azure-ai-vision-dev-common-0.11.1~beta.1-Linux.deb ./azure-ai-vision-dev-image-analysis-0.11.1~beta.1-Linux.deb ./azure-ai-vision-runtime-common-0.11.1~beta.1-Linux.deb ./azure-ai-vision-runtime-common-media-0.11.1~beta.1-Linux.deb ./azure-ai-vision-runtime-image-analysis-0.11.1~beta.1-Linux.deb
     ```
 
 ### Verify installation
@@ -193,6 +193,9 @@ An error message will be displayed if the sample fails to run. Here are some com
 
 * `InvalidRequest: The feature 'Caption' is not supported in this region`
   * Your endpoint is from an Azure region that does not support the `Caption` and `DenseCaptions` features. You can either change the endpoint to a supported region, or remove the `Caption` and `DenseCaptions` features from the list of features to analyze.
+
+* `Unknown error in sending http request`
+  * If you are running on Ubuntu 22.04 LTS, see comment above about the need to install **libssl1.1**.
 
 ## Cleanup
 

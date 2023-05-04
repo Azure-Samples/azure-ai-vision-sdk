@@ -5,6 +5,7 @@
 // Azure AI Vision SDK -- C++ Image Analysis Samples
 //
 #include <fstream>
+#include <thread>
 #include <vision_api_cxx_image_analyzer.h>
 
 using namespace Azure::AI::Vision::Service;
