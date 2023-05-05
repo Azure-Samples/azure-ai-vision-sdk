@@ -165,7 +165,7 @@ void AnalyzeImage()
     // </analyze>
 }
 
-// <polygon-to-string>
+// <polygon_to_string>
 std::string PolygonToString(std::vector<int32_t> boundingPolygon)
 {
     std::string out = "{";
@@ -178,9 +178,9 @@ std::string PolygonToString(std::vector<int32_t> boundingPolygon)
     out += "}";
     return out;
 }
-// </polygon-to-string>
+// </polygon_to_string>
 
-// <get-env-var>
+// <get_env_var>
 std::string GetEnvironmentVariable(const std::string name)
 {
 #if defined(_MSC_VER)
@@ -201,7 +201,7 @@ std::string GetEnvironmentVariable(const std::string name)
 #endif
     return std::string{""};
 }
-// </get-env-var>
+// </get_env_var>
 
 int main()
 {
