@@ -35,7 +35,7 @@ class Program
                 | ImageAnalysisFeature.Objects
                 | ImageAnalysisFeature.People
                 | ImageAnalysisFeature.Text
-                | ImageAnalysisFeature.Tags,
+                | ImageAnalysisFeature.Tags
         };
         // </visual_features>
 

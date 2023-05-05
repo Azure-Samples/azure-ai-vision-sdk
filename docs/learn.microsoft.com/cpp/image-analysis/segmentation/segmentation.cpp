@@ -66,7 +66,7 @@ void SegmentImage()
     // </segment>
 }
 
-// <get-env-var>
+// <get_env_var>
 std::string GetEnvironmentVariable(const std::string name)
 {
 #if defined(_MSC_VER)
@@ -87,7 +87,7 @@ std::string GetEnvironmentVariable(const std::string name)
 #endif
     return std::string{ "" };
 }
-// </get-env-var>
+// </get_env_var>
 
 int main()
 {
