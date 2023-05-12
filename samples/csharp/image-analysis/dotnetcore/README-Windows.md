@@ -18,11 +18,13 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 * [Microsoft Visual C++ Redistributable for Visual Studio 2015, 2017, 2019, and 2022](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist) for your platform.
 
-* [.NET Core 3.1](https://dotnet.microsoft.com/download/dotnet/3.1) or higher installed
+* [.NET Core 3.1 runtime](https://dotnet.microsoft.com/download/dotnet/3.1) installed.
 
-* If you want to compile the samples using Visual studio (you have the option to compile using .NET Core CLI instead):
+* If you want to compile the samples using Visual Studio (you have the option to compile using .NET Core CLI instead):
   * [Microsoft Visual Studio 2019](https://www.visualstudio.com/), Community Edition or higher.
   * The .NET Core cross-platform development workload in Visual Studio. You can enable it in `Tools` \> `Get Tools and Features`.
+
+* if you do not want to compile the sample using Visual Studio, install [.NET 6.0 SDK](https://dotnet.microsoft.com/download/dotnet/6.0) or higher.
 
 ## Compile the sample using Visual Studio
 
