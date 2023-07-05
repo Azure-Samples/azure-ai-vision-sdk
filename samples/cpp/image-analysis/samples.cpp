@@ -6,7 +6,7 @@
 //
 #include <fstream>
 #include <thread>
-#include <vision_api_cxx_image_analyzer.h>
+#include <vision_api_cxx_image_analyzer.hpp>
 
 using namespace Azure::AI::Vision::Service;
 using namespace Azure::AI::Vision::Input;
@@ -26,7 +26,7 @@ void ImageAnalysisSample_Analyze(std::string endpoint, std::string key)
     std::shared_ptr<VisionSource> imageSource = VisionSource::FromFile("sample.jpg");
 
     // Or, instead of the above, specify a publicly accessible image URL to analyze
-    // (e.g. https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg)
+    // (e.g. https://aka.ms/azai/vision/image-analysis-sample.jpg)
     //std::shared_ptr<VisionSource> imageSource = VisionSource::FromUrl("YourImageURL");
 
     // Creates the options object that will control the ImageAnalyzer
@@ -137,7 +137,7 @@ void ImageAnalysisSample_Analyze(std::string endpoint, std::string key)
             std::cout << " Crop Suggestions:" << std::endl;
             for (const CropSuggestion& cropSuggestion : cropSuggestions.Value())
             {
-                std::cout << "   Aspect ratio " << cropSuggestion.AspectRatio; 
+                std::cout << "   Aspect ratio " << cropSuggestion.AspectRatio;
                 std::cout << ": Crop suggestion " << cropSuggestion.BoundingBox.ToString() << std::endl;
             }
         }
@@ -184,7 +184,7 @@ void ImageAnalysisSample_AnalyzeAsync(std::string endpoint, std::string key)
 {
     auto serviceOptions = VisionServiceOptions::FromEndpoint(endpoint, key);
 
-    auto imageSource = VisionSource::FromUrl("https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg");
+    auto imageSource = VisionSource::FromUrl("https://aka.ms/azai/vision/image-analysis-sample.jpg");
 
     auto analysisOptions = ImageAnalysisOptions::Create();
 
@@ -297,7 +297,7 @@ void ImageAnalysisSample_Segment(std::string endpoint, std::string key)
     std::shared_ptr<VisionSource> imageSource = VisionSource::FromFile("sample.jpg");
 
     // Or, instead of the above, specify a publicly accessible image URL to analyze
-    // (e.g. https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg)
+    // (e.g. https://aka.ms/azai/vision/image-analysis-sample.jpg)
     //std::shared_ptr<VisionSource> imageSource = VisionSource::FromUrl("YourImageURL");
 
     std::shared_ptr<ImageAnalysisOptions> analysisOptions = ImageAnalysisOptions::Create();

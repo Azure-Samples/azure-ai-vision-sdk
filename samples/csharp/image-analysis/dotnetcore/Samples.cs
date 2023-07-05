@@ -6,8 +6,7 @@
 //
 
 using Azure;
-using Azure.AI.Vision.Common.Input;
-using Azure.AI.Vision.Common.Options;
+using Azure.AI.Vision.Common;
 using Azure.AI.Vision.ImageAnalysis;
 using System;
 using System.Collections.Generic;
@@ -28,7 +27,7 @@ public class Samples
         using var imageSource = VisionSource.FromFile("sample.jpg");
 
         // Or, instead of the above, specify a publicly accessible image URL to analyze
-        // (e.g. https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg)
+        // (e.g. https://aka.ms/azai/vision/image-analysis-sample.jpg)
         // using var imageSource = VisionSource.FromUrl(new Uri("YourImageURL"));
 
         var analysisOptions = new ImageAnalysisOptions()
@@ -269,7 +268,7 @@ public class Samples
         using var imageSource = VisionSource.FromFile("sample.jpg");
 
         // Or, instead of the above, specify a publicly accessible image URL to analyze
-        // (e.g. https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg)
+        // (e.g. https://aka.ms/azai/vision/image-analysis-sample.jpg)
         // using var imageSource = VisionSource.FromUrl(new Uri("YourImageURL"));
 
         var analysisOptions = new ImageAnalysisOptions()

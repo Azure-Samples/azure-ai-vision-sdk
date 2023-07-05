@@ -12,7 +12,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
   * You will need the key and endpoint from the resource you create to connect your application to the Computer Vision service.
   * You can use the free pricing tier (`F0`) to try the service, and upgrade later to a paid tier for production.
-  * Note that in order to run Image Analysis with the `Caption` feature, the Azure resource needs to be from one of the following GPU-supported regions: East US, France Central, Korea Central, North Europe, Southeast Asia, West Europe, West US.
+  * Note that in order to run Image Analysis with the `Caption` and `DenseCaptions` features, the Azure resource needs to be from one of the following GPU-supported regions: East US, France Central, Korea Central, North Europe, Southeast Asia, West Europe, West US.
 
 * A Linux x64 device, running Ubuntu 18.04/20.04/22.04, Debian 9/10/11 or Red Hat Enterprise Linux (RHEL) 7/8.
 
@@ -75,16 +75,16 @@ Installing the Vision SDK package will require your device to support the APT/De
 1. **By installing the Azure AI Vision SDK package you acknowledge the [Azure AI Vision SDK license agreement](https://aka.ms/azai/vision/license)**.
 
 1. Directly download the following 5 packages to your device:
-    1. [azure-ai-vision-dev-common-0.11.1~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-dev-common/azure-ai-vision-dev-common-0.11.1~beta.1-Linux.deb)
-    1. [azure-ai-vision-dev-image-analysis-0.11.1~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-dev-image-analysis/azure-ai-vision-dev-image-analysis-0.11.1~beta.1-Linux.deb)
-    1. [azure-ai-vision-runtime-common-0.11.1~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-runtime-common/azure-ai-vision-runtime-common-0.11.1~beta.1-Linux.deb)
-    1. [azure-ai-vision-runtime-common-media-0.11.1~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-runtime-common-media/azure-ai-vision-runtime-common-media-0.11.1~beta.1-Linux.deb)
-    1. [azure-ai-vision-runtime-image-analysis-0.11.1~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-runtime-image-analysis/azure-ai-vision-runtime-image-analysis-0.11.1~beta.1-Linux.deb)
+    1. [azure-ai-vision-dev-common-0.13.0~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-dev-common/azure-ai-vision-dev-common-0.13.0~beta.1-Linux.deb)
+    1. [azure-ai-vision-dev-image-analysis-0.13.0~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-dev-image-analysis/azure-ai-vision-dev-image-analysis-0.13.0~beta.1-Linux.deb)
+    1. [azure-ai-vision-runtime-common-0.13.0~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-runtime-common/azure-ai-vision-runtime-common-0.13.0~beta.1-Linux.deb)
+    1. [azure-ai-vision-runtime-common-media-0.13.0~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-runtime-common-media/azure-ai-vision-runtime-common-media-0.13.0~beta.1-Linux.deb)
+    1. [azure-ai-vision-runtime-image-analysis-0.13.0~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-runtime-image-analysis/azure-ai-vision-runtime-image-analysis-0.13.0~beta.1-Linux.deb)
 
 1. Install the 5 packages:
     ```sh
     sudo apt update
-    sudo apt install ./azure-ai-vision-dev-common-0.11.1~beta.1-Linux.deb ./azure-ai-vision-dev-image-analysis-0.11.1~beta.1-Linux.deb ./azure-ai-vision-runtime-common-0.11.1~beta.1-Linux.deb ./azure-ai-vision-runtime-common-media-0.11.1~beta.1-Linux.deb ./azure-ai-vision-runtime-image-analysis-0.11.1~beta.1-Linux.deb
+    sudo apt install ./azure-ai-vision-dev-common-0.13.0~beta.1-Linux.deb ./azure-ai-vision-dev-image-analysis-0.13.0~beta.1-Linux.deb ./azure-ai-vision-runtime-common-0.13.0~beta.1-Linux.deb ./azure-ai-vision-runtime-common-media-0.13.0~beta.1-Linux.deb ./azure-ai-vision-runtime-image-analysis-0.13.0~beta.1-Linux.deb
     ```
 
 ### Verify installation
@@ -118,8 +118,12 @@ You should see package documents in the /usr/share/doc/azure-ai-vision-* folders
 
 * A Makefile is provided for direct compilation using the `make` command. Alternatively, a `CMakeLists.txt` is also provided if you prefer to compile the sample using the `cmake` command:
 
-  * To compile using make, run `make -f ../makefile`
-  * To compile using CMake, run `cmake ..` then run `make`
+  * To compile using make, run
+    * `make -f ../makefile`
+  * To compile using CMake:
+    * Install `cmake` (run `sudo apt install cmake`). 
+    * Create a makefile by running: `cmake ..` 
+    * Then compile by running: `make`
 
 You should see the resulting executable `image-analysis-samples.exe` in the current folder.
 
@@ -211,16 +215,8 @@ The folder `/usr/lib/azure-ai-vision` contains several shared object libraries (
 
 ```
 libAzure-AI-Vision-Native.so
-libAzure-AI-Vision-Input-File.so
 libAzure-AI-Vision-Extension-Image.so
-libVision_Core.so
-libVision_Media.so
 ```
-
-If you would like to install Vision SDK packages to support run-time distribution of your application, you only need to install the following _azure-ai-vision-runtime_ packages. Note however that they will contain more libraries than mentioned about, since the common packages are used by other Vision SDK APIs.
-   * _azure-ai-vision-runtime-common_
-   * _azure-ai-vision-runtime-common-media_
-   * _azure-ai-vision-runtime-image-analysis_
 
 ## Additional resources
 

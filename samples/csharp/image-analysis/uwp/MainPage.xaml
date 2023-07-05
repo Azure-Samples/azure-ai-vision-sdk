@@ -1,0 +1,137 @@
+<Page
+    x:Class="MicrosoftAzureAIVisionSDKSamples.UwpImageAnalysisSample.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MicrosoftAzureAIVisionSDKSamples.UwpImageAnalysisSample"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontSize="14" MinWidth="800"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <ScrollViewer VerticalScrollBarVisibility="Visible">
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Spacing="15" Width="800" Margin="25">
+            <TextBlock x:Name="textTitle" Text="Azure AI Vision - Image Analysis UWP Sample" TextWrapping="Wrap" FontSize="20"/>
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Width="800">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="1. Enter Credentials" Grid.ColumnSpan="2" FontSize="16"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Text="Computer Vision Key:" Padding="5"/>
+                <TextBox   Grid.Row="1" Grid.Column="1" x:Name="keyTextBox" MinWidth="500"/>
+                <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Text="Endpoint:"  Padding="5"/>
+                <TextBox   Grid.Row="2" Grid.Column="1" x:Name="endpointTextBox"  MinWidth="500"/>
+            </Grid>
+            <Grid HorizontalAlignment="Right" VerticalAlignment="Center" Width="800" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock   Grid.Row="0" Grid.Column="0" Text="2. Select Image to Analyze" Grid.ColumnSpan="2" FontSize="16"/>
+                <RadioButton Grid.Row="1" Grid.Column="0" MinWidth="30" x:Name="imageUrlRadioButton" GroupName="Image Source" HorizontalAlignment="Right"/>
+                <TextBlock   Grid.Row="1" Grid.Column="1" Text="Enter image URL:" Padding="5" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox     Grid.Row="1" Grid.Column="2" x:Name="imageUrlTextBox" VerticalAlignment="Center" MinWidth="500"/>
+                <RadioButton Grid.Row="2" Grid.Column="0" MinWidth="30" x:Name="imageFileRadioButton" GroupName="Image Source" HorizontalAlignment="Right"/>
+                <Button      Grid.Row="2" Grid.Column="1" Content="Or click to select image file:" Padding="5" HorizontalAlignment="Right" Click="{x:Bind ImageFilePicker_ButtonClicked}"/>
+                <TextBox     Grid.Row="2" Grid.Column="2"  x:Name="imageFileTextBox" VerticalAlignment="Center" IsReadOnly="True" MinWidth="500"/>
+            </Grid>
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Width="800" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="3. Select Analysis Options" Grid.ColumnSpan="4" FontSize="16"/>
+                <CheckBox  Grid.Row="1" Grid.Column="0" MinWidth="15" HorizontalAlignment="Right" x:Name="captionCheckBox"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="Caption" HorizontalAlignment="Left" VerticalAlignment="Center" Padding ="5"/>
+                <CheckBox  Grid.Row="2" Grid.Column="0" MinWidth="15" HorizontalAlignment="Right" x:Name="denseCaptionsCheckBox"/>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="Dense Captions" HorizontalAlignment="Left" VerticalAlignment="Center" Padding ="5"/>
+                <CheckBox  Grid.Row="3" Grid.Column="0" MinWidth="15" HorizontalAlignment="Right" x:Name="textCheckBox"/>
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="Text" HorizontalAlignment="Left" VerticalAlignment="Center" Padding ="5"/>
+                <CheckBox  Grid.Row="4" Grid.Column="0" MinWidth="15" HorizontalAlignment="Right" x:Name="objectsCheckBox"/>
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="Objects" HorizontalAlignment="Left" VerticalAlignment="Center" Padding ="5"/>
+                <CheckBox  Grid.Row="1" Grid.Column="2" MinWidth="15" HorizontalAlignment="Right" x:Name="tagsCheckBox"/>
+                <TextBlock Grid.Row="1" Grid.Column="3" Text="Tags" HorizontalAlignment="Left" VerticalAlignment="Center" Padding ="2"/>
+                <CheckBox  Grid.Row="2" Grid.Column="2" MinWidth="15" HorizontalAlignment="Right" x:Name="cropSuggestionsCheckBox"/>
+                <TextBlock Grid.Row="2" Grid.Column="3" Text="Crop Suggestions" HorizontalAlignment="Left" VerticalAlignment="Center" Padding ="5"/>
+                <CheckBox  Grid.Row="3" Grid.Column="2" MinWidth="15" HorizontalAlignment="Right" x:Name="peopleCheckBox"/>
+                <TextBlock Grid.Row="3" Grid.Column="3" Text="People" HorizontalAlignment="Left" VerticalAlignment="Center" Padding ="5"/>
+            </Grid>
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Width="800" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Model Version:" HorizontalAlignment="Right" Padding="5"/>
+                <ComboBox  Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedIndex="0" Width="150"  Name="ModelVersionComboBox" >
+                    <ComboBoxItem Tag="latest" IsSelected="true">latest</ComboBoxItem>
+                </ComboBox>
+                <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" Text="(only `latest` supported at the moment)" Padding="5"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Language:" HorizontalAlignment="Right" Padding="5"/>
+                <ComboBox  Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedIndex="0" Width="150"  Name="LanguageComboBox" >
+                    <!-- See full list of supported languages here: https://learn.microsoft.com/azure/cognitive-services/computer-vision/language-support#image-analysis -->
+                    <ComboBoxItem Tag="en" IsSelected="true">English</ComboBoxItem>
+                    <ComboBoxItem Tag="es">Spanish</ComboBoxItem>
+                    <ComboBoxItem Tag="ja">Japanese</ComboBoxItem>
+                    <ComboBoxItem Tag="pt">Portuguese (Portugal)</ComboBoxItem>
+                    <ComboBoxItem Tag="zh">Chinese (Simplified)</ComboBoxItem>
+                    <ComboBoxItem Tag="fr">French</ComboBoxItem>
+                    <ComboBoxItem Tag="de">German</ComboBoxItem>
+                    <ComboBoxItem Tag="it">Italian</ComboBoxItem>
+                </ComboBox>
+                <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Text="Cropping aspect rations:" Padding="5" />
+                <TextBox   Grid.Row="2" Grid.Column="1" x:Name="croppingAspectRationsTextBox" Padding="2" />
+                <TextBlock Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" Text="(comma-separated list of numbers)" Padding="5"/>
+                <CheckBox  Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" x:Name="genderNeutralCaptionCheckBox" MinWidth="15"/>
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="Gender-neutral caption"  Grid.ColumnSpan="2" VerticalAlignment="Center"/>
+            </Grid>
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Width="800">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="4. Analyze the Image" FontSize="16"/>
+                <Button    Grid.Row="1" Grid.Column="0" Content="Click here to analyze" Margin="0,10,0,0" HorizontalAlignment="Left" Click="{x:Bind Analyze_ButtonClicked}"/>
+            </Grid>
+            <StackPanel x:Name="statusPanel" Orientation="Vertical" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True">
+                <TextBlock x:Name="statusLabel" TextWrapping="Wrap" Text="5. See Results" Margin="0,0,0,10" FontSize="16"/>
+                <Border x:Name="statusBorder" >
+                    <ScrollViewer VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" MaxHeight="200">
+                        <TextBlock x:Name="statusBlock" FontWeight="Bold" AutomationProperties.LiveSetting="Assertive" MinHeight="180"
+                                    MaxWidth="{Binding ElementName=Splitter, Path=ActualWidth}" TextWrapping="Wrap"  />
+                    </ScrollViewer>
+                </Border>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

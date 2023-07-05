@@ -2,7 +2,7 @@
 # Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
 #
 # This code is integrated into this public document:
-# https://learn.microsoft.com/en-us/azure/cognitive-services/computer-vision/how-to/background-removal?tabs=python
+# https://learn.microsoft.com/azure/cognitive-services/computer-vision/how-to/background-removal?tabs=python
 
 # <snippet_single>
 import os
@@ -41,7 +41,7 @@ if result.reason == sdk.ImageAnalysisResultReason.ANALYZED:
     output_image_file = "output.png"
     with open(output_image_file, 'wb') as binary_file:
         binary_file.write(image_buffer)
-    print("   File {} written to disk".format(output_image_file));
+    print("   File {} written to disk".format(output_image_file))
 
 else:
 
@@ -53,3 +53,4 @@ else:
     print(" Did you set the computer vision endpoint and key?")
 # </segment>
 # </snippet_single>
+

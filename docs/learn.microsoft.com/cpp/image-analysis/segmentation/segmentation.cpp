@@ -6,7 +6,7 @@
 
 // <snippet_single>
 #include <fstream>
-#include <vision_api_cxx_image_analyzer.h>
+#include <vision_api_cxx_image_analyzer.hpp>
 
 using namespace Azure::AI::Vision::ImageAnalysis;
 using namespace Azure::AI::Vision::Input;
