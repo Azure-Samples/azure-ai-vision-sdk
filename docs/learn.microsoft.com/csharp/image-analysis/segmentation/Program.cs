@@ -6,8 +6,7 @@
 
 // <snippet_single>
 using Azure;
-using Azure.AI.Vision.Common.Input;
-using Azure.AI.Vision.Common.Options;
+using Azure.AI.Vision.Common;
 using Azure.AI.Vision.ImageAnalysis;
 
 class Program
