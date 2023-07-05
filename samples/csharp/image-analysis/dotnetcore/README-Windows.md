@@ -12,13 +12,13 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
   * You will need the key and endpoint from the resource you create to connect your application to the Computer Vision service.
   * You can use the free pricing tier (`F0`) to try the service, and upgrade later to a paid tier for production.
-  * Note that in order to run Image Analysis with the `Caption` feature, the Azure resource needs to be from one of the following GPU-supported regions: East US, France Central, Korea Central, North Europe, Southeast Asia, West Europe, West US.
+  * Note that in order to run Image Analysis with the `Caption` or `Dense Captions` features, the Azure resource needs to be from one of the following GPU-supported regions: East US, France Central, Korea Central, North Europe, Southeast Asia, West Europe, West US.
 
 * A Windows 10 (or higher) x64 PC. We only support x64 platforms at the moment.
 
 * [Microsoft Visual C++ Redistributable for Visual Studio 2015, 2017, 2019, and 2022](https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist) for your platform.
 
-* [.NET Core 3.1 runtime](https://dotnet.microsoft.com/download/dotnet/3.1) installed.
+* [.NET Runtime 3.1](https://dotnet.microsoft.com/download/dotnet/3.1) installed.
 
 * If you want to compile the samples using Visual Studio (you have the option to compile using .NET Core CLI instead):
   * [Microsoft Visual Studio 2019](https://www.visualstudio.com/), Community Edition or higher.
@@ -131,10 +131,6 @@ Azure.AI.Vision.Common.dll
 Azure.AI.Vision.ImageAnalysis.dll
 runtimes\win-x64\native\Azure-AI-Vision-Native.dll
 runtimes\win-x64\native\Azure-AI-Vision-Extension-Image.dll
-runtimes\win-x64\native\Azure-AI-Vision-Input-File.dll
-runtimes\win-x64\native\turbojpeg.dll
-runtimes\win-x64\native\Vision_Core.dll
-runtimes\win-x64\native\Vision_Media.dll
 ```
 
 ## Additional resources

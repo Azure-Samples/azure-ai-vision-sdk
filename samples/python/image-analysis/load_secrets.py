@@ -134,4 +134,3 @@ def is_valid_endpoint():
         print(" https://<your-computer-vision-resource-name>.cognitiveservices.azure.com")
         print()
         return False
-

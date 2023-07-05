@@ -5,7 +5,7 @@
 // https://learn.microsoft.com/azure/cognitive-services/computer-vision/quickstarts-sdk/image-analysis-client-library-40?tabs=visual-studio%2Cwindows&pivots=programming-language-cpp#analyze-image
 
 // <snippet_single>
-#include <vision_api_cxx_image_analyzer.h>
+#include <vision_api_cxx_image_analyzer.hpp>
 
 using namespace Azure::AI::Vision::ImageAnalysis;
 using namespace Azure::AI::Vision::Input;

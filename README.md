@@ -17,8 +17,10 @@ This repository hosts sample code and setup documents for the Microsoft Azure AI
 
 ## News
 
+* **Vision SDK 0.13.0-beta.1** released July 2023. Image Analysis support was added for Universal Windows Platform (UWP) applications (C++, C#). Run-time package size reduction: Only the two native binaries 
+`Azure-AI-Vision-Native.dll` and `Azure-AI-Vision-Extension-Image.dll` are now needed.
 * **Vision SDK 0.11.1-beta.1** released May 2023. Image Analysis APIs were updated to support [Background Removal](https://learn.microsoft.com/azure/cognitive-services/computer-vision/concept-background-removal).
-* **Vision SDK 0.10.0-beta.1** released April 2023. Image Analysis APIs were updated to support [Dense Captions](https://learn.microsoft.com/en-us/azure/cognitive-services/computer-vision/concept-describe-images-40?tabs=dense).
+* **Vision SDK 0.10.0-beta.1** released April 2023. Image Analysis APIs were updated to support [Dense Captions](https://learn.microsoft.com/azure/cognitive-services/computer-vision/concept-describe-images-40?tabs=dense).
 * **Vision SDK 0.9.0-beta.1** first released on March 2023, targeting Image Analysis applications on Windows and Linux platforms.
 
 ## Features
@@ -92,22 +94,26 @@ The samples will show how to analyze an image file from local disk or an image U
 
 | Programming Language |
 | -------- |
-| [C++](samples/cpp/image-analysis) |
-| [C# .NET Core](samples/csharp/image-analysis/dotnetcore) |
-| [Python](samples/python/image-analysis) |
+| [Python Console Sample](samples/python/image-analysis) |
+| [C# .NET Console Sample](samples/csharp/image-analysis/dotnetcore) |
+| [C# .NET UWP Sample](samples/csharp/image-analysis/uwp) |
+| [C++ Console Sample](samples/cpp/image-analysis) |
 
-There are currently four samples, with more to come:
+The console samples demonstrate doing the following:
 
 1. Analyze all features from a JPEG image file on disk and print detailed results to the console. This is done using the synchronous (blocking) API. Start by looking at this sample first.
 1. Analyze one feature from an image URL, using the asynchronous (non-blocking) API, while registering for an event to get the analysis results.
 1. Analyze an image using a custom-trained model. To run this sample, you first need to create a custom model. See [Image Analysis overview](https://learn.microsoft.com/azure/cognitive-services/computer-vision/overview-image-analysis) for more details.
 1. Analyze an image for background removal (segmentation).
 
+The C# .NET UWP sample shows how to analyze features from an image file or image URL.
+
 If your platform and/or programming language is not listed above, your application will need to directly implement REST calls to the Vision service using the [Image Analysis REST API v4.0 (preview)](https://aka.ms/vision-4-0-ref).
 
 ### API Reference Documentation
 
-* [C++ API Reference Documents](https://learn.microsoft.com/cpp/cognitive-services/vision)
-* [C# .NET Core API Reference Documents](https://learn.microsoft.com/dotnet/api/azure.ai.vision.imageanalysis)
 * [Python API Reference Documents](https://learn.microsoft.com/python/api/azure-ai-vision)
+* [C# .NET Core API Reference Documents](https://learn.microsoft.com/dotnet/api/azure.ai.vision.imageanalysis)
+* [C++ API Reference Documents](https://learn.microsoft.com/cpp/cognitive-services/vision)
+
 

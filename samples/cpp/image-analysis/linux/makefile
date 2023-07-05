@@ -15,7 +15,7 @@ ifneq ("$(CHECK_FOR_VISION_SDK)","Success")
   $(error Please set VISIONSDK_LIB_PATH to point to your extracted Vision SDK, $$VISIONSDK_LIB_PATH/libAzure-AI-Vision-Native.so should exist.)
 endif
 
-LIBS:=-lAzure-AI-Vision-Extension-Image -lAzure-AI-Vision-Native -lAzure-AI-Vision-Input-File -lVision_Core -lVision_Media
+LIBS:=-lAzure-AI-Vision-Native
 
 RUNPATH="-Wl,-rpath=$(VISIONSDK_LIB_PATH)"
 

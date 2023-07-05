@@ -2,7 +2,7 @@
 # Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
 #
 # This code is integrated into this public document:
-# https://learn.microsoft.com/en-us/azure/cognitive-services/computer-vision/how-to/call-analyze-image-40?tabs=python
+# https://learn.microsoft.com/azure/cognitive-services/computer-vision/how-to/call-analyze-image-40?tabs=python
 
 # <snippet_single>
 import os

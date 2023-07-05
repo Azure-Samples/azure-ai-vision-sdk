@@ -111,7 +111,7 @@ class Secrets
     // Returns true if the endpoint is valid, false otherwise.
     private static bool IsValidEndpoint(string endpoint)
     {
-        if (String.IsNullOrEmpty(endpoint))
+        if (String.IsNullOrWhiteSpace(endpoint))
         {
             Console.WriteLine(" Error: Missing computer vision endpoint.");
             Console.WriteLine("");

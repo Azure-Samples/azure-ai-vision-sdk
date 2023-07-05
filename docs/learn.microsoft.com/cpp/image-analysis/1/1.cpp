@@ -5,7 +5,7 @@
 // https://learn.microsoft.com/azure/cognitive-services/computer-vision/how-to/call-analyze-image-40?tabs=cpp
 
 // <snippet_single>
-#include <vision_api_cxx_image_analyzer.h>
+#include <vision_api_cxx_image_analyzer.hpp>
 
 using namespace Azure::AI::Vision::ImageAnalysis;
 using namespace Azure::AI::Vision::Input;

@@ -18,9 +18,6 @@ set(VISIONSDK_INC_PATH /usr/include/azure-ai-vision)
 # Check that Vision SDK binaries are found
 find_library(AZURE_AI_VISION_CORE libAzure-AI-Vision-Native.so PATHS ${VISIONSDK_LIB_PATH} REQUIRED)
 find_library(AZURE_AI_VISION_EXTENSION_IMAGE libAzure-AI-Vision-Extension-Image.so PATHS ${VISIONSDK_LIB_PATH} REQUIRED)
-find_library(AZURE_AI_VISION_INPUT_FILE libAzure-AI-Vision-Input-File.so PATHS ${VISIONSDK_LIB_PATH} REQUIRED)
-find_library(VISION_CORE libVision_Core.so PATHS ${VISIONSDK_LIB_PATH} REQUIRED)
-find_library(VISION_MEDIA libVision_Media.so PATHS ${VISIONSDK_LIB_PATH} REQUIRED)
 
 add_executable(
     image-analysis-samples.exe
@@ -34,10 +31,6 @@ target_link_libraries(
     image-analysis-samples.exe
   PRIVATE
     ${AZURE_AI_VISION_CORE}
-    ${AZURE_AI_VISION_EXTENSION_IMAGE}
-    ${AZURE_AI_VISION_INPUT_FILE}
-    ${VISION_CORE}
-    ${VISION_MEDIA}
 )
 
 target_include_directories(

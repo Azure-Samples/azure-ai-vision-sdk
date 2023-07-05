@@ -16,11 +16,14 @@ except ImportError:
     import sys
     sys.exit(1)
 
+
 """
 This sample does analysis on an image file using all visual features
 and a synchronous (blocking) call. It prints the results to the console,
 including the detailed results.
 """
+
+
 def image_analysis_sample_analyze():
     """
     Analyze image from file, all features, synchronous (blocking)
@@ -28,11 +31,11 @@ def image_analysis_sample_analyze():
 
     service_options = visionsdk.VisionServiceOptions(load_secrets.endpoint, load_secrets.key)
 
-    # Specify the image file on disk to analyze. sample1jpg is a good example to show most features
+    # Specify the image file on disk to analyze. sample.jpg is a good example to show most features
     vision_source = visionsdk.VisionSource(filename="sample.jpg")
 
     # Or, instead of the above, specify a publicly accessible image URL to analyze. For example:
-    # image_url = "https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg"
+    # image_url = "https://aka.ms/azai/vision/image-analysis-sample.jpg"
     # vision_source = visionsdk.VisionSource(url=image_url)
 
     # Set the language and one or more visual features as analysis options
@@ -150,6 +153,8 @@ def image_analysis_sample_analyze():
 This sample does analysis on an image URL, using an asynchronous (non-blocking)
 call to analyze one visual feature (Tags).
 """
+
+
 def image_analysis_sample_analyze_async():
     """
     Analyze image from URL, asynchronous (non-blocking)
@@ -157,7 +162,7 @@ def image_analysis_sample_analyze_async():
 
     service_options = visionsdk.VisionServiceOptions(load_secrets.endpoint, load_secrets.key)
 
-    image_url = "https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg"
+    image_url = "https://aka.ms/azai/vision/image-analysis-sample.jpg"
     vision_source = visionsdk.VisionSource(url=image_url)
 
     analysis_options = visionsdk.ImageAnalysisOptions()
@@ -202,6 +207,8 @@ def image_analysis_sample_analyze_async():
 This sample does analysis on an image file using a given custom-trained model,
 and shows how to get the detected objects and/or tags.
 """
+
+
 def image_analysis_sample_analyze_with_custom_model():
     """
     Analyze image using a custom-trained model
@@ -246,6 +253,8 @@ def image_analysis_sample_analyze_with_custom_model():
 This sample does segmentation of an input image and writes the
 resulting background-removed image or foreground matte image to disk.
 """
+
+
 def image_analysis_sample_segment():
     """
     Background removal
@@ -253,12 +262,11 @@ def image_analysis_sample_segment():
 
     service_options = visionsdk.VisionServiceOptions(load_secrets.endpoint, load_secrets.key)
 
-    # Specify the image file on disk to analyze. sample.jpg is a good example to show most features,
-    # except Text (OCR). Use sample2.jpg for OCR.
+    # Specify the image file on disk to analyze. sample.jpg is a good example to show most features
     vision_source = visionsdk.VisionSource(filename="sample.jpg")
 
     # Or, instead of the above, specify a publicly accessible image URL to analyze. For example:
-    # image_url = "https://learn.microsoft.com/azure/cognitive-services/computer-vision/images/windows-kitchen.jpg"
+    # image_url = "https://aka.ms/azai/vision/image-analysis-sample.jpg"
     # vision_source = visionsdk.VisionSource(url=image_url)
 
     analysis_options = visionsdk.ImageAnalysisOptions()
@@ -295,7 +303,7 @@ def image_analysis_sample_segment():
         output_image_file = "output.png"
         with open(output_image_file, 'wb') as binary_file:
             binary_file.write(image_buffer)
-        print("   File {} written to disk".format(output_image_file));
+        print("   File {} written to disk".format(output_image_file))
 
     else:
 
