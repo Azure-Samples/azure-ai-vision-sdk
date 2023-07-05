@@ -118,8 +118,12 @@ You should see package documents in the /usr/share/doc/azure-ai-vision-* folders
 
 * A Makefile is provided for direct compilation using the `make` command. Alternatively, a `CMakeLists.txt` is also provided if you prefer to compile the sample using the `cmake` command:
 
-  * To compile using make, run `make -f ../makefile`
-  * To compile using CMake, run `cmake ..` then run `make`
+  * To compile using make, run
+    * `make -f ../makefile`
+  * To compile using CMake:
+    * Install `cmake` (run `sudo apt install cmake`). 
+    * Create a makefile by running: `cmake ..` 
+    * Then compile by running: `make`
 
 You should see the resulting executable `image-analysis-samples.exe` in the current folder.
 
