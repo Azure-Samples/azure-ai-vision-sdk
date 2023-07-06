@@ -1,4 +1,6 @@
-# This is a basic workflow to help you get started with Actions
+# See GitHub actions documents:
+# https://docs.github.com/en/actions/using-workflows
+# https://github.com/actions/starter-workflows/tree/main/deployments
 
 name: CI
 
@@ -13,24 +15,35 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  DOTNET_VERSION: '6.0.x' # set this to the dotnet version to use (e.g. '2.1.x', '3.1.x', '5.0.x')
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-20.04
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+  build-windows-dotnet:
+    runs-on: windows-lates
+    environment: dev
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
+    - name: 'Checkout Repository'
+      uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: 'Resolve Project Dependencies Using Dotnet'
+      shell: cmd
+      run: |
+        pushd samples\csharp\image-analysis\dotnetcore
+        dotnet build
+        popd
+              
+  build-linux:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Run a one-line script # Runs a single command using the runners shell
         run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Run a multi-line script       # Runs a set of commands using the runners shell
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
