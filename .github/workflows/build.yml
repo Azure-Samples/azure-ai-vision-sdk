@@ -63,9 +63,11 @@ jobs:
       run: |
         pushd ./docs/learn.microsoft.com/csharp/image-analysis
         dotnet build
+        popd
     - name: 'Run .NET docs code snippets'
       shell: bash
       run: |
+        pushd ./docs/learn.microsoft.com/csharp/image-analysis
         dotnet run --project 1/1.csproj
         dotnet run --project 2/2.csproj
         #dotnet run --project 3/3.csproj  # Skip, since required custom model
