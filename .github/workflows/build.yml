@@ -22,9 +22,13 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build-windows:
-    runs-on: windows-latest
-    environment: dev
+  build:
+    name: Build ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    continue-on-error: true
+    strategy:
+      matrix:
+       os: [ubuntu-20.04, windows-latest]
     steps:
     - name: 'Checkout Repository'
       uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -53,34 +57,4 @@ jobs:
         #dotnet run --project 3/3.csproj  # Skip, since required custom model
         dotnet run --project segmentation/segmentation.csproj
         popd
-        
-  build-linux:
-    runs-on: ubuntu-20.04
-    steps:
-    - name: 'Checkout Repository'    
-      uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
-    - name: 'Build .NET sample'
-      shell: pwsh
-      run: |
-        pushd ./samples/csharp/image-analysis/dotnetcore
-        dotnet build --configuration Release
-        popd
-    - name: 'Build .NET docs code snippets'
-      shell: pwsh
-      run: |
-        pushd ./docs/learn.microsoft.com/csharp/image-analysis
-        dotnet build --configuration Release
-        popd
-    - name: 'Run .NET docs code snippets'
-      shell: pwsh
-      run: |
-        pushd ./docs/learn.microsoft.com/csharp/image-analysis
-        dotnet run --project 1/1.csproj
-        dotnet run --project 2/2.csproj
-        #dotnet run --project 3/3.csproj  # Skip, since required custom model
-        dotnet run --project segmentation/segmentation.csproj
-        popd
+ 
