@@ -33,21 +33,21 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
     - name: 'Build .NET sample'
-      shell: cmd
+      shell: pwsh
       run: |
-        pushd samples\csharp\image-analysis\dotnetcore
+        pushd ./samples/csharp/image-analysis/dotnetcore
         dotnet build --configuration Release
         popd
     - name: 'Build .NET docs code snippets'
-      shell: cmd
+      shell: pwsh
       run: |
-        pushd docs\learn.microsoft.com\csharp\image-analysis
+        pushd ./docs/learn.microsoft.com/csharp/image-analysis
         dotnet build --configuration Release
         popd
     - name: 'Run .NET docs code snippets'
-      shell: cmd
+      shell: pwsh
       run: |
-        pushd docs\learn.microsoft.com\csharp\image-analysis
+        pushd ./docs/learn.microsoft.com/csharp/image-analysis
         dotnet run --project 1/1.csproj
         dotnet run --project 2/2.csproj
         #dotnet run --project 3/3.csproj  # Skip, since required custom model
@@ -64,19 +64,19 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
     - name: 'Build .NET sample'
-      shell: bash
+      shell: pwsh
       run: |
         pushd ./samples/csharp/image-analysis/dotnetcore
         dotnet build --configuration Release
         popd
     - name: 'Build .NET docs code snippets'
-      shell: bash
+      shell: pwsh
       run: |
         pushd ./docs/learn.microsoft.com/csharp/image-analysis
         dotnet build --configuration Release
         popd
     - name: 'Run .NET docs code snippets'
-      shell: bash
+      shell: pwsh
       run: |
         pushd ./docs/learn.microsoft.com/csharp/image-analysis
         dotnet run --project 1/1.csproj
