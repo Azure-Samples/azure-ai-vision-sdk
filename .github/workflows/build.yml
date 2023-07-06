@@ -55,7 +55,7 @@ jobs:
         pushd ./docs/learn.microsoft.com/csharp/image-analysis
         $output = dotnet run --project 1/1.csproj
         Write-Output $output
-        if ($output -contains "Image height = 692") { exit 1 }
+        if ($output.Contains(" Image height = 692")) { exit 1 }
         Write-Output "============== project 2 =============="         
         $output = dotnet run --project 2/2.csproj
         Write-Output $output
