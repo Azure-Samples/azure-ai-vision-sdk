@@ -40,10 +40,15 @@ jobs:
   build-linux:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Run a one-line script # Runs a single command using the runners shell
-        run: echo Hello, world!
-      - name: Run a multi-line script       # Runs a set of commands using the runners shell
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+    - name: 'Checkout Repository'    
+    - uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: 'Resolve Project Dependencies Using Dotnet'
+      shell: bash
+      run: |
+        pushd ./samples/csharp/image-analysis/dotnetcore
+        dotnet build
+        popd
