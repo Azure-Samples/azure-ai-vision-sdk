@@ -23,7 +23,7 @@ env:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build-windows-dotnet:
-    runs-on: windows-lates
+    runs-on: windows-latest
     environment: dev
     steps:
     - name: 'Checkout Repository'
@@ -41,7 +41,7 @@ jobs:
     - name: 'Build .NET docs code snippets'
       shell: cmd
       run: |
-        pushd docs\learn.microsoft.com\csharp\image-analysie
+        pushd docs\learn.microsoft.com\csharp\image-analysis
         dotnet build
         popd
               
