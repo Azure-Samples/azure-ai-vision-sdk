@@ -30,10 +30,16 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
-    - name: 'Resolve Project Dependencies Using Dotnet'
+    - name: 'Build .NET sample'
       shell: cmd
       run: |
         pushd samples\csharp\image-analysis\dotnetcore
+        dotnet build
+        popd
+    - name: 'Build .NET docs code snippets'
+      shell: cmd
+      run: |
+        pushd docs\learn.microsoft.com\csharp\image-analysie
         dotnet build
         popd
               
@@ -46,9 +52,22 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
-    - name: 'Resolve Project Dependencies Using Dotnet'
+    - name: 'Build .NET sample'
       shell: bash
       run: |
         pushd ./samples/csharp/image-analysis/dotnetcore
         dotnet build
+        popd
+    - name: 'Build .NET docs code snippets'
+      shell: bash
+      run: |
+        pushd ./docs/learn.microsoft.com/csharp/image-analysis
+        dotnet build
+    - name: 'Run .NET docs code snippets'
+      shell: bash
+      run: |
+        dotnet run --project 1/1.csproj
+        dotnet run --project 2/2.csproj
+        #dotnet run --project 3/3.csproj  # Skip, since required custom model
+        dotnet run --project segmentation/segmentation.csproj
         popd
