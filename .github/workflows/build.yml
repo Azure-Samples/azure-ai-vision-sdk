@@ -51,10 +51,17 @@ jobs:
     - name: 'Run .NET docs code snippets'
       shell: pwsh
       run: |
+        Write-Output "============== project 1 ==============" 
         pushd ./docs/learn.microsoft.com/csharp/image-analysis
-        dotnet run --project 1/1.csproj
-        dotnet run --project 2/2.csproj
+        $output = dotnet run --project 1/1.csproj
+        Write-Output $output
+        if ($output -contains "Image height = 692") { exit 1 }
+        Write-Output "============== project 2 =============="         
+        $output = dotnet run --project 2/2.csproj
+        Write-Output $output
         #dotnet run --project 3/3.csproj  # Skip, since required custom model
-        dotnet run --project segmentation/segmentation.csproj
+        Write-Output "========= project segmentation ========" 
+        $output = dotnet run --project segmentation/segmentation.csproj
+        Write-Output $output
         popd
  
