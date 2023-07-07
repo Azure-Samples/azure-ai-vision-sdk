@@ -156,7 +156,7 @@ jobs:
   # See Python workflow example in:
   # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
   image-analysis-python-windows-linux:
-    if: false # skip this job
+    #if: false # skip this job
     name: Image Analysis Python ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
