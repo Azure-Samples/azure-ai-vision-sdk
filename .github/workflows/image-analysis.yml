@@ -38,16 +38,27 @@ jobs:
         sudo dpkg -i packages-microsoft-prod.deb
         sudo apt update
         sudo apt install azure-ai-vision-dev-image-analysis
-    - name: Build C++ Samples using CMake
+    - name: Build C++ sample using CMake
       shell: pwsh
       run: |
         pushd ./samples/cpp/image-analysis/linux
+        rm -r build
         mkdir build
         cd build
         cmake ..
         make
+        ls -la
         popd
-    - name: Build C++ Samples using make
+    - name: Get usage help from C++ sample built using CMake
+      shell: pwsh
+      run: |
+        pushd ./samples/cpp/image-analysis/linux/build  
+        $output = (././image-analysis-samples.exe -h) -join "`n"
+        Write-Output $output
+        if ($output -notmatch "To run the samples") {exit 1} 
+        if ($output -notmatch "To get this usage help, run") {exit 1}        
+        popd
+    - name: Build C++ Samples using makefile
       shell: pwsh
       run: |
         pushd ./samples/cpp/image-analysis/linux
@@ -55,6 +66,16 @@ jobs:
         mkdir build
         cd build
         make -f ../makefile
+        ls -la
+        popd
+    - name: Get usage help from C++ sample built using makefile
+      shell: pwsh
+      run: |
+        pushd ./samples/cpp/image-analysis/linux/build  
+        $output = (././image-analysis-samples.exe -h) -join "`n"
+        Write-Output $output
+        if ($output -notmatch "To run the samples") {exit 1} 
+        if ($output -notmatch "To get this usage help, run") {exit 1}        
         popd
 
   image-analysis-cpp-windows:
