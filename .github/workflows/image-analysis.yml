@@ -277,7 +277,7 @@ jobs:
       run: |
         pushd ./samples/csharp/image-analysis/dotnetcore
         dotnet build --configuration Release
-        ls .\bin\Release\netcoreapp3.1
+        ls ./bin/Release/netcoreapp3.1
         popd
     - name: Run .NET samples -h flag
       shell: pwsh
