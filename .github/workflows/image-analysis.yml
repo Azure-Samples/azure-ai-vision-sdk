@@ -156,7 +156,7 @@ jobs:
   # See Python workflow example in:
   # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
   image-analysis-python-windows-linux:
-    #if: false # skip this job
+    if: false # skip this job
     name: Image Analysis Python ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
@@ -212,9 +212,9 @@ jobs:
         pushd ./samples/python/image-analysis
         $output = (python main.py -h) -join "`n"
         Write-Output $output
-        if ($output -notmatch "To run the samples") {exit 1} 
+        if ($output -notmatch "To run the samples") {exit 1}
         if ($output -notmatch "To get this usage help, run") {exit 1}
-        if ($output -notmatch "VISION_KEY") {exit 1} 
+        if ($output -notmatch "VISION_KEY") {exit 1}
         if ($output -notmatch "VISION_ENDPOINT") {exit 1}
         popd
 
@@ -223,7 +223,7 @@ jobs:
   # See C# workflow example in:
   # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
   image-analysis-csharp-windows-linux:
-    if: false # skip this job
+    #if: false # skip this job
     name: Image Analysis C# ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
@@ -236,12 +236,6 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
-    - name: Build .NET samples
-      shell: pwsh
-      run: |
-        pushd ./samples/csharp/image-analysis/dotnetcore
-        dotnet build --configuration Release
-        popd
     - name: Build .NET public docs code snippets
       shell: pwsh
       run: |
@@ -277,5 +271,23 @@ jobs:
         if ($output -notmatch "Output image buffer size \(bytes\) = 974425") {exit 1}
         if ($output -notmatch "Output image height = 692") {exit 1}
         if ($output -notmatch "File output.png written to disk") {exit 1}
+        popd
+    - name: Build .NET samples
+      shell: pwsh
+      run: |
+        pushd ./samples/csharp/image-analysis/dotnetcore
+        dotnet build --configuration Release
+        ls .\bin\Release\netcoreapp3.1
+        popd
+    - name: Run .NET samples -h flag
+      shell: pwsh
+      run: |
+        pushd ./samples/csharp/image-analysis/dotnetcore
+        $output = (dotnet run -- -h) -join "`n"
+        Write-Output $output
+        if ($output -notmatch "To run the samples") {exit 1}
+        if ($output -notmatch "To get this usage help, run") {exit 1}
+        if ($output -notmatch "VISION_KEY") {exit 1}
+        if ($output -notmatch "VISION_ENDPOINT") {exit 1}
         popd
  
