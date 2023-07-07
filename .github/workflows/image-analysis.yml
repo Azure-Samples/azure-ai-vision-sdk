@@ -22,8 +22,8 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build:
-    name: Build ${{ matrix.os }}
+  image-analysis-csharp-windows-linux:
+    name: Image Analysis C# ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     continue-on-error: true
     strategy:
