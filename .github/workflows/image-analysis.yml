@@ -114,7 +114,7 @@ jobs:
         $output = (./2.exe) -join "`n"
         Write-Output $output
         if ($output -notmatch "a person pointing at a screen") {exit 1}
-        if ($output -notmatch "Line: '9:35 AM'") {exit 1}
+        if ($output -notmatch "Line: `"9:35 AM`"") {exit 1}
 
         Write-Output "========= project 3 (skipped) ========="
 
