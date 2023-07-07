@@ -42,41 +42,41 @@ jobs:
         architecture: 'x64'
     - name: Install dependencies
       run: |
-        pip install --upgrade pip setuptools wheel
-        pip install "azure.ai.vision" --pre
+        python -m pip install --upgrade pip setuptools wheel
+        python -m pip install azure.ai.vision --pre
     - name: 'Run Python public docs code snippets'
-          shell: pwsh
-          run: |
-            Write-Output "============== project 1 ==============" 
-            pushd ./docs/learn.microsoft.com/python/image-analysis/1
-            $output = (pyton main.py) -join "`n"
-            Write-Output $output
-            if ($output -notmatch "Image height: 692") {exit 1} 
-            if ($output -notmatch "Model version: 2023-02-01-preview") {exit 1}
-            if ($output -notmatch "a person pointing at a screen") {exit 1}
-            if ($output -notmatch "Aspect ratio 0.9: Crop suggestion") {exit 1}
-            if ($output -notmatch "Line: '9:35 AM'") {exit 1}
-            if ($output -notmatch "Connection URL = https://") {exit 1}
-            popd
+      shell: pwsh
+      run: |
+        Write-Output "============== project 1 ==============" 
+        pushd ./docs/learn.microsoft.com/python/image-analysis/1
+        $output = (pyton main.py) -join "`n"
+        Write-Output $output
+        if ($output -notmatch "Image height: 692") {exit 1} 
+        if ($output -notmatch "Model version: 2023-02-01-preview") {exit 1}
+        if ($output -notmatch "a person pointing at a screen") {exit 1}
+        if ($output -notmatch "Aspect ratio 0.9: Crop suggestion") {exit 1}
+        if ($output -notmatch "Line: '9:35 AM'") {exit 1}
+        if ($output -notmatch "Connection URL = https://") {exit 1}
+        popd
 
-            Write-Output "============== project 2 =============="         
-            pushd ./docs/learn.microsoft.com/python/image-analysis/2
-            $output = (pyton main.py) -join "`n"
-            Write-Output $output
-            if ($output -notmatch "a person pointing at a screen") {exit 1}
-            if ($output -notmatch "Line: '9:35 AM'") {exit 1}
-            popd
+        Write-Output "============== project 2 =============="         
+        pushd ./docs/learn.microsoft.com/python/image-analysis/2
+        $output = (pyton main.py) -join "`n"
+        Write-Output $output
+        if ($output -notmatch "a person pointing at a screen") {exit 1}
+        if ($output -notmatch "Line: '9:35 AM'") {exit 1}
+        popd
 
-            Write-Output "========= project 3 (skipped) ========="
+        Write-Output "========= project 3 (skipped) ========="
 
-            Write-Output "========= project segmentation ========" 
-            pushd ./docs/learn.microsoft.com/python/image-analysis/segmentation
-            $output = (pyton main.py) -join "`n"
-            Write-Output $output
-            if ($output -notmatch "Output image buffer size \(bytes\) = 974425") {exit 1}
-            if ($output -notmatch "Output image height = 692") {exit 1}
-            if ($output -notmatch "File output.png written to disk") {exit 1}
-            popd
+        Write-Output "========= project segmentation ========" 
+        pushd ./docs/learn.microsoft.com/python/image-analysis/segmentation
+        $output = (pyton main.py) -join "`n"
+        Write-Output $output
+        if ($output -notmatch "Output image buffer size \(bytes\) = 974425") {exit 1}
+        if ($output -notmatch "Output image height = 692") {exit 1}
+        if ($output -notmatch "File output.png written to disk") {exit 1}
+        popd
    
   # See C# workflow example in:
   # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
