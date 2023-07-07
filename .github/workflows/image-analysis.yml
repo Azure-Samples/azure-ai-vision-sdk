@@ -1,3 +1,5 @@
+# TODO: Split to separate YML files, for each programming langauge
+
 # See GitHub actions documents:
 # https://docs.github.com/en/actions/using-workflows
 # https://github.com/actions/starter-workflows/tree/main/deployments
@@ -25,7 +27,7 @@ env:
 jobs:
   # TODO: Run the samples and check expected output
   image-analysis-cpp-linux:
-    if: false # skip this job
+    #if: false # skip this job
     name: Image Analysis C++ ubuntu-20.04
     runs-on:  ubuntu-20.04
     steps:
@@ -86,7 +88,7 @@ jobs:
 
   # TODO: Run the samples and check expected output
   image-analysis-cpp-windows:
-    if: false # skip this job
+    #if: false # skip this job
     name: Image Analysis C++ windows-latest
     runs-on:  windows-latest
     steps:
@@ -156,7 +158,7 @@ jobs:
   # See Python workflow example in:
   # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
   image-analysis-python-windows-linux:
-    if: false # skip this job
+    #if: false # skip this job
     name: Image Analysis Python ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
@@ -218,7 +220,7 @@ jobs:
         if ($output -notmatch "VISION_ENDPOINT") {exit 1}
         popd
 
-  # TODO: Run the samples with -h flag and check expected output
+  # TODO: Update samples to target .NET 6.0, then run the samples with -h flag and check expected output
   # TODO: Run the samples and check expected output
   # See C# workflow example in:
   # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
@@ -236,6 +238,9 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: Show installed .NET SDK and runtime versions
+      shell: pwsh
+      run: dotnet sdk check
     - name: Build .NET public docs code snippets
       shell: pwsh
       run: |
@@ -280,6 +285,7 @@ jobs:
         ls ./bin/Release/netcoreapp3.1
         popd
     - name: Run .NET samples -h flag
+      if: false # skip this job
       shell: pwsh
       run: |
         pushd ./samples/csharp/image-analysis/dotnetcore
