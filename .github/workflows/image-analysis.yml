@@ -23,12 +23,40 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  image-analysis-cpp-windows:
+  name: Image Analysis C++ windows-latest
+  runs-on:  windows-latest
+  steps:
+  - name: 'Checkout Repository'
+    uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+  - name: 'Build C++ public docs code snippets'
+    shell: pwsh
+    run: |
+      pushd ./docs/learn.microsoft.com/cpp/image-analysis
+      nuget restore image-analysis.sln
+      msbuild /p:Configuration=Release /p:Platform=x64 image-analysis.sln
+      popd
+  - name: 'Run C++ public docs code snippets'
+    shell: pwsh
+    run: |
+      Write-Output "============== project 1 ==============" 
+      pushd ./docs/learn.microsoft.com/cpp/image-analysis/x64/Release
+      $output = (./1.exe) -join "`n"
+      Write-Output $output
+      if ($output -notmatch "Image height = 692") {exit 1} 
+      if ($output -notmatch "Model version = 2023-02-01-preview") {exit 1}
+      if ($output -notmatch "a person pointing at a screen") {exit 1}
+      if ($output -notmatch "Aspect ratio 0.9: Crop suggestion") {exit 1}
+      if ($output -notmatch "Line: `"9:35 AM`"") {exit 1}
+      if ($output -notmatch "Image ID = https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png") {exit 1}
+
+
   # See Python workflow example in:
   # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
   image-analysis-python-windows-linux:
+    if: false # skip this job
     name: Image Analysis Python ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    continue-on-error: true
     strategy:
       matrix:
        os: [ubuntu-20.04, windows-latest]
@@ -80,9 +108,9 @@ jobs:
   # See C# workflow example in:
   # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
   image-analysis-csharp-windows-linux:
+    if: false # skip this job
     name: Image Analysis C# ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    continue-on-error: true
     strategy:
       matrix:
        os: [ubuntu-20.04, windows-latest]
