@@ -7,21 +7,78 @@ name: Image Analysis
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  #push:
+  #  branches: [ "main" ]
+  #pull_request:
+  #  branches: [ "main" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 env:
   DOTNET_VERSION: '6.0.x' # set this to the dotnet version to use (e.g. '2.1.x', '3.1.x', '5.0.x')
+  PYTHON_VERSION: '3.11'
   VISION_KEY: ${{ secrets.VISION_KEY }}
   VISION_ENDPOINT: ${{ secrets.VISION_ENDPOINT }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  # See Python workflow example in:
+  # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+  image-analysis-python-windows-linux:
+    name: Image Analysis Python ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    continue-on-error: true
+    strategy:
+      matrix:
+       os: [ubuntu-20.04, windows-latest]
+    steps:
+    - name: 'Checkout Repository'
+      uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        architecture: 'x64'
+    - name: Install dependencies
+      run: python -m pip install azure.ai.vision --pre
+    - name: 'Run Python public docs code snippets'
+      timeout-minutes: 3
+      shell: pwsh
+      run: |
+        Write-Output "============== project 1 ==============" 
+        pushd ./docs/learn.microsoft.com/python/image-analysis/1
+        $output = (python main.py) -join "`n"
+        Write-Output $output
+        if ($output -notmatch "Image height: 692") {exit 1} 
+        if ($output -notmatch "Model version: 2023-02-01-preview") {exit 1}
+        if ($output -notmatch "a person pointing at a screen") {exit 1}
+        if ($output -notmatch "Aspect ratio 0.9: Crop suggestion") {exit 1}
+        if ($output -notmatch "Line: '9:35 AM'") {exit 1}
+        if ($output -notmatch "Image ID: https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png") {exit 1}
+        popd
+
+        Write-Output "============== project 2 =============="         
+        pushd ./docs/learn.microsoft.com/python/image-analysis/2
+        $output = (python main.py) -join "`n"
+        Write-Output $output
+        if ($output -notmatch "a person pointing at a screen") {exit 1}
+        if ($output -notmatch "Line: '9:35 AM'") {exit 1}
+        popd
+
+        Write-Output "========= project 3 (skipped) ========="
+
+        Write-Output "========= project segmentation ========" 
+        pushd ./docs/learn.microsoft.com/python/image-analysis/segmentation
+        $output = (python main.py) -join "`n"
+        Write-Output $output
+        if ($output -notmatch "Output image buffer size \(bytes\) = 974425") {exit 1}
+        if ($output -notmatch "Output image height = 692") {exit 1}
+        if ($output -notmatch "File output.png written to disk") {exit 1}
+        popd
+   
+  # See C# workflow example in:
+  # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
   image-analysis-csharp-windows-linux:
     name: Image Analysis C# ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -49,6 +106,7 @@ jobs:
         dotnet build --configuration Release
         popd
     - name: 'Run .NET public docs code snippets'
+      timeout-minutes: 3
       shell: pwsh
       run: |
         Write-Output "============== project 1 ==============" 
@@ -60,7 +118,7 @@ jobs:
         if ($output -notmatch "a person pointing at a screen") {exit 1}
         if ($output -notmatch "Aspect ratio 0.9: Crop suggestion") {exit 1}
         if ($output -notmatch "Line: '9:35 AM'") {exit 1}
-        if ($output -notmatch "Connection URL = https://") {exit 1}
+        if ($output -notmatch "Image ID = https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png") {exit 1}
 
         Write-Output "============== project 2 =============="         
         $output = (dotnet run --project 2/2.csproj) -join "`n"
@@ -69,7 +127,6 @@ jobs:
         if ($output -notmatch "Line: '9:35 AM'") {exit 1}
 
         Write-Output "========= project 3 (skipped) ========="
-        #dotnet run --project 3/3.csproj  # Skip, since required custom model
 
         Write-Output "========= project segmentation ========" 
         $output = (dotnet run --project segmentation/segmentation.csproj) -join "`n"
