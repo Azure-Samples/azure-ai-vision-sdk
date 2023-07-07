@@ -27,12 +27,12 @@ jobs:
     name: Image Analysis C++ ubuntu-20.04
     runs-on:  ubuntu-20.04
     steps:
-    - name: Checkout Repository
+    - name: Checkout repository
       uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - name: Install Tools
+    - name: Install build tools
       run: |
         sudo apt-get install build-essential libssl-dev wget dpkg cmake g++   
-    - name: Inatall Image Analysis Debian Package
+    - name: Install Image Analysis Debian package
       run: |
         wget "https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb"
         sudo dpkg -i packages-microsoft-prod.deb
@@ -58,7 +58,7 @@ jobs:
         if ($output -notmatch "To run the samples") {exit 1} 
         if ($output -notmatch "To get this usage help, run") {exit 1}        
         popd
-    - name: Build C++ Samples using makefile
+    - name: Build C++ sample using makefile
       shell: pwsh
       run: |
         pushd ./samples/cpp/image-analysis/linux
@@ -79,16 +79,13 @@ jobs:
         popd
 
   image-analysis-cpp-windows:
-    if: false # skip this job
     name: Image Analysis C++ windows-latest
     runs-on:  windows-latest
     steps:
-    - name: Checkout Repository
+    - name: Checkout repository
       uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - name: Install Visual Studio Build Tools
-      run: |
-        choco install visualstudio2022buildtools --package-parameters "--includeRecommended --includeOptional --passive"
-        choco install visualstudio2022-workload-vctools --package-parameters "--includeRecommended --includeOptional --passive"      
+    - name: Install Visual Studio build tools
+      uses: microsoft/setup-msbuild@v1.0.3
     - name: Build C++ public docs code snippets
       shell: pwsh
       run: |
@@ -120,7 +117,7 @@ jobs:
       matrix:
        os: [ubuntu-20.04, windows-latest]
     steps:
-    - name: 'Checkout Repository'
+    - name: Checkout repository
       uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Set up Python ${{ env.PYTHON_VERSION }}
       uses: actions/setup-python@v4
@@ -129,7 +126,7 @@ jobs:
         architecture: 'x64'
     - name: Install dependencies
       run: python -m pip install azure.ai.vision --pre
-    - name: 'Run Python public docs code snippets'
+    - name: Run Python public docs code snippets
       timeout-minutes: 3
       shell: pwsh
       run: |
@@ -174,25 +171,25 @@ jobs:
       matrix:
        os: [ubuntu-20.04, windows-latest]
     steps:
-    - name: 'Checkout Repository'
+    - name: Checkout repository
       uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - name: Setup .NET ${{ env.DOTNET_VERSION }} Environment
+    - name: Setup .NET ${{ env.DOTNET_VERSION }} environment
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
-    - name: 'Build .NET samples'
+    - name: Build .NET samples
       shell: pwsh
       run: |
         pushd ./samples/csharp/image-analysis/dotnetcore
         dotnet build --configuration Release
         popd
-    - name: 'Build .NET public docs code snippets'
+    - name: Build .NET public docs code snippets
       shell: pwsh
       run: |
         pushd ./docs/learn.microsoft.com/csharp/image-analysis
         dotnet build --configuration Release
         popd
-    - name: 'Run .NET public docs code snippets'
+    - name: Run .NET public docs code snippets
       timeout-minutes: 3
       shell: pwsh
       run: |
