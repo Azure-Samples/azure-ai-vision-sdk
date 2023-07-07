@@ -60,7 +60,6 @@ class Program
             Console.WriteLine($"   Error reason : {errorDetails.Reason}");
             Console.WriteLine($"   Error code : {errorDetails.ErrorCode}");
             Console.WriteLine($"   Error message: {errorDetails.Message}");
-            Console.WriteLine(" Did you set the computer vision endpoint and key?");
         }
         // </segment>
     }

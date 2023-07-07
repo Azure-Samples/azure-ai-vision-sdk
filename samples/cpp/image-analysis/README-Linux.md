@@ -12,7 +12,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
   * You will need the key and endpoint from the resource you create to connect your application to the Computer Vision service.
   * You can use the free pricing tier (`F0`) to try the service, and upgrade later to a paid tier for production.
-  * Note that in order to run Image Analysis with the `Caption` and `DenseCaptions` features, the Azure resource needs to be from one of the following GPU-supported regions: East US, France Central, Korea Central, North Europe, Southeast Asia, West Europe, West US.
+  * Note that in order to run Image Analysis with the `Caption` or `DenseCaptions` features, the Azure resource needs to be from one of the following GPU-supported regions: East US, France Central, Korea Central, North Europe, Southeast Asia, West Europe, West US.
 
 * A Linux x64 device, running Ubuntu 18.04/20.04/22.04, Debian 9/10/11 or Red Hat Enterprise Linux (RHEL) 7/8.
 
