@@ -23,7 +23,9 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  # TODO: Run the samples and check expected output
   image-analysis-cpp-linux:
+    if: false # skip this job
     name: Image Analysis C++ ubuntu-20.04
     runs-on:  ubuntu-20.04
     steps:
@@ -72,20 +74,21 @@ jobs:
       shell: pwsh
       run: |
         pushd ./samples/cpp/image-analysis/linux/build  
-        $output = (././image-analysis-samples.exe -h) -join "`n"
+        $output = (./image-analysis-samples.exe -h) -join "`n"
         Write-Output $output
         if ($output -notmatch "To run the samples") {exit 1} 
         if ($output -notmatch "To get this usage help, run") {exit 1}        
         popd
 
+  # TODO: Run the samples and check expected output
   image-analysis-cpp-windows:
     name: Image Analysis C++ windows-latest
     runs-on:  windows-latest
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - name: Install Visual Studio build tools
-      uses: microsoft/setup-msbuild@v1.0.3
+    - name: Install msbuild      
+      uses: microsoft/setup-msbuild@v1 # See https://github.com/marketplace/actions/setup-msbuild
     - name: Build C++ public docs code snippets
       shell: pwsh
       run: |
@@ -96,8 +99,8 @@ jobs:
     - name: Run C++ public docs code snippets
       shell: pwsh
       run: |
-        Write-Output "============== project 1 ==============" 
         pushd ./docs/learn.microsoft.com/cpp/image-analysis/x64/Release
+        Write-Output "============== project 1 ==============" 
         $output = (./1.exe) -join "`n"
         Write-Output $output
         if ($output -notmatch "Image height = 692") {exit 1} 
@@ -107,6 +110,42 @@ jobs:
         if ($output -notmatch "Line: `"9:35 AM`"") {exit 1}
         if ($output -notmatch "Image ID = https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png") {exit 1}
 
+        Write-Output "============== project 2 =============="         
+        $output = (./2.exe) -join "`n"
+        Write-Output $output
+        if ($output -notmatch "a person pointing at a screen") {exit 1}
+        if ($output -notmatch "Line: '9:35 AM'") {exit 1}
+
+        Write-Output "========= project 3 (skipped) ========="
+
+        Write-Output "========= project segmentation ========" 
+        $output = (./segmentation.exe) -join "`n"
+        Write-Output $output
+        if ($output -notmatch "Output image buffer size \(bytes\) = 974425") {exit 1}
+        if ($output -notmatch "Output image height = 692") {exit 1}
+        if ($output -notmatch "File output.png written to disk") {exit 1}
+        popd
+    - name: Build C++ public samples
+      shell: pwsh
+      run: |
+        pushd ./samples/cpp/image-analysis/windows
+        nuget restore image-analysis-samples.sln
+        msbuild /p:Configuration=Release /p:Platform=x64 image-analysis-samples.sln
+        ls ./x64/Release
+        popd
+    - name: Run C++ public samples with -h flag
+      shell: pwsh
+      run: |
+        pushd ./samples/cpp/image-analysis/windows/x64/Release
+        $output = (./image-analysis-samples.exe -h) -join "`n"
+        Write-Output $output
+        if ($output -notmatch "To run the samples") {exit 1} 
+        if ($output -notmatch "To get this usage help, run") {exit 1}        
+        popd
+
+  # TODO: Lint
+  # TODO: Run the samples with -h flag and check expected output
+  # TODO: Run the samples and check expected output
   # See Python workflow example in:
   # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
   image-analysis-python-windows-linux:
@@ -160,7 +199,9 @@ jobs:
         if ($output -notmatch "Output image height = 692") {exit 1}
         if ($output -notmatch "File output.png written to disk") {exit 1}
         popd
-   
+
+  # TODO: Run the samples with -h flag and check expected output
+  # TODO: Run the samples and check expected output
   # See C# workflow example in:
   # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
   image-analysis-csharp-windows-linux:
