@@ -74,7 +74,8 @@ jobs:
         Write-Output "========= project segmentation ========" 
         $output = (dotnet run --project segmentation/segmentation.csproj) -join "`n"
         Write-Output $output
-        if ($output -notmatch "Output image buffer size (bytes) = 974425") {exit 1}
+        if ($output -notmatch "Output image buffer size \(bytes\) = 974425") {exit 1}
         if ($output -notmatch "Output image height = 692") {exit 1}
+        if ($output -notmatch "File output.png written to disk") {exit 1}
         popd
  
