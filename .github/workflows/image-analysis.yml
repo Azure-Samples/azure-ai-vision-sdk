@@ -1,3 +1,5 @@
+# TODO: Split to separate YML files, for each programming langauge
+
 # See GitHub actions documents:
 # https://docs.github.com/en/actions/using-workflows
 # https://github.com/actions/starter-workflows/tree/main/deployments
@@ -23,17 +25,147 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  # TODO: Run the samples and check expected output
+  image-analysis-cpp-linux:
+    #if: false # skip this job
+    name: Image Analysis C++ ubuntu-20.04
+    runs-on:  ubuntu-20.04
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: Install build tools
+      run: |
+        sudo apt-get install build-essential libssl-dev wget dpkg cmake g++
+    - name: Install Image Analysis Debian package
+      run: |
+        wget "https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb"
+        sudo dpkg -i packages-microsoft-prod.deb
+        sudo apt update
+        sudo apt install azure-ai-vision-dev-image-analysis
+    - name: Build C++ sample using CMake
+      shell: pwsh
+      run: |
+        pushd ./samples/cpp/image-analysis/linux
+        rm -r build
+        mkdir build
+        cd build
+        cmake ..
+        make
+        ls -la
+        popd
+    - name: Get usage help from C++ sample built using CMake
+      shell: pwsh
+      run: |
+        pushd ./samples/cpp/image-analysis/linux/build  
+        $output = (././image-analysis-samples.exe -h) -join "`n"
+        Write-Output $output
+        if ($output -notmatch "To run the samples") {exit 1} 
+        if ($output -notmatch "To get this usage help, run") {exit 1}
+        if ($output -notmatch "VISION_KEY") {exit 1} 
+        if ($output -notmatch "VISION_ENDPOINT") {exit 1}
+        popd
+    - name: Build C++ sample using makefile
+      shell: pwsh
+      run: |
+        pushd ./samples/cpp/image-analysis/linux
+        rm -r build
+        mkdir build
+        cd build
+        make -f ../makefile
+        ls -la
+        popd
+    - name: Get usage help from C++ sample built using makefile
+      shell: pwsh
+      run: |
+        pushd ./samples/cpp/image-analysis/linux/build  
+        $output = (./image-analysis-samples.exe -h) -join "`n"
+        Write-Output $output
+        if ($output -notmatch "To run the samples") {exit 1}
+        if ($output -notmatch "To get this usage help, run") {exit 1}
+        if ($output -notmatch "VISION_KEY") {exit 1} 
+        if ($output -notmatch "VISION_ENDPOINT") {exit 1}
+        popd
+
+  # TODO: Run the samples and check expected output
+  image-analysis-cpp-windows:
+    #if: false # skip this job
+    name: Image Analysis C++ windows-latest
+    runs-on:  windows-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1 # See https://github.com/marketplace/actions/setup-msbuild
+    - name: Build C++ public docs code snippets
+      shell: pwsh
+      run: |
+        pushd ./docs/learn.microsoft.com/cpp/image-analysis
+        nuget restore image-analysis.sln
+        msbuild /p:Configuration=Release /p:Platform=x64 image-analysis.sln
+        popd
+    - name: Run C++ public docs code snippets
+      timeout-minutes: 3
+      shell: pwsh
+      run: |
+        pushd ./docs/learn.microsoft.com/cpp/image-analysis/x64/Release
+        Write-Output "============== project 1 ==============" 
+        $output = (./1.exe) -join "`n"
+        Write-Output $output
+        if ($output -notmatch "Image height = 692") {exit 1} 
+        if ($output -notmatch "Model version = 2023-02-01-preview") {exit 1}
+        if ($output -notmatch "a person pointing at a screen") {exit 1}
+        if ($output -notmatch "Aspect ratio 0.9: Crop suggestion") {exit 1}
+        if ($output -notmatch "Line: `"9:35 AM`"") {exit 1}
+        if ($output -notmatch "Image ID = https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png") {exit 1}
+
+        Write-Output "============== project 2 =============="
+        $output = (./2.exe) -join "`n"
+        Write-Output $output
+        if ($output -notmatch "a person pointing at a screen") {exit 1}
+        if ($output -notmatch "Line: `"9:35 AM`"") {exit 1}
+
+        Write-Output "========= project 3 (skipped) ========="
+
+        Write-Output "========= project segmentation ========" 
+        $output = (./segmentation.exe) -join "`n"
+        Write-Output $output
+        if ($output -notmatch "Output image buffer size \(bytes\) = 974425") {exit 1}
+        if ($output -notmatch "Output image height = 692") {exit 1}
+        if ($output -notmatch "File output.png written to disk") {exit 1}
+        popd
+    - name: Build C++ public samples
+      shell: pwsh
+      run: |
+        pushd ./samples/cpp/image-analysis/windows
+        nuget restore image-analysis-samples.sln
+        msbuild /p:Configuration=Release /p:Platform=x64 image-analysis-samples.sln
+        ls ./x64/Release
+        popd
+    - name: Run C++ public samples with -h flag
+      shell: pwsh
+      run: |
+        pushd ./samples/cpp/image-analysis/windows/x64/Release
+        $output = (./image-analysis-samples.exe -h) -join "`n"
+        Write-Output $output
+        if ($output -notmatch "To run the samples") {exit 1} 
+        if ($output -notmatch "To get this usage help, run") {exit 1}
+        if ($output -notmatch "VISION_KEY") {exit 1} 
+        if ($output -notmatch "VISION_ENDPOINT") {exit 1}
+        popd
+
+  # TODO: Lint
+  # TODO: Run the samples and check expected output
   # See Python workflow example in:
   # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
   image-analysis-python-windows-linux:
+    #if: false # skip this job
     name: Image Analysis Python ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    continue-on-error: true
     strategy:
       matrix:
        os: [ubuntu-20.04, windows-latest]
     steps:
-    - name: 'Checkout Repository'
+    - name: Checkout repository
       uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Set up Python ${{ env.PYTHON_VERSION }}
       uses: actions/setup-python@v4
@@ -42,11 +174,11 @@ jobs:
         architecture: 'x64'
     - name: Install dependencies
       run: python -m pip install azure.ai.vision --pre
-    - name: 'Run Python public docs code snippets'
+    - name: Run Python public docs code snippets
       timeout-minutes: 3
       shell: pwsh
       run: |
-        Write-Output "============== project 1 ==============" 
+        Write-Output "============== project 1 =============="
         pushd ./docs/learn.microsoft.com/python/image-analysis/1
         $output = (python main.py) -join "`n"
         Write-Output $output
@@ -58,7 +190,7 @@ jobs:
         if ($output -notmatch "Image ID: https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png") {exit 1}
         popd
 
-        Write-Output "============== project 2 =============="         
+        Write-Output "============== project 2 =============="
         pushd ./docs/learn.microsoft.com/python/image-analysis/2
         $output = (python main.py) -join "`n"
         Write-Output $output
@@ -76,36 +208,46 @@ jobs:
         if ($output -notmatch "Output image height = 692") {exit 1}
         if ($output -notmatch "File output.png written to disk") {exit 1}
         popd
-   
+    - name: Run Python public sample with -h flag
+      shell: pwsh
+      run: |
+        pushd ./samples/python/image-analysis
+        $output = (python main.py -h) -join "`n"
+        Write-Output $output
+        if ($output -notmatch "To run the samples") {exit 1}
+        if ($output -notmatch "To get this usage help, run") {exit 1}
+        if ($output -notmatch "VISION_KEY") {exit 1}
+        if ($output -notmatch "VISION_ENDPOINT") {exit 1}
+        popd
+
+  # TODO: Update samples to target .NET 6.0, then run the samples with -h flag and check expected output
+  # TODO: Run the samples and check expected output
   # See C# workflow example in:
   # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
   image-analysis-csharp-windows-linux:
+    #if: false # skip this job
     name: Image Analysis C# ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    continue-on-error: true
     strategy:
       matrix:
        os: [ubuntu-20.04, windows-latest]
     steps:
-    - name: 'Checkout Repository'
+    - name: Checkout repository
       uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - name: Setup .NET ${{ env.DOTNET_VERSION }} Environment
+    - name: Setup .NET ${{ env.DOTNET_VERSION }} environment
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
-    - name: 'Build .NET samples'
+    - name: Show installed .NET SDK and runtime versions
       shell: pwsh
-      run: |
-        pushd ./samples/csharp/image-analysis/dotnetcore
-        dotnet build --configuration Release
-        popd
-    - name: 'Build .NET public docs code snippets'
+      run: dotnet sdk check
+    - name: Build .NET public docs code snippets
       shell: pwsh
       run: |
         pushd ./docs/learn.microsoft.com/csharp/image-analysis
         dotnet build --configuration Release
         popd
-    - name: 'Run .NET public docs code snippets'
+    - name: Run .NET public docs code snippets
       timeout-minutes: 3
       shell: pwsh
       run: |
@@ -120,7 +262,7 @@ jobs:
         if ($output -notmatch "Line: '9:35 AM'") {exit 1}
         if ($output -notmatch "Image ID = https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png") {exit 1}
 
-        Write-Output "============== project 2 =============="         
+        Write-Output "============== project 2 =============="
         $output = (dotnet run --project 2/2.csproj) -join "`n"
         Write-Output $output
         if ($output -notmatch "a person pointing at a screen") {exit 1}
@@ -134,5 +276,24 @@ jobs:
         if ($output -notmatch "Output image buffer size \(bytes\) = 974425") {exit 1}
         if ($output -notmatch "Output image height = 692") {exit 1}
         if ($output -notmatch "File output.png written to disk") {exit 1}
+        popd
+    - name: Build .NET samples
+      shell: pwsh
+      run: |
+        pushd ./samples/csharp/image-analysis/dotnetcore
+        dotnet build --configuration Release
+        ls ./bin/Release/netcoreapp3.1
+        popd
+    - name: Run .NET samples -h flag
+      if: false # skip this job
+      shell: pwsh
+      run: |
+        pushd ./samples/csharp/image-analysis/dotnetcore
+        $output = (dotnet run -- -h) -join "`n"
+        Write-Output $output
+        if ($output -notmatch "To run the samples") {exit 1}
+        if ($output -notmatch "To get this usage help, run") {exit 1}
+        if ($output -notmatch "VISION_KEY") {exit 1}
+        if ($output -notmatch "VISION_ENDPOINT") {exit 1}
         popd
  
