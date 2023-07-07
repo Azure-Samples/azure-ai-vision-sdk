@@ -32,36 +32,49 @@ jobs:
     steps:
     - name: 'Checkout Repository'
       uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
+    - name: Setup .NET ${{ env.DOTNET_VERSION }} Environment
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
-    - name: 'Build .NET sample'
+    - name: 'Build .NET samples'
       shell: pwsh
       run: |
         pushd ./samples/csharp/image-analysis/dotnetcore
         dotnet build --configuration Release
         popd
-    - name: 'Build .NET docs code snippets'
+    - name: 'Build .NET public docs code snippets'
       shell: pwsh
       run: |
         pushd ./docs/learn.microsoft.com/csharp/image-analysis
         dotnet build --configuration Release
         popd
-    - name: 'Run .NET docs code snippets'
+    - name: 'Run .NET public docs code snippets'
       shell: pwsh
       run: |
         Write-Output "============== project 1 ==============" 
         pushd ./docs/learn.microsoft.com/csharp/image-analysis
-        $output = dotnet run --project 1/1.csproj
+        $output = (dotnet run --project 1/1.csproj) -join "`n"
         Write-Output $output
-        if ($output.Contains(" Image height = 692")) { exit 1 }
+        if ($output -notmatch "Image height = 692") {exit 1} 
+        if ($output -notmatch "Model version = 2023-02-01-preview") {exit 1}
+        if ($output -notmatch "a person pointing at a screen") {exit 1}
+        if ($output -notmatch "Aspect ratio 0.9: Crop suggestion") {exit 1}
+        if ($output -notmatch "Line: '9:35 AM'") {exit 1}
+        if ($output -notmatch "Connection URL = https://") {exit 1}
+
         Write-Output "============== project 2 =============="         
-        $output = dotnet run --project 2/2.csproj
+        $output = (dotnet run --project 2/2.csproj) -join "`n"
         Write-Output $output
+        if ($output -notmatch "a person pointing at a screen") {exit 1}
+        if ($output -notmatch "Line: '9:35 AM'") {exit 1}
+
+        Write-Output "========= project 3 (skipped) ========="
         #dotnet run --project 3/3.csproj  # Skip, since required custom model
+
         Write-Output "========= project segmentation ========" 
-        $output = dotnet run --project segmentation/segmentation.csproj
+        $output = (dotnet run --project segmentation/segmentation.csproj) -join "`n"
         Write-Output $output
+        if ($output -notmatch "Output image buffer size (bytes) = 974425") {exit 1}
+        if ($output -notmatch "Output image height = 692") {exit 1}
         popd
  
