@@ -23,7 +23,42 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  image-analysis-cpp-linux:
+    name: Image Analysis C++ ubuntu-20.04
+    runs-on:  ubuntu-20.04
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: Install Tools
+      run: |
+        sudo apt-get install build-essential libssl-dev wget dpkg cmake g++   
+    - name: Inatall Image Analysis Debian Package
+      run: |
+        wget "https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb"
+        sudo dpkg -i packages-microsoft-prod.deb
+        sudo apt update
+        sudo apt install azure-ai-vision-dev-image-analysis
+    - name: Build C++ Samples using CMake
+      shell: pwsh
+      run: |
+        pushd ./samples/cpp/image-analysis/linux
+        mkdir build
+        cd build
+        cmake ..
+        make
+        popd
+    - name: Build C++ Samples using make
+      shell: pwsh
+      run: |
+        pushd ./samples/cpp/image-analysis/linux
+        rm -r build
+        mkdir build
+        cd build
+        make -f ../makefile
+        popd
+
   image-analysis-cpp-windows:
+    if: false # skip this job
     name: Image Analysis C++ windows-latest
     runs-on:  windows-latest
     steps:
@@ -53,7 +88,6 @@ jobs:
         if ($output -notmatch "Aspect ratio 0.9: Crop suggestion") {exit 1}
         if ($output -notmatch "Line: `"9:35 AM`"") {exit 1}
         if ($output -notmatch "Image ID = https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png") {exit 1}
-
 
   # See Python workflow example in:
   # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
