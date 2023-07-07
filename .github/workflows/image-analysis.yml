@@ -43,7 +43,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install --upgrade pip setuptools wheel
-        pip install azure.ai.vision
+        pip install "azure.ai.vision" --pre
     - name: 'Run Python public docs code snippets'
           shell: pwsh
           run: |
