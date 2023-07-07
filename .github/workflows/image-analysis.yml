@@ -29,6 +29,10 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - name: Install Visual Studio Build Tools
+      run: |
+        choco install visualstudio2022buildtools --package-parameters "--includeRecommended --includeOptional --passive"
+        choco install visualstudio2022-workload-vctools --package-parameters "--includeRecommended --includeOptional --passive"      
     - name: Build C++ public docs code snippets
       shell: pwsh
       run: |
