@@ -49,7 +49,7 @@ jobs:
       run: |
         Write-Output "============== project 1 ==============" 
         pushd ./docs/learn.microsoft.com/python/image-analysis/1
-        $output = (pyton main.py) -join "`n"
+        $output = (python main.py) -join "`n"
         Write-Output $output
         if ($output -notmatch "Image height: 692") {exit 1} 
         if ($output -notmatch "Model version: 2023-02-01-preview") {exit 1}
@@ -61,7 +61,7 @@ jobs:
 
         Write-Output "============== project 2 =============="         
         pushd ./docs/learn.microsoft.com/python/image-analysis/2
-        $output = (pyton main.py) -join "`n"
+        $output = (python main.py) -join "`n"
         Write-Output $output
         if ($output -notmatch "a person pointing at a screen") {exit 1}
         if ($output -notmatch "Line: '9:35 AM'") {exit 1}
@@ -71,7 +71,7 @@ jobs:
 
         Write-Output "========= project segmentation ========" 
         pushd ./docs/learn.microsoft.com/python/image-analysis/segmentation
-        $output = (pyton main.py) -join "`n"
+        $output = (python main.py) -join "`n"
         Write-Output $output
         if ($output -notmatch "Output image buffer size \(bytes\) = 974425") {exit 1}
         if ($output -notmatch "Output image height = 692") {exit 1}
