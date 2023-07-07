@@ -2,7 +2,7 @@
 # https://docs.github.com/en/actions/using-workflows
 # https://github.com/actions/starter-workflows/tree/main/deployments
 
-name: CI
+name: Image Analysis
 
 # Controls when the workflow will run
 on:
