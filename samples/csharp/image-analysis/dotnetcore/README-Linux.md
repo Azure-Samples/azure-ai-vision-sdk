@@ -27,7 +27,7 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
   sudo apt-get install libssl-dev
   ```
 
-* On Ubuntu 22.04 LTS it is also required to download and install the latest `libssl1.1` package e.g. from [here](http://security.ubuntu.com/ubuntu/pool/main/o/openssl).
+  * On **Ubuntu 22.04 LTS** it is also required to install **libssl** version 1.1 from source code. See instructions [here](../../../../docs/ubuntu2204-notes.md).
 
 ## Compile the sample
 
