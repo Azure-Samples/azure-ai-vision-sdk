@@ -29,23 +29,30 @@ These samples demonstrate how to run Image Analysis on an image file on disk or 
 
 Installing the Vision SDK package will require your device to support the APT/Debian package manager.
 
-### Ubuntu 18.04, Ubuntu 20.04, Debian 10 (Buster)
+### Ubuntu 18.04, Ubuntu 20.04, Ubuntu 22.04, Debian 10 (Buster)
 
 1. **By installing the Azure AI Vision SDK package you acknowledge the [Azure AI Vision SDK license agreement](https://aka.ms/azai/vision/license)**.
 
 1. The debian package is hosted on a Microsoft feed. To install the package, you first need to add the Microsoft feed to your device's package manager. To do that, run the following commands:
 
-   * For Ubuntu 18.04
+   * For Ubuntu 18.04 (Bionic Beaver)
    ```sh
    sudo apt install wget dpkg
    wget "https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb"
    sudo dpkg -i packages-microsoft-prod.deb 
    ```
 
-   * For Ubuntu 20.04
+   * For Ubuntu 20.04 (Focal Fossa)
    ```sh
    sudo apt install wget dpkg
    wget "https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb"
+   sudo dpkg -i packages-microsoft-prod.deb 
+   ```
+
+   * For Ubuntu 22.04 (Jammy Jellyfish)
+   ```sh
+   sudo apt install wget dpkg
+   wget "https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb"
    sudo dpkg -i packages-microsoft-prod.deb 
    ```
 
@@ -75,12 +82,13 @@ Installing the Vision SDK package will require your device to support the APT/De
 1. **By installing the Azure AI Vision SDK package you acknowledge the [Azure AI Vision SDK license agreement](https://aka.ms/azai/vision/license)**.
 
 1. Directly download the following 5 packages to your device:
-    1. [azure-ai-vision-dev-common-0.13.0~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-dev-common/azure-ai-vision-dev-common-0.13.0~beta.1-Linux.deb)
-    1. [azure-ai-vision-dev-image-analysis-0.13.0~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-dev-image-analysis/azure-ai-vision-dev-image-analysis-0.13.0~beta.1-Linux.deb)
-    1. [azure-ai-vision-runtime-common-0.13.0~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-runtime-common/azure-ai-vision-runtime-common-0.13.0~beta.1-Linux.deb)
-    1. [azure-ai-vision-runtime-common-media-0.13.0~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-runtime-common-media/azure-ai-vision-runtime-common-media-0.13.0~beta.1-Linux.deb)
-    1. [azure-ai-vision-runtime-image-analysis-0.13.0~beta.1-Linux.deb](https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-runtime-image-analysis/azure-ai-vision-runtime-image-analysis-0.13.0~beta.1-Linux.deb)
-
+    ```sh
+    wget https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-dev-common/azure-ai-vision-dev-common-0.13.0~beta.1-Linux.deb
+    wget https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-dev-image-analysis/azure-ai-vision-dev-image-analysis-0.13.0~beta.1-Linux.deb
+    wget https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-runtime-common/azure-ai-vision-runtime-common-0.13.0~beta.1-Linux.deb
+    wget https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-runtime-common-media/azure-ai-vision-runtime-common-media-0.13.0~beta.1-Linux.deb
+    wget https://packages.microsoft.com/repos/microsoft-ubuntu-bionic-prod/pool/main/a/azure-ai-vision-runtime-image-analysis/azure-ai-vision-runtime-image-analysis-0.13.0~beta.1-Linux.deb
+    ```
 1. Install the 5 packages:
     ```sh
     sudo apt update
@@ -99,7 +107,7 @@ Verify installation succeeded by listing these folders:
 
 You should see shared object files named `libAzure-AI-Vision-*.so` and a few others in the first folder.
 
-You should see header files named `vsion_api_cxx_*.h` and others in the second folder.
+You should see header files named `vsion_api_cxx_*.hpp` and others in the second folder.
 
 You should see package documents in the /usr/share/doc/azure-ai-vision-* folders (LICENSE.md, REDIST.txt, ThirdPartyNotices.txt).
 
