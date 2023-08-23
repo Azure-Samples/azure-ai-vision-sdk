@@ -4,8 +4,6 @@
 // This code is integrated into this public document:
 // https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/call-analyze-image-40?pivots=programming-language-java
 
-
-// <snippet_single>
 import java.net.URL;
 import java.util.EnumSet;
 import java.util.Arrays;
@@ -32,9 +30,7 @@ public class ImageAnalysis {
             // <visual_features>
             ImageAnalysisOptions analysisOptions = new ImageAnalysisOptions();
 
-            // <ignore>
             ) {
-            // </ignore>
 
             analysisOptions.setFeatures(EnumSet.of(
                     ImageAnalysisFeature.CROP_SUGGESTIONS,
@@ -161,4 +157,3 @@ public class ImageAnalysis {
         }
     }
 }
-// <snippet_single>

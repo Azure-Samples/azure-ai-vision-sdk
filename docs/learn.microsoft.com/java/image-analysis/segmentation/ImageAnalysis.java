@@ -4,8 +4,6 @@
 // This code is integrated into this public document:
 // https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/background-removal?tabs=java
 
-
-// <snippet_single>
 import java.net.URL;
 import java.util.EnumSet;
 import java.io.FileOutputStream;
@@ -27,9 +25,8 @@ public class ImageAnalysis {
 
             // <segmentation_mode>
             ImageAnalysisOptions analysisOptions = new ImageAnalysisOptions();
-            // <ignore>
+
             ) {
-            // </ignore>
 
             analysisOptions.setSegmentationMode(ImageSegmentationMode.BACKGROUND_REMOVAL);
             // </segmentation_mode>
@@ -71,11 +68,10 @@ public class ImageAnalysis {
             } catch (Exception e) {
                 e.printStackTrace();
             } 
-            // <segment>
+            // </segment>
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 }
-// </snippet_single>

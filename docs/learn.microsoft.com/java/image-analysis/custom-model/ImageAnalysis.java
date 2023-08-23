@@ -4,8 +4,6 @@
 // This code is integrated into this public document:
 // https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/call-analyze-image-40?pivots=programming-language-java#get-results-using-custom-model
 
-
-// <snippet_single>
 import java.net.URL;
 
 import com.azure.ai.vision.common.*;
@@ -24,9 +22,8 @@ public class ImageAnalysis {
 
             // <model_name>
             ImageAnalysisOptions analysisOptions = new ImageAnalysisOptions();
-            // <ignore>
+
             ) {
-            // </ignore>
 
             analysisOptions.setModelName("YourCustomModelNameHere");
             // </model_name>
@@ -74,4 +71,3 @@ public class ImageAnalysis {
         }
     }
 }
-// </snippet_single>
