@@ -6,6 +6,8 @@
 //
 #include <fstream>
 #include <thread>
+#include <vector>
+
 #include <vision_api_cxx_image_analyzer.hpp>
 
 using namespace Azure::AI::Vision::Service;
@@ -14,20 +16,20 @@ using namespace Azure::AI::Vision::ImageAnalysis;
 
 // Forward declaration of helper functions
 std::string PolygonToString(std::vector<int32_t> boundingPolygon);
+std::vector<uint8_t> ReadFile(const std::string& filename);
 
 // This sample does analysis on an image file using all visual features
 // and a synchronous (blocking) call. It prints the results to the console,
 // including the detailed results.
-void ImageAnalysisSample_Analyze(std::string endpoint, std::string key)
+void ImageAnalysisSample_Analyze_File(std::string endpoint, std::string key)
 {
     std::shared_ptr<VisionServiceOptions> serviceOptions = VisionServiceOptions::FromEndpoint(endpoint, key);
 
-    // Specify the image file on disk to analyze. sample.jpg is a good example to show most features
+    // Specify the image file on disk to analyze. sample.jpg is a good example to show most features.
+    // Alternatively, specify an image URL (e.g. https://aka.ms/azai/vision/image-analysis-sample.jpg)
+    // or a memory buffer containing the image. see:
+    // https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/call-analyze-image-40?pivots=programming-language-cpp#select-the-image-to-analyze
     std::shared_ptr<VisionSource> imageSource = VisionSource::FromFile("sample.jpg");
-
-    // Or, instead of the above, specify a publicly accessible image URL to analyze
-    // (e.g. https://aka.ms/azai/vision/image-analysis-sample.jpg)
-    //std::shared_ptr<VisionSource> imageSource = VisionSource::FromUrl("YourImageURL");
 
     // Creates the options object that will control the ImageAnalyzer
     std::shared_ptr<ImageAnalysisOptions> analysisOptions = ImageAnalysisOptions::Create();
@@ -180,7 +182,7 @@ void ImageAnalysisSample_Analyze(std::string endpoint, std::string key)
 
 // This sample does analysis on an image URL, using an asynchronous (non-blocking)
 // call to analyze one visual feature (Tags)
-void ImageAnalysisSample_AnalyzeAsync(std::string endpoint, std::string key)
+void ImageAnalysisSample_AnalyzeAsync_Url(std::string endpoint, std::string key)
 {
     auto serviceOptions = VisionServiceOptions::FromEndpoint(endpoint, key);
 
@@ -233,9 +235,54 @@ void ImageAnalysisSample_AnalyzeAsync(std::string endpoint, std::string key)
     }
 }
 
+// This sample does analysis on an image from an input memory buffer, using a synchronous (blocking)
+// call to analyze one visual feature (Caption).
+void ImageAnalysisSample_Analyze_Buffer(std::string endpoint, std::string key)
+{
+    auto serviceOptions = VisionServiceOptions::FromEndpoint(endpoint, key);
+
+    // This sample assumes you have an image in a memory buffer. Here we simply load it from file.
+    auto buffer = ReadFile("sample.jpg");
+    if (buffer.empty()) return;
+
+    // Create an ImageSourceBuffer, and copy the input image into it
+    auto imageSourceBuffer = std::make_shared<ImageSourceBuffer>();
+    imageSourceBuffer->GetWriter()->Write(buffer.data(), buffer.size());
+
+    // Create your VisionSource from the ImageSourceBuffer
+    auto imageSource = VisionSource::FromImageSourceBuffer(imageSourceBuffer);
+
+    auto analysisOptions = ImageAnalysisOptions::Create();
+
+    analysisOptions->SetFeatures({ImageAnalysisFeature::Caption});
+
+    auto analyzer = ImageAnalyzer::Create(serviceOptions, imageSource, analysisOptions);
+
+    auto result = analyzer->Analyze();
+
+    if (result->GetReason() == ImageAnalysisResultReason::Analyzed)
+    {
+        auto caption = result->GetCaption();
+        if (caption.HasValue())
+        {
+            std::cout << " Caption:" << std::endl;
+            std::cout << "   \"" << caption.Value().Content << "\", Confidence " << caption.Value().Confidence << std::endl;
+        }
+    }
+    else // result->GetReason() == ImageAnalysisResultReason::Error
+    {
+        auto errorDetails = ImageAnalysisErrorDetails::FromResult(result);
+        std::cout << " Analysis failed." << std::endl;
+        std::cout << "   Error reason = " << (int)errorDetails->GetReason() << std::endl;
+        std::cout << "   Error code = " << errorDetails->GetErrorCode() << std::endl;
+        std::cout << "   Error message = " << errorDetails->GetMessage() << std::endl;
+        std::cout << " Did you set the computer vision endpoint and key?" << std::endl;
+    }
+}
+
 // This sample does analysis on an image file using a given custom-trained model, and shows how
 // to get the detected objects and/or tags
-void ImageAnalysisSample_AnalyzeWithCustomModel(std::string endpoint, std::string key)
+void ImageAnalysisSample_Analyze_WithCustomModel(std::string endpoint, std::string key)
 {
     std::shared_ptr<VisionServiceOptions> serviceOptions = VisionServiceOptions::FromEndpoint(endpoint, key);
 
@@ -294,11 +341,11 @@ void ImageAnalysisSample_Segment(std::string endpoint, std::string key)
 {
     std::shared_ptr<VisionServiceOptions> serviceOptions = VisionServiceOptions::FromEndpoint(endpoint, key);
 
+    // Specify the image file on disk to analyze. sample.jpg is a good example to show most features.
+    // Alternatively, specify an image URL (e.g. https://aka.ms/azai/vision/image-analysis-sample.jpg)
+    // or a memory buffer containing the image. see:
+    // https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/call-analyze-image-40?pivots=programming-language-cpp#select-the-image-to-analyze
     std::shared_ptr<VisionSource> imageSource = VisionSource::FromFile("sample.jpg");
-
-    // Or, instead of the above, specify a publicly accessible image URL to analyze
-    // (e.g. https://aka.ms/azai/vision/image-analysis-sample.jpg)
-    //std::shared_ptr<VisionSource> imageSource = VisionSource::FromUrl("YourImageURL");
 
     std::shared_ptr<ImageAnalysisOptions> analysisOptions = ImageAnalysisOptions::Create();
 
@@ -346,7 +393,7 @@ void ImageAnalysisSample_Segment(std::string endpoint, std::string key)
     }
 }
 
-// Helper method to display the values of a bounding polygon
+// Helper function to display the values of a bounding polygon
 std::string PolygonToString(std::vector<int32_t> boundingPolygon)
 {
     std::string out = "{";
@@ -360,4 +407,35 @@ std::string PolygonToString(std::vector<int32_t> boundingPolygon)
     return out;
 }
 
+// Helper function to read the content of a file into an std::vector<>.
+// On failure returns an empty vector.
+std::vector<uint8_t> ReadFile(const std::string& filename)
+{
+    std::fstream file(filename, std::ios::in | std::ios::binary);
 
+    if (!file)
+    {
+        std::cout << " Error: Could not open file " << filename << std::endl;
+        return {};
+    }
+
+    file.seekg(0, std::ios::end);
+    std::streamsize size = file.tellg();
+    file.seekg(0, std::ios::beg);
+
+    if (size == 0)
+    {
+        std::cout << " Error: zero size to file " << filename << std::endl;
+        return {};
+    }
+
+    std::vector<uint8_t> vec(size);
+
+    if (!file.read(reinterpret_cast<char*>(vec.data()), size))
+    {
+        std::cout << " Error: Could not read file " << filename << std::endl;
+        return {};
+    }
+
+    return vec;
+}

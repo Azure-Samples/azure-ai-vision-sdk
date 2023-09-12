@@ -40,16 +40,16 @@ It does not support Image Analysis using a cutom model. It also does not support
 
 To debug the application press F5 or use **Debug** \> **Start Debugging**. To run the application without debugging, press Ctrl+F5 or use **Debug** \> **Start Without Debugging**.
 
-* Under **1. Enter Credentials** enter your Computer Vision key and endpoint. Default values are read from enviroment variables
+* In the text box **1. Enter Credentials**, enter your Computer Vision key and endpoint. Default values are read from environment variables
 `VISION_KEY` and `VISION_ENDPOINT`. If they were defined, their values will show up here and no need to take further action here.
 
-* Under **2. Select an Image to Analyze** select either image file input or image URL input. The default is image URL. The image URL and image file values shown on the screen should both work if you do not want to provide your own image (the image file `sample.jpg` is included in this application package).
+* In the text box **2. Select an Image to Analyze**, select either image file input or image URL input. The default is image URL. The image URL and image file values shown on the screen should both work if you do not want to provide your own image (the image file `sample.jpg` is included in this application package).
 
-* Under **3. Select Analysis Options** check or uncheck the boxes that define which analysis features you are interested in. As stated above, to use `Caption` or `Dense Captions`, your Azure resouce needs to be from a GPU-supported region, otherwise analysis will fail. You can also change the default result language, set one or more cropping aspect ration and select gender neutral captions.
+* In section **3. Select Analysis Options**, check or uncheck the boxes that define which analysis features you are interested in. As stated above, to use `Caption` or `Dense Captions`, your Azure resouce needs to be from a GPU-supported region, otherwise analysis will fail. You can also change the default result language, set one or more cropping aspect ration and select gender neutral captions.
 
-* Under **4. Analyze the Image** press `Click here to analyze` button.
+* In section **4. Analyze the Image**, press `Click here to analyze` button.
 
-If analysis succeeds, the results (as text output) will be show under **5. See Results**. If failed, a failure message will be shown.
+If analysis succeeds, the results (as text output) will be show under section **5. See Results**. If failed, a failure message will be shown.
 
 ## Required libraries for run-time distribution
 
@@ -60,7 +60,6 @@ Azure.AI.Vision.Common.dll
 Azure.AI.Vision.ImageAnalysis.dll
 runtimes\win-x64\native\Azure-AI-Vision-Native.dll
 runtimes\win-x64\native\Azure-AI-Vision-Extension-Image.dll
-runtimes\win-x64\native\Azure-AI-Vision-Input-Device.dll
 ```
 
 ## Additional resources

@@ -24,19 +24,18 @@ including the detailed results.
 """
 
 
-def image_analysis_sample_analyze():
+def image_analysis_sample_analyze_file():
     """
     Analyze image from file, all features, synchronous (blocking)
     """
 
     service_options = visionsdk.VisionServiceOptions(load_secrets.endpoint, load_secrets.key)
 
-    # Specify the image file on disk to analyze. sample.jpg is a good example to show most features
+    # Specify the image file on disk to analyze. sample.jpg is a good example to show most features.
+    # Alternatively, specify an image URL (e.g. https://aka.ms/azai/vision/image-analysis-sample.jpg)
+    # or a memory buffer containing the image. see:
+    # https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/call-analyze-image-40?pivots=programming-language-python#select-the-image-to-analyze
     vision_source = visionsdk.VisionSource(filename="sample.jpg")
-
-    # Or, instead of the above, specify a publicly accessible image URL to analyze. For example:
-    # image_url = "https://aka.ms/azai/vision/image-analysis-sample.jpg"
-    # vision_source = visionsdk.VisionSource(url=image_url)
 
     # Set the language and one or more visual features as analysis options
     analysis_options = visionsdk.ImageAnalysisOptions()
@@ -155,7 +154,7 @@ call to analyze one visual feature (Tags).
 """
 
 
-def image_analysis_sample_analyze_async():
+def image_analysis_sample_analyze_async_url():
     """
     Analyze image from URL, asynchronous (non-blocking)
     """
@@ -201,6 +200,54 @@ def image_analysis_sample_analyze_async():
 
     while not callback_done:
         time.sleep(.1)
+
+
+"""
+This sample does analysis on an image from a memory buffer, using synchronous (blocking)
+call to analyze one visual feature (Caption).
+"""
+
+
+def image_analysis_sample_analyze_buffer():
+    """
+    Analyze image from a memory buffer, asynchronous (non-blocking)
+    """
+
+    service_options = visionsdk.VisionServiceOptions(load_secrets.endpoint, load_secrets.key)
+
+    # This sample assumes you have an image in a memory buffer. Here we simply load it from file.
+    with open("sample.jpg", 'rb') as f:
+            image_buffer = bytes(f.read())
+
+    # Create an ImageSourceBuffer, and copy the input image into it
+    image_source_buffer = visionsdk.ImageSourceBuffer();
+    image_source_buffer.image_writer.write(image_buffer)
+
+    # Create your VisionSource from the ImageSourceBuffer
+    vision_source = visionsdk.VisionSource(image_source_buffer=image_source_buffer)
+
+    analysis_options = visionsdk.ImageAnalysisOptions()
+
+    analysis_options.features = (visionsdk.ImageAnalysisFeature.CAPTION)
+
+    image_analyzer = visionsdk.ImageAnalyzer(service_options, vision_source, analysis_options)
+
+    result = image_analyzer.analyze()
+
+    if result.reason == visionsdk.ImageAnalysisResultReason.ANALYZED:
+
+        if result.caption is not None:
+            print(" Caption:")
+            print("   '{}', Confidence {:.4f}".format(result.caption.content, result.caption.confidence))
+
+    else:
+
+        error_details = visionsdk.ImageAnalysisErrorDetails.from_result(result)
+        print(" Analysis failed.")
+        print("   Error reason: {}".format(error_details.reason))
+        print("   Error code: {}".format(error_details.error_code))
+        print("   Error message: {}".format(error_details.message))
+        print(" Did you set the computer vision endpoint and key?")
 
 
 """
@@ -257,17 +304,16 @@ resulting background-removed image or foreground matte image to disk.
 
 def image_analysis_sample_segment():
     """
-    Background removal
+    Background removal (segmentation)
     """
 
     service_options = visionsdk.VisionServiceOptions(load_secrets.endpoint, load_secrets.key)
 
-    # Specify the image file on disk to analyze. sample.jpg is a good example to show most features
+    # Specify the image file on disk to analyze. sample.jpg is a good example to show most features.
+    # Alternatively, specify an image URL (e.g. https://aka.ms/azai/vision/image-analysis-sample.jpg)
+    # or a memory buffer containing the image. see:
+    # https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/call-analyze-image-40?pivots=programming-language-python#select-the-image-to-analyze
     vision_source = visionsdk.VisionSource(filename="sample.jpg")
-
-    # Or, instead of the above, specify a publicly accessible image URL to analyze. For example:
-    # image_url = "https://aka.ms/azai/vision/image-analysis-sample.jpg"
-    # vision_source = visionsdk.VisionSource(url=image_url)
 
     analysis_options = visionsdk.ImageAnalysisOptions()
 

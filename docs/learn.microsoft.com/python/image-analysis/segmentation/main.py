@@ -2,22 +2,17 @@
 # Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
 #
 # This code is integrated into this public document:
-# https://learn.microsoft.com/azure/cognitive-services/computer-vision/how-to/background-removal?tabs=python
+# https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/background-removal?tabs=python
 
-# <snippet_single>
 import os
 
-# <vision_service_options>
 import azure.ai.vision as sdk
 
 service_options = sdk.VisionServiceOptions(os.environ["VISION_ENDPOINT"],
                                            os.environ["VISION_KEY"])
-# </vision_service_options>
 
-# <vision_source>
 vision_source = sdk.VisionSource(
     url="https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png")
-# </vision_source>
 
 # <segmentation_mode>
 analysis_options = sdk.ImageAnalysisOptions()
@@ -52,5 +47,3 @@ else:
     print("   Error message: {}".format(error_details.message))
     print(" Did you set the computer vision endpoint and key?")
 # </segment>
-# </snippet_single>
-

@@ -9,9 +9,10 @@
 #include <vector>
 #include "secrets.h"
 
-extern void ImageAnalysisSample_Analyze(std::string endpoint, std::string key);
-extern void ImageAnalysisSample_AnalyzeAsync(std::string endpoint, std::string key);
-extern void ImageAnalysisSample_AnalyzeWithCustomModel(std::string endpoint, std::string key);
+extern void ImageAnalysisSample_Analyze_File(std::string endpoint, std::string key);
+extern void ImageAnalysisSample_AnalyzeAsync_Url(std::string endpoint, std::string key);
+extern void ImageAnalysisSample_Analyze_Buffer(std::string endpoint, std::string key);
+extern void ImageAnalysisSample_Analyze_WithCustomModel(std::string endpoint, std::string key);
 extern void ImageAnalysisSample_Segment(std::string endpoint, std::string key);
 
 void PrintUsage()
@@ -69,8 +70,9 @@ int main(int argc, char** argv)
         std::cout << std::endl;
         std::cout << " 1. Analyze image from file, all features, synchronous (blocking)\n";
         std::cout << " 2. Analyze image from URL, asynchronous (non-blocking)\n";
-        std::cout << " 3. Analyze image using a custom-trained model\n";
-        std::cout << " 4. Background removal\n";
+        std::cout << " 3. Analyze image from memory buffer, synchronous (blocking)\n";
+        std::cout << " 4. Analyze image using a custom-trained model\n";
+        std::cout << " 5. Background removal\n";
         std::cout << std::endl;
         std::cout << " Enter your choice 1-4 (or 0 to exit) and press enter:\n";
         std::cout.flush();
@@ -83,15 +85,18 @@ int main(int argc, char** argv)
             switch (input[0])
             {
             case '1':
-                ImageAnalysisSample_Analyze(Secrets::GetEndpoint(), Secrets::GetKey());
+                ImageAnalysisSample_Analyze_File(Secrets::GetEndpoint(), Secrets::GetKey());
                 break;
             case '2':
-                ImageAnalysisSample_AnalyzeAsync(Secrets::GetEndpoint(), Secrets::GetKey());
+                ImageAnalysisSample_AnalyzeAsync_Url(Secrets::GetEndpoint(), Secrets::GetKey());
                 break;
             case '3':
-                ImageAnalysisSample_AnalyzeWithCustomModel(Secrets::GetEndpoint(), Secrets::GetKey());
-                break;
+                ImageAnalysisSample_Analyze_Buffer(Secrets::GetEndpoint(), Secrets::GetKey());
+                break;                
             case '4':
+                ImageAnalysisSample_Analyze_WithCustomModel(Secrets::GetEndpoint(), Secrets::GetKey());
+                break;
+            case '5':
                 ImageAnalysisSample_Segment(Secrets::GetEndpoint(), Secrets::GetKey());
                 break;
             case '0':

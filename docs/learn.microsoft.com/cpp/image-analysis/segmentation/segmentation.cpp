@@ -2,9 +2,8 @@
 // Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
 //
 // This code is integrated into this public document:
-// https://learn.microsoft.com/azure/cognitive-services/computer-vision/how-to/background-removal?tabs=cpp
+// https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/background-removal?tabs=cpp
 
-// <snippet_single>
 #include <fstream>
 #include <vision_api_cxx_image_analyzer.hpp>
 
@@ -16,16 +15,12 @@ std::string GetEnvironmentVariable(const std::string name);
 
 void SegmentImage()
 {
-    // <vision_service_options>
     auto serviceOptions = VisionServiceOptions::FromEndpoint(
         GetEnvironmentVariable("VISION_ENDPOINT"),
         GetEnvironmentVariable("VISION_KEY"));
-    // </vision_service_options>
 
-    // <vision_source>
     auto imageSource = VisionSource::FromUrl(
         "https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png");
-    // </vision_source>
 
     // <segmentation_mode>
     auto analysisOptions = ImageAnalysisOptions::Create();
@@ -61,12 +56,10 @@ void SegmentImage()
         std::cout << "   Error reason = " << (int)errorDetails->GetReason() << std::endl;
         std::cout << "   Error code = " << errorDetails->GetErrorCode() << std::endl;
         std::cout << "   Error message = " << errorDetails->GetMessage() << std::endl;
-        std::cout << " Did you set the computer vision endpoint and key?" << std::endl;
     }
     // </segment>
 }
 
-// <get_env_var>
 std::string GetEnvironmentVariable(const std::string name)
 {
 #if defined(_MSC_VER)
@@ -87,7 +80,6 @@ std::string GetEnvironmentVariable(const std::string name)
 #endif
     return std::string{ "" };
 }
-// </get_env_var>
 
 int main()
 {
@@ -102,4 +94,4 @@ int main()
 
     return 0;
 }
-// </snippet_single>
+

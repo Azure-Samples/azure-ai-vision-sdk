@@ -13,8 +13,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{8635527c-81e4-4304-9614-fa2a0f22fb72}</ProjectGuid>
-    <RootNamespace>segmentation</RootNamespace>
+    <ProjectGuid>{319fa605-ed4c-451b-a51f-3a460132f406}</ProjectGuid>
+    <RootNamespace>My2</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -72,7 +72,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="segmentation.cpp" />
+    <ClCompile Include="quick-start.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
