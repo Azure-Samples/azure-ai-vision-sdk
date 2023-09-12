@@ -17,6 +17,9 @@ This repository hosts sample code and setup documents for the Microsoft Azure AI
 
 ## News
 
+* **Vision SDK 0.15.1-beta.1** released September 2023.
+  * Add support for Java JRE on Windows x64 and Linux x64.
+  * Input image can now be provided from a memory buffer (in addition to from file or URL).
 * **Vision SDK 0.13.0-beta.1** released July 2023. Image Analysis support was added for Universal Windows Platform (UWP) applications (C++, C#). Run-time package size reduction: Only the two native binaries 
 `Azure-AI-Vision-Native.dll` and `Azure-AI-Vision-Extension-Image.dll` are now needed.
 * **Vision SDK 0.11.1-beta.1** released May 2023. Image Analysis APIs were updated to support [Background Removal](https://learn.microsoft.com/azure/cognitive-services/computer-vision/concept-background-removal).
@@ -81,7 +84,8 @@ At the moment the SDK is available for the following platforms and programming l
 
 * Programming languages:
   * Python
-  * C# (.NET Core)
+  * C# (.NET)
+  * Java JRE
   * C++
 
 Support for others platform and programming languages (including Android, iOS, MacOS) is planned for future releases.
@@ -95,14 +99,16 @@ The samples will show how to analyze an image file from local disk or an image U
 | Programming Language |
 | -------- |
 | [Python Console Sample](samples/python/image-analysis) |
-| [C# .NET Console Sample](samples/csharp/image-analysis/dotnetcore) |
+| [C# .NET Console Sample](samples/csharp/image-analysis/dotnet) |
 | [C# .NET UWP Sample](samples/csharp/image-analysis/uwp) |
+| [Java JRE Sample](samples/java/image-analysis) |
 | [C++ Console Sample](samples/cpp/image-analysis) |
 
 The console samples demonstrate doing the following:
 
-1. Analyze all features from a JPEG image file on disk and print detailed results to the console. This is done using the synchronous (blocking) API. Start by looking at this sample first.
+1. Analyze all features from a JPEG image file on disk and print detailed results to the console. This is done using the synchronous (blocking) API. It is recommended you start by looking at this sample.
 1. Analyze one feature from an image URL, using the asynchronous (non-blocking) API, while registering for an event to get the analysis results.
+1. Analyze one feature from an image in an input memory buffer, using synchronous (blocking) API.
 1. Analyze an image using a custom-trained model. To run this sample, you first need to create a custom model. See [Image Analysis overview](https://learn.microsoft.com/azure/cognitive-services/computer-vision/overview-image-analysis) for more details.
 1. Analyze an image for background removal (segmentation).
 
@@ -114,6 +120,7 @@ If your platform and/or programming language is not listed above, your applicati
 
 * [Python API Reference Documents](https://learn.microsoft.com/python/api/azure-ai-vision)
 * [C# .NET Core API Reference Documents](https://learn.microsoft.com/dotnet/api/azure.ai.vision.imageanalysis)
+* JAVA JRE API Reference Documents (TBD)
 * [C++ API Reference Documents](https://learn.microsoft.com/cpp/cognitive-services/vision)
 
 

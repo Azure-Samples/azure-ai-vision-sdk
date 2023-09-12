@@ -1,7 +1,7 @@
 
 # Note on using Vision SDK on Ubuntu 22.04 LTS
 
-This page includes additional setup instructions beyond what is described in the relevant setup page for Linux for your programming Language. Find those instructions here: [Python](../samples/python/image-analysis/README.md), [C#](../samples/csharp/image-analysis/dotnetcore/README-Linux.md), [C++](../samples/cpp/image-analysis/README-Linux.md).
+This page includes additional setup instructions beyond what is described in the relevant setup page for Linux for your programming Language. Find those instructions here: [Python](../samples/python/image-analysis/README.md), [C#](../samples/csharp/image-analysis/dotnet/README-Linux.md), [Java](../samples/java/image-analysis/README.md), [C++](../samples/cpp/image-analysis/README-Linux.md).
 
 The Vision SDK depends on OpenSSL library (`libssl`) version 1.x. It has not yet been updated to depend on OpenSSL 3.0. Ubuntu version 22.04 no longer includes `libssl` version 1.x since support for it is ending soon. Therefore applications using Vision SDK will not be able to run on Ubuntu 22.04 unless `libssl` version 1.x is installed. In an upcoming release of Vision SDK this dependency will be fixed. 
 

@@ -39,8 +39,9 @@ def select():
     abort_key = "Ctrl-Z" if "Windows" == platform.system() else "Ctrl-D"
 
     sample_functions = [
-        samples.image_analysis_sample_analyze,
-        samples.image_analysis_sample_analyze_async,
+        samples.image_analysis_sample_analyze_file,
+        samples.image_analysis_sample_analyze_async_url,
+        samples.image_analysis_sample_analyze_buffer,
         samples.image_analysis_sample_analyze_with_custom_model,
         samples.image_analysis_sample_segment
     ]
