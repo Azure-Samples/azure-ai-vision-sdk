@@ -274,7 +274,7 @@ jobs:
     - name: Build .NET samples
       shell: pwsh
       run: |
-        pushd ./samples/csharp/image-analysis/dotnetcore
+        pushd ./samples/csharp/image-analysis/dotnet
         dotnet build --configuration Release
         ls ./bin/Release/netcoreapp3.1
         popd
@@ -282,7 +282,7 @@ jobs:
       if: false # skip this job
       shell: pwsh
       run: |
-        pushd ./samples/csharp/image-analysis/dotnetcore
+        pushd ./samples/csharp/image-analysis/dotnet
         $output = (dotnet run -- -h) -join "`n"
         Write-Output $output
         if ($output -notmatch "To run the samples") {exit 1}
