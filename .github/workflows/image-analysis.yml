@@ -276,7 +276,7 @@ jobs:
       run: |
         pushd ./samples/csharp/image-analysis/dotnet
         dotnet build --configuration Release
-        ls ./bin/Release/netcoreapp3.1
+        ls ./bin/Release/net6.0
         popd
     - name: Run .NET samples -h flag
       if: false # skip this job
