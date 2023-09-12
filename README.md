@@ -7,7 +7,7 @@ languages:
 name: "Azure Image Analysis samples"
 description: "C++, C# and Python samples for Image Analysis using Azure AI Vision SDK (Preview)"
 products:
-- azure-cognitive-services
+- ai-services
 - azure-computer-vision
 ---
 
