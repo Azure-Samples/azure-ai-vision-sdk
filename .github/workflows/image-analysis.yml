@@ -108,8 +108,8 @@ jobs:
       shell: pwsh
       run: |
         pushd ./docs/learn.microsoft.com/cpp/image-analysis/x64/Release
-        Write-Output "============== project 1 ==============" 
-        $output = (./1.exe) -join "`n"
+        Write-Output "============== project how-to ==============" 
+        $output = (./how-to.exe) -join "`n"
         Write-Output $output
         if ($output -notmatch "Image height = 692") {exit 1} 
         if ($output -notmatch "Model version = 2023-02-01-preview") {exit 1}
@@ -118,13 +118,11 @@ jobs:
         if ($output -notmatch "Line: `"9:35 AM`"") {exit 1}
         if ($output -notmatch "Image ID = https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png") {exit 1}
 
-        Write-Output "============== project 2 =============="
-        $output = (./2.exe) -join "`n"
+        Write-Output "============== project quick-start.exe =============="
+        $output = (./quick-start.exe) -join "`n"
         Write-Output $output
         if ($output -notmatch "a person pointing at a screen") {exit 1}
         if ($output -notmatch "Line: `"9:35 AM`"") {exit 1}
-
-        Write-Output "========= project 3 (skipped) ========="
 
         Write-Output "========= project segmentation ========" 
         $output = (./segmentation.exe) -join "`n"
@@ -179,7 +177,7 @@ jobs:
       shell: pwsh
       run: |
         Write-Output "============== project 1 =============="
-        pushd ./docs/learn.microsoft.com/python/image-analysis/1
+        pushd ./docs/learn.microsoft.com/python/image-analysis/how-to
         $output = (python main.py) -join "`n"
         Write-Output $output
         if ($output -notmatch "Image height: 692") {exit 1} 
@@ -191,14 +189,12 @@ jobs:
         popd
 
         Write-Output "============== project 2 =============="
-        pushd ./docs/learn.microsoft.com/python/image-analysis/2
+        pushd ./docs/learn.microsoft.com/python/image-analysis/quick-start
         $output = (python main.py) -join "`n"
         Write-Output $output
         if ($output -notmatch "a person pointing at a screen") {exit 1}
         if ($output -notmatch "Line: '9:35 AM'") {exit 1}
         popd
-
-        Write-Output "========= project 3 (skipped) ========="
 
         Write-Output "========= project segmentation ========" 
         pushd ./docs/learn.microsoft.com/python/image-analysis/segmentation
@@ -251,9 +247,9 @@ jobs:
       timeout-minutes: 3
       shell: pwsh
       run: |
-        Write-Output "============== project 1 ==============" 
+        Write-Output "============== project how-to ==============" 
         pushd ./docs/learn.microsoft.com/csharp/image-analysis
-        $output = (dotnet run --project 1/1.csproj) -join "`n"
+        $output = (dotnet run --project how-to/how-to.csproj) -join "`n"
         Write-Output $output
         if ($output -notmatch "Image height = 692") {exit 1} 
         if ($output -notmatch "Model version = 2023-02-01-preview") {exit 1}
@@ -262,13 +258,11 @@ jobs:
         if ($output -notmatch "Line: '9:35 AM'") {exit 1}
         if ($output -notmatch "Image ID = https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png") {exit 1}
 
-        Write-Output "============== project 2 =============="
-        $output = (dotnet run --project 2/2.csproj) -join "`n"
+        Write-Output "============== project quick-start =============="
+        $output = (dotnet run --project quick-start/quick-start.csproj) -join "`n"
         Write-Output $output
         if ($output -notmatch "a person pointing at a screen") {exit 1}
         if ($output -notmatch "Line: '9:35 AM'") {exit 1}
-
-        Write-Output "========= project 3 (skipped) ========="
 
         Write-Output "========= project segmentation ========" 
         $output = (dotnet run --project segmentation/segmentation.csproj) -join "`n"
