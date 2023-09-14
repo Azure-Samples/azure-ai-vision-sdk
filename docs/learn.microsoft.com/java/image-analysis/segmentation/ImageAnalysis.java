@@ -21,12 +21,10 @@ public class ImageAnalysis {
                 System.getenv("VISION_KEY"));
 
             VisionSource imageSource = VisionSource.fromUrl(
-                new URL("https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png"));
+                new URL("https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png"))) {
 
             // <segmentation_mode>
             ImageAnalysisOptions analysisOptions = new ImageAnalysisOptions();
-
-            ) {
 
             analysisOptions.setSegmentationMode(ImageSegmentationMode.BACKGROUND_REMOVAL);
             // </segmentation_mode>
@@ -69,6 +67,8 @@ public class ImageAnalysis {
                 e.printStackTrace();
             } 
             // </segment>
+
+            analysisOptions.close();
 
         } catch (Exception e) {
             e.printStackTrace();
