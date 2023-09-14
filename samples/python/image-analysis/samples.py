@@ -220,7 +220,7 @@ def image_analysis_sample_analyze_buffer():
             image_buffer = bytes(f.read())
 
     # Create an ImageSourceBuffer, and copy the input image into it
-    image_source_buffer = visionsdk.ImageSourceBuffer();
+    image_source_buffer = visionsdk.ImageSourceBuffer()
     image_source_buffer.image_writer.write(image_buffer)
 
     # Create your VisionSource from the ImageSourceBuffer

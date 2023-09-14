@@ -26,11 +26,10 @@ public class ImageAnalysis {
             VisionSource imageSource = VisionSource.fromUrl(
                 new URL("https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png"));
             // </vision_source>
+            ) {
 
             // <visual_features>
             ImageAnalysisOptions analysisOptions = new ImageAnalysisOptions();
-
-            ) {
 
             analysisOptions.setFeatures(EnumSet.of(
                     ImageAnalysisFeature.CROP_SUGGESTIONS,
@@ -151,6 +150,8 @@ public class ImageAnalysis {
                 e.printStackTrace();
             }
             // </analyze>
+
+            analysisOptions.close();
 
         } catch (Exception e) {
             e.printStackTrace();
