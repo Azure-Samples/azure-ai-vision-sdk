@@ -95,7 +95,7 @@
                 <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" Text="(only `latest` supported at the moment)" Padding="5"/>
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Language:" HorizontalAlignment="Right" Padding="5"/>
                 <ComboBox  Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" SelectedValuePath="Tag" SelectedIndex="0" Width="150"  Name="LanguageComboBox" >
-                    <!-- See full list of supported languages here: https://learn.microsoft.com/azure/cognitive-services/computer-vision/language-support#image-analysis -->
+                    <!-- See full list of supported languages here: https://learn.microsoft.com/azure/ai-services/computer-vision/language-support#image-analysis -->
                     <ComboBoxItem Tag="en" IsSelected="true">English</ComboBoxItem>
                     <ComboBoxItem Tag="es">Spanish</ComboBoxItem>
                     <ComboBoxItem Tag="ja">Japanese</ComboBoxItem>

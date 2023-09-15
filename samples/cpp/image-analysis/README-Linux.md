@@ -225,6 +225,6 @@ libAzure-AI-Vision-Extension-Image.so
 
 ## Additional resources
 
-* [Quickstart article on learn.microsoft](https://learn.microsoft.com/azure/cognitive-services/computer-vision/quickstarts-sdk/image-analysis-client-library-40?tabs=visual-studio%2Clinux&pivots=programming-language-cpp)
-* [How-to guide on learn.microsoft](https://learn.microsoft.com/azure/cognitive-services/computer-vision/how-to/call-analyze-image-40?tabs=cpp)
+* [Quickstart article on learn.microsoft](https://learn.microsoft.com/azure/ai-services/computer-vision/quickstarts-sdk/image-analysis-client-library-40?tabs=visual-studio%2Clinux&pivots=programming-language-cpp)
+* [How-to guide on learn.microsoft](https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/call-analyze-image-40?tabs=cpp)
 * [Vision SDK API reference for C++](https://learn.microsoft.com/cpp/cognitive-services/vision/)

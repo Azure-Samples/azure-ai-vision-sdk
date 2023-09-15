@@ -20,7 +20,7 @@ class Program
 
         // <vision_source>
         using var imageSource = VisionSource.FromUrl(
-            new Uri("https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png"));
+            new Uri("https://learn.microsoft.com/azure/ai-services/computer-vision/media/quickstarts/presentation.png"));
         // </vision_source>
 
         // <visual_features>

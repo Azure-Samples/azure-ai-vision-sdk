@@ -64,8 +64,8 @@ runtimes\win-x64\native\Azure-AI-Vision-Extension-Image.dll
 
 ## Additional resources
 
-* [Quickstart article on learn.microsoft](https://learn.microsoft.com/azure/cognitive-services/computer-vision/quickstarts-sdk/image-analysis-client-library-40?tabs=visual-studio%2Cwindows&pivots=programming-language-csharp)
-* [How-to guide on learn.microsoft](https://learn.microsoft.com/azure/cognitive-services/computer-vision/how-to/call-analyze-image-40?tabs=csharp)
+* [Quickstart article on learn.microsoft](https://learn.microsoft.com/azure/ai-services/computer-vision/quickstarts-sdk/image-analysis-client-library-40?tabs=visual-studio%2Cwindows&pivots=programming-language-csharp)
+* [How-to guide on learn.microsoft](https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/call-analyze-image-40?tabs=csharp)
 * [Vision SDK API reference for C#](https://learn.microsoft.com/dotnet/api/azure.ai.vision.imageanalysis?view=azure-dotnet-preview)
 
 

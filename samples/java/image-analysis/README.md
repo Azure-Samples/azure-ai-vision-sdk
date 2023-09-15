@@ -116,6 +116,6 @@ An error message will be displayed if the sample fails to run. Here are some com
 
 ## Additional resources
 
-* [Quickstart article on learn.microsoft](https://learn.microsoft.com/azure/cognitive-services/computer-vision/quickstarts-sdk/image-analysis-client-library-40?tabs=visual-studio%2Cwindows&pivots=programming-language-java)
-* [How-to guide on learn.microsoft](https://learn.microsoft.com/azure/cognitive-services/computer-vision/how-to/call-analyze-image-40?tabs=java)
-* [Vision SDK API reference for Java](TBD)
+* [Quickstart article on learn.microsoft](https://learn.microsoft.com/azure/ai-services/computer-vision/quickstarts-sdk/image-analysis-client-library-40?tabs=visual-studio%2Cwindows&pivots=programming-language-java)
+* [How-to guide on learn.microsoft](https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/call-analyze-image-40?tabs=java)
+* [Vision SDK API reference for Java](https://learn.microsoft.com/java/api/com.azure.ai.vision.imageanalysis)

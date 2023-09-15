@@ -24,7 +24,7 @@ public class ImageAnalysis {
 
             // <vision_source>
             VisionSource imageSource = VisionSource.fromUrl(
-                new URL("https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png"));
+                new URL("https://learn.microsoft.com/azure/ai-services/computer-vision/media/quickstarts/presentation.png"));
             // </vision_source>
             ) {
 

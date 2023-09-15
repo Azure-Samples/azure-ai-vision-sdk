@@ -21,7 +21,7 @@ public class ImageAnalysis {
                 System.getenv("VISION_KEY"));
 
             VisionSource imageSource = VisionSource.fromUrl(
-                new URL("https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png"))) {
+                new URL("https://learn.microsoft.com/azure/ai-services/computer-vision/media/quickstarts/presentation.png"))) {
 
             // <segmentation_mode>
             ImageAnalysisOptions analysisOptions = new ImageAnalysisOptions();
