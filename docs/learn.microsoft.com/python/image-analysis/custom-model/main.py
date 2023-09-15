@@ -11,7 +11,7 @@ service_options = sdk.VisionServiceOptions(os.environ["VISION_ENDPOINT"],
                                            os.environ["VISION_KEY"])
 
 vision_source = sdk.VisionSource(
-    url="https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png")
+    url="https://learn.microsoft.com/azure/ai-services/computer-vision/media/quickstarts/presentation.png")
 
 # <model_name>
 analysis_options = sdk.ImageAnalysisOptions()

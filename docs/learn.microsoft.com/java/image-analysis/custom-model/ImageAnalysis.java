@@ -18,7 +18,7 @@ public class ImageAnalysis {
                 System.getenv("VISION_KEY_CUSTOM_MODEL"));
 
             VisionSource imageSource = VisionSource.fromUrl(
-                new URL("https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png"))) {
+                new URL("https://learn.microsoft.com/azure/ai-services/computer-vision/media/quickstarts/presentation.png"))) {
 
             // <model_name>
             ImageAnalysisOptions analysisOptions = new ImageAnalysisOptions();

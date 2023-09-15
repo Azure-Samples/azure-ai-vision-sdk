@@ -18,7 +18,7 @@ class Program
             new AzureKeyCredential(Environment.GetEnvironmentVariable("VISION_KEY")));
 
         using var imageSource = VisionSource.FromUrl(
-            new Uri("https://learn.microsoft.com/azure/cognitive-services/computer-vision/media/quickstarts/presentation.png"));
+            new Uri("https://learn.microsoft.com/azure/ai-services/computer-vision/media/quickstarts/presentation.png"));
 
         var analysisOptions = new ImageAnalysisOptions()
         {
