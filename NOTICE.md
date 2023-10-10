@@ -2454,7 +2454,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ---------------------------------------------------------
 
-Pytorch / Caffe2
+PyTorch / Caffe2
 
 From PyTorch:
 
