@@ -1,0 +1,14 @@
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+//
+// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
+//
+
+/***
+ * Model class
+ */
+@Parcelize
+data class AnalyzeModel(val endpoint: String, val token: String, val verifyImageURL: String) :
+    Parcelable
