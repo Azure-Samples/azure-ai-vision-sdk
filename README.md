@@ -34,7 +34,7 @@ This repository hosts sample code and setup documents for the Microsoft Azure AI
 This repository hosts samples that help you get started with several features of the SDK in public preview. This includes the following API sets:
 
 * [Image Analysis](#image-analysis)
-* [Face](#face)
+* [Face Analysis](#face-analysis)
 
 Other API sets are under development.
 
@@ -128,7 +128,7 @@ If your platform and/or programming language is not listed above, your applicati
 * [C++ API Reference Documents](https://learn.microsoft.com/cpp/cognitive-services/vision)
 
 
-## Face
+## Face Analysis
 
 ### Overview
 
