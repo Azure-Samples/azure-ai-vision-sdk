@@ -1,14 +1,16 @@
 ---
 page_type: sample
 languages:
+- cpp
 - csharp
 - python
-- cpp
-name: "Azure Image Analysis samples"
-description: "C++, C# and Python samples for Image Analysis using Azure AI Vision SDK (Preview)"
+- swift
+- kotlin
+name: "Microsoft Azure AI Vision SDK Samples"
+description: "Learn how to use the Microsoft Azure AI Vision SDK to add computer vision features to your apps."
 products:
-- ai-services
-- azure-computer-vision
+- azure
+- azure-ai-vision
 ---
 
 # Azure AI Vision SDK (Preview) Samples
@@ -17,6 +19,7 @@ This repository hosts sample code and setup documents for the Microsoft Azure AI
 
 ## News
 
+* **Vision SDK 0.16.0-beta.1** released November 2023 that adds Azure AI Vision Face features.
 * **Vision SDK 0.15.1-beta.1** released September 2023.
   * Add support for Java JRE on Windows x64 and Linux x64.
   * Input image can now be provided from a memory buffer (in addition to from file or URL).
@@ -31,6 +34,7 @@ This repository hosts sample code and setup documents for the Microsoft Azure AI
 This repository hosts samples that help you get started with several features of the SDK in public preview. This includes the following API sets:
 
 * [Image Analysis](#image-analysis)
+* [Face Analysis](#face-analysis)
 
 Other API sets are under development.
 
@@ -124,3 +128,38 @@ If your platform and/or programming language is not listed above, your applicati
 * [C++ API Reference Documents](https://learn.microsoft.com/cpp/cognitive-services/vision)
 
 
+## Face Analysis
+
+### Overview
+
+![face](docs/face/face-reco-mobile.jpg)
+See Microsoft documentation for an overview of [Azure AI Vision Face Liveness Detection](https://aka.ms/azure-ai-vision-face-liveness-tutorial).
+
+This SDK supports two feature variants:
+- Liveness with Verification
+- Liveness
+
+Liveness detection aims to verify that the system engages with a physically present, living individual during the verification process. This is achieved by differentiating between a real (live) and fake (spoof) representation which may include photographs, videos, masks, or other means to mimic a real person.
+
+The new Face liveness detection solution is a combination of mobile SDK and Azure AI service. It is conformant to ISO/IEC 30107-3 PAD (Presentation Attack Detection) standards as validated by iBeta level 1 and level 2 conformance testing. It successfully defends against a plethora of spoof types ranging from paper printouts, 2D/3D masks, and spoof presentations on phones and laptops. Liveness detection is an active area of research, with continuous improvements being made to counteract increasingly sophisticated spoofing attacks over time, and continuous improvement will be rolled out to the client and the service components as the overall solution gets hardened against new types of attacks over time.
+
+While blocking spoof attacks is the primary focus of the liveness solution, paramount importance is also given to allowing real users to successfully pass the liveness check with low friction. Additionally, the liveness solution complies with the comprehensive responsible AI and data privacy standards to ensure fair usage across demographics around the world through extensive fairness testing. For more information, please visit: [Empowering responsible AI practices | Microsoft AI](https://www.microsoft.com/ai/responsible-ai).
+
+Please see the readme documents listed below for instructions on how to build and run each sample. 
+
+### Prerequisite
+
+- You will need to get access to the SDK artifacts in order to run these samples. To get started you would need to apply for the [Face Recognition Limited Access Features](https://customervoice.microsoft.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbR7en2Ais5pxKtso_Pz4b1_xUQjA5SkYzNDM4TkcwQzNEOE1NVEdKUUlRRCQlQCN0PWcu) to get access to the SDK artifacts. Please email [azureface@microsoft.com](azureface@microsoft.com) to get instructions on how to download the SDK. For more information, see the [Face Limited Access](https://learn.microsoft.com/en-us/legal/cognitive-services/computer-vision/limited-access-identity?context=%2Fazure%2Fcognitive-services%2Fcomputer-vision%2Fcontext%2Fcontext) page.  
+
+### Samples
+
+| Sample                                                   | Platform | Description                              |
+| ------------------------------------------------------------ | -------- | ---------------------------------------- |
+| [Kotlin sample app for Android](samples/kotlin/face) | Android | App with source code that demonstrates face analysis on Android |
+| [Swift sample app for iOS](samples/swift/face) | iOS | App with source code that demonstrates face analysis on iOS |
+
+
+### API Reference Documentation
+
+* Kotlin API reference documents: [included in latest SDK release](https://github.com/Azure-Samples/azure-ai-vision-sdk-private-preview/releases)
+* Swift API reference documents: [included in latest SDK release](https://github.com/Azure-Samples/azure-ai-vision-sdk-private-preview/releases)
