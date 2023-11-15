@@ -8,11 +8,11 @@ In this sample, you will learn how to build and run the face liveness detection 
 2. A Mac and iPhone (iOS 14 or above) to test the AzureAIVision SDK and cable to connect the phone to the Mac.
 3. An Apple developer account is a requirement to install and run development apps on the iPhone.
 4. The Mac with iOS development environment including Xcode 13+.
-5. Get the API reference documentation. This will be included in the latest release artifacts here: https://github.com/Azure-Samples/azure-ai-vision-sdk-private-preview/releases
+5. Get the API reference documentation. This will be included in the latest release artifacts here: https://github.com/Azure-Samples/azure-ai-vision-sdk-private-preview/releases/tag/0.16.0-beta.1
 
-## Set up the environment 
+## Set up the environment
 1. If this is your first time using your Mac to develop, you should build a sample app from [About Me — Sample Apps Tutorials | Apple Developer Documentation](https://developer.apple.com/tutorials/sample-apps/aboutme) and run it on your phone before you attempt to build the App here. This will help ensure that your developer environment has been setup properly.
-2. To install the SDK, download the xcframework file from the latest release artifact here: https://github.com/Azure-Samples/azure-ai-vision-sdk-private-preview/releases
+2. To install the SDK, download the xcframework file from the latest release artifact here: https://github.com/Azure-Samples/azure-ai-vision-sdk-private-preview/releases/tag/0.16.0-beta.1
     - You will need to get access to the SDK artifacts in order to run this sample. To get started you would need to apply for the [Face Recognition Limited Access Features](https://customervoice.microsoft.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbR7en2Ais5pxKtso_Pz4b1_xUQjA5SkYzNDM4TkcwQzNEOE1NVEdKUUlRRCQlQCN0PWcu) to get access to the SDK artifacts. Please email [azureface@microsoft.com](azureface@microsoft.com) to get instructions on how to download the SDK. For more information, see the [Face Limited Access](https://learn.microsoft.com/en-us/legal/cognitive-services/computer-vision/limited-access-identity?context=%2Fazure%2Fcognitive-services%2Fcomputer-vision%2Fcontext%2Fcontext) page.
 
 ## Next steps
