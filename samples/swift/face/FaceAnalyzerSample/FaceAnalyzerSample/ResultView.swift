@@ -1,8 +1,5 @@
 //
-//  ResultView.swift
-//  MobileFaceRecognition
-//
-//  Created by MSFACE on 10/6/23.
+// Copyright (c) Microsoft. All rights reserved.
 //
 
 import Foundation
@@ -11,7 +8,6 @@ import SwiftUI
 struct ResultView: View {
     @EnvironmentObject var pageSelection: PageSelection
     @EnvironmentObject var sessionData: SessionData
-    @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         ZStack {

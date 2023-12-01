@@ -1,8 +1,5 @@
 //
-//  ResultView.swift
-//  MobileFaceRecognition
-//
-//  Created by MSFACE on 10/6/23.
+// Copyright (c) Microsoft. All rights reserved.
 //
 
 import Foundation
@@ -11,7 +8,6 @@ import SwiftUI
 struct ClientStartView: View {
     @EnvironmentObject var pageSelection: PageSelection
     @EnvironmentObject var sessionData: SessionData
-    @Environment(\.presentationMode) var presentationMode
 
     @State private var backgroundColor: Color = Color.white
 
@@ -22,7 +18,7 @@ struct ClientStartView: View {
                 Text("Start").font(.title)
                     .padding()
             })
-            .disabled(sessionData.token == "")
+            .disabled(sessionData.token == nil || sessionData.token == "")
             Spacer()
         }
     }

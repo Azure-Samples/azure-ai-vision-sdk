@@ -1,6 +1,5 @@
 //
 // Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
 //
 
 import Foundation
@@ -165,15 +164,6 @@ func LivenessFailureReasonToString(reason: FaceLivenessFailureReason) -> String 
     }
 }
 
-func FaceActionToString(action: FaceActionRequiredFromApplication) -> String {
-    switch action {
-        case .none: return LocalizationStrings.faceActionNone
-        case .brightenDisplay: return LocalizationStrings.faceActionBrightenDisplay
-        case .darkenDisplay: return LocalizationStrings.faceActionDarkenDisplay
-        default: return LocalizationStrings.faceActionNone
-    }
-}
-
 func FaceFeedbackToString(feedback: FaceAnalyzingFeedbackForFace) -> String {
     switch feedback {
         case .faceNotCentered: return LocalizationStrings.faceFeedbackFaceNotCentered
@@ -184,128 +174,6 @@ func FaceFeedbackToString(feedback: FaceAnalyzingFeedbackForFace) -> String {
         case .attentionNotNeeded: return LocalizationStrings.faceFeedbackAttentionNotNeeded
         default: return LocalizationStrings.faceFeedbackHoldStill
     }
-}
-
-func FaceWarningToString(warning: FaceAnalyzingWarning) -> String {
-    switch warning {
-        case .faceTooBright: return LocalizationStrings.faceWarningFaceTooBright
-        case .faceTooDark: return LocalizationStrings.faceWarningFaceTooDark
-        case .tooBlurry: return LocalizationStrings.faceWarningTooBlurry
-        case .lowFidelityFaceRegion: return LocalizationStrings.faceWarningLowFidelityFaceRegion
-        default: return LocalizationStrings.faceWarningNone
-    }
-}
-
-func FaceTrackingStateToString(state: FaceTrackingState) -> String {
-    switch state {
-        case .none: return LocalizationStrings.faceTrackingStateNone
-        case .new: return LocalizationStrings.faceTrackingStateNew
-        case .tracked: return LocalizationStrings.faceTrackingStateTracked
-        case .lost: return LocalizationStrings.faceTrackingStateLost
-        default: return LocalizationStrings.faceTrackingStateUnknown
-    }
-}
-
-func loadDataFromFile(sessionData: SessionData) {
-    let fileManager = FileManager.default
-    guard let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
-        return
-    }
-
-    let fileURL = directory.appendingPathComponent("endpoint_key.txt")
-
-    if let data = try? Data(contentsOf: fileURL),
-        let content = String(data: data, encoding: .utf8) {
-        let components = content.split(separator: "\n")
-        if components.count == 2 {
-            sessionData.endpoint = String(components[0])
-            sessionData.key = String(components[1])
-        }
-    }
-}
-
-func saveDataToFile(sessionData: SessionData) {
-    let fileManager = FileManager.default
-    guard let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
-        return
-    }
-
-    let fileURL = directory.appendingPathComponent("endpoint_key.txt")
-    
-    let data = "\(sessionData.endpoint)\n\(sessionData.key)".data(using: .utf8)
-    try? data?.write(to: fileURL)
-}
-
-func obtainToken(usingEndpoint endpoint: String,
-                 key: String, withVerify: Bool) -> String? {
-    var createSessionUri = URL(string: endpoint + "/face/v1.1-preview.1/detectLiveness/singleModal/sessions")!
-    if (withVerify)
-    {
-        createSessionUri = URL(string: endpoint + "/face/v1.1-preview.1/detectLivenessWithVerify/singleModal/sessions")!
-    }
-    var request = URLRequest(url: createSessionUri)
-    request.httpMethod = "POST"
-
-    request.setValue(key, forHTTPHeaderField: "Ocp-Apim-Subscription-Key")
-
-    let parameters: [String: Any] = [
-        "livenessOperationMode": "Passive",
-        "deviceCorrelationId": UUID().uuidString
-    ]
-
-    do {
-        let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: [])
-        request.httpBody = jsonData
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    } catch {
-        print("Error encoding parameters: \(error)")
-        return nil
-    }
-
-    let session = URLSession.shared
-    let group = DispatchGroup()
-    var result: String?
-
-    group.enter()
-    var authToken: String?
-
-    let task: URLSessionTask = session.dataTask(with: request) { data, response, error in
-        defer {
-            group.leave()
-        }
-
-        if let error = error {
-            print("Error: \(error)")
-            return
-        }
-        
-        guard let httpResponse = response as? HTTPURLResponse else {
-            print("Invalid response")
-            return
-        }
-
-        if (200..<300).contains(httpResponse.statusCode) {
-            if let data = data {
-                do {
-                    if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                        if let authTokenValue = json["authToken"] as? String {
-                            authToken = authTokenValue
-                            print(authToken)
-                        }
-                    }
-                } catch {
-                    print("Error parsing JSON: \(error)")
-                }
-            }
-        } else {
-            print("Error status code: \(httpResponse.statusCode)")
-        }
-    }
-
-    task.resume()
-    group.wait()
-
-    return authToken
 }
 
 func convertToRGBImage(inputImage: CGImage) -> CGImage? {
@@ -332,4 +200,23 @@ func convertToRGBImage(inputImage: CGImage) -> CGImage? {
     let outputImage = context.makeImage()
 
     return outputImage
+}
+
+extension UIImage {
+    func normalizedImage() -> UIImage {
+        if self.imageOrientation == .up {
+            return self
+        }
+
+        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
+        self.draw(in: CGRect(origin: .zero, size: self.size))
+        let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        if let normalizedImage = normalizedImage {
+            return normalizedImage
+        } else {
+            return self
+        }
+    }
 }

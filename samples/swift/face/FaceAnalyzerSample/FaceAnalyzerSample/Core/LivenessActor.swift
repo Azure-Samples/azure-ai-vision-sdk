@@ -1,3 +1,7 @@
+//
+// Copyright (c) Microsoft. All rights reserved.
+//
+
 import Foundation
 import SwiftUI
 import AVFoundation
@@ -6,13 +10,16 @@ import AzureAIVisionFace
 class LivenessActor
 {
     private var faceAnalyzer: FaceAnalyzer? = nil
+    private var withVerification: Bool = false
+    private var referenceImage: UIImage? = nil
+    private var resultId: String = ""
 
     let userFeedbackHandler: (String) -> Void
     let screenBackgroundColorHandler: (Color) -> Void
-    let resultHandler: (String) -> Void
-    let completionHandler: (FaceAnalyzedDetails?) -> Void
+    let resultHandler: (String, String) -> Void
+    let detailsHandler: (FaceAnalyzedDetails?) -> Void
     let logHandler: () -> Void
-    
+
     func stopAnalyzer() {
         if let analyzer = self.faceAnalyzer
         {
@@ -22,19 +29,23 @@ class LivenessActor
     }
 
     init(userFeedbackHandler: @escaping (String) -> Void,
-         resultHandler: @escaping (String) -> Void,
+         resultHandler: @escaping (String, String) -> Void,
          screenBackgroundColorHandler: @escaping (Color) -> Void,
-         completionHandler: @escaping (FaceAnalyzedDetails?) -> Void,
-         logHandler: @escaping () -> Void) {
+         detailsHandler: @escaping (FaceAnalyzedDetails?) -> Void,
+         logHandler: @escaping () -> Void,
+         withVerification: Bool,
+         referenceImage: UIImage?) {
         self.resultHandler = resultHandler
         self.userFeedbackHandler = userFeedbackHandler
         self.screenBackgroundColorHandler = screenBackgroundColorHandler
-        self.completionHandler = completionHandler
+        self.detailsHandler = detailsHandler
         self.logHandler = logHandler
+        self.withVerification = withVerification
+        self.referenceImage = referenceImage
     }
 
     func start(usingSource visionSource: VisionSource,
-               parameters: SessionData) async
+               token: String) async
     {
         let methodOptions: FaceAnalysisOptions
         do {
@@ -43,21 +54,16 @@ class LivenessActor
 
             var serviceOptions: VisionServiceOptions? = nil
             serviceOptions = try VisionServiceOptions(endpoint: "")
-            serviceOptions?.authorizationToken = parameters.token!
+            serviceOptions?.authorizationToken = token
 
-            if (parameters.livenessWithVerify) {
-                if (parameters.verificationImage!.cgImage != nil) {
-                    let verifyImage = parameters.verificationImage!.cgImage!
-                    let verificationFrameSource = getSourceFromImage(image: parameters.verificationImage!)
-                    let verificationFrame = getFrameFromImage(image: parameters.verificationImage!)
+            if (withVerification) {
+                if (referenceImage!.cgImage != nil) {
+                    let verifyImage = referenceImage!.cgImage!
+                    let verificationFrameSource = getSourceFromImage(image: referenceImage!)
+                    let verificationFrame = getFrameFromImage(image: referenceImage!)
                     try verificationFrameSource.frameWriter?.write(verificationFrame)
                     let verificationVisionSource = try VisionSource(frameSource: verificationFrameSource)
                     try methodOptions.setRecognitionMode(.verifyMatchToFaceIn(singleFaceImage: verificationVisionSource))
-                }
-                else
-                {
-                    print("Error: missing verification image!")
-                    return
                 }
             }
 
@@ -66,23 +72,24 @@ class LivenessActor
             faceAnalyzer = await try FaceAnalyzer.create(serviceOptions: serviceOptions, input: visionSource, createOptions: createOptions)
         }
         catch {
-            self.resultHandler("Error configuring service")
+            self.resultHandler("Error configuring service", self.resultId)
             return
         }
 
         guard faceAnalyzer != nil else {
-            self.resultHandler("Error creating FaceAnalyzer")
+            self.resultHandler("Error creating FaceAnalyzer", self.resultId)
             return
         }
 
         let visionCamera = visionSource.getVisionCamera()
-        faceAnalyzer?.addAnalyzedEventHandler {[parameters] (analyzer: FaceAnalyzer, result: FaceAnalyzedResult) in
+        faceAnalyzer?.addAnalyzedEventHandler {[] (analyzer: FaceAnalyzer, result: FaceAnalyzedResult) in
             print("session analyzed event callback")
 
+            // this result is used for sample App demo purpose only, you should handle the liveness results in your own way
             var livenessResultString: String = "Liveness status: "
             let count = result.faces.count
             guard  count != 0  else {
-                self.resultHandler("Result has no faces")
+                self.resultHandler("Result has no faces", self.resultId)
                 return
             }
             let face = result.faces[result.faces.startIndex]
@@ -104,19 +111,15 @@ class LivenessActor
                     }
                     if status != FaceLivenessStatus.notComputed
                     {
-                        if let resultId = livenessResult?.resultId
+                        if let sessionResultId = livenessResult?.resultId
                         {
-                            parameters.resultId = resultId.uuidString
+                            self.resultId = sessionResultId.uuidString
                         }
-                    }
-                    else
-                    {
-                        parameters.resultId = UUID().uuidString
                     }
                 }
             }
             
-            if (parameters.livenessWithVerify)
+            if (self.withVerification)
             {
                 let recoResult = face.recognitionResult
                 if (recoResult != nil)
@@ -138,8 +141,11 @@ class LivenessActor
             }
 
             self.userFeedbackHandler("")
-            self.resultHandler(livenessResultString)
-            self.completionHandler(faceAnalyzedDetails)
+            self.resultHandler(livenessResultString, self.resultId)
+            self.detailsHandler(faceAnalyzedDetails)
+            // example on how to get the digest
+            let digest = faceAnalyzedDetails?.digest
+
             print(livenessResultString)
         }
 
@@ -147,7 +153,7 @@ class LivenessActor
             var userNotification = ""
             let count = result.faces.count
             guard  count != 0  else {
-                self.resultHandler("Result has no faces")
+                self.resultHandler("Result has no faces", self.resultId)
                 return
             }
             let face = result.faces[result.faces.startIndex]

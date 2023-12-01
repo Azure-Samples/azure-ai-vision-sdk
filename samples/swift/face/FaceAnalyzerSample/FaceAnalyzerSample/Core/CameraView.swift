@@ -1,6 +1,5 @@
 //
 // Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
 //
 
 import Foundation
@@ -11,7 +10,6 @@ import AzureAIVisionFace
 struct CameraView: View {
     @Binding var backgroundColor: Color?
     @Binding var feedbackMessage: String
-    @Binding var httpRequest: String
     @State private var progress: Float? = nil
     static let previewAreaRatio = 0.12
     static let screenAspectRatio = Double(UIScreen.main.bounds.size.height / UIScreen.main.bounds.size.width)

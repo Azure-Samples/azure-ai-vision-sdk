@@ -1,6 +1,5 @@
 //
 // Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
 //
 
 import Foundation
@@ -27,12 +26,12 @@ class PageSelection: ObservableObject {
 
 class SessionData: ObservableObject {
     @Published var resultId: String = ""
-    @Published var verificationImage: UIImage? = nil
+    @Published var referenceImage: UIImage? = nil
     @Published var endpoint: String = "https://your.azure.endpoint.com"
     @Published var key: String = ""
     @Published var token: String? = nil
-    @Published var verificationImageIsSelected = false
-    @Published var isShowPhotoLibraryForVerificationImage = false
+    @Published var referenceImageIsSelected = false
+    @Published var isShowPhotoLibraryForReferenceImage = false
     @Published var isNetworkAvailable = true
     @Published var resultMessage = ""
     @Published var livenessWithVerify = false
@@ -56,7 +55,18 @@ struct MainView: View {
                 SettingsView()
 
             case .liveness:
-                LivenessView(resultAvailable: false)
+                LivenessView(token: sessionData.token!,
+                             withVerification: sessionData.livenessWithVerify,
+                             referenceImage: sessionData.referenceImage,
+                             completionHandler: { resultMessage, resultId in
+                                sessionData.resultMessage = resultMessage
+                                sessionData.resultId = resultId
+                                DispatchQueue.main.async {
+                                    withAnimation {
+                                        pageSelection.current = .result
+                                    }
+                                }
+                            })
 
             case .result:
                 ResultView()

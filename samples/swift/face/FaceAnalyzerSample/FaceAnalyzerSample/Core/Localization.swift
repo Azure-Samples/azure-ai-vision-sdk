@@ -1,8 +1,5 @@
 //
-//  Localization.swift
-//  FaceAnalyzerDemo
-//
-//  Created by MSFACE on 11/8/23.
+// Copyright (c) Microsoft. All rights reserved.
 //
 
 import Foundation
@@ -14,17 +11,17 @@ struct LocalizationStrings {
     static let recognitionStatusRecognized = NSLocalizedString("Recognized", comment: "")
     static let recognitionStatusUnknown = NSLocalizedString("Unknown", comment: "")
 
-    static let recognitionFailureExcessiveFaceBrightness = NSLocalizedString("ExcessiveFaceBrightness \n", comment: "")
-    static let recognitionFailureExcessiveImageBlurDetected = NSLocalizedString("ExcessiveImageBlurDetected \n", comment: "")
-    static let recognitionFailureFaceEyeRegionNotVisible = NSLocalizedString("FaceEyeRegionNotVisible \n", comment: "")
-    static let recognitionFailureFaceNotFrontal = NSLocalizedString("FaceNotFrontal \n", comment: "")
+    static let recognitionFailureExcessiveFaceBrightness = NSLocalizedString("ExcessiveFaceBrightness", comment: "")
+    static let recognitionFailureExcessiveImageBlurDetected = NSLocalizedString("ExcessiveImageBlurDetected", comment: "")
+    static let recognitionFailureFaceEyeRegionNotVisible = NSLocalizedString("FaceEyeRegionNotVisible", comment: "")
+    static let recognitionFailureFaceNotFrontal = NSLocalizedString("FaceNotFrontal", comment: "")
     static let recognitionFailureNone = NSLocalizedString("None", comment: "")
     static let recognitionFailureFaceNotFound = NSLocalizedString("FaceNotFound", comment: "")
     static let recognitionFailureMultipleFaceFound = NSLocalizedString("MultipleFaceFound", comment: "")
     static let recognitionFailureContentDecodingError = NSLocalizedString("ContentDecodingError", comment: "")
     static let recognitionFailureImageSizeIsTooLarge = NSLocalizedString("ImageSizeIsTooLarge", comment: "")
     static let recognitionFailureImageSizeIsTooSmall = NSLocalizedString("ImageSizeIsTooSmall", comment: "")
-    static let recognitionFailureGenericFailure = NSLocalizedString("GenericFailure \n", comment: "")
+    static let recognitionFailureGenericFailure = NSLocalizedString("GenericFailure", comment: "")
 
     static let livenessStatusNotComputed = NSLocalizedString("NotComputed", comment: "")
     static let livenessStatusFailed = NSLocalizedString("Failed", comment: "")
@@ -43,10 +40,6 @@ struct LocalizationStrings {
     static let livenessFailureEnvironmentNotSupported = NSLocalizedString("EnvironmentNotSupported", comment: "")
     static let livenessFailureUnknown = NSLocalizedString("Unknown", comment: "")
 
-    static let faceActionNone = NSLocalizedString("None", comment: "")
-    static let faceActionBrightenDisplay = NSLocalizedString("Brighten display", comment: "")
-    static let faceActionDarkenDisplay = NSLocalizedString("Darken display", comment: "")
-
     static let faceFeedbackFaceNotCentered = NSLocalizedString("Look at camera.", comment: "")
     static let faceFeedbackLookAtCamera = NSLocalizedString("Look at camera.", comment: "")
     static let faceFeedbackMoveBack = NSLocalizedString("Too close! Move farther away.", comment: "")
@@ -54,16 +47,4 @@ struct LocalizationStrings {
     static let faceFeedbackTooMuchMovement = NSLocalizedString("Too much movement.", comment: "")
     static let faceFeedbackAttentionNotNeeded = NSLocalizedString("Done, finishing up...", comment: "")
     static let faceFeedbackHoldStill = NSLocalizedString("Hold still.", comment: "")
-
-    static let faceWarningFaceTooBright = NSLocalizedString("Face too bright", comment: "")
-    static let faceWarningFaceTooDark = NSLocalizedString("Face too dark", comment: "")
-    static let faceWarningTooBlurry = NSLocalizedString("Face too blurry", comment: "")
-    static let faceWarningLowFidelityFaceRegion = NSLocalizedString("Face region low fidelity", comment: "")
-    static let faceWarningNone = NSLocalizedString("None", comment: "")
-
-    static let faceTrackingStateNone = NSLocalizedString("No face", comment: "")
-    static let faceTrackingStateNew = NSLocalizedString("New face", comment: "")
-    static let faceTrackingStateTracked = NSLocalizedString("Face tracked", comment: "")
-    static let faceTrackingStateLost = NSLocalizedString("Face lost", comment: "")
-    static let faceTrackingStateUnknown = NSLocalizedString("Unknown", comment: "")
 }

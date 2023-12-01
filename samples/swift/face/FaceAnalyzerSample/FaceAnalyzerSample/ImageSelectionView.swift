@@ -13,13 +13,13 @@ struct ImageSelectionView: View {
     var body: some View {
         VStack {
             Button(action: {
-                sessionData.isShowPhotoLibraryForVerificationImage = true
+                sessionData.isShowPhotoLibraryForReferenceImage = true
             }) {
                 HStack {
                     Image(systemName: "photo")
                         .font(.system(size: 15))
                     
-                    Text("Select Verification Image")
+                    Text("Select Reference Image")
                         .font(.headline)
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 40)
@@ -46,8 +46,8 @@ struct ImageSelectionView: View {
             })
             .disabled(selectedImage.cgImage == nil)
         }
-        .sheet(isPresented: $sessionData.isShowPhotoLibraryForVerificationImage) {
-            ImagePicker(sourceType: .photoLibrary, verificationImage: $selectedImage)
+        .sheet(isPresented: $sessionData.isShowPhotoLibraryForReferenceImage) {
+            ImagePicker(sourceType: .photoLibrary, referenceImage: $selectedImage)
         }
     }
 
@@ -56,7 +56,7 @@ struct ImageSelectionView: View {
             let selectedImage = selectedImage.normalizedImage()
             let revisedCGImage = convertToRGBImage(inputImage: selectedImage.cgImage!)
             let revisedUIImage = UIImage(cgImage: revisedCGImage!)
-            sessionData.verificationImage = revisedUIImage
+            sessionData.referenceImage = revisedUIImage
         }
         else {
             return

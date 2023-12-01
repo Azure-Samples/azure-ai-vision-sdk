@@ -1,0 +1,38 @@
+//
+// Copyright (c) Microsoft. All rights reserved.
+//
+
+"Not computed" = "未进行识别";
+"Failed" = "识别错误";
+"Not recognized" = "识别失败";
+"Recognized" = "识别成功";
+"Unknown" = "未知错误";
+
+"ExcessiveFaceBrightness" = "面部亮度过高";
+"ExcessiveImageBlurDetected" = "图像过于模糊";
+"FaceEyeRegionNotVisible" = "眼部区域不可见";
+"FaceNotFrontal" = "面部非正对屏幕";
+"None" = "无信息";
+"FaceNotFound" = "未找到人脸";
+"MultipleFaceFound" = "检测到多个人脸";
+"ContentDecodingError" = "图像内容解码错误";
+"ImageSizeIsTooLarge" = "图像尺寸过大";
+"ImageSizeIsTooSmall" = "图像尺寸过小";
+"GenericFailure" = "系统错误";
+
+"Live" = "真人";
+"Spoof" = "非真人";
+
+"None" = "无";
+"FaceMouthRegionNotVisible" = "嘴部区域不可见";
+"FaceWithMaskDetected" = "检测到佩戴口罩";
+"ActionNotPerformed" = "未执行操作";
+"TimedOut" = "超时";
+"EnvironmentNotSupported" = "环境不支持";
+
+"Look at camera." = "看向摄像头";
+"Too close! Move farther away." = "太近了！请远离一些。";
+"Too far away! Move in closer." = "太远了！请靠近一些。";
+"Too much movement." = "移动过多";
+"Done, finishing up..." = "完成，正在结束…";
+"Hold still." = "保持静止";

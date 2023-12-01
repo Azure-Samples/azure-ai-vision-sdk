@@ -1,0 +1,40 @@
+//
+// Copyright (c) Microsoft. All rights reserved.
+//
+
+"Not computed" = "Not computed";
+"Failed" = "Failed";
+"Not recognized" = "Not recognized";
+"Recognized" = "Recognized";
+"Unknown" = "Unknown";
+
+"ExcessiveFaceBrightness" = "Excessive Face Brightness";
+"ExcessiveImageBlurDetected" = "Excessive Image Blur Detected";
+"FaceEyeRegionNotVisible" = "Face Eye Region Not Visible";
+"FaceNotFrontal" = "Face Not Frontal";
+"None" = "None";
+"FaceNotFound" = "Face Not Found";
+"MultipleFaceFound" = "Multiple Faces Found";
+"ContentDecodingError" = "Content Decoding Error";
+"ImageSizeIsTooLarge" = "Image Size Is Too Large";
+"ImageSizeIsTooSmall" = "Image Size Is Too Small";
+"GenericFailure" = "Generic Failure";
+
+"NotComputed" = "Not Computed";
+"Live" = "Live";
+"Spoof" = "Spoof";
+
+"None" = "None";
+"FaceMouthRegionNotVisible" = "Face Mouth Region Not Visible";
+"ExcessiveFaceBrightness" = "Excessive Face Brightness";
+"FaceWithMaskDetected" = "Face With Mask Detected";
+"ActionNotPerformed" = "Action Not Performed";
+"TimedOut" = "Timed Out";
+"EnvironmentNotSupported" = "Environment Not Supported";
+
+"Look at camera." = "Look at camera.";
+"Too close! Move farther away." = "Too close! Move farther away.";
+"Too far away! Move in closer." = "Too far away! Move in closer.";
+"Too much movement." = "Too much movement.";
+"Done, finishing up..." = "Done, finishing up...";
+"Hold still." = "Hold still.";
