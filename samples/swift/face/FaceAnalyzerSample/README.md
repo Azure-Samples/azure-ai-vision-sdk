@@ -10,15 +10,11 @@ In this sample, you will learn how to build and run the face liveness detection 
 
 ## Set up the environment 
 1. If this is your first time using your Mac to develop, you should build a sample app from [About Me — Sample Apps Tutorials | Apple Developer Documentation](https://developer.apple.com/tutorials/sample-apps/aboutme) and run it on your phone before you attempt to build the App here. This will help ensure that your developer environment has been setup properly.
-2. If you have a valid Azure Face API subscription, you can get the token to access the release artifacts. Before that, make sure you have installed the [Azure Command-Line Interface](https://learn.microsoft.com/en-us/cli/azure/)
-- Run this command in your Mac terminal, you can then find the token in the response.
-   ```
-   token=$(az account get-access-token -o tsv | cut -f1)
-   curl -X GET --header "Authorization: Bearer $token" "https://face-sdk-gating-helper.azurewebsites.net/sdk/subscriptions/{subscriptionId}/tokens?id={tokenId}"
-   ```
-   subscriptionId is your Azure Face API subscriptionId, and tokenId can be 0 (for primary key) or 1 (for secondary key).
+2. If you have a valid Azure subscription, you can get the token to access the release artifacts. More details can be found in [GET_LIVENESS_SDK_ACCESS](../../../../GET_LIVENESS_SDK_ACCESS.md).
 3. To install the SDK package, here is the way through Swift Package Manager. 
-- Use this repository URL `https://msface.visualstudio.com/SDK/_git/AzureAIVisionFace.xcframework` and `https://msface.visualstudio.com/SDK/_git/AzureAIVisionCore.xcframework` in the Swift Package Manager.
+- Use the following repository URL in Swift Package Manager
+   `https://msface.visualstudio.com/SDK/_git/AzureAIVisionFace.xcframework`
+   `https://msface.visualstudio.com/SDK/_git/AzureAIVisionCore.xcframework`.
 - You will see a pop-up window asking for username and password. Make a random username and use the token from step 2 to be the password.
 - You may encounter error if your Xcode has never been configured to use Git LFS.
 If Git LFS is never installed on your machine, refer to [Git LFS official site](https://git-lfs.github.com/) for instructions on how to install. To make Xcode recognize the `git-lfs` command, create symbolic link like so:
@@ -166,6 +162,21 @@ In the sample App, we provide sample views like: MainView.swift, LaunchView.swif
    (1) Go to "Xcode -> Targets -> Info -> Custom iOS Target Properties -> Localizations" to add all the languages you want to support.
 
    (2) Refer to the Core/en.lproj and Core/zh-Hans.lproj to add the corresponding translation for all the added languages in your localizations.
+
+6. **Digest**
+
+   We highly recommend leveraging the digest generated within the solution to validate the integrity of the communication between your application and the Azure AI Vision Face service. This is necessary to ensure that the final liveness detection result is trustworthy. Digest is provided in the follow locations:
+- The Face Analyzer running on your application.
+
+   In the FaceAnalyzedDetails object.
+- The Azure AI Vision Face service.
+
+   The digest will be contained within the liveness detection result when calling the detectliveness/singlemodal/sessions/<session-id> REST call.
+
+   Digests must match between the application and the service. We recommend using these digests in conjunction with Platform-provided integrity APIs (available on iOS or Android) to perform the final validation.
+   For more information on the platform specific Integrity APIs:
+   - [DeviceCheck | Apple Developer Documentation](https://developer.apple.com/documentation/devicecheck)
+
 
 ## Next steps:
 
