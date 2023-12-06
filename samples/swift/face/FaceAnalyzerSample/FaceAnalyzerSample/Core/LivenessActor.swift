@@ -45,7 +45,7 @@ class LivenessActor
     }
 
     func start(usingSource visionSource: VisionSource,
-               token: String) async
+               sessionAuthorizationToken: String) async
     {
         let methodOptions: FaceAnalysisOptions
         do {
@@ -54,7 +54,7 @@ class LivenessActor
 
             var serviceOptions: VisionServiceOptions? = nil
             serviceOptions = try VisionServiceOptions(endpoint: "")
-            serviceOptions?.authorizationToken = token
+            serviceOptions?.authorizationToken = sessionAuthorizationToken
 
             if (withVerification) {
                 if (referenceImage!.cgImage != nil) {

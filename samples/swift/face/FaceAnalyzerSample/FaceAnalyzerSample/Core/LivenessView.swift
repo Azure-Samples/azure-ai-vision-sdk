@@ -17,8 +17,8 @@ struct LivenessView: View {
     @State private var backgroundColor: Color? = Color.white
     var logHandler: (() -> Void) = {}
 
-    // required token to initialize and authorize the client, you may consider to create token in your backend directly
-    let token: String
+    // required authorization token to initialize and authorize the client, you may consider to create token in your backend directly
+    let sessionAuthorizationToken: String
     // boolean indicates whether liveness detection is run with verification or not
     let withVerification: Bool
     // optional reference image provided in client side, you may consider to provide reference image in your backend directly
@@ -28,12 +28,12 @@ struct LivenessView: View {
     // the details handler to get the digest, which can be used to validate the integrity of the transport
     let detailsHandler: (FaceAnalyzedDetails?) -> Void
 
-    init(token: String,
+    init(sessionAuthorizationToken: String,
          withVerification: Bool = false,
          referenceImage: UIImage? = nil,
          completionHandler: @escaping (String, String)->Void = {_,_ in },
          detailsHandler: @escaping (FaceAnalyzedDetails?)->Void = {_ in }) {
-        self.token = token
+        self.sessionAuthorizationToken = sessionAuthorizationToken
         self.withVerification = withVerification
         self.referenceImage = referenceImage
         self.completionHandler = completionHandler
@@ -71,7 +71,7 @@ struct LivenessView: View {
                         referenceImage: self.referenceImage)
                     self.actor = actor
                     Task {
-                        await actor.start(usingSource: visionSource, token: self.token)
+                        await actor.start(usingSource: visionSource, sessionAuthorizationToken: self.sessionAuthorizationToken)
                     }
                 }
         }

@@ -55,7 +55,7 @@ struct MainView: View {
                 SettingsView()
 
             case .liveness:
-                LivenessView(token: sessionData.token!,
+                LivenessView(sessionAuthorizationToken: sessionData.token!,
                              withVerification: sessionData.livenessWithVerify,
                              referenceImage: sessionData.referenceImage,
                              completionHandler: { resultMessage, resultId in
