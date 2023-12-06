@@ -27,26 +27,30 @@ The required parameters in above endpoints are:
 
 ### 1. Install Azure Command-Line Interface (CLI)
 
-    Please refer to the documentation [here](https://learn.microsoft.com/en-us/cli/azure/) and install the CLI in your computer.
+Please refer to the documentation [here](https://learn.microsoft.com/en-us/cli/azure/) and install the CLI in your computer.
 
 ### 2. How to query access token for release artifacts
 
-    Open your command line tool, like (Command Prompt App in Windows or Terminal App in MacOS). Run the following commands to get accessToken:
-    ```
-    bearerToken=$(az account get-access-token -o tsv | cut -f1)
+Open your command line tool, like (Command Prompt App in Windows or Terminal App in MacOS). Run the following commands to get accessToken:
 
-    curl -X GET --header "Authorization: Bearer $bearerToken" "https://face-sdk-gating-helper.azurewebsites.net/sdk/subscriptions/{subscriptionId}/tokens?id={tokenId}"
-    ```
-    If you want to learn more about "how to list account keys" in Azure Cognitive Service, you can find more information here:
+```
+bearerToken=$(az account get-access-token -o tsv | cut -f1)
+
+curl -X GET --header "Authorization: Bearer $bearerToken" "https://face-sdk-gating-helper.azurewebsites.net/sdk/subscriptions/{subscriptionId}/tokens?id={tokenId}"
+```
+
+If you want to learn more about "how to list account keys" in Azure Cognitive Service, you can find more information here:
     - [Accounts - List Keys - REST API (Azure Cognitive Services) | Microsoft Learn](https://learn.microsoft.com/en-us/rest/api/cognitiveservices/accountmanagement/accounts/list-keys?view=rest-cognitiveservices-accountmanagement-2023-05-01&tabs=HTTP)
 
 ### 3. How to regenerate access token for release artifacts
 
-    Open your command line tool, like (Command Prompt App in Windows or Terminal App in MacOS). Run the following commands to get accessToken:
-    ```
-    bearerToken=$(az account get-access-token -o tsv | cut -f1)
+Open your command line tool, like (Command Prompt App in Windows or Terminal App in MacOS). Run the following commands to get accessToken:
 
-    curl -X POST --header "Authorization: Bearer $bearerToken" "https://face-sdk-gating-helper.azurewebsites.net/sdk/subscriptions/{subscriptionId}/tokens?id={tokenId}"
-    ```
-    If you want to learn more about "how to regenerate account keys" in Azure Cognitive Service, you can find more information here:
-    - [Accounts - Regenerate Key - REST API (Azure Cognitive Services) | Microsoft Learn](https://learn.microsoft.com/en-us/rest/api/cognitiveservices/accountmanagement/accounts/regenerate-key?view=rest-cognitiveservices-accountmanagement-2023-05-01&tabs=HTTP)
+```
+bearerToken=$(az account get-access-token -o tsv | cut -f1)
+
+curl -X POST --header "Authorization: Bearer $bearerToken" "https://face-sdk-gating-helper.azurewebsites.net/sdk/subscriptions/{subscriptionId}/tokens?id={tokenId}"
+```
+
+If you want to learn more about "how to regenerate account keys" in Azure Cognitive Service, you can find more information here:
+- [Accounts - Regenerate Key - REST API (Azure Cognitive Services) | Microsoft Learn](https://learn.microsoft.com/en-us/rest/api/cognitiveservices/accountmanagement/accounts/regenerate-key?view=rest-cognitiveservices-accountmanagement-2023-05-01&tabs=HTTP)
