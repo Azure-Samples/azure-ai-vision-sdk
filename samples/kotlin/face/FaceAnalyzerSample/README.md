@@ -171,7 +171,7 @@ livenessFailureReason: Provide failure reason if liveness process failed
 verificationStatus: If face recognition feature is used, the recognition verification result from azure
 verificationConfidence: If face recognition feature is used, the recognition verification confidence number from azure
 resultId: The id for this request to azure
-digest: The validation string to be used to verify the communication for this call is secure.  For more information check section below [Add validation for the integrity of the service result](#add-validation-for-the-integrity-of-the-service-result)
+digest: The validation string to be used to verify the communication for this call is secure.  For more information check section below [Add validation for the integrity of the service result](#step-9-add-validation-for-the-integrity-of-the-service-result)
 ```
 val resultReceiver = object: ResultReceiver(null)
 {
