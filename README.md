@@ -10,7 +10,7 @@ name: "Microsoft Azure AI Vision SDK Samples"
 description: "Learn how to use the Microsoft Azure AI Vision SDK to add computer vision features to your apps."
 products:
 - azure
-- azure-ai-vision
+- azure-computer-vision
 ---
 
 # Azure AI Vision SDK (Preview) Samples
