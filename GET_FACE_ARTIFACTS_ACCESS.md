@@ -27,7 +27,7 @@ The required parameters in above endpoints are:
 
 ### 1. Install Azure Command-Line Interface (CLI)
 
-Please refer to the documentation [here](https://learn.microsoft.com/en-us/cli/azure/) and install the CLI in your computer.
+Please refer to the documentation [here](https://learn.microsoft.com/cli/azure/) and install the CLI in your computer.
 
 ### 2. How to query access token for release artifacts
 
@@ -40,7 +40,7 @@ curl -X GET --header "Authorization: Bearer $bearerToken" "https://face-sdk-gati
 ```
 
 If you want to learn more about "how to list account keys" in Azure Cognitive Service, you can find more information here:
-    - [Accounts - List Keys - REST API (Azure Cognitive Services) | Microsoft Learn](https://learn.microsoft.com/en-us/rest/api/cognitiveservices/accountmanagement/accounts/list-keys?view=rest-cognitiveservices-accountmanagement-2023-05-01&tabs=HTTP)
+    - [Accounts - List Keys - REST API (Azure Cognitive Services) | Microsoft Learn](https://learn.microsoft.com/rest/api/cognitiveservices/accountmanagement/accounts/list-keys?view=rest-cognitiveservices-accountmanagement-2023-05-01&tabs=HTTP)
 
 ### 3. How to regenerate access token for release artifacts
 
@@ -53,4 +53,4 @@ curl -X POST --header "Authorization: Bearer $bearerToken" "https://face-sdk-gat
 ```
 
 If you want to learn more about "how to regenerate account keys" in Azure Cognitive Service, you can find more information here:
-- [Accounts - Regenerate Key - REST API (Azure Cognitive Services) | Microsoft Learn](https://learn.microsoft.com/en-us/rest/api/cognitiveservices/accountmanagement/accounts/regenerate-key?view=rest-cognitiveservices-accountmanagement-2023-05-01&tabs=HTTP)
+- [Accounts - Regenerate Key - REST API (Azure Cognitive Services) | Microsoft Learn](https://learn.microsoft.com/rest/api/cognitiveservices/accountmanagement/accounts/regenerate-key?view=rest-cognitiveservices-accountmanagement-2023-05-01&tabs=HTTP)

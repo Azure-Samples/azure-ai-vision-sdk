@@ -26,7 +26,7 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        setContentView(R.layout.app_activity_settings)
 
         endpointView = findViewById(R.id.endpointText)
         keyView = findViewById(R.id.keyText)

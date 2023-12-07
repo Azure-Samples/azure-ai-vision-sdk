@@ -15,7 +15,7 @@ In this sample, you will learn how to build and run the face liveness detection 
     - Use the following repository URL in Swift Package Manager
    `https://msface.visualstudio.com/SDK/_git/AzureAIVisionFace.xcframework`
    `https://msface.visualstudio.com/SDK/_git/AzureAIVisionCore.xcframework`.
-    - You will see a pop-up window asking for username and password. Make a random username and use the token from step 2 to be the password. Random username means a random string because it is not really taken in this case.
+    - You will see a pop-up window asking for username and password. Make a random username and use the accessToken from step 2 to be the password. Random username means a random string because it is not really taken in this case.
     - You may encounter error if your Xcode has never been configured to use Git LFS.
     If Git LFS is never installed on your machine, refer to [Git LFS official site](https://git-lfs.github.com/) for instructions on how to install. To make Xcode recognize the `git-lfs` command, create symbolic link like so:
 
@@ -136,9 +136,9 @@ Here are the recommended steps you should consider to follow during your integra
 
    With first 4 steps, you should be able to run liveness detection in your own project. Here are more advanced details for you to understand the API usage. The file LivenessActor.swift contains the method on how to create and initialize the "FaceAnalyzer". Specifically,
 
-   (1) ***Configuring the FaceAPI service to obtain the required token***
+   (1) ***Configuring the FaceAPI service to obtain the required session-authorization-token***
    ```swift
-   // this is for demo purpose only, token can be obtained in the App server directly
+   // this is for demo purpose only, session-authorization-token can be obtained in the App server directly
    let sessionAuthorizationToken = obtainToken()
    serviceOptions = try  VisionServiceOptions(endpoint: "")
    serviceOptions?.authorizationToken = sessionAuthorizationToken
@@ -188,7 +188,7 @@ Here are the recommended steps you should consider to follow during your integra
 
 ### 7. Add validation for the integrity of the service result
 
-   We highly recommend leveraging the "digest" generated within the solution to validate the integrity of the communication between your application and the Azure AI Vision Face service. This is necessary to ensure that the final liveness detection result is trustworthy. "Digest" is provided in the follow two locations:
+   We highly recommend leveraging the "digest" generated within the solution to validate the integrity of the communication between your application and the Azure AI Vision Face service. This is necessary to ensure that the final liveness detection result is trustworthy. "Digest" is provided in the following two locations:
 1. The Face Analyzer running on your application.
 
    In the FaceAnalyzedDetails object.

@@ -10,7 +10,7 @@ name: "Microsoft Azure AI Vision SDK Samples"
 description: "Learn how to use the Microsoft Azure AI Vision SDK to add computer vision features to your apps."
 products:
 - azure
-- azure-computer-vision
+- azure-ai-vision
 ---
 
 # Azure AI Vision SDK (Preview) Samples
@@ -124,7 +124,7 @@ If your platform and/or programming language is not listed above, your applicati
 
 * [Python API Reference Documents](https://learn.microsoft.com/python/api/azure-ai-vision)
 * [C# .NET Core API Reference Documents](https://learn.microsoft.com/dotnet/api/azure.ai.vision.imageanalysis)
-* [JAVA JRE API Reference Documents](https://learn.microsoft.com/en-us/java/api/com.azure.ai.vision.imageanalysis)
+* [JAVA JRE API Reference Documents](https://learn.microsoft.com/java/api/com.azure.ai.vision.imageanalysis)
 * [C++ API Reference Documents](https://learn.microsoft.com/cpp/cognitive-services/vision)
 
 
@@ -149,7 +149,7 @@ Please see the readme documents listed below for instructions on how to build an
 
 ### Prerequisite
 
-- You will need to get access to the SDK artifacts in order to run these samples. To get started you would need to apply for the [Face Recognition Limited Access Features](https://customervoice.microsoft.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbR7en2Ais5pxKtso_Pz4b1_xUQjA5SkYzNDM4TkcwQzNEOE1NVEdKUUlRRCQlQCN0PWcu) to get access to the SDK artifacts. Please email [azureface@microsoft.com](azureface@microsoft.com) to get instructions on how to download the SDK. For more information, see the [Face Limited Access](https://learn.microsoft.com/en-us/legal/cognitive-services/computer-vision/limited-access-identity?context=%2Fazure%2Fcognitive-services%2Fcomputer-vision%2Fcontext%2Fcontext) page.  
+- You will need to get access to the SDK artifacts in order to run these samples. To get started you would need to apply for the [Face Recognition Limited Access Features](https://customervoice.microsoft.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbR7en2Ais5pxKtso_Pz4b1_xUQjA5SkYzNDM4TkcwQzNEOE1NVEdKUUlRRCQlQCN0PWcu) to get access to the SDK artifacts. Once you are approved please refer to the [GET_FACE_ARTIFACTS_ACCESS.md](./GET_FACE_ARTIFACTS_ACCESS.md) file to get access to the the SDK artifacts and the [Swift_README](./samples/swift/face/FaceAnalyzerSample/README.md), [Kotlin_README](./samples/kotlin/face/FaceAnalyzerSample/README.md) to integrate the SDK into the sample application. For more information, see the [Face Limited Access](https://learn.microsoft.com/legal/cognitive-services/computer-vision/limited-access-identity?context=%2Fazure%2Fcognitive-services%2Fcomputer-vision%2Fcontext%2Fcontext) page.  
 
 ### Samples
 

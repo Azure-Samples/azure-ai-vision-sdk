@@ -19,7 +19,7 @@ class ResultActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_result)
+        setContentView(R.layout.app_activity_result)
 
         viewMap[findViewById(R.id.resultLabel1)] = findViewById(R.id.resultValue1)
         viewMap[findViewById(R.id.resultLabel2)] = findViewById(R.id.resultValue2)

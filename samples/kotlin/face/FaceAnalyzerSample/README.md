@@ -2,24 +2,30 @@
 
 In this sample, you will learn basic design patterns for face recognition with liveness detection using the Azure AI Vision SDK for Android (Preview). The SDK is currently in preview and APIs are subject to change.
 
-## Prerequisites
-* A subscription key and endpoint for the vision service. See the link "Already using Azure? Try this service for free now" on [Microsoft Cognitive Services](https://azure.microsoft.com/services/cognitive-services/computer-vision/).
+## Prerequisites 
+* An Azure Face API resource subscription.
 * A PC (Windows, Linux, Mac) with Android Studio installed.
 * An Android mobile device (API level 21 or higher).
-* Get the API reference documentation. This will be included in the latest release artifacts here: https://github.com/Azure-Samples/azure-ai-vision-sdk/releases
 
-## Set up the environment
-To install the SDK, download the AAR file from the latest release artifact here: https://github.com/Azure-Samples/azure-ai-vision-sdk-private-preview/releases
-- You will need to get access to the SDK artifacts in order to run this sample. To get started you would need to apply for the [Face Recognition Limited Access Features](https://customervoice.microsoft.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbR7en2Ais5pxKtso_Pz4b1_xUQjA5SkYzNDM4TkcwQzNEOE1NVEdKUUlRRCQlQCN0PWcu) to get access to the SDK artifacts. Please email [azureface@microsoft.com](azureface@microsoft.com) to get instructions on how to download the SDK. For more information, see the [Face Limited Access](https://learn.microsoft.com/en-us/legal/cognitive-services/computer-vision/limited-access-identity?context=%2Fazure%2Fcognitive-services%2Fcomputer-vision%2Fcontext%2Fcontext) page.
-
-## Next Steps
- Now that you have setup your environment you can either:
-
-- [Build and run sample app](#Build-and-run-sample-app) 
-- [Integrate face analysis into your own application](#Integrate-face-analysis-into-your-own-application)
+ Now you can either:
+ 
+- [Build and run sample app](#build-the-sample-app) 
+- [Integrate face analysis into your own application](#integrate-face-analysis-into-your-own-application)
 
 ## Build and run sample app
 The sample app uses the Vision SDK to perform face liveness analysis. The following sections will walk you through these building and running the sample.
+
+### Get Access Token to SDK Artifact
+The access token is used for maven authentication.  The solution uses azure maven repo artifact to add the binary enabling the liveness feature.  You will need to set up azure maven repo with any username and valid "access token" as "password".  This token will be used as `mavenPassword` in the [Add Build Dependency](#step-5-add-build-dependency) section below.
+See [GET_FACE_ARTIFACTS_ACCESS](../../../../GET_FACE_ARTIFACTS_ACCESS.md).
+
+### Add Credential
+You need to add credentials in `gradle.properties` to set up variable `mavenUser` and `mavenPassword` used above.  These are obtained through azure command in sdk access.  `mavenPassword` is the access token from above section.  
+The creditial is going to look like:
+```
+mavenUser=any_username_string
+mavenPassword=access_token
+```
 
 ### Build the sample app
 Follow these steps to try out the sample app. The app performs liveness analysis using the Vision SDK.
@@ -52,86 +58,177 @@ To test out other liveness analysis scenarios, repeat steps 1-5, this time holdi
 
 ## Integrate face analysis into your own application
 
-Follow these steps to integrate the face analysis in your app to perform face liveness analysis
+Here are the recommended steps you should consider to follow during your integration. Also, here is an companion video that shows [how to do the integration in an Android Empty Actitivy project](https://aka.ms/azure-ai-vision-face-liveness-client-sdk-android-integration-video).
 
-### Camera Permissions
-Face analysis requires access to the camera to perform liveness analysis. You need to prompt the user to grant camera permission. You can look at `MainActivity.kt` for sample on how to achieve the same or follow the guidelines for [Android](https://developer.android.com/training/permissions/requesting).
+### The overview of face recognition with liveness detection in Azure AI Vision SDK for Android (Preview)
+Here is the outline of the SDK sample and integration structure
+1. The solution uses azure maven repo artifact to add the binary enabling the liveness feature.  You will need to set up azure `maven` repo with any `username` and valid "access token" as "password.  It will be mentioned below in [Get Access Token to SDK Artifact](#step-4-get-access-token-to-sdk-artifact) section for getting the password, along with the [Add Build Dependencies](#step-5-add-build-dependency) to set the repo in the solution files.
+2. The app requires camera permission.  You will need to set it up in the app configuration and code.  It will be mentioned below in [Add Camera Permission](#step-2-add-camera-permissions) and [Add Kotlin code to Request Camera Permission](#step-3-add-kotlin-code-to-request-camera-permission) sections for demostration.
+3. There is an Activity called `AnalyzeActivity`.  The activity consists a one stop bundle for the liveness feature with helper code, they are all in the folder named `core`.  The UI layout part for the activity is in the xml files.  It will be mentioned below in [Copy File and Update](#step-1-copy-fies-and-update-integrate-ui-view) section.  It works with the artifact in the maven repo mentioned above.
+4. The activity takes a parameter in the intent launching it, the parameter defines the activity callback behaviour.  The parameter to do the callback is `ResultReceiver` class.  It will be mentioned below in [Add code to interpret the result](#step-6-add-code-to-interpret-the-result) section to demostrate how to use it.
 
-### Integrate UI View
 
-* Use `activity_analyze.xml`` for this step.
-* You need to add the following dependencies to apps' build.grade `dependencies` section.
+### Step 1 Copy Fies and Update (Integrate UI View)
+The files below are the bundle code and layout data for the activity containing core function on liveness detection.
+* Copy kt files in core folder, including `AnalyzeActivity.kt`, `AnalyzedResult.kt`, `AnalyzedResultType.kt`, `AnalyzeModel.kt`, `AutoFitSurfaceView.kt` for this step.
+* Copy UI View, Use `activity_analyze.xml` for this step.
+* Copy string value, Use `string_feedback.xml` in the values folder
+* Update the kotlin files to the package name that's correct for current project.  In all these kt files, package section in the beginning of the file, change the package name to your app package space to solve namespace conflict.
+
+
+### Step 2 Add Camera Permissions
+Face analysis requires access to the camera to perform liveness analysis. You need to prompt the user to grant camera permission.  Here is how to add camera permissions and activity data in the manifest:
+Add permission for the app in `AndroidManifest.xml`
 ```
-implementation 'androidx.core:core-ktx:1.9.0'
-implementation 'com.google.android.material:material:1.7.0'
-implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.screen.portrait" />
+```
+Add the `AnalyzeActivity` as a new activity in `AndroidManifest.xml`
+```
+        <activity
+            android:name=".AnalyzeActivity"
+            android:screenOrientation="portrait" />
+```
+, and now add proper code to request camera permission in kotlin as below
+
+### Step 3 Add Kotlin code to Request Camera Permission
+You can look at `LivenessActivity.kt` for sample on how to achieve the same or follow the guidelines for [Android](https://developer.android.com/training/permissions/requesting).  Camera permission needs to be ready before calling the `AnalyzeActivity`.
+Here is part of the code piece that asks camera permission
+```
+    private fun requestPermissions() {
+        var permissions: ArrayList<String> = ArrayList()
+
+        if (!mAppPermissionGranted && !mAppPermissionRequested) {
+            if (ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                permissions.add(Manifest.permission.CAMERA)
+            }
+            if (ContextCompat.checkSelfPermission(
+                    applicationContext,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
+
+            var perms = permissions.toTypedArray()
+
+            if (permissions.size > 1) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    perms,
+                    cAppRequestCode
+                )
+            }
+        }
+    }
 ```
 
-The UI view necessary for liveness analysis is contained in res/layout/activity_analyze.xml file. You can copy the file or follow the UI elements in your app. Ensuring that the user-interface implementation in your application matches the template provided in the Vision SDK samples is critical to ensure accurate liveness detection. This requires that the background color (white and black) and the camera preview oval (position and size) in the sample is matched as closely as possible. Furthermore, ensuring that there’s no other logos, UI-controls, or text (apart from the feedback text from the SDK) is shown on screen will help increase the accuracy of the solution.
+### Step 4 Get Access Token to SDK Artifact
+The access token is used for maven authentication.  The solution uses azure maven repo artifact to add the binary enabling the liveness feature.  You will need to set up azure maven repo with any username and valid "access token" as "password".  This token will be used as `mavenPassword` in the "Add Build Dependency" section below.
+See [GET_FACE_ARTIFACTS_ACCESS](../../../../GET_FACE_ARTIFACTS_ACCESS.md).
 
-
-### Integrate UI model
-* Use `AnalyzeModel.kt` for this step.
+### Step 5 Add Build Dependency
 * You need to add the following dependencies to apps' build.grade `plugins` section.
 ```
 plugins {
     id 'kotlin-parcelize'
 }
 ```
-The UI model for the controller is contained in `data class AnalyzeModel`. The `MainActivity` page shows a sample on how to prepare the input data for `AnalyzeActivity` session. It is recommended to get session token from your application server and pass it to the app to avoid putting the subscription key in your app.
-
-### Integrate UI Controller
-
-* Use `AnalyzeActivity.kt` and `AutoFitSurfaceView.kt` for this step.
 * You need to add the following dependencies to apps' build.grade `dependencies` section.
 ```
-implementation group: 'net.sourceforge.streamsupport', name:'android-retrofuture', version: '1.7.4'
-implementation 'androidx.activity:activity-ktx:1.7.2'
-implementation 'androidx.appcompat:appcompat:1.5.1'
-implementation 'com.azure.android:azure-core-http-httpurlconnection:1.0.0-beta.10'
-implementation 'com.azure.android:azure-core-credential:1.0.0-beta.10'
-implementation 'com.azure:azure-ai-vision-common-internal:0.15.1-beta.1'
-def camerax_version = "1.1.0"
-implementation "androidx.camera:camera-camera2:$camerax_version"
-implementation "androidx.camera:camera-lifecycle:$camerax_version"
-implementation fileTree(dir: '../libs', include: ['*.aar'])
+    implementation "com.azure.ai:azure-ai-vision-common:0.16.0-beta.1"
+    implementation "com.azure.ai:azure-ai-vision-faceanalyzer:0.16.0-beta.1"
 ```
-
-The UI controller is self-contained in `AnalyzeActivity.kt`. The class shows how to create `FaceAnalyzer` object and listen to `analyzing` and `analyzed` events to control UI view and complete the session. For this sample, final results are shown on different page, though the results are available in `analyzed` event. You can interpret results from this event and continue with appropriate action.
-
-It is imperative to listen to `analyzing` event and change the UI view accordingly. Here is snippet from `AnalyzeActivity` to showcase the same.
+* You need to add repository in the settings.gradle for dependencyResolutionManagement
 ```
-// Lighten/darken the screen based on liveness feedback
-var requiredAction = face.actionRequiredFromApplicationTask?.action;
-if (requiredAction == ActionRequiredFromApplication.BRIGHTEN_DISPLAY) {
-    mBackgroundLayout.setBackgroundColor(Color.WHITE)
-    face.actionRequiredFromApplicationTask.setAsCompleted()
-} else if (requiredAction == ActionRequiredFromApplication.DARKEN_DISPLAY) {
-    mBackgroundLayout.setBackgroundColor(Color.BLACK)
-    face.actionRequiredFromApplicationTask.setAsCompleted()
-}
-```
-
-The following method maps the feedback to a user-friendly string, this should be localized based on your target audience.
-```
-private fun MapFeedbackToMessage(feedback : FeedbackForFace): String {
-    when(feedback) {
-        FeedbackForFace.NONE -> return "Hold Still."
-        FeedbackForFace.LOOK_AT_CAMERA -> return "Look at camera."
-        FeedbackForFace.FACE_NOT_CENTERED -> return "Look at camera."
-        FeedbackForFace.MOVE_CLOSER -> return "Too far away! Move in closer."
-        FeedbackForFace.MOVE_BACK -> return "Too close! Move farther away."
-        FeedbackForFace.REDUCE_MOVEMENT -> return "Too much movement."
-        FeedbackForFace.SMILE -> return "Ready, set, smile!"
-        FeedbackForFace.ATTENTION_NOT_NEEDED -> {
-            mDoneAnalyzing = true
-            return "Done, finishing up..."
+    maven {
+        url 'https://pkgs.dev.azure.com/msface/SDK/_packaging/AzureAIVision/maven/v1'
+        name 'AzureAIVision'
+        credentials {
+            username "$mavenUser"
+            password "$mavenPassword"
         }
     }
-
-    return "Hold Still."
-}
+```
+* You need to add credentials in gradle.properties to set up variable `mavenUser` and `mavenPassword` used above.  These are obtained through azure command from above [Get Access Token to SDK Artifact](#step-4-get-access-token-to-sdk-artifact) section.
+```
+mavenUser=any_username_string
+mavenPassword=access_token
 ```
 
-## Next steps 
-In this sample, you have learned about the key face analysis scenarios offered by the Azure AI Vision SDK for Android (Preview). For more information on how to orchestrate the liveness flow by utilizing the Azure AI Vision Face service, visit: https://aka.ms/azure-ai-vision-face-liveness-tutorial.
+### Step 6 Add code to interpret the result
+The activity takes a parameter in the intent launching it.  The parameter defines the activity callback behaviour.  The parameter to do the callback is `ResultReceiver` class.  It will be mentioned below in "Add code to call the service" section to demostrate how to use it.
+The resultReceiver is a handler for AnalyzeActivity behaviors, including `RESULT`, `ERROR`, `BACKPRESSED` callback for the activity
+Here we need to create a resultReceiver, it receives the AnalyzedResult and inside this class there are following properties:
+livenessStatus: The liveness detection result from azure
+livenessFailureReason: Provide failure reason if liveness process failed
+verificationStatus: If face recognition feature is used, the recognition verification result from azure
+verificationConfidence: If face recognition feature is used, the recognition verification confidence number from azure
+resultId: The id for this request to azure
+digest: The validation string to be used to verify the communication for this call is secure.  For more information check section below [Add validation for the integrity of the service result](#add-validation-for-the-integrity-of-the-service-result)
+```
+val resultReceiver = object: ResultReceiver(null)
+{
+    override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
+        if(resultCode == AnalyzedResultType.RESULT)
+        {
+            val result = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                resultData?.getParcelable("result", AnalyzedResult::class.java)
+            } else {
+                @Suppress("DEPRECATION") resultData?.getParcelable<AnalyzedResult>("result")
+            }
+            val livenessStatus = result?.livenessStatus.toString()
+            val livenessFailureReason = result?.failureReason.toString()
+            val verificationStatus = result?.verificationStatus.toString()
+            val verificationConfidence = result?.confidence.toString()
+            val resultIds =  result?.resultId
+            val digest = result?.digest
+        }
+        else if(resultCode == AnalyzedResultType.ERROR)
+        {
+        }
+        else if(resultCode == AnalyzedResultType.BACKPRESSED)
+        {
+        }
+    }
+}
+```
+### Step 7 Run liveness flow
+The intent used to launch the activity requires "AnalyzeModel" as intent extra.  An "AnalyzeModel" takes 4 inputs: endpoint, session-authorization-token, verifyImagePath, resultReceiver.
+
+"endpoint" is the url for the endpoint server address.
+
+"session authorization token" should be obtained in App Server.  A demo version on obtaining the token is in `Utils.kt` for the demo app to be built as an standalone solution, but this is not recommended.  The session-authorization-token is required to start a liveness session.  For more information on how to orchestrate the liveness flow by utilizing the Azure AI Vision Face service, visit: https://aka.ms/azure-ai-vision-face-liveness-tutorial.
+
+"verifyImagePath" is the path to the image used for face recognition against the liveness images.  Use empty string if face recognition is not needed.
+
+"resultReceiver" is the handler to interpret the result call back from the activity.  The details is shown in the last section.
+
+Then the activity can be called with the code:
+```
+val intent = Intent(this, AnalyzeActivity::class.java)
+val analyzeModel = AnalyzeModel(endPoint, session-authorization-token, verifyImagePath, resultReceiver)
+intent.putExtra("model", analyzeModel);
+this.startActivity(intent)
+```
+
+### Step 8 Localization
+The feedback messages guiding the user to progress through the process is located at values/string_feedback.xml.  You can localize the app by adding the string resources to the correct language folder.
+For example, to add Chinese(Tranditional TW) in the resouces for the feedback messages, a folder named "values-zh-rTW" can be created and you can copy all the string xml files from the "values" folder to the specific locale folder, and translate them into Chinese(Tranditional TW).  When the Android OS language is set to Chinese(Tranditional TW), android will automatically load string resources from "values-zh-rTW" folder instead of "values" folder first.
+
+### Step 9 Add validation for the integrity of the service result
+We highly recommend leveraging the "digest" generated within the solution to validate the integrity of the communication between your application and the Azure AI Vision Face service. This is necessary to ensure that the final liveness detection result is trustworthy. "Digest" is provided in the following two locations:
+1. "digest" property in resultReceiver shown in [Step 6 Add code to interpret the result](#step-6-add-code-to-interpret-the-result)
+2. The Azure AI Vision Face service.
+
+   The "digest" will be contained within the liveness detection result when calling the detectliveness/singlemodal/sessions/<session-id> REST call. Look for an example of the "digest" in the [tutorial](https://aka.ms/azure-ai-vision-face-liveness-tutorial) where the liveness detection result is shown.
+
+   Digests must match between the application and the service. We recommend using these digests in conjunction with platform integrity APIs to perform the final validation.
+   For more information on the Integrity APIs, please refer to:
+   - [Overview of the Play Integrity API](https://developer.android.com/google/play/integrity/overview)
