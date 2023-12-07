@@ -164,13 +164,18 @@ mavenPassword=access_token
 
 ### Step 6 Add code to interpret the result
 The activity takes a parameter in the intent launching it.  The parameter defines the activity callback behaviour.  The parameter to do the callback is `ResultReceiver` class.  It will be mentioned below in "Add code to call the service" section to demostrate how to use it.
-The resultReceiver is a handler for AnalyzeActivity behaviors, including `RESULT`, `ERROR`, `BACKPRESSED` callback for the activity
-Here we need to create a resultReceiver, it receives the AnalyzedResult and inside this class there are following properties:
+The resultReceiver is a handler for AnalyzeActivity behaviors, including `RESULT`, `ERROR`, `BACKPRESSED` callback for the activity. Here we need to create a resultReceiver, it receives the AnalyzedResult and inside this class there are following properties:
+
 livenessStatus: The liveness detection result from azure
+
 livenessFailureReason: Provide failure reason if liveness process failed
+
 verificationStatus: If face recognition feature is used, the recognition verification result from azure
+
 verificationConfidence: If face recognition feature is used, the recognition verification confidence number from azure
+
 resultId: The id for this request to azure
+
 digest: The validation string to be used to verify the communication for this call is secure.  For more information check section below [Add validation for the integrity of the service result](#step-9-add-validation-for-the-integrity-of-the-service-result)
 ```
 val resultReceiver = object: ResultReceiver(null)
