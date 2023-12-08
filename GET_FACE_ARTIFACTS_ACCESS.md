@@ -31,25 +31,39 @@ Please refer to the documentation [here](https://learn.microsoft.com/cli/azure/)
 
 ### 2. How to query access token for release artifacts
 
-Open your command line tool, like (Command Prompt App in Windows or Terminal App in MacOS). Run the following commands to get accessToken:
+Open your command line tool, like (Bash in Linux or Terminal App in MacOS). Run the following commands to get accessToken:
 
 ```
 bearerToken=$(az account get-access-token -o tsv | cut -f1)
 
 curl -X GET --header "Authorization: Bearer $bearerToken" "https://face-sdk-gating-helper.azurewebsites.net/sdk/subscriptions/{subscriptionId}/tokens?id={tokenId}"
 ```
+If you are on Windows, run the following commands in Powershell:
 
+```
+$bearerToken = $(az account get-access-token -o tsv).split()[0];
+
+Invoke-WebRequest -Uri "https://face-sdk-gating-helper.azurewebsites.net/sdk/subscriptions/{subscriptionId}/tokens?id={tokenId}" -Method GET -Headers @{"Authorization"="Bearer $bearerToken"}
+```
 If you want to learn more about "how to list account keys" in Azure Cognitive Service, you can find more information here:
     - [Accounts - List Keys - REST API (Azure Cognitive Services) | Microsoft Learn](https://learn.microsoft.com/rest/api/cognitiveservices/accountmanagement/accounts/list-keys?view=rest-cognitiveservices-accountmanagement-2023-05-01&tabs=HTTP)
 
 ### 3. How to regenerate access token for release artifacts
 
-Open your command line tool, like (Command Prompt App in Windows or Terminal App in MacOS). Run the following commands to get accessToken:
+Open your command line tool, like (Bash in Linux or Terminal App in MacOS). Run the following commands to get accessToken:
 
 ```
 bearerToken=$(az account get-access-token -o tsv | cut -f1)
 
 curl -X POST --header "Authorization: Bearer $bearerToken" "https://face-sdk-gating-helper.azurewebsites.net/sdk/subscriptions/{subscriptionId}/tokens?id={tokenId}"
+```
+
+If you are on Windows, run the following commands in Powershell:
+
+```
+$bearerToken = $(az account get-access-token -o tsv).split()[0];
+
+Invoke-RestMethod -Uri "https://face-sdk-gating-helper.azurewebsites.net/sdk/subscriptions/{subscriptionId}/tokens?id={tokenId}" -Method POST -Headers @{"Authorization"="Bearer $bearerToken"}
 ```
 
 If you want to learn more about "how to regenerate account keys" in Azure Cognitive Service, you can find more information here:

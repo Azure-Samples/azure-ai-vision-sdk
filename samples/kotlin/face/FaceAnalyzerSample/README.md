@@ -29,7 +29,6 @@ mavenPassword=access_token
 
 ### Build the sample app
 Follow these steps to try out the sample app. The app performs liveness analysis using the Vision SDK.
-* Locate and copy Vision AAR files to FaceAnalyzerSample/libs folder.
 * Open the "FaceAnalyzerSample" folder on Android Studio.
 * Press Ctrl+F9, or select **Build** \> **Make Project**.
 
