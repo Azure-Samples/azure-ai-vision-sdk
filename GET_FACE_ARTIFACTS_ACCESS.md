@@ -1,12 +1,12 @@
 # Accessing Face Liveness SDK Release Artifacts
 
 ## Overview
-This guide provides step-by-step instructions to access Face Liveness SDK release artifacts using Azure.
+This guide provides step-by-step instructions to access Face Liveness SDK release artifacts from Azure.
 
 ## Prerequisites
-1. An Azure Subscription ID approved for Face Liveness Detection (complete the Face Recognition intake form).
+1. An Azure Subscription ID approved for Face Liveness Detection (complete the [Face Recognition intake form](https://aka.ms/facerecognition)).
 2. Azure account with Cognitive Services Contributor role for permissions:
-   - Microsoft.CognitiveServices/accounts/listKeys/action
+   - Microsoft.CognitivesServices/accounts/listKeys/action
    - Microsoft.CognitiveServices/accounts/regenerateKey/action
 
 ## Using Endpoints
@@ -17,8 +17,8 @@ Two endpoints are available for token queries and regeneration:
    - `https://face-sdk-gating-helper.azurewebsites.net/sdk/subscriptions/{subscriptionId}/tokens?id={tokenId}`
 
 Parameters:
-- **subscriptionId**: Registered Azure Subscription ID for Face API Limited Access.
-- **tokenId**: An integer (0 or 1) for primary or secondary tokens. Optional for GET requests.
+- **subscriptionId**: Azure Subscription ID that has been registered for Face API Limited Access.
+- **tokenId**: Optionally needed for the GET endpoint. An integer (0 or 1) for primary or secondary tokens. This allows you to generate primary and secondary keys that can be used while rotating secrets in build-automations.
 
 **Note:** The GET endpoint lists all tokens if `tokenId` isn't specified. Use POST to generate tokens if none exist.
 
