@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feedback_none">Hold Still.</string>
+    <string name="feedback_look_at_camera">Look at camera.</string>
+    <string name="feedback_face_not_centered">Look at camera.</string>
+    <string name="feedback_move_closer">Too far away! Move in closer.</string>
+    <string name="feedback_move_back">Too close! Move farther away.</string>
+    <string name="feedback_reduce_movement">Too much movement.</string>
+    <string name="feedback_smile">Ready, set, smile!</string>
+    <string name="feedback_attention_not_needed">Done, finishing up...</string>
+</resources>
