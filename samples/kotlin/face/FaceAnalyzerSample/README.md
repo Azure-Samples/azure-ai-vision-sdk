@@ -2,6 +2,10 @@
 
 In this sample, you will learn basic design patterns for face recognition with liveness detection using the Azure AI Vision SDK for Android (Preview). The SDK is currently in preview and APIs are subject to change.
 
+### API Reference Documentation
+
+* Kotlin API reference documents: [Azure SDK for Android](https://azure.github.io/azure-sdk-for-android/), [azure-ai-vision-common](https://azure.github.io/azure-sdk-for-android/azure-ai-vision-common/index.html), [azure-ai-vision-faceanalyzer](https://azure.github.io/azure-sdk-for-android/azure-ai-vision-faceanalyzer/com/azure/android/ai/vision/faceanalyzer/package-summary.html)
+
 ## Prerequisites 
 * An Azure Face API resource subscription.
 * A PC (Windows, Linux, Mac) with Android Studio installed.

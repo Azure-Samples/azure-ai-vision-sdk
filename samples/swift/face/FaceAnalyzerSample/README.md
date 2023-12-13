@@ -2,6 +2,10 @@
 
 In this sample, you will learn how to build and run the face liveness detection application. The Azure AI Vision SDK for iOS is currently in preview. The APIs are subject to change.
 
+### API Reference Documentation
+
+* Swift API reference documents: [Azure SDK for iOS Docs](https://azure.github.io/azure-sdk-for-ios/), [AzureAIVisionCore](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionCore/index.html), [AzureAIVisionFace](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionFace/index.html)
+
 ## Prerequisites
 
 1. An Azure Face API resource subscription.
