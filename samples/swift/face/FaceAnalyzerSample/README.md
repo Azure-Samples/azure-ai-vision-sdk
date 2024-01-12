@@ -1,6 +1,6 @@
-# Get started with the Azure AI Vision SDK for iOS (Preview)
+# Get started with the Azure AI Vision Face Client SDK for iOS (Preview)
 
-In this sample, you will learn how to build and run the face liveness detection application. The Azure AI Vision SDK for iOS is currently in preview. The APIs are subject to change.
+In this sample, you will learn how to build and run the face liveness detection application. The Azure AI Vision Face Client SDK for iOS is currently in preview. The APIs are subject to change.
 
 ### API Reference Documentation
 

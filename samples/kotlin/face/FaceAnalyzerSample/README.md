@@ -1,6 +1,6 @@
-# Get started with the Azure AI Vision SDK for Android (Preview)
+# Get started with the Azure AI Vision Face Client SDK for Android (Preview)
 
-In this sample, you will learn basic design patterns for face recognition with liveness detection using the Azure AI Vision SDK for Android (Preview). The SDK is currently in preview and APIs are subject to change.
+In this sample, you will learn basic design patterns for face recognition with liveness detection using the Azure AI Vision Face Client SDK for Android (Preview). The SDK is currently in preview and APIs are subject to change.
 
 ### API Reference Documentation
 
