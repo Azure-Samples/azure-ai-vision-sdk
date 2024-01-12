@@ -1,7 +1,7 @@
-# Accessing Face Liveness SDK Release Artifacts
+# Accessing Azure AI Vision Face Client SDK Release Artifacts
 
 ## Overview
-This guide provides step-by-step instructions to access Face Liveness SDK release artifacts from Azure.
+This guide provides step-by-step instructions to access Face Client SDK release artifacts from Azure.
 
 ## Prerequisites
 1. An Azure Subscription ID approved for Face Liveness Detection (complete the [Face Recognition intake form](https://aka.ms/facerecognition)).
