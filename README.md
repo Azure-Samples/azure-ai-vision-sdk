@@ -33,7 +33,6 @@ This repository hosts sample code and setup documents for the Microsoft Azure AI
 
 This repository hosts samples that help you get started with several features of the SDK in public preview. This includes the following API sets:
 
-* [Image Analysis](#image-analysis)
 * [Face Analysis](#face-analysis)
 
 Other API sets are under development.
@@ -58,75 +57,7 @@ Alternatively, you can contact Microsoft's Vision SDK development team directly 
 
 ## Image Analysis
 
-### Overview
-
-![GitHub Logo](docs/image-analysis/image-analysis-results.png)
-
-See Microsoft documentation for an overview of [Image Analysis](https://learn.microsoft.com/azure/ai-services/computer-vision/overview-image-analysis). The Vision SDK Image Analysis APIs (preview) uses [Image Analysis REST API v4.0 (preview)](https://aka.ms/vision-4-0-ref). 
-
-The Image Analysis APIs supports the extraction of one or more of the following visual features using a single REST call:
-
-* **Caption** - Generates a human-readable phrase that describes the whole image content. For example, for the above image, "A woman wearing a mask sitting at a table with a laptop".
-* **Dense Captions** - Generates a human-readable phrase that describes the whole image content, and up to 9 additional descriptions that describe sub-regions of the image.
-* **Tags** - Returns content tags for recognizable objects, living beings, scenery, and actions that appear in the image.
-* **Objects** - Detects various objects within an image, including their approximate location. See example in the above image: person, two chairs, laptop, dining table.
-* **People** - Detects people in the image, including their approximate location.
-* **Text** - Also known as **Read** or **OCR**. Performs Optical Character Recognition (OCR) and returns the text detected in the image, including the approximate location of every text line and word.
-* **Crop Suggestions** - Also known as **Smart Crop**. Recommendations for cropping operations that preserve content (e.g. for thumbnail generation).
-
-The Image Analysis APIs also support **background removal** (segmentation). This feature can either output an image of the detected foreground object with a transparent background, or a gray-scale alpha matte image showing the opacity of the detected foreground object.
-
-For all scenarios, you can either upload an image for analysis by providing the name of an image file on disk, or you can provide a publicly-accessible URL of the image.
-
-### Supported Programming Languages and Platforms
-
-At the moment the SDK is available for the following platforms and programming languages:
-
-* Platforms:
-  * Windows 10 x64 (and above)
-  * Linux x64 running Ubuntu 18.04/20.04/22.04, Debian 9/10/11, Red Hat Enterprise Linux (RHEL) 7/8
-
-* Programming languages:
-  * Python
-  * C# (.NET)
-  * Java JRE
-  * C++
-
-Support for others platform and programming languages (including Android, iOS, MacOS) is planned for future releases.
-
-If your platform and/or programming language is not listed above, your application will need to directly implement REST calls to the Vision Service using the [Image Analysis REST API v4.0 (preview)](https://aka.ms/vision-4-0-ref).
-
-### Samples
-
-The samples will show how to analyze an image file from local disk or an image URL. Click on the links below for detailed setup, build and run instructions corresponding to your programming language:
-
-| Programming Language |
-| -------- |
-| [Python Console Sample](samples/python/image-analysis) |
-| [C# .NET Console Sample](samples/csharp/image-analysis/dotnet) |
-| [C# .NET UWP Sample](samples/csharp/image-analysis/uwp) |
-| [Java JRE Sample](samples/java/image-analysis) |
-| [C++ Console Sample](samples/cpp/image-analysis) |
-
-The console samples demonstrate doing the following:
-
-1. Analyze all features from a JPEG image file on disk and print detailed results to the console. This is done using the synchronous (blocking) API. It is recommended you start by looking at this sample.
-1. Analyze one feature from an image URL, using the asynchronous (non-blocking) API, while registering for an event to get the analysis results.
-1. Analyze one feature from an image in an input memory buffer, using synchronous (blocking) API.
-1. Analyze an image using a custom-trained model. To run this sample, you first need to create a custom model. See [Create a custom Image Analysis model (preview)](https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/model-customization) for more details.
-1. Analyze an image for background removal (segmentation).
-
-The C# .NET UWP sample shows how to analyze features from an image file or image URL.
-
-If your platform and/or programming language is not listed above, your application will need to directly implement REST calls to the Vision service using the [Image Analysis REST API v4.0 (preview)](https://aka.ms/vision-4-0-ref).
-
-### API Reference Documentation
-
-* [Python API Reference Documents](https://learn.microsoft.com/python/api/azure-ai-vision)
-* [C# .NET Core API Reference Documents](https://learn.microsoft.com/dotnet/api/azure.ai.vision.imageanalysis)
-* [JAVA JRE API Reference Documents](https://learn.microsoft.com/java/api/com.azure.ai.vision.imageanalysis)
-* [C++ API Reference Documents](https://learn.microsoft.com/cpp/cognitive-services/vision)
-
+**January 2024 update**: Samples for the new Image Analysis SDK versions 1.0.0-beta.1 and up are now located in several other Azure SDK GitHub repos. Please see the [Image Analysis SDK overview]([text](https://learn.microsoft.com/azure/ai-services/computer-vision/sdk/overview-sdk)) page for more details.
 
 ## Face Analysis
 
