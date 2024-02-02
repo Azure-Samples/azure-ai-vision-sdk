@@ -2,10 +2,6 @@
 
 In this sample, you will learn basic design patterns for face recognition with liveness detection using the Azure AI Vision Face Client SDK for Android (Preview). The SDK is currently in preview and APIs are subject to change.
 
-### API Reference Documentation
-
-* Kotlin API reference documents: [Azure SDK for Android](https://azure.github.io/azure-sdk-for-android/), [azure-ai-vision-common](https://azure.github.io/azure-sdk-for-android/azure-ai-vision-common/index.html), [azure-ai-vision-faceanalyzer](https://azure.github.io/azure-sdk-for-android/azure-ai-vision-faceanalyzer/com/azure/android/ai/vision/faceanalyzer/package-summary.html)
-
 ## Prerequisites 
 * An Azure Face API resource subscription.
 * A PC (Windows, Linux, Mac) with Android Studio installed.
@@ -61,7 +57,9 @@ To test out other liveness analysis scenarios, repeat steps 1-5, this time holdi
 
 ## Integrate face analysis into your own application
 
-Here are the recommended steps you should consider to follow during your integration. Also, here is an companion video that shows [how to do the integration in an Android Empty Actitivy project](https://aka.ms/azure-ai-vision-face-liveness-client-sdk-android-integration-video).
+Here are the recommended steps you should consider to follow during your integration. Also, here is an companion video that shows **[how to do the integration in an Android Empty Actitivy project](https://aka.ms/azure-ai-vision-face-liveness-client-sdk-android-integration-video)**.
+
+[![Android integration video front](../../../../docs/face/Android-integration-video-front.jpg)](https://aka.ms/azure-ai-vision-face-liveness-client-sdk-android-integration-video)
 
 ### The overview of face recognition with liveness detection in Azure AI Vision SDK for Android (Preview)
 Here is the outline of the SDK sample and integration structure
@@ -169,17 +167,17 @@ mavenPassword=access_token
 The activity takes a parameter in the intent launching it.  The parameter defines the activity callback behaviour.  The parameter to do the callback is `ResultReceiver` class.  It will be mentioned below in "Add code to call the service" section to demostrate how to use it.
 The resultReceiver is a handler for AnalyzeActivity behaviors, including `RESULT`, `ERROR`, `BACKPRESSED` callback for the activity. Here we need to create a resultReceiver, it receives the AnalyzedResult and inside this class there are following properties:
 
-livenessStatus: The liveness detection result from azure
+* livenessStatus: The liveness detection result from azure
 
-livenessFailureReason: Provide failure reason if liveness process failed
+* livenessFailureReason: Provide failure reason if liveness process failed
 
-verificationStatus: If face recognition feature is used, the recognition verification result from azure
+* verificationStatus: If face recognition feature is used, the recognition verification result from azure
 
-verificationConfidence: If face recognition feature is used, the recognition verification confidence number from azure
+* verificationConfidence: If face recognition feature is used, the recognition verification confidence number from azure
 
-resultId: The id for this request to azure
+* resultId: The id for this request to azure
 
-digest: The validation string to be used to verify the communication for this call is secure.  For more information check section below [Add validation for the integrity of the service result](#step-9-add-validation-for-the-integrity-of-the-service-result)
+* digest: The validation string to be used to verify the communication for this call is secure.  For more information check section below [Add validation for the integrity of the service result](#step-9-add-validation-for-the-integrity-of-the-service-result)
 ```
 val resultReceiver = object: ResultReceiver(null)
 {
@@ -210,13 +208,13 @@ val resultReceiver = object: ResultReceiver(null)
 ### Step 7 Run liveness flow
 The intent used to launch the activity requires "AnalyzeModel" as intent extra.  An "AnalyzeModel" takes 4 inputs: endpoint, session-authorization-token, verifyImagePath, resultReceiver.
 
-"endpoint" is the url for the endpoint server address.
+* "endpoint" is the url for the endpoint server address.
 
-"session authorization token" should be obtained in App Server.  A demo version on obtaining the token is in `Utils.kt` for the demo app to be built as an standalone solution, but this is not recommended.  The session-authorization-token is required to start a liveness session.  For more information on how to orchestrate the liveness flow by utilizing the Azure AI Vision Face service, visit: https://aka.ms/azure-ai-vision-face-liveness-tutorial.
+* "session authorization token" should be obtained in App Server.  A demo version on obtaining the token is in `Utils.kt` for the demo app to be built as an standalone solution, but this is not recommended.  The session-authorization-token is required to start a liveness session.  For more information on how to orchestrate the liveness flow by utilizing the Azure AI Vision Face service, visit: https://aka.ms/azure-ai-vision-face-liveness-tutorial.
 
-"verifyImagePath" is the path to the image used for face recognition against the liveness images.  Use empty string if face recognition is not needed.
+* "verifyImagePath" is the path to the image used for face recognition against the liveness images.  Use empty string if face recognition is not needed.
 
-"resultReceiver" is the handler to interpret the result call back from the activity.  The details is shown in the last section.
+* "resultReceiver" is the handler to interpret the result call back from the activity.  The details is shown in the last section.
 
 Then the activity can be called with the code:
 ```

@@ -62,6 +62,8 @@ class AutoFitSurfaceView @JvmOverloads constructor(
                 newWidth = width
                 newHeight = (width / actualRatio).roundToInt()
             }
+
+            Log.d(TAG, "Measured dimensions set: $newWidth x $newHeight")
             setMeasuredDimension(newWidth, newHeight)
         }
     }

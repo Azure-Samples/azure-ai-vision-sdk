@@ -1,6 +1,10 @@
-# Get started with the Azure AI Vision SDK for iOS (Preview)
+# Get started with the Azure AI Vision Face Client SDK for iOS (Preview)
 
-In this sample, you will learn how to build and run the face liveness detection application. The Azure AI Vision SDK for iOS is currently in preview. The APIs are subject to change.
+In this sample, you will learn how to build and run the face liveness detection application. The Azure AI Vision Face Client SDK for iOS is currently in preview. The APIs are subject to change.
+
+### API Reference Documentation
+
+* Swift API reference documents: [Azure SDK for iOS Docs](https://azure.github.io/azure-sdk-for-ios/), [AzureAIVisionCore](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionCore/index.html), [AzureAIVisionFace](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionFace/index.html)
 
 ## Prerequisites
 
@@ -70,7 +74,9 @@ This mode checks the person liveness with verification against a provided face i
 Based on the provided sample App, here is the instructions on how to integrate face analysis function into your own App. First, face analysis using AzureAIVision SDK requires a Vision source and a Vision service to be configured. The Vision source for the mobile scenario defaults to built in camera on the mobile device. The Vision source is wrapped into a SwiftUI View object that is required for a preview (please refer to sample App file "CameraPreviewView.swift"). The Vision service requires Azure subscription. The Azure subscription prerequisites are also common to all scenarios.
 In the sample App, we provide sample views like: MainView.swift, LaunchView.swift, ResultView.swift, SettingsView.swift to help with the App flow. These files are not needed in your Application, and please take them for your reference only. More importantly, we provide the following example code to interact with the camera and the AzureAIVision SDK, which you should adapt into your own App properly. For your convenience, we put all those required files under the "FaceAnalyerSample/Core" folder.
 
-Here are the recommended steps you should consider to follow during your integration. Also, here is an companion video that shows [how to do the integration in an empty Xcode project](https://aka.ms/azure-ai-vision-face-liveness-client-sdk-ios-integration-video).
+Here are the recommended steps you should consider to follow during your integration. Also, here is an companion video that shows **[how to do the integration in an empty Xcode project](https://aka.ms/azure-ai-vision-face-liveness-client-sdk-ios-integration-video)**.
+
+[![iOS integration video front](../../../../docs/face/iOS-integration-video-front.jpg)](https://aka.ms/azure-ai-vision-face-liveness-client-sdk-ios-integration-video)
 
 ### 1. Configure your Xcode project
 
@@ -143,6 +149,10 @@ Here are the recommended steps you should consider to follow during your integra
    serviceOptions = try  VisionServiceOptions(endpoint: "")
    serviceOptions?.authorizationToken = sessionAuthorizationToken
    ```
+
+   Note:
+   * A demo version on obtaining the token is in `AppUtility.swift` for the demo app to be built as an standalone solution, but this is not recommended.  The "session-authorization-token" is required to start a liveness session.  For more information on how to orchestrate the liveness flow by utilizing the Azure AI Vision Face service, visit: https://aka.ms/azure-ai-vision-face-liveness-tutorial.
+
    (2) ***Configuring the face analyzer***
    ```swift
    let createOptions = try! FaceAnalyzerCreateOptions()
@@ -199,3 +209,21 @@ Here are the recommended steps you should consider to follow during your integra
    Digests must match between the application and the service. We recommend using these digests in conjunction with iOS integrity APIs to perform the final validation.
    For more information on the iOS Integrity APIs, please refer to:
    - [DeviceCheck | Apple Developer Documentation](https://developer.apple.com/documentation/devicecheck)
+
+## Obtaining a session token
+Session token can be obtained by calling the `sessions` API using an API endpoint and a valid Face API subscription key. It is recommended to fetch the token from your backend service and then passing the token to the client to ensure sensitive secrets like API subscription keys are not leaked to the client.
+Here is an example to obtain a token.
+```javascript
+  const session = await (await fetch("***FACE_API_ENDPOINT***/api/detectLiveness/singleModal/sessions", { method: "POST", headers: { 'Content-Type': 'application/json', 'Ocp-Apim-Subscription-Key':'***Face_API_KEY***' }, body: { 'livenessOperationMode': 'Passive', 'sendResultsToClient': 'false', 'deviceCorrelationId': '***DEVICE_CORRELATION_ID***' }, })).json();
+  const token = session.authToken; // token for azure-ai-vision-faceanalyzer element to run face liveness.
+  const sessionId = session.sessionId; // sessionId of the session, which can be used to fetch results of the session from API.
+```
+
+## Securing the session results
+To enhance the security of face liveness sessions, it is advisable to withhold session results from the client. This can be achieved by configuring the `sendResultsToClient` parameter to `false` when invoking the `sessions` API to generate a token. Setting the `sendResultsToClient` parameter to `true` will grant the client access to the session results.
+To access the session results from your backend service after a successful completion of face liveness check you can use `sessions/***SESSION-ID***` API. The ***SESSION-ID*** is available in the response of `sessions` API alongwith the `authToken`.
+```javascript
+  const sessionResults = await (await fetch("***FACE_API_ENDPOINT***/api/detectLiveness/singleModal/sessions/***SESSION-ID***", { method: "GET", headers: { 'Ocp-Apim-Subscription-Key':'***Face_API_KEY***' }, })).json();
+  const resultStatus = sessionResults["status"];
+  const livenessResult = sessionResults["response"]["body"]["livenessDecision"];
+```
