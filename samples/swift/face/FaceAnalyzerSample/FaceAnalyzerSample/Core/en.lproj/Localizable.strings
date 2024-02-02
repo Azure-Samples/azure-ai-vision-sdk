@@ -23,6 +23,7 @@
 "NotComputed" = "Not Computed";
 "Live" = "Live";
 "Spoof" = "Spoof";
+"CompletedResultQueryableFromService" = "Completed，Result Queryable From Service";
 
 "None" = "None";
 "FaceMouthRegionNotVisible" = "Face Mouth Region Not Visible";
@@ -31,6 +32,9 @@
 "ActionNotPerformed" = "Action Not Performed";
 "TimedOut" = "Timed Out";
 "EnvironmentNotSupported" = "Environment Not Supported";
+"UnexpectedClientError" = "Unexpected client error";
+"UnexpectedServerError" = "Unexpected server error";
+"Unexpected" = "Unexpected error";
 
 "Look at camera." = "Look at camera.";
 "Too close! Move farther away." = "Too close! Move farther away.";

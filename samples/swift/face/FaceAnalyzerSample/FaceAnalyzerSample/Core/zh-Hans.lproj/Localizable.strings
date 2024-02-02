@@ -22,6 +22,7 @@
 
 "Live" = "真人";
 "Spoof" = "非真人";
+"CompletedResultQueryableFromService" = "检测结果仅服务器端可见";
 
 "None" = "无";
 "FaceMouthRegionNotVisible" = "嘴部区域不可见";
@@ -29,6 +30,9 @@
 "ActionNotPerformed" = "未执行操作";
 "TimedOut" = "超时";
 "EnvironmentNotSupported" = "环境不支持";
+"UnexpectedClientError" = "客户端访问受限";
+"UnexpectedServerError" = "服务器返回错误代码";
+"Unexpected" = "未知错误";
 
 "Look at camera." = "看向摄像头";
 "Too close! Move farther away." = "太近了！请远离一些。";

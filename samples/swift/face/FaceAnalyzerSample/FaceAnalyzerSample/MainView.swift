@@ -26,6 +26,7 @@ class PageSelection: ObservableObject {
 
 class SessionData: ObservableObject {
     @Published var resultId: String = ""
+    @Published var resultDigest: String = ""
     @Published var referenceImage: UIImage? = nil
     @Published var endpoint: String = "https://your.azure.endpoint.com"
     @Published var key: String = ""
@@ -35,6 +36,7 @@ class SessionData: ObservableObject {
     @Published var isNetworkAvailable = true
     @Published var resultMessage = ""
     @Published var livenessWithVerify = false
+    @Published var sendResultsToClient = true
 
     var settingsConfigured: Bool {
         !endpoint.isEmpty && !key.isEmpty
@@ -58,9 +60,10 @@ struct MainView: View {
                 LivenessView(sessionAuthorizationToken: sessionData.token!,
                              withVerification: sessionData.livenessWithVerify,
                              referenceImage: sessionData.referenceImage,
-                             completionHandler: { resultMessage, resultId in
+                             completionHandler: { resultMessage, resultId, resultDigest in
                                 sessionData.resultMessage = resultMessage
                                 sessionData.resultId = resultId
+                                sessionData.resultDigest = resultDigest
                                 DispatchQueue.main.async {
                                     withAnimation {
                                         pageSelection.current = .result

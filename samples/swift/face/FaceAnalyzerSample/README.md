@@ -1,10 +1,6 @@
-# Get started with the Azure AI Vision Face Client SDK for iOS (Preview)
+# Get started with the Azure AI Vision SDK for iOS (Preview)
 
-In this sample, you will learn how to build and run the face liveness detection application. The Azure AI Vision Face Client SDK for iOS is currently in preview. The APIs are subject to change.
-
-### API Reference Documentation
-
-* Swift API reference documents: [Azure SDK for iOS Docs](https://azure.github.io/azure-sdk-for-ios/), [AzureAIVisionCore](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionCore/index.html), [AzureAIVisionFace](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionFace/index.html)
+In this sample, you will learn how to build and run the face liveness detection application. The Azure AI Vision SDK for iOS is currently in preview. The APIs are subject to change.
 
 ## Prerequisites
 
@@ -143,7 +139,7 @@ Here are the recommended steps you should consider to follow during your integra
    (1) ***Configuring the FaceAPI service to obtain the required session-authorization-token***
    ```swift
    // this is for demo purpose only, session-authorization-token can be obtained in the App server directly
-   let sessionAuthorizationToken = obtainToken()
+   let sessionAuthorizationToken = obtainToken(...)
    serviceOptions = try  VisionServiceOptions(endpoint: "")
    serviceOptions?.authorizationToken = sessionAuthorizationToken
    ```
@@ -159,7 +155,7 @@ Here are the recommended steps you should consider to follow during your integra
    ```
    (4)  ***Initializing the face analyzer***
    ```swift
-   faceAnalyzer = await try FaceAnalyzer.create(serviceOptions: serviceOptions, input: visionSource, createOptions: createOptions)
+   faceAnalyzer = try await FaceAnalyzer.create(serviceOptions: serviceOptions, input: visionSource, createOptions: createOptions)
    ```
    (5)  ***Registering listeners for analyzer events and results***
    ```swift

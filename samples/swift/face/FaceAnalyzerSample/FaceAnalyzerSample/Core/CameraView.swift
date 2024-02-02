@@ -10,6 +10,7 @@ import AzureAIVisionFace
 struct CameraView: View {
     @Binding var backgroundColor: Color?
     @Binding var feedbackMessage: String
+    @Binding var isCameraPreviewVisible: Bool
     @State private var progress: Float? = nil
     static let previewAreaRatio = 0.12
     static let screenAspectRatio = Double(UIScreen.main.bounds.size.height / UIScreen.main.bounds.size.width)
@@ -23,7 +24,7 @@ struct CameraView: View {
                 HStack {
                     Spacer()
                     VStack(alignment: .leading) {
-                        CameraPreviewView(onViewDidLoad: onViewDidLoad)
+                        CameraPreviewView(isCameraPreviewVisible: $isCameraPreviewVisible, onViewDidLoad: onViewDidLoad)
                             .frame(width: metrics.size.width * CameraView.previewWidthRatio,
                                    height: metrics.size.width * CameraView.previewWidthRatio,
                                    alignment: .center)

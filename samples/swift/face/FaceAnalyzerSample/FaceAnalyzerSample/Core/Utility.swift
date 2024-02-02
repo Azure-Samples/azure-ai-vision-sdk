@@ -145,6 +145,7 @@ func LivenessStatusToString(status: FaceLivenessStatus) -> String {
         case .failed: return LocalizationStrings.livenessStatusFailed
         case .live: return LocalizationStrings.livenessStatusLive
         case .spoof: return LocalizationStrings.livenessStatusSpoof
+        case .completedResultQueryableFromService: return LocalizationStrings.livenessStatusCompletedResultQueryableFromService
         default: return LocalizationStrings.livenessStatusUnknown
     }
 }
@@ -160,6 +161,9 @@ func LivenessFailureReasonToString(reason: FaceLivenessFailureReason) -> String 
         case .actionNotPerformed: return LocalizationStrings.livenessFailureActionNotPerformed
         case .timedOut: return LocalizationStrings.livenessFailureTimedOut
         case .environmentNotSupported: return LocalizationStrings.livenessFailureEnvironmentNotSupported
+        case .unexpectedClientError: return LocalizationStrings.livenessFailureUnexpectedClientError
+        case .unexpectedServerError: return LocalizationStrings.livenessFailureUnexpectedServerError
+        case .unexpected: return LocalizationStrings.livenessFailureUnexpected
         default: return LocalizationStrings.livenessFailureUnknown
     }
 }

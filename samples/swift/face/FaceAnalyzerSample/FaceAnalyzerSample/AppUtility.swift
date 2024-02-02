@@ -6,10 +6,11 @@
 //
 
 import Foundation
+import UIKit
 
 // this method is for sample App demonstration purpose, the session token should be obtained in customer backend
 func obtainToken(usingEndpoint endpoint: String,
-                 key: String, withVerify: Bool) -> String? {
+                 key: String, withVerify: Bool, sendResultsToClient: Bool) -> String? {
     var createSessionUri = URL(string: endpoint + "/face/v1.1-preview.1/detectLiveness/singleModal/sessions")!
     if (withVerify)
     {
@@ -22,7 +23,8 @@ func obtainToken(usingEndpoint endpoint: String,
 
     let parameters: [String: Any] = [
         "livenessOperationMode": "Passive",
-        "deviceCorrelationId": UUID().uuidString
+        "sendResultsToClient": sendResultsToClient,
+        "deviceCorrelationId": UIDevice.current.identifierForVendor?.uuidString ?? UUID().uuidString,
     ]
 
     do {
@@ -36,7 +38,6 @@ func obtainToken(usingEndpoint endpoint: String,
 
     let session = URLSession.shared
     let group = DispatchGroup()
-    var result: String?
 
     group.enter()
     var authToken: String?
@@ -50,7 +51,7 @@ func obtainToken(usingEndpoint endpoint: String,
             print("Error: \(error)")
             return
         }
-        
+
         guard let httpResponse = response as? HTTPURLResponse else {
             print("Invalid response")
             return

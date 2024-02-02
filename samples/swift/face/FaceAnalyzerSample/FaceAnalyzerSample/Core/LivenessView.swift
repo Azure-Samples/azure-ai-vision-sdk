@@ -14,7 +14,9 @@ struct LivenessView: View {
     @State private var feedbackMessage: String = "Hold still."
     @State private var resultMessage: String = ""
     @State private var resultId: String = ""
+    @State private var resultDigest: String = ""
     @State private var backgroundColor: Color? = Color.white
+    @State private var isCameraPreviewVisible: Bool = true
     var logHandler: (() -> Void) = {}
 
     // required authorization token to initialize and authorize the client, you may consider to create token in your backend directly
@@ -24,14 +26,14 @@ struct LivenessView: View {
     // optional reference image provided in client side, you may consider to provide reference image in your backend directly
     let referenceImage: UIImage?
     // the completion handler used to handle detection results and help on UI switch
-    let completionHandler: (String, String) -> Void
+    let completionHandler: (String, String, String) -> Void
     // the details handler to get the digest, which can be used to validate the integrity of the transport
     let detailsHandler: (FaceAnalyzedDetails?) -> Void
 
     init(sessionAuthorizationToken: String,
          withVerification: Bool = false,
          referenceImage: UIImage? = nil,
-         completionHandler: @escaping (String, String)->Void = {_,_ in },
+         completionHandler: @escaping (String, String, String)->Void = {_,_,_ in },
          detailsHandler: @escaping (FaceAnalyzedDetails?)->Void = {_ in }) {
         self.sessionAuthorizationToken = sessionAuthorizationToken
         self.withVerification = withVerification
@@ -44,17 +46,19 @@ struct LivenessView: View {
         ZStack(alignment: .center) {
             CameraView(
                 backgroundColor: $backgroundColor,
-                feedbackMessage: $feedbackMessage) { visionSource in
+                feedbackMessage: $feedbackMessage,
+                isCameraPreviewVisible: $isCameraPreviewVisible) { visionSource in
                     let actor = self.actor ?? LivenessActor.init(
                         userFeedbackHandler: { feedback in
                             self.feedbackMessage = feedback
                         },
-                        resultHandler: {result, resultId in
+                        resultHandler: {result, resultId, resultDigest in
                             // This is just for demo purpose
                             // You should handle the liveness result in your own way
                             self.feedbackMessage = result
                             self.resultMessage = result
                             self.resultId = resultId
+                            self.resultDigest = resultDigest
                             self.actionDidComplete()
                         },
                         screenBackgroundColorHandler: { color in
@@ -66,6 +70,9 @@ struct LivenessView: View {
                         },
                         logHandler: {
                             self.logHandler()
+                        },
+                        stopCameraHandler: {
+                            self.isCameraPreviewVisible = false
                         },
                         withVerification: self.withVerification,
                         referenceImage: self.referenceImage)
@@ -79,7 +86,7 @@ struct LivenessView: View {
 
     func actionDidComplete() {
         self.actor?.stopAnalyzer()
-        self.completionHandler(resultMessage, resultId)
+        self.completionHandler(resultMessage, resultId, resultDigest)
     }
 
 }
