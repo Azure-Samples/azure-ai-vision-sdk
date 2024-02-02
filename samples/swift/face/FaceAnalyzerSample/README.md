@@ -210,20 +210,3 @@ Here are the recommended steps you should consider to follow during your integra
    For more information on the iOS Integrity APIs, please refer to:
    - [DeviceCheck | Apple Developer Documentation](https://developer.apple.com/documentation/devicecheck)
 
-## Obtaining a session token
-Session token can be obtained by calling the `sessions` API using an API endpoint and a valid Face API subscription key. It is recommended to fetch the token from your backend service and then passing the token to the client to ensure sensitive secrets like API subscription keys are not leaked to the client.
-Here is an example to obtain a token.
-```javascript
-  const session = await (await fetch("***FACE_API_ENDPOINT***/api/detectLiveness/singleModal/sessions", { method: "POST", headers: { 'Content-Type': 'application/json', 'Ocp-Apim-Subscription-Key':'***Face_API_KEY***' }, body: { 'livenessOperationMode': 'Passive', 'sendResultsToClient': 'false', 'deviceCorrelationId': '***DEVICE_CORRELATION_ID***' }, })).json();
-  const token = session.authToken; // token for azure-ai-vision-faceanalyzer element to run face liveness.
-  const sessionId = session.sessionId; // sessionId of the session, which can be used to fetch results of the session from API.
-```
-
-## Securing the session results
-To enhance the security of face liveness sessions, it is advisable to withhold session results from the client. This can be achieved by configuring the `sendResultsToClient` parameter to `false` when invoking the `sessions` API to generate a token. Setting the `sendResultsToClient` parameter to `true` will grant the client access to the session results.
-To access the session results from your backend service after a successful completion of face liveness check you can use `sessions/***SESSION-ID***` API. The ***SESSION-ID*** is available in the response of `sessions` API alongwith the `authToken`.
-```javascript
-  const sessionResults = await (await fetch("***FACE_API_ENDPOINT***/api/detectLiveness/singleModal/sessions/***SESSION-ID***", { method: "GET", headers: { 'Ocp-Apim-Subscription-Key':'***Face_API_KEY***' }, })).json();
-  const resultStatus = sessionResults["status"];
-  const livenessResult = sessionResults["response"]["body"]["livenessDecision"];
-```
