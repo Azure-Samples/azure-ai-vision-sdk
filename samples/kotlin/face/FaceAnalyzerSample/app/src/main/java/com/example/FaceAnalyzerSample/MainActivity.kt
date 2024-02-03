@@ -24,7 +24,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.FaceAnalyzerSample.app.Utils
 
 /***
  * Home page
@@ -39,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.app_activity_main)
+        setContentView(R.layout.activity_main)
         mLivenessButton = findViewById(R.id.livenessButton)
         mLivenessButton.setOnClickListener { launchLiveness() }
         mLivenessVerifyButton = findViewById(R.id.livenessVerifybutton)
@@ -49,10 +48,10 @@ class MainActivity : AppCompatActivity() {
             if (uri != null) {
                 val sharedPref = this.getSharedPreferences("SettingValues", Context.MODE_PRIVATE)
                 val faceApiEndpoint = sharedPref.getString("endpoint", "").toString()
-                val token = Utils.mSessionToken
-                val verifyFileURL = AppUtils.GetVerifyImage(this, uri)
-                val model = AnalyzeModel(faceApiEndpoint, token, verifyFileURL, null)
-                val intent = Intent(this, LivenessActivity::class.java)
+                val token = sharedPref.getString("token", "").toString()
+                val verifyFileURL = Utils.GetVerifyImage(this, uri)
+                val model = AnalyzeModel(faceApiEndpoint, token, verifyFileURL)
+                val intent = Intent(this, AnalyzeActivity::class.java)
                 intent.putExtra("model", model);
                 this.startActivity(intent)
             }
@@ -82,18 +81,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun launchLiveness() {
-        AppUtils.GetFaceAPISessionToken(this, false)
+        Utils.GetFaceAPISessionToken(this, false)
         val sharedPref = this.getSharedPreferences("SettingValues", Context.MODE_PRIVATE)
         val faceApiEndpoint = sharedPref.getString("endpoint", "").toString()
-        val token = Utils.mSessionToken
-        val model = AnalyzeModel(faceApiEndpoint, token, "", null)
-        val intent = Intent(this, LivenessActivity::class.java)
+        val token = sharedPref.getString("token", "").toString()
+        val model = AnalyzeModel(faceApiEndpoint, token, "")
+        val intent = Intent(this, AnalyzeActivity::class.java)
         intent.putExtra("model", model);
         this.startActivity(intent)
     }
 
     fun launchLivenessVerify() {
-        AppUtils.GetFaceAPISessionToken(this, true)
+        Utils.GetFaceAPISessionToken(this, true)
         mPickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.SingleMimeType("*/*")))
     }
 
@@ -136,6 +135,14 @@ class MainActivity : AppCompatActivity() {
                 != PackageManager.PERMISSION_GRANTED
             ) {
                 permissions.add(Manifest.permission.CAMERA)
+            }
+            if (ContextCompat.checkSelfPermission(
+                    applicationContext,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
             }
             if (ContextCompat.checkSelfPermission(
                     applicationContext,

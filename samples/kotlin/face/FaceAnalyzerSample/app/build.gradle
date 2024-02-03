@@ -4,20 +4,7 @@ plugins {
     id 'kotlin-parcelize'
 }
 
-def keystorePropertiesFile = rootProject.file("keystore.properties")
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-
 android {
-    signingConfigs {
-        release {
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-        }
-    }
-
     compileSdkVersion 33
     buildToolsVersion "33.0.0"
 
@@ -26,7 +13,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 32
         versionCode 1
-        versionName "1.0"
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -35,7 +22,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
         }
         debug {
             jniDebuggable true
@@ -52,16 +38,13 @@ android {
 }
 
 dependencies {
+    implementation group: 'net.sourceforge.streamsupport', name: 'android-retrofuture', version: '1.7.4'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.azure.android:azure-core-http-httpurlconnection:1.0.0-beta.10'
     implementation 'com.azure.android:azure-core-credential:1.0.0-beta.10'
     implementation 'com.azure:azure-ai-vision-common-internal:0.15.1-beta.1'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation "androidx.activity:activity:1.6.1"
-    implementation "com.azure.ai:azure-ai-vision-common:0.16.0-beta.1"
-    implementation "com.azure.ai:azure-ai-vision-faceanalyzer:0.16.0-beta.1"
+    implementation "com.azure.ai:azure-ai-vision-common:0.16.1-beta.1"
+    implementation "com.azure.ai:azure-ai-vision-faceanalyzer:0.16.1-beta.1"
 }

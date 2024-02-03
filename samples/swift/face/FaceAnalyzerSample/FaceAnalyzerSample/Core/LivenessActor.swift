@@ -13,12 +13,14 @@ class LivenessActor
     private var withVerification: Bool = false
     private var referenceImage: UIImage? = nil
     private var resultId: String = ""
+    private var resultDigest: String = ""
 
     let userFeedbackHandler: (String) -> Void
     let screenBackgroundColorHandler: (Color) -> Void
-    let resultHandler: (String, String) -> Void
+    let resultHandler: (String, String, String) -> Void
     let detailsHandler: (FaceAnalyzedDetails?) -> Void
     let logHandler: () -> Void
+    let stopCameraHandler: () -> Void
 
     func stopAnalyzer() {
         if let analyzer = self.faceAnalyzer
@@ -29,10 +31,11 @@ class LivenessActor
     }
 
     init(userFeedbackHandler: @escaping (String) -> Void,
-         resultHandler: @escaping (String, String) -> Void,
+         resultHandler: @escaping (String, String, String) -> Void,
          screenBackgroundColorHandler: @escaping (Color) -> Void,
          detailsHandler: @escaping (FaceAnalyzedDetails?) -> Void,
          logHandler: @escaping () -> Void,
+         stopCameraHandler: @escaping () -> Void,
          withVerification: Bool,
          referenceImage: UIImage?) {
         self.resultHandler = resultHandler
@@ -42,6 +45,7 @@ class LivenessActor
         self.logHandler = logHandler
         self.withVerification = withVerification
         self.referenceImage = referenceImage
+        self.stopCameraHandler = stopCameraHandler
     }
 
     func start(usingSource visionSource: VisionSource,
@@ -69,15 +73,15 @@ class LivenessActor
 
             createOptions.faceAnalyzerMode = FaceAnalyzerMode.trackFacesAcrossImageStream
             methodOptions.faceSelectionMode = FaceSelectionMode.largest
-            faceAnalyzer = await try FaceAnalyzer.create(serviceOptions: serviceOptions, input: visionSource, createOptions: createOptions)
+            faceAnalyzer = try await FaceAnalyzer.create(serviceOptions: serviceOptions, input: visionSource, createOptions: createOptions)
         }
         catch {
-            self.resultHandler("Error configuring service", self.resultId)
+            self.resultHandler("Error configuring service", self.resultId, self.resultDigest)
             return
         }
 
         guard faceAnalyzer != nil else {
-            self.resultHandler("Error creating FaceAnalyzer", self.resultId)
+            self.resultHandler("Error creating FaceAnalyzer", self.resultId, self.resultDigest)
             return
         }
 
@@ -89,7 +93,7 @@ class LivenessActor
             var livenessResultString: String = "Liveness status: "
             let count = result.faces.count
             guard  count != 0  else {
-                self.resultHandler("Result has no faces", self.resultId)
+                self.resultHandler("Result has no faces", self.resultId, self.resultDigest)
                 return
             }
             let face = result.faces[result.faces.startIndex]
@@ -114,6 +118,12 @@ class LivenessActor
                         if let sessionResultId = livenessResult?.resultId
                         {
                             self.resultId = sessionResultId.uuidString
+                        }
+                        if let sessionResultDigest = faceAnalyzedDetails?.digest
+                        {
+                            self.resultDigest = sessionResultDigest
+                            print(self.resultDigest)
+                            print(self.resultId)
                         }
                     }
                 }
@@ -141,10 +151,8 @@ class LivenessActor
             }
 
             self.userFeedbackHandler("")
-            self.resultHandler(livenessResultString, self.resultId)
+            self.resultHandler(livenessResultString, self.resultId, self.resultDigest)
             self.detailsHandler(faceAnalyzedDetails)
-            // example on how to get the digest
-            let digest = faceAnalyzedDetails?.digest
 
             print(livenessResultString)
         }
@@ -153,7 +161,7 @@ class LivenessActor
             var userNotification = ""
             let count = result.faces.count
             guard  count != 0  else {
-                self.resultHandler("Result has no faces", self.resultId)
+                self.resultHandler("Result has no faces", self.resultId, self.resultDigest)
                 return
             }
             let face = result.faces[result.faces.startIndex]
@@ -168,6 +176,10 @@ class LivenessActor
                 if(FaceActionRequiredFromApplication.darkenDisplay == action)
                 {
                     self.screenBackgroundColorHandler(Color.black)
+                }
+                if(FaceActionRequiredFromApplication.stopCamera == action)
+                {
+                    self.stopCameraHandler()
                 }
 
                 face.actionRequired?.complete()

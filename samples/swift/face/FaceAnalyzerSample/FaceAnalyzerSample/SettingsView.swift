@@ -13,39 +13,32 @@ struct SettingsView: View {
         VStack {
             TextField("Face API endpoint", text: $sessionData.endpoint)
                 .font(Font.custom("Helvetica Neue", size: 15.0))
-                .foregroundColor(Color.red)
-                .background(Color.black)
                 .textFieldStyle(RoundedBorderTextFieldStyle.init())
-                .cornerRadius(12)
                 .padding()
-            SecureField("Face API key", text: $sessionData.key)
+            SecureInputView("Face API key", text: $sessionData.key)
                 .font(Font.custom("Helvetica Neue", size: 15.0))
-                .foregroundColor(Color.red)
-                .background(Color.black)
                 .textFieldStyle(RoundedBorderTextFieldStyle.init())
-                .cornerRadius(12)
                 .padding()
-            ZStack{
+            ZStack {
                 TextField("Last session apim-request-id", text: $sessionData.resultId)
-                                .font(Font.custom("Helvetica Neue", size: 15.0))
-                                .foregroundColor(Color.red)
-                                .background(Color.black)
-                                .textFieldStyle(RoundedBorderTextFieldStyle.init())
-                                .cornerRadius(12)
-                                .disabled(true)
-                                .padding()
+                    .font(Font.custom("Helvetica Neue", size: 15.0))
+                    .textFieldStyle(RoundedBorderTextFieldStyle.init())
+                    .disabled(true)
+                    .padding()
             }
+            .contentShape(Rectangle())
             .onTapGesture {
-                if($sessionData.resultId.wrappedValue != "")
-                {
+                if ($sessionData.resultId.wrappedValue != "") {
                     UIPasteboard.general.string = $sessionData.resultId.wrappedValue
                     showCopyAlert = true
                 }
             }
-            .alert(isPresented:$showCopyAlert)
-            {
+            .alert(isPresented: $showCopyAlert) {
                 Alert(title: Text("Result ID Copied"), message: Text("Result ID has been copied"))
             }
+
+            Toggle("Send results to client", isOn: $sessionData.sendResultsToClient)
+                .padding(.horizontal)
 
             Spacer()
             Button(action: doneClicked){

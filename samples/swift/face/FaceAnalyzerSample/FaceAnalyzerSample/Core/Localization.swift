@@ -28,6 +28,7 @@ struct LocalizationStrings {
     static let livenessStatusLive = NSLocalizedString("Live", comment: "")
     static let livenessStatusSpoof = NSLocalizedString("Spoof", comment: "")
     static let livenessStatusUnknown = NSLocalizedString("Unknown", comment: "")
+    static let livenessStatusCompletedResultQueryableFromService = NSLocalizedString("CompletedResultQueryableFromService", comment: "")
 
     static let livenessFailureNone = NSLocalizedString("None", comment: "")
     static let livenessFailureFaceMouthRegionNotVisible = NSLocalizedString("FaceMouthRegionNotVisible", comment: "")
@@ -38,6 +39,9 @@ struct LocalizationStrings {
     static let livenessFailureActionNotPerformed = NSLocalizedString("ActionNotPerformed", comment: "")
     static let livenessFailureTimedOut = NSLocalizedString("TimedOut", comment: "")
     static let livenessFailureEnvironmentNotSupported = NSLocalizedString("EnvironmentNotSupported", comment: "")
+    static let livenessFailureUnexpectedClientError = NSLocalizedString("UnexpectedClientError", comment: "")
+    static let livenessFailureUnexpectedServerError = NSLocalizedString("UnexpectedServerError", comment: "")
+    static let livenessFailureUnexpected = NSLocalizedString("Unexpected", comment: "")
     static let livenessFailureUnknown = NSLocalizedString("Unknown", comment: "")
 
     static let faceFeedbackFaceNotCentered = NSLocalizedString("Look at camera.", comment: "")

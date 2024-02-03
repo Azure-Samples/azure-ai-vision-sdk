@@ -86,6 +86,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
+            <CheckBox
+                android:id="@+id/sendResultsToClient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="92dp"
+                android:text="sendResultsToClient"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

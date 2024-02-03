@@ -6,7 +6,7 @@ This guide provides step-by-step instructions to access Face Client SDK release 
 ## Prerequisites
 1. An Azure Subscription ID approved for Face Liveness Detection (complete the [Face Recognition intake form](https://aka.ms/facerecognition)).
 2. Azure account with Cognitive Services Contributor role for permissions:
-   - Microsoft.CognitivesServices/accounts/listKeys/action
+   - Microsoft.CognitiveServices/accounts/listKeys/action
    - Microsoft.CognitiveServices/accounts/regenerateKey/action
 
 ## Using Endpoints

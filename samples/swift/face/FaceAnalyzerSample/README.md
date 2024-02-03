@@ -74,7 +74,9 @@ This mode checks the person liveness with verification against a provided face i
 Based on the provided sample App, here is the instructions on how to integrate face analysis function into your own App. First, face analysis using AzureAIVision SDK requires a Vision source and a Vision service to be configured. The Vision source for the mobile scenario defaults to built in camera on the mobile device. The Vision source is wrapped into a SwiftUI View object that is required for a preview (please refer to sample App file "CameraPreviewView.swift"). The Vision service requires Azure subscription. The Azure subscription prerequisites are also common to all scenarios.
 In the sample App, we provide sample views like: MainView.swift, LaunchView.swift, ResultView.swift, SettingsView.swift to help with the App flow. These files are not needed in your Application, and please take them for your reference only. More importantly, we provide the following example code to interact with the camera and the AzureAIVision SDK, which you should adapt into your own App properly. For your convenience, we put all those required files under the "FaceAnalyerSample/Core" folder.
 
-Here are the recommended steps you should consider to follow during your integration. Also, here is an companion video that shows [how to do the integration in an empty Xcode project](https://aka.ms/azure-ai-vision-face-liveness-client-sdk-ios-integration-video).
+Here are the recommended steps you should consider to follow during your integration. Also, here is an companion video that shows **[how to do the integration in an empty Xcode project](https://aka.ms/azure-ai-vision-face-liveness-client-sdk-ios-integration-video)**.
+
+[![iOS integration video front](../../../../docs/face/iOS-integration-video-front.jpg)](https://aka.ms/azure-ai-vision-face-liveness-client-sdk-ios-integration-video)
 
 ### 1. Configure your Xcode project
 
@@ -143,10 +145,14 @@ Here are the recommended steps you should consider to follow during your integra
    (1) ***Configuring the FaceAPI service to obtain the required session-authorization-token***
    ```swift
    // this is for demo purpose only, session-authorization-token can be obtained in the App server directly
-   let sessionAuthorizationToken = obtainToken()
+   let sessionAuthorizationToken = obtainToken(...)
    serviceOptions = try  VisionServiceOptions(endpoint: "")
    serviceOptions?.authorizationToken = sessionAuthorizationToken
    ```
+
+   Note:
+   * A demo version on obtaining the token is in `AppUtility.swift` for the demo app to be built as an standalone solution, but this is not recommended.  The "session-authorization-token" is required to start a liveness session.  For more information on how to orchestrate the liveness flow by utilizing the Azure AI Vision Face service, visit: https://aka.ms/azure-ai-vision-face-liveness-tutorial.
+
    (2) ***Configuring the face analyzer***
    ```swift
    let createOptions = try! FaceAnalyzerCreateOptions()
@@ -159,7 +165,7 @@ Here are the recommended steps you should consider to follow during your integra
    ```
    (4)  ***Initializing the face analyzer***
    ```swift
-   faceAnalyzer = await try FaceAnalyzer.create(serviceOptions: serviceOptions, input: visionSource, createOptions: createOptions)
+   faceAnalyzer = try await FaceAnalyzer.create(serviceOptions: serviceOptions, input: visionSource, createOptions: createOptions)
    ```
    (5)  ***Registering listeners for analyzer events and results***
    ```swift
@@ -203,3 +209,4 @@ Here are the recommended steps you should consider to follow during your integra
    Digests must match between the application and the service. We recommend using these digests in conjunction with iOS integrity APIs to perform the final validation.
    For more information on the iOS Integrity APIs, please refer to:
    - [DeviceCheck | Apple Developer Documentation](https://developer.apple.com/documentation/devicecheck)
+

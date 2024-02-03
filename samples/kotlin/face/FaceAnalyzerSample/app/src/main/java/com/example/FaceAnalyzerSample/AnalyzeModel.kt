@@ -1,5 +1,4 @@
 import android.os.Parcelable
-import android.os.ResultReceiver
 import kotlinx.parcelize.Parcelize
 
 //
@@ -11,5 +10,5 @@ import kotlinx.parcelize.Parcelize
  * Model class
  */
 @Parcelize
-data class AnalyzeModel(val endpoint: String, val token: String, val verifyImageURL: String?, val resultReceiver: ResultReceiver?) :
+data class AnalyzeModel(val endpoint: String, val token: String, val verifyImageURL: String) :
     Parcelable

@@ -6,21 +6,29 @@
 package com.example.FaceAnalyzerSample
 
 import AnalyzeModel
-import AnalyzedResult
+import android.Manifest
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.os.ResultReceiver
 import android.util.Log
 import android.view.SurfaceView
 import android.view.View
+import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.LifecycleOwner
 import com.azure.ai.vision.common.internal.implementation.EventListener
@@ -32,8 +40,10 @@ import com.azure.android.core.credential.AccessToken
 import com.azure.android.core.credential.TokenCredential
 import com.azure.android.core.credential.TokenRequestContext
 import org.threeten.bp.OffsetDateTime
+import java.io.File
 import java.net.URL
 import kotlin.math.sqrt
+
 /***
  * Sample class to fetch token for starting liveness session.
  * It is recommended to fetch this token from app server for production as part of init section.
@@ -58,28 +68,35 @@ class StringTokenCredential(token: String) : TokenCredential {
  * Launches the result activity once the analyzed event is triggered.
  */
 class AnalyzeActivity : AppCompatActivity() {
+    private var mAppPermissionGranted = false
+    private lateinit var mStartButton: Button
+    private lateinit var mImageView: ImageView
     private lateinit var mSurfaceView: SurfaceView
     private lateinit var mCameraPreviewLayout: FrameLayout
     private lateinit var mBackgroundLayout: ConstraintLayout
     private lateinit var mInstructionsView: TextView
     private val cPreviewAreaRatio = 0.12
-    private var lastTextUpdateTime = 0L // Keep track of the last text update time
-    private val delayMillis = 200L // Define the throttle delay
     private var mVisionSource: VisionSource? = null
     private var mFaceAnalyzer: FaceAnalyzer? = null
     private var mFaceAnalysisOptions: FaceAnalysisOptions? = null
     private var mServiceOptions: VisionServiceOptions? = null
     private var mFaceApiEndpoint: String? = null
-    private var mSessionToken: String? = null
-    private var mVerifyImagePath: String? = null
-    private var mResultReceiver: ResultReceiver? = null
     private var mBackPressed: Boolean = false
+    private var mResultIds: ArrayList<String> = ArrayList()
     private var mHandler = Handler(Looper.getMainLooper()) // Handler for posting delayed text updates
+    private var lastTextUpdateTime = 0L // Keep track of the last text update time
+    private val delayMillis = 200L // Define the throttle delay
     private var mDoneAnalyzing: Boolean = false
+    private var mVerifyImagePath: String? = null
+    private var mSessionToken: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContentView(R.layout.activity_analyze)
+        mStartButton = findViewById(R.id.startButton)
+        mStartButton.isEnabled = false
+        mStartButton.setOnClickListener { startAnalyzeOnce() }
         mSurfaceView = AutoFitSurfaceView(this)
         mCameraPreviewLayout = findViewById(R.id.camera_preview)
         mCameraPreviewLayout.removeAllViews()
@@ -87,32 +104,43 @@ class AnalyzeActivity : AppCompatActivity() {
         mCameraPreviewLayout.visibility = View.INVISIBLE
         mInstructionsView = findViewById(R.id.instructionString);
         mBackgroundLayout = findViewById(R.id.activity_main_layout)
+        mImageView = findViewById(R.id.imageView)
         var analyzeModel = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra("model", AnalyzeModel::class.java)
         } else {
             @Suppress("DEPRECATION") intent.getParcelableExtra<AnalyzeModel>("model")
         }
+
         mVerifyImagePath = analyzeModel?.verifyImageURL
         mFaceApiEndpoint = analyzeModel?.endpoint
         mSessionToken = analyzeModel?.token
-        mResultReceiver = analyzeModel?.resultReceiver
         if (mFaceApiEndpoint.isNullOrBlank() || mSessionToken.isNullOrBlank()) {
-            mResultReceiver?.send(AnalyzedResultType.ERROR, null)
+            val intent = Intent(this, ResultActivity::class.java).apply {
+                putExtra("error", "Missing or Incorrect settings")
+            }
+            startActivity(intent)
             return
+        }
+
+        if (!mVerifyImagePath.isNullOrBlank()) {
+            val bitmapImage = BitmapFactory.decodeFile(mVerifyImagePath)
+            val imageSz = 100.0
+            if (bitmapImage.height < bitmapImage.width) {
+                val nw = (bitmapImage.width * (imageSz / bitmapImage.height)).toInt()
+                val scaled = Bitmap.createScaledBitmap(bitmapImage, nw, imageSz.toInt(), true)
+                mImageView.setImageBitmap(scaled)
+            } else {
+                val nh = (bitmapImage.height * (imageSz / bitmapImage.width)).toInt()
+                val scaled = Bitmap.createScaledBitmap(bitmapImage, imageSz.toInt(), nh, true)
+                mImageView.setImageBitmap(scaled)
+            }
         }
     }
 
     override fun onResume() {
         super.onResume()
         initializeConfig()
-        val visionSourceOptions = VisionSourceOptions(this, this as LifecycleOwner)
-        visionSourceOptions.setPreview(mSurfaceView)
-        mVisionSource = VisionSource.fromDefaultCamera(visionSourceOptions)
-        displayCameraOnLayout()
-
-        // Initialize faceAnalyzer with default camera as vision source
-        createFaceAnalyzer()
-        startAnalyzeOnce()
+        checkPermissions()
     }
 
     override fun onDestroy() {
@@ -127,6 +155,7 @@ class AnalyzeActivity : AppCompatActivity() {
             mFaceAnalyzer?.close()
             mFaceAnalyzer = null
         } catch (ex: Exception) {
+            Log.println(Log.ERROR, "FACE_TELEMETRY", "Cannot dispose face analyzer")
             ex.printStackTrace()
         }
     }
@@ -141,6 +170,21 @@ class AnalyzeActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Initializes vision source from camera stream and FaceAnalyzer
+     */
+    private fun onCameraPermitted() {
+        if (mAppPermissionGranted) {
+            mStartButton.isEnabled = true
+            val visionSourceOptions = VisionSourceOptions(this, this as LifecycleOwner)
+            visionSourceOptions.setPreview(mSurfaceView)
+            mVisionSource = VisionSource.fromDefaultCamera(visionSourceOptions)
+            displayCameraOnLayout()
+
+            // Initialize faceAnalyzer with default camera as vision source
+            createFaceAnalyzer()
+        }
+    }
 
     /**
      * Initializes FaceAnalyzer
@@ -215,32 +259,44 @@ class AnalyzeActivity : AppCompatActivity() {
      */
     private var analyzedListener =
         EventListener<FaceAnalyzedEventArgs> { _, e ->
-            val bd = Bundle()
+            val intent = Intent(this, ResultActivity::class.java)
             e.result.use { result ->
                 if (result.faces.isNotEmpty()) {
                     // Get the first face in result
                     var face = result.faces.iterator().next()
-                    var livenessStatus: LivenessStatus = face.livenessResult?.livenessStatus?: LivenessStatus.FAILED
-                    var livenessFailureReason = face.livenessResult?.livenessFailureReason?: LivenessFailureReason.NONE
-                    var verifyStatus = face.recognitionResult?.recognitionStatus?:RecognitionStatus.NOT_COMPUTED
-                    var verifyConfidence = face.recognitionResult?.confidence?:Float.NaN
-                    var resultIdsList: ArrayList<String> = ArrayList()
+                    var livenessStatus = face.livenessResult?.livenessStatus?.toString()
+                    var livenessFailureReason = face.livenessResult?.livenessFailureReason?.toString()
+                    var verifyStatus = face.recognitionResult?.recognitionStatus?.toString()
+                    var verifyConfidence = face.recognitionResult?.confidence.toString()
+                    mResultIds.clear()
                     if (face.livenessResult.resultId != null) {
-                        resultIdsList.add(face.livenessResult.resultId.toString())
+                        mResultIds.add(face.livenessResult.resultId.toString())
                     }
-                    val digest = result.details.digest
-                    val resultIds = resultIdsList.joinToString(",")
-                    val analyzedResult = AnalyzedResult(livenessStatus, livenessFailureReason, verifyStatus, verifyConfidence, resultIds, digest)
-                    bd.putParcelable("result", analyzedResult)
+                    val sharedPref = this.getSharedPreferences("SettingValues", Context.MODE_PRIVATE)
+                    intent.apply {
+                        putExtra("livenessStatus", livenessStatus)
+                        putExtra("livenessFailureReason", livenessFailureReason)
+                        putExtra("verificationStatus", verifyStatus)
+                        putExtra("verificationConfidence", verifyConfidence)
+                        val resultIds = mResultIds.joinToString(",")
+                        sharedPref.edit().putString("resultIds", resultIds).apply()
+                    }
                 } else {
-                    val analyzedResult = AnalyzedResult(LivenessStatus.NOT_COMPUTED, LivenessFailureReason.NONE, RecognitionStatus.NOT_COMPUTED, Float.NaN, "", "")
-                    bd.putParcelable("result", analyzedResult)
+                    intent.apply { putExtra("error", "Not computed") }
+                }
+                if(mVerifyImagePath != null && mVerifyImagePath != "")
+                {
+                    val verifyImageFile = File(mVerifyImagePath.toString())
+                    if(verifyImageFile.exists())
+                    {
+                        verifyImageFile.delete()
+                    }
                 }
             }
 
             synchronized(this) {
                 if (!mBackPressed) {
-                    mResultReceiver?.send(AnalyzedResultType.RESULT, bd)
+                    startActivity(intent)
                 }
             }
         }
@@ -259,7 +315,11 @@ class AnalyzeActivity : AppCompatActivity() {
          * If running recognition, the recognition mode must be set.
          */
         if ( mServiceOptions == null ) {
-            mResultReceiver?.send(AnalyzedResultType.ERROR, null)
+
+            val intent = Intent(this, ResultActivity::class.java).apply {
+                putExtra("error", "Missing settings")
+            }
+            startActivity(intent)
             return
         }
 
@@ -278,6 +338,9 @@ class AnalyzeActivity : AppCompatActivity() {
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
+
+        mStartButton.visibility = View.GONE
+        mImageView.visibility = View.GONE
         mDoneAnalyzing = false
     }
 
@@ -310,8 +373,29 @@ class AnalyzeActivity : AppCompatActivity() {
         }
         @Suppress("DEPRECATION") super.onBackPressed()
         mFaceAnalyzer?.stopAnalyzeOnce();
-        val bd = Bundle()
-        mResultReceiver?.send(AnalyzedResultType.BACKPRESSED, bd)
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(intent)
+    }
+
+    private fun checkPermissions() {
+        if (isAccessGranted(Manifest.permission.CAMERA)) {
+            mAppPermissionGranted = true
+            onCameraPermitted()
+        } else {
+            Toast.makeText(
+                this,
+                "Cannot run application because permissions have not been granted",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    private fun isAccessGranted(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(
+            applicationContext,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     private fun MapFeedbackToMessage(feedback : FeedbackForFace): String {

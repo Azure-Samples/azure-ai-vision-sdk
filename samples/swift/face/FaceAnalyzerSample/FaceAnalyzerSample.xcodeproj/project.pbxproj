@@ -29,6 +29,7 @@
 		8C020C1D2B16A524001E72AE /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C020C1C2B16A524001E72AE /* AppUtility.swift */; };
 		8C020C252B173595001E72AE /* AzureAIVisionFace in Frameworks */ = {isa = PBXBuildFile; productRef = 8C020C242B173595001E72AE /* AzureAIVisionFace */; };
 		8C020C272B1735B8001E72AE /* AzureAIVisionCore in Frameworks */ = {isa = PBXBuildFile; productRef = 8C020C262B1735B8001E72AE /* AzureAIVisionCore */; };
+		8C07F2B22B699582009CFF14 /* SecureInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C07F2B12B699582009CFF14 /* SecureInputView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -68,6 +69,7 @@
 		8C020C192B0CA44F001E72AE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Core/en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8C020C1B2B0CA45D001E72AE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "Core/zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		8C020C1C2B16A524001E72AE /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
+		8C07F2B12B699582009CFF14 /* SecureInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureInputView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 				8C020B6B2B0C1197001E72AE /* MainView.swift */,
 				8C020B6D2B0C1197001E72AE /* ResultView.swift */,
 				8C020B6C2B0C1197001E72AE /* SettingsView.swift */,
+				8C07F2B12B699582009CFF14 /* SecureInputView.swift */,
 				8C020B592B0C1086001E72AE /* FaceAnalyzerSampleApp.swift */,
 				8C020B5D2B0C1088001E72AE /* Assets.xcassets */,
 				8C020C1C2B16A524001E72AE /* AppUtility.swift */,
@@ -224,6 +227,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C07F2B22B699582009CFF14 /* SecureInputView.swift in Sources */,
 				8C020B8F2B0C1304001E72AE /* Utility.swift in Sources */,
 				8C020B912B0C1304001E72AE /* LivenessView.swift in Sources */,
 				8C020C1D2B16A524001E72AE /* AppUtility.swift in Sources */,
@@ -390,6 +394,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FaceAnalyzerSample/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = FaceAnalyzer;
 				INFOPLIST_KEY_NSCameraUsageDescription = "This App requires camera usage.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -423,6 +428,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FaceAnalyzerSample/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = FaceAnalyzer;
 				INFOPLIST_KEY_NSCameraUsageDescription = "This App requires camera usage.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

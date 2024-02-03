@@ -11,6 +11,7 @@ import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -23,17 +24,20 @@ class SettingsActivity : AppCompatActivity() {
     var endpointView: TextView? = null
     var keyView: TextView? = null
     var resultIdView: TextView? = null
+    var sendResultsToClientCheckboxView: CheckBox? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.app_activity_settings)
+        setContentView(R.layout.activity_settings)
 
         endpointView = findViewById(R.id.endpointText)
         keyView = findViewById(R.id.keyText)
         resultIdView = findViewById(R.id.resultIdtextView)
+        sendResultsToClientCheckboxView = findViewById(R.id.sendResultsToClient)
         val sharedPref = this.getSharedPreferences("SettingValues", Context.MODE_PRIVATE)
         endpointView!!.text = sharedPref.getString("endpoint", "")
         keyView!!.text = sharedPref.getString("key", "")
+        sendResultsToClientCheckboxView!!.isChecked = sharedPref.getBoolean("sendResultsToClient", false)
 
         resultIdView!!.text = sharedPref.getString("resultIds", "")
         val ctx = this
@@ -57,7 +61,8 @@ class SettingsActivity : AppCompatActivity() {
         val sharedPref = this.getSharedPreferences("SettingValues", Context.MODE_PRIVATE)
         sharedPref.edit().putString("endpoint", endpointView!!.text.trimEnd().toString()).apply()
         sharedPref.edit().putString("key", keyView!!.text.trimEnd().toString()).apply()
-
+        sharedPref.edit().putBoolean("sendResultsToClient", sendResultsToClientCheckboxView!!.isChecked)
+            .apply()
         finish()
     }
 }

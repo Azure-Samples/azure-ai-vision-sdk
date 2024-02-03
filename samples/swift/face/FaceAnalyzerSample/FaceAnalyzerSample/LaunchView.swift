@@ -95,7 +95,7 @@ struct LaunchView: View {
         sessionData.livenessWithVerify = false
         withAnimation {
             pageSelection.current = .clientStart
-            sessionData.token = obtainToken(usingEndpoint: sessionData.endpoint, key: sessionData.key, withVerify: false)
+            sessionData.token = obtainToken(usingEndpoint: sessionData.endpoint, key: sessionData.key, withVerify: false, sendResultsToClient: sessionData.sendResultsToClient)
         }
     }
     func livenessWithVerifyClicked() {
@@ -103,7 +103,7 @@ struct LaunchView: View {
         sessionData.livenessWithVerify = true
         withAnimation {
             pageSelection.current = .imageSelection
-            sessionData.token = obtainToken(usingEndpoint: sessionData.endpoint, key: sessionData.key, withVerify: true)
+            sessionData.token = obtainToken(usingEndpoint: sessionData.endpoint, key: sessionData.key, withVerify: true, sendResultsToClient: sessionData.sendResultsToClient)
         }
     }
     func settingClicked() {
