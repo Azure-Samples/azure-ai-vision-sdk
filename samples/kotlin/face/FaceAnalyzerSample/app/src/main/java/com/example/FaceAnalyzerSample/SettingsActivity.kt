@@ -37,7 +37,7 @@ class SettingsActivity : AppCompatActivity() {
         val sharedPref = this.getSharedPreferences("SettingValues", Context.MODE_PRIVATE)
         endpointView!!.text = sharedPref.getString("endpoint", "")
         keyView!!.text = sharedPref.getString("key", "")
-        sendResultsToClientCheckboxView!!.isChecked = sharedPref.getBoolean("sendResultsToCliemt", false)
+        sendResultsToClientCheckboxView!!.isChecked = sharedPref.getBoolean("sendResultsToClient", false)
 
         resultIdView!!.text = sharedPref.getString("resultIds", "")
         val ctx = this
@@ -61,7 +61,7 @@ class SettingsActivity : AppCompatActivity() {
         val sharedPref = this.getSharedPreferences("SettingValues", Context.MODE_PRIVATE)
         sharedPref.edit().putString("endpoint", endpointView!!.text.trimEnd().toString()).apply()
         sharedPref.edit().putString("key", keyView!!.text.trimEnd().toString()).apply()
-        sharedPref.edit().putBoolean("sendResultsToCliemt", sendResultsToClientCheckboxView!!.isChecked)
+        sharedPref.edit().putBoolean("sendResultsToClient", sendResultsToClientCheckboxView!!.isChecked)
             .apply()
         finish()
     }

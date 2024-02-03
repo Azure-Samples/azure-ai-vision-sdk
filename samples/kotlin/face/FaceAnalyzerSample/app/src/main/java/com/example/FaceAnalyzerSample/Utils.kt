@@ -39,7 +39,7 @@ object Utils {
             val sharedPref = context.getSharedPreferences("SettingValues", Context.MODE_PRIVATE)
             val faceApiEndpoint = sharedPref.getString("endpoint", "").toString()
             val faceApiKey = sharedPref.getString("key", "").toString()
-            val sendResultsToClient = sharedPref.getBoolean("sendResultsToCliemt", false)
+            val sendResultsToClient = sharedPref.getBoolean("sendResultsToClient", false)
 
             var url: URL?
             var urlConnection: HttpURLConnection? = null

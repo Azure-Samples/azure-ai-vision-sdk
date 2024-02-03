@@ -18,6 +18,14 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven {
+            url 'https://pkgs.dev.azure.com/msface/SDK/_packaging/AzureAIVision/maven/v1'
+            name 'AzureAIVision'
+            credentials {
+                username "$mavenUser"
+                password "$mavenPassword"
+            }
+        }
     }
 }
 
