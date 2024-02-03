@@ -17,18 +17,6 @@ products:
 
 This repository hosts sample code and setup documents for the Microsoft Azure AI Vision SDK (Preview).
 
-## News
-
-* **Vision SDK 0.16.0-beta.1** released November 2023 that adds Azure AI Vision Face features.
-* **Vision SDK 0.15.1-beta.1** released September 2023.
-  * Add support for Java JRE on Windows x64 and Linux x64.
-  * Input image can now be provided from a memory buffer (in addition to from file or URL).
-* **Vision SDK 0.13.0-beta.1** released July 2023. Image Analysis support was added for Universal Windows Platform (UWP) applications (C++, C#). Run-time package size reduction: Only the two native binaries 
-`Azure-AI-Vision-Native.dll` and `Azure-AI-Vision-Extension-Image.dll` are now needed.
-* **Vision SDK 0.11.1-beta.1** released May 2023. Image Analysis APIs were updated to support [Background Removal](https://learn.microsoft.com/azure/ai-services/computer-vision/concept-background-removal).
-* **Vision SDK 0.10.0-beta.1** released April 2023. Image Analysis APIs were updated to support [Dense Captions](https://learn.microsoft.com/azure/ai-services/computer-vision/concept-describe-images-40?tabs=dense).
-* **Vision SDK 0.9.0-beta.1** first released on March 2023, targeting Image Analysis applications on Windows and Linux platforms.
-
 ## Features
 
 This repository hosts samples that help you get started with several features of the SDK in public preview. This includes the following API sets:
