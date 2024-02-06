@@ -45,7 +45,7 @@ Alternatively, you can contact Microsoft's Vision SDK development team directly 
 
 ## Image Analysis
 
-**January 2024 update**: Samples for the new Image Analysis SDK versions 1.0.0-beta.1 and up are now located in several other Azure SDK GitHub repos. Please see the [Image Analysis SDK overview]([text](https://learn.microsoft.com/azure/ai-services/computer-vision/sdk/overview-sdk)) page for more details.
+**January 2024 update**: Samples for the new Image Analysis SDK versions 1.0.0-beta.1 and up are now located in several other Azure SDK GitHub repos. Please see the [Image Analysis SDK overview](https://learn.microsoft.com/azure/ai-services/computer-vision/sdk/overview-sdk) page for more details.
 
 ## Face Analysis
 
