@@ -23,6 +23,8 @@
         android:theme="@style/Theme.Identity">
         <activity android:name=".AnalyzeActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".LivenessActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SettingsActivity"
             android:exported="false"

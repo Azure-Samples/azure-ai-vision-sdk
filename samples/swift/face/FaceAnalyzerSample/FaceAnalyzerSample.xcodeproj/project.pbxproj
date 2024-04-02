@@ -396,6 +396,7 @@
 				INFOPLIST_FILE = FaceAnalyzerSample/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = FaceAnalyzer;
 				INFOPLIST_KEY_NSCameraUsageDescription = "This App requires camera usage.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to photo library.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -430,6 +431,7 @@
 				INFOPLIST_FILE = FaceAnalyzerSample/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = FaceAnalyzer;
 				INFOPLIST_KEY_NSCameraUsageDescription = "This App requires camera usage.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to photo library.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

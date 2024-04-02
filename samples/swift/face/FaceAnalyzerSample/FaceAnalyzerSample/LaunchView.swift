@@ -103,7 +103,6 @@ struct LaunchView: View {
         sessionData.livenessWithVerify = true
         withAnimation {
             pageSelection.current = .imageSelection
-            sessionData.token = obtainToken(usingEndpoint: sessionData.endpoint, key: sessionData.key, withVerify: true, sendResultsToClient: sessionData.sendResultsToClient)
         }
     }
     func settingClicked() {

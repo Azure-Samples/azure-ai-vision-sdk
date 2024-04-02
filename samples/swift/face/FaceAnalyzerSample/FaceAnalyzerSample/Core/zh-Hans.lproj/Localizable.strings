@@ -37,6 +37,7 @@
 "Look at camera." = "看向摄像头";
 "Too close! Move farther away." = "太近了！请远离一些。";
 "Too far away! Move in closer." = "太远了！请靠近一些。";
+"Continue to move closer." = "请再靠近一些。";
 "Too much movement." = "移动过多";
 "Done, finishing up..." = "完成，正在结束…";
 "Hold still." = "保持静止";

@@ -10,6 +10,7 @@ struct LocalizationStrings {
     static let recognitionStatusNotRecognized = NSLocalizedString("Not recognized", comment: "")
     static let recognitionStatusRecognized = NSLocalizedString("Recognized", comment: "")
     static let recognitionStatusUnknown = NSLocalizedString("Unknown", comment: "")
+    static let recognitionStatusCompletedResultQueryableFromService = NSLocalizedString("CompletedResultQueryableFromService", comment: "")
 
     static let recognitionFailureExcessiveFaceBrightness = NSLocalizedString("ExcessiveFaceBrightness", comment: "")
     static let recognitionFailureExcessiveImageBlurDetected = NSLocalizedString("ExcessiveImageBlurDetected", comment: "")
@@ -48,6 +49,7 @@ struct LocalizationStrings {
     static let faceFeedbackLookAtCamera = NSLocalizedString("Look at camera.", comment: "")
     static let faceFeedbackMoveBack = NSLocalizedString("Too close! Move farther away.", comment: "")
     static let faceFeedbackMoveCloser = NSLocalizedString("Too far away! Move in closer.", comment: "")
+    static let faceFeedbackContinueToMoveCloser = NSLocalizedString("Continue to move closer.", comment: "")
     static let faceFeedbackTooMuchMovement = NSLocalizedString("Too much movement.", comment: "")
     static let faceFeedbackAttentionNotNeeded = NSLocalizedString("Done, finishing up...", comment: "")
     static let faceFeedbackHoldStill = NSLocalizedString("Hold still.", comment: "")

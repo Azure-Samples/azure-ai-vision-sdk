@@ -13,21 +13,56 @@ In this sample, you will learn how to build and run the face liveness detection 
 3. An Apple developer account to install and run development apps on the iPhone.
 
 ## Set up the environment 
-1. If this is your first time using your Mac to develop, you should build a sample app from [About Me — Sample Apps Tutorials | Apple Developer Documentation](https://developer.apple.com/tutorials/sample-apps/aboutme) and run it on your phone before you attempt to build the App here. This will help ensure that your developer environment has been setup properly.
-2. If you have a valid Azure subscription, you can get the accessToken to access the release artifacts. More details can be found in [GET_FACE_ARTIFACTS_ACCESS](../../../../GET_FACE_ARTIFACTS_ACCESS.md).
-3. To install the SDK packages for your iOS development Application in Xcode, here is the way through Swift Package Manager:
-    - Use the following repository URL in Swift Package Manager
-   `https://msface.visualstudio.com/SDK/_git/AzureAIVisionFace.xcframework`
-   `https://msface.visualstudio.com/SDK/_git/AzureAIVisionCore.xcframework`.
-    - You will see a pop-up window asking for username and password. Make a random username and use the accessToken from step 2 to be the password. Random username means a random string because it is not really taken in this case.
-    - You may encounter error if your Xcode has never been configured to use Git LFS.
-    If Git LFS is never installed on your machine, refer to [Git LFS official site](https://git-lfs.github.com/) for instructions on how to install. To make Xcode recognize the `git-lfs` command, create symbolic link like so:
+1. If this is your first time using your Mac to develop, you should build a sample app from [About Me &#x2014; Sample Apps Tutorials | Apple Developer Documentation](https://developer.apple.com/tutorials/sample-apps/aboutme) and run it on your phone before you attempt to build the App here. This will help ensure that your developer environment has been setup properly.
+1. If you have a valid Azure subscription that has been provisioned for Face API Liveness Detection, you can get the access token to access the release artifacts. More details can be found in [GET_FACE_ARTIFACTS_ACCESS](../../../../GET_FACE_ARTIFACTS_ACCESS.md).
+1. To install the SDK packages for your iOS development Application in Xcode, here are ways through CocoaPods or Swift Package Manager:
 
-       ```sh
-       sudo ln -s $(which git-lfs) $(xcode-select -p)/usr/bin/git-lfs
-       ```
+   - CocoaPods ([CocoaPods Guides - Getting Started](https://guides.cocoapods.org/using/getting-started.html))
+      - Add the following lines to your project's Podfile. `'YourBuildTargetNameHere'` is an example target, and you should use your actual target project instead.
 
-4. Get the API reference documentation. This will be included in the release artifacts.
+         ```ruby
+         # add repos as source
+         source 'https://msface.visualstudio.com/SDK/_git/AzureAIVisionCore.podspec'
+         source 'https://msface.visualstudio.com/SDK/_git/AzureAIVisionFace.podspec'
+
+         target 'YourBuildTargetNameHere' do
+            # add the pods here, optionally with version specification as needed
+            pod 'AzureAIVisionCore'
+            pod 'AzureAIVisionFace'
+         end
+         ```
+
+      - For access authorization to the repos, the steps depend on your system Git and your security preferences.
+         - If you are using Git credential manager, you will be prompted for username and password. Make a random username and use the accessToken from previous step to be the password. Random username means a random string because it is not really taken in this case.
+         - To use [`http.extraHeader` approach of `git-config`](https://git-scm.com/docs/git-config/2.22.0#Documentation/git-config.txt-httpextraHeader), you need to convert the token to base64 format. Refer to [the **Use a PAT** section of this Azure DevOps documentation article](https://learn.microsoft.com/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=Linux#use-a-pat). Note that instead of using the git clone invocation as shown in the example, you should call:
+
+            ```
+            git config --global http.https://msface.visualstudio.com/SDK.extraHeader="Authorization: Basic ${B64_PAT}"
+            ```
+
+         - For other types of Git installation, refer to [the **Credentials** section of Git FAQ](https://git-scm.com/docs/gitfaq#_credentials).
+   - Swift Package Manager ([Swift.org - Package Manager](https://www.swift.org/documentation/package-manager/))
+      - Use the following repository URLs in Swift Package Manager, one at a time:
+
+         ```
+         https://msface.visualstudio.com/SDK/_git/AzureAIVisionCore.xcframework
+         ```
+
+         ```
+         https://msface.visualstudio.com/SDK/_git/AzureAIVisionFace.xcframework
+         ````
+
+      - You will see a pop-up window asking for username and password. Make a random username and use the accessToken from previous step to be the password. Random username means a random string because it is not really taken in this case.
+      - You may encounter error if your Xcode has never been configured to use Git LFS.
+      If Git LFS is never installed on your machine, refer to [Git LFS official site](https://git-lfs.github.com/) for instructions on how to install. To make Xcode recognize the `git-lfs` command, create symbolic link like so:
+
+         ```sh
+         sudo ln -s $(which git-lfs) $(xcode-select -p)/usr/bin/git-lfs
+         ```
+
+      - If the previous step failed with `ln: git-lfs: Operation not permitted`, your macOS version has [System Integrity Protection (SIP)](https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection) enabled and configured to protect the Git executable shipped with Xcode toolchain. Use your security judgment or consult with your enterprise administrators, then temporarily disable SIP before reattempting to run the code above if this is acceptable for you, following instructions in the official article [Disabling and Enabling System Integrity Protection | Apple Developer Documentation](https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection). Alternatively, you may prefer to use CocoaPods instead. This issue has been [reported to Apple](https://github.com/apple/swift-package-manager/issues/5351) and we are awaiting resolution.
+
+1. [Refer to the API reference documentation](#api-reference-documentation) to learn more about our SDK APIs.
 
 ## Next steps
 Now that you have setup your environment you can either:
@@ -36,14 +71,16 @@ Now that you have setup your environment you can either:
 - [Integrate face analysis into your own application](#integrate-face-analysis-into-your-own-application)
 
 ## Build and run sample App
+
 1. Download the sample App folder. Double click the .xcodeproj file. This will open the project in Xcode.
-2. Add package dependency through Swift Package Manager, as mentioned before. You should add both AzureAIVisionFace.xcframework and AzureAIVisionCore.xcframework into the project.
-3. Set the App bundle identifier and developer team in XCode per your needs.
-4. Now attach your phone to the Mac. You should get prompt on the phone asking you to “Trust” the Mac. Enable the trust.
-5. The phone should now show up in the Xcode top bar. Your iPhone name should be visible.
-6. Now build and run the app.
+1. Add package dependency through Swift Package Manager, as mentioned before. You should add both AzureAIVisionFace.xcframework and AzureAIVisionCore.xcframework into the project.
+1. Set the App bundle identifier and developer team in XCode per your needs.
+1. Now attach your phone to the Mac. You should get prompt on the phone asking you to "Trust" the Mac. Enable the trust.
+1. The phone should now show up in the Xcode top bar. Your iPhone name should be visible.
+1. Now build and run the app.
 
 ### Run the sample
+
 The first time the app runs, It is going to ask for camera permission. Allow the camera access. The App starts with the launch page. Some of the buttons are disabled until you configure the settings. Click the settings page. The settings page has the following fields/settings from top to bottom. Enter them correctly.
 
 **API endpoint**
