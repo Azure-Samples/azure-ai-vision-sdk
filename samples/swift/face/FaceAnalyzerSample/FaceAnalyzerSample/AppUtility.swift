@@ -10,7 +10,7 @@ import UIKit
 
 // this method is for sample App demonstration purpose, the session token should be obtained in customer backend
 func obtainToken(usingEndpoint endpoint: String,
-                 key: String, withVerify: Bool, sendResultsToClient: Bool) -> String? {
+                 key: String, withVerify: Bool, sendResultsToClient: Bool, verifyImage: Data? = nil) -> String? {
     var createSessionUri = URL(string: endpoint + "/face/v1.1-preview.1/detectLiveness/singleModal/sessions")!
     if (withVerify)
     {
@@ -29,9 +29,36 @@ func obtainToken(usingEndpoint endpoint: String,
 
     do {
         let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: [])
-        request.httpBody = jsonData
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    } catch {
+        if (withVerify && verifyImage != nil) {
+            let boundary = UUID().uuidString
+            request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+            
+            var body = Data()
+            
+            // Append JSON part
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Type: application/json; charset=utf-8\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"Parameters\"\r\n\r\n".data(using: .utf8)!)
+            body.append(jsonData)
+            body.append("\r\n".data(using: .utf8)!)
+
+            // Append image data
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"VerifyImage\"; filename=\"VerifyImage\"\r\n".data(using: .utf8)!)
+            body.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!)
+            body.append(verifyImage!)
+            body.append("\r\n".data(using: .utf8)!)
+            
+            // End of multipart/form-data
+            body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+            request.httpBody = body
+        }
+        else {
+            request.httpBody = jsonData
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        }
+    }
+    catch {
         print("Error encoding parameters: \(error)")
         return nil
     }

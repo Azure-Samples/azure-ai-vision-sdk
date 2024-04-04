@@ -11,7 +11,6 @@ class LivenessActor
 {
     private var faceAnalyzer: FaceAnalyzer? = nil
     private var withVerification: Bool = false
-    private var referenceImage: UIImage? = nil
     private var resultId: String = ""
     private var resultDigest: String = ""
 
@@ -36,15 +35,13 @@ class LivenessActor
          detailsHandler: @escaping (FaceAnalyzedDetails?) -> Void,
          logHandler: @escaping () -> Void,
          stopCameraHandler: @escaping () -> Void,
-         withVerification: Bool,
-         referenceImage: UIImage?) {
+         withVerification: Bool) {
         self.resultHandler = resultHandler
         self.userFeedbackHandler = userFeedbackHandler
         self.screenBackgroundColorHandler = screenBackgroundColorHandler
         self.detailsHandler = detailsHandler
         self.logHandler = logHandler
         self.withVerification = withVerification
-        self.referenceImage = referenceImage
         self.stopCameraHandler = stopCameraHandler
     }
 
@@ -59,17 +56,6 @@ class LivenessActor
             var serviceOptions: VisionServiceOptions? = nil
             serviceOptions = try VisionServiceOptions(endpoint: "")
             serviceOptions?.authorizationToken = sessionAuthorizationToken
-
-            if (withVerification) {
-                if (referenceImage!.cgImage != nil) {
-                    let verifyImage = referenceImage!.cgImage!
-                    let verificationFrameSource = getSourceFromImage(image: referenceImage!)
-                    let verificationFrame = getFrameFromImage(image: referenceImage!)
-                    try verificationFrameSource.frameWriter?.write(verificationFrame)
-                    let verificationVisionSource = try VisionSource(frameSource: verificationFrameSource)
-                    try methodOptions.setRecognitionMode(.verifyMatchToFaceIn(singleFaceImage: verificationVisionSource))
-                }
-            }
 
             createOptions.faceAnalyzerMode = FaceAnalyzerMode.trackFacesAcrossImageStream
             methodOptions.faceSelectionMode = FaceSelectionMode.largest

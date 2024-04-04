@@ -119,6 +119,7 @@ func RecognitionStatusToString(status: FaceRecognitionStatus) -> String {
     case .failed: return LocalizationStrings.recognitionStatusFailed
     case .notRecognized: return LocalizationStrings.recognitionStatusNotRecognized
     case .recognized: return LocalizationStrings.recognitionStatusRecognized
+    case .completedResultQueryableFromService: return LocalizationStrings.recognitionStatusCompletedResultQueryableFromService
     default: return LocalizationStrings.recognitionStatusUnknown
     }
 }
@@ -174,6 +175,7 @@ func FaceFeedbackToString(feedback: FaceAnalyzingFeedbackForFace) -> String {
         case .lookAtCamera: return LocalizationStrings.faceFeedbackLookAtCamera
         case .moveBack: return LocalizationStrings.faceFeedbackMoveBack
         case .moveCloser: return LocalizationStrings.faceFeedbackMoveCloser
+        case .continueToMoveCloser: return LocalizationStrings.faceFeedbackContinueToMoveCloser
         case .tooMuchMovement: return LocalizationStrings.faceFeedbackTooMuchMovement
         case .attentionNotNeeded: return LocalizationStrings.faceFeedbackAttentionNotNeeded
         default: return LocalizationStrings.faceFeedbackHoldStill

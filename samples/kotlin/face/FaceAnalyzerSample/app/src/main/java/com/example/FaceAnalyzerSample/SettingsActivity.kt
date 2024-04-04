@@ -28,12 +28,13 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        setContentView(R.layout.app_activity_settings)
 
         endpointView = findViewById(R.id.endpointText)
         keyView = findViewById(R.id.keyText)
         resultIdView = findViewById(R.id.resultIdtextView)
         sendResultsToClientCheckboxView = findViewById(R.id.sendResultsToClient)
+
         val sharedPref = this.getSharedPreferences("SettingValues", Context.MODE_PRIVATE)
         endpointView!!.text = sharedPref.getString("endpoint", "")
         keyView!!.text = sharedPref.getString("key", "")

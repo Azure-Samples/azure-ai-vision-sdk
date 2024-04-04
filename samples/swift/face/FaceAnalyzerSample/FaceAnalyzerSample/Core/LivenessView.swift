@@ -23,8 +23,6 @@ struct LivenessView: View {
     let sessionAuthorizationToken: String
     // boolean indicates whether liveness detection is run with verification or not
     let withVerification: Bool
-    // optional reference image provided in client side, you may consider to provide reference image in your backend directly
-    let referenceImage: UIImage?
     // the completion handler used to handle detection results and help on UI switch
     let completionHandler: (String, String, String) -> Void
     // the details handler to get the digest, which can be used to validate the integrity of the transport
@@ -32,12 +30,10 @@ struct LivenessView: View {
 
     init(sessionAuthorizationToken: String,
          withVerification: Bool = false,
-         referenceImage: UIImage? = nil,
          completionHandler: @escaping (String, String, String)->Void = {_,_,_ in },
          detailsHandler: @escaping (FaceAnalyzedDetails?)->Void = {_ in }) {
         self.sessionAuthorizationToken = sessionAuthorizationToken
         self.withVerification = withVerification
-        self.referenceImage = referenceImage
         self.completionHandler = completionHandler
         self.detailsHandler = detailsHandler
     }
@@ -74,8 +70,7 @@ struct LivenessView: View {
                         stopCameraHandler: {
                             self.isCameraPreviewVisible = false
                         },
-                        withVerification: self.withVerification,
-                        referenceImage: self.referenceImage)
+                        withVerification: self.withVerification)
                     self.actor = actor
                     Task {
                         await actor.start(usingSource: visionSource, sessionAuthorizationToken: self.sessionAuthorizationToken)

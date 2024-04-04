@@ -8,6 +8,7 @@ struct ImageSelectionView: View {
     @EnvironmentObject var pageSelection: PageSelection
     @EnvironmentObject var sessionData: SessionData
     
+    @State var selectedImageData: Data? = nil
     @State var selectedImage = UIImage()
 
     var body: some View {
@@ -44,25 +45,23 @@ struct ImageSelectionView: View {
                     .background(Color.blue)
                     .cornerRadius(12)
             })
-            .disabled(selectedImage.cgImage == nil)
+            .disabled(selectedImageData == nil)
         }
         .sheet(isPresented: $sessionData.isShowPhotoLibraryForReferenceImage) {
-            ImagePicker(sourceType: .photoLibrary, referenceImage: $selectedImage)
+            ImagePicker(imageData: $selectedImageData, selectedImage: $selectedImage)
         }
     }
 
     func nextClicked() {
-        if (selectedImage.cgImage != nil) {
-            let selectedImage = selectedImage.normalizedImage()
-            let revisedCGImage = convertToRGBImage(inputImage: selectedImage.cgImage!)
-            let revisedUIImage = UIImage(cgImage: revisedCGImage!)
-            sessionData.referenceImage = revisedUIImage
+        if (selectedImageData != nil) {
+            sessionData.referenceImageData = selectedImageData
         }
         else {
             return
         }
         withAnimation {
             pageSelection.current = .clientStart
+            sessionData.token = obtainToken(usingEndpoint: sessionData.endpoint, key: sessionData.key, withVerify: true, sendResultsToClient: sessionData.sendResultsToClient, verifyImage: sessionData.referenceImageData)
         }
     }
 }

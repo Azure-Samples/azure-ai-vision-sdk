@@ -47,8 +47,9 @@ Follow these steps to download and launch the app on your Android device.
 
 Verification is a 1-1 matching. You can verify against a face, like the photo on your ID card. 
 
-1. Using your device's camera, take a photo of your ID card. Make sure your face is in the upright position and has not been rotated. 
-3. Click on the "livenessWithVerify" button and it will prompt you to upload an image of a face to verify against. Upload the image of your ID card.
+1. Using your device's camera, take a photo of your ID card. Make sure your face is in the upright position and has not been rotated.
+2. Click on the "Select Verify Image" button and it will prompt you to upload an image of a face to verify against. Upload the image of your ID card.
+3. Click on the "LivenessWithVerify" button.
 4. Click next and show your face to the front-facing camera. As it processes your images, the screen will display user feedback on image quality. The screen will also flash black and white. This is needed for liveness analysis. 
 5. Once your face is analyzed, the app will display your verification and liveness results. You should expect a "recognized" and a "live" result. A recognition confidence score is also displayed. 
 
@@ -143,8 +144,8 @@ plugins {
 ```
 * You need to add the following dependencies to apps' build.grade `dependencies` section.
 ```
-    implementation "com.azure.ai:azure-ai-vision-common:0.16.0-beta.1"
-    implementation "com.azure.ai:azure-ai-vision-faceanalyzer:0.16.0-beta.1"
+    implementation "com.azure.ai:azure-ai-vision-common:0.16.2-beta.2"
+    implementation "com.azure.ai:azure-ai-vision-faceanalyzer:0.16.2-beta.2"
 ```
 * You need to add repository in the settings.gradle for dependencyResolutionManagement
 ```

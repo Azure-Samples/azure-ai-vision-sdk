@@ -5,16 +5,21 @@
 
 package com.example.FaceAnalyzerSample
 
-import AnalyzeModel
 import PickImage
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.media.ExifInterface
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
+import android.widget.ImageView
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
@@ -24,36 +29,42 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.FaceAnalyzerSample.app.Utils
+import java.io.InputStream
 
 /***
  * Home page
  */
-class MainActivity : AppCompatActivity() {
+open class MainActivity : AppCompatActivity() {
     private lateinit var mLivenessButton: Button
     private lateinit var mLivenessVerifyButton: Button
+    private lateinit var mSelectVerifyImageButton: Button
+    private lateinit var mSelectedImageView: ImageView
     private val cAppRequestCode = 1
     private var mAppPermissionGranted = false
     private var mAppPermissionRequested = false
+    private var mVerifyImage: ByteArray? = null
     private lateinit var mPickMedia: ActivityResultLauncher<PickVisualMediaRequest>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.app_activity_main)
         mLivenessButton = findViewById(R.id.livenessButton)
         mLivenessButton.setOnClickListener { launchLiveness() }
         mLivenessVerifyButton = findViewById(R.id.livenessVerifybutton)
         mLivenessVerifyButton.setOnClickListener { launchLivenessVerify() }
+        mSelectVerifyImageButton = findViewById(R.id.selectVerifyImage)
+        mSelectVerifyImageButton.setOnClickListener { selectVerifyImage() }
+        mSelectedImageView = findViewById(R.id.imageView)
 
         mPickMedia = registerForActivityResult(PickImage()) { uri ->
             if (uri != null) {
-                val sharedPref = this.getSharedPreferences("SettingValues", Context.MODE_PRIVATE)
-                val faceApiEndpoint = sharedPref.getString("endpoint", "").toString()
-                val token = sharedPref.getString("token", "").toString()
-                val verifyFileURL = Utils.GetVerifyImage(this, uri)
-                val model = AnalyzeModel(faceApiEndpoint, token, verifyFileURL)
-                val intent = Intent(this, AnalyzeActivity::class.java)
-                intent.putExtra("model", model);
-                this.startActivity(intent)
+                mVerifyImage = AppUtils.getVerifyImage(this, uri)
+                this.applicationContext.contentResolver.openInputStream(uri).use { inputStream ->
+                    if (inputStream != null) {
+                        showImage(inputStream)
+                    }
+                }
             }
             else {
                 val intent = Intent(this, ResultActivity::class.java).apply {
@@ -63,6 +74,45 @@ class MainActivity : AppCompatActivity() {
                 finish()
             }
         }
+    }
+    @SuppressLint("NewApi")
+    private fun showImage(inputStream: InputStream) {
+        var bitmapImage =
+            BitmapFactory.decodeStream(inputStream)
+
+        try {   // rotate bitmap (best effort)
+            val matrix = Matrix()
+            ExifInterface(inputStream)
+                .getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+                .let { orientation ->
+                    when (orientation) {
+                        ExifInterface.ORIENTATION_ROTATE_90 -> matrix.postRotate(90F)
+                        ExifInterface.ORIENTATION_ROTATE_180 -> matrix.postRotate(180F)
+                        ExifInterface.ORIENTATION_ROTATE_270 -> matrix.postRotate(270F)
+                        else -> return@let
+                    }
+                    bitmapImage = Bitmap.createBitmap(
+                        bitmapImage,
+                        0,
+                        0,
+                        bitmapImage.width,
+                        bitmapImage.height,
+                        matrix,
+                        true
+                    )
+                }
+        } catch (_: Throwable) {
+        }
+
+        val imageSz = 100.0
+        bitmapImage = if (bitmapImage.height < bitmapImage.width) {
+            val nw = (bitmapImage.width * (imageSz / bitmapImage.height)).toInt()
+            Bitmap.createScaledBitmap(bitmapImage, nw, imageSz.toInt(), true)
+        } else {
+            val nh = (bitmapImage.height * (imageSz / bitmapImage.width)).toInt()
+            Bitmap.createScaledBitmap(bitmapImage, imageSz.toInt(), nh, true)
+        }
+        mSelectedImageView.setImageBitmap(bitmapImage)
     }
 
     override fun onResume() {
@@ -81,18 +131,37 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun launchLiveness() {
-        Utils.GetFaceAPISessionToken(this, false)
+        AppUtils.getFaceAPISessionToken(this, null)
         val sharedPref = this.getSharedPreferences("SettingValues", Context.MODE_PRIVATE)
         val faceApiEndpoint = sharedPref.getString("endpoint", "").toString()
-        val token = sharedPref.getString("token", "").toString()
-        val model = AnalyzeModel(faceApiEndpoint, token, "")
-        val intent = Intent(this, AnalyzeActivity::class.java)
+        val token = Utils.mSessionToken
+        val model = AnalyzeModel(faceApiEndpoint, token, null)
+        val intent = Intent(this, LivenessActivity::class.java)
         intent.putExtra("model", model);
         this.startActivity(intent)
     }
 
     fun launchLivenessVerify() {
-        Utils.GetFaceAPISessionToken(this, true)
+        if (mVerifyImage != null) {
+            val sharedPref = this.getSharedPreferences("SettingValues", Context.MODE_PRIVATE)
+            val faceApiEndpoint = sharedPref.getString("endpoint", "").toString()
+            AppUtils.getFaceAPISessionToken(this, mVerifyImage)
+            val token = Utils.mSessionToken
+            val model = AnalyzeModel(faceApiEndpoint, token, null)
+            val intent = Intent(this, LivenessActivity::class.java)
+            intent.putExtra("model", model);
+            this.startActivity(intent)
+        }
+        else {
+            val intent = Intent(this, ResultActivity::class.java).apply {
+                putExtra("error", "Missing verification image")
+            }
+            startActivity(intent)
+            finish()
+        }
+    }
+
+    fun selectVerifyImage() {
         mPickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.SingleMimeType("*/*")))
     }
 
@@ -135,14 +204,6 @@ class MainActivity : AppCompatActivity() {
                 != PackageManager.PERMISSION_GRANTED
             ) {
                 permissions.add(Manifest.permission.CAMERA)
-            }
-            if (ContextCompat.checkSelfPermission(
-                    applicationContext,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
-                != PackageManager.PERMISSION_GRANTED
-            ) {
-                permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
             }
             if (ContextCompat.checkSelfPermission(
                     applicationContext,

@@ -45,6 +45,6 @@ dependencies {
     implementation 'com.azure.android:azure-core-credential:1.0.0-beta.10'
     implementation 'com.azure:azure-ai-vision-common-internal:0.15.1-beta.1'
     implementation "androidx.activity:activity:1.6.1"
-    implementation "com.azure.ai:azure-ai-vision-common:0.16.1-beta.1"
-    implementation "com.azure.ai:azure-ai-vision-faceanalyzer:0.16.1-beta.1"
+    implementation "com.azure.ai:azure-ai-vision-common:0.16.2-beta.2"
+    implementation "com.azure.ai:azure-ai-vision-faceanalyzer:0.16.2-beta.2"
 }

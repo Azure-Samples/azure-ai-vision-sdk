@@ -27,7 +27,7 @@ class PageSelection: ObservableObject {
 class SessionData: ObservableObject {
     @Published var resultId: String = ""
     @Published var resultDigest: String = ""
-    @Published var referenceImage: UIImage? = nil
+    @Published var referenceImageData: Data? = nil
     @Published var endpoint: String = "https://your.azure.endpoint.com"
     @Published var key: String = ""
     @Published var token: String? = nil
@@ -59,7 +59,6 @@ struct MainView: View {
             case .liveness:
                 LivenessView(sessionAuthorizationToken: sessionData.token!,
                              withVerification: sessionData.livenessWithVerify,
-                             referenceImage: sessionData.referenceImage,
                              completionHandler: { resultMessage, resultId, resultDigest in
                                 sessionData.resultMessage = resultMessage
                                 sessionData.resultId = resultId
