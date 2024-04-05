@@ -62,7 +62,7 @@ Install Azure Command-Line Interface (CLI) as per the documentation [here](https
 1. Use the same command-line tool as above.
 1. Run the following commands:
 
-   **For Linux/MacOS:**
+   **For Linux/MacOS or Shell:**
    ```bash
    subscriptionId = #SUBSCRIPTION_ID#
    tokenId = #TOKEN_ID#
