@@ -44,8 +44,8 @@ Install Azure Command-Line Interface (CLI) as per the documentation [here](https
 
    **For Linux/MacOS or Shell:**
    ```bash
-   subscriptionId = #SUBSCRIPTION_ID#
-   tokenId = #TOKEN_ID#
+   subscriptionId=#SUBSCRIPTION_ID#
+   tokenId=#TOKEN_ID#
    bearerToken=$(az account get-access-token -s $subscriptionId -o tsv | cut -f1)
    curl -X POST --header "Authorization: Bearer ${bearerToken}" "https://face-sdk-gating-helper.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?id=${tokenId}"
    ```
@@ -64,8 +64,8 @@ Install Azure Command-Line Interface (CLI) as per the documentation [here](https
 
    **For Linux/MacOS or Shell:**
    ```bash
-   subscriptionId = #SUBSCRIPTION_ID#
-   tokenId = #TOKEN_ID#
+   subscriptionId=#SUBSCRIPTION_ID#
+   tokenId=#TOKEN_ID#
    bearerToken=$(az account get-access-token -s $subscriptionId -o tsv | cut -f1)
    curl -X GET --header "Authorization: Bearer ${bearerToken}" "https://face-sdk-gating-helper.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?id=${tokenId}"
    ```
