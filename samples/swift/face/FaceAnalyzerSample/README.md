@@ -9,8 +9,8 @@ In this sample, you will learn how to build and run the face liveness detection 
 ## Prerequisites
 
 1. An Azure Face API resource subscription.
-2. A Mac (with iOS development environment including Xcode 13+) and an iPhone (with iOS version 14 or above) to test the AzureAIVision SDK.
-3. An Apple developer account to install and run development apps on the iPhone.
+1. A Mac (with iOS development environment including Xcode 13+ and [Git LFS](https://git-lfs.github.com/)) and an iPhone (with iOS version 14 or above) to test the AzureAIVision SDK.
+1. An Apple developer account to install and run development apps on the iPhone.
 
 ## Set up the environment 
 1. If this is your first time using your Mac to develop, you should build a sample app from [About Me &#x2014; Sample Apps Tutorials | Apple Developer Documentation](https://developer.apple.com/tutorials/sample-apps/aboutme) and run it on your phone before you attempt to build the App here. This will help ensure that your developer environment has been setup properly.
@@ -60,7 +60,21 @@ In this sample, you will learn how to build and run the face liveness detection 
          sudo ln -s $(which git-lfs) $(xcode-select -p)/usr/bin/git-lfs
          ```
 
-      - If the previous step failed with `ln: git-lfs: Operation not permitted`, your macOS version has [System Integrity Protection (SIP)](https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection) enabled and configured to protect the Git executable shipped with Xcode toolchain. Use your security judgment or consult with your enterprise administrators, then temporarily disable SIP before reattempting to run the code above if this is acceptable for you, following instructions in the official article [Disabling and Enabling System Integrity Protection | Apple Developer Documentation](https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection). Alternatively, you may prefer to use CocoaPods instead. This issue has been [reported to Apple](https://github.com/apple/swift-package-manager/issues/5351) and we are awaiting resolution.
+      - If the previous step failed with `ln: git-lfs: Operation not permitted`, your macOS version has [System Integrity Protection (SIP)](https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection) enabled and configured to protect the Git executable shipped with Xcode toolchain. There are several options to resolve:
+         - Use your security judgment or consult with your enterprise administrators, then temporarily disable SIP before reattempting to run the code above if this is acceptable for you, following instructions in the official article [Disabling and Enabling System Integrity Protection | Apple Developer Documentation](https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection).
+         - Switch to using your system Git.
+            - When you encounter error that says "Package Resolution Failed", dismiss with "Add Anyway". This will add a partially configured package dependency.
+            - If Xcode Command Line Tools is never installed on your machine, install it first [following instructions from Apple Developer website](https://developer.apple.com/library/archive/technotes/tn2339/_index.html).
+            - Run the following command from Terminal, from the directory where your .xcodeproj is located, as appropriate for your project. It will resolve the package through your system Git. Your system Git should already have Git LFS configured, as mentioned in Prerequisites section.
+
+              ```
+              xcodebuild -scmProvider system -resolvePackageDependencies
+              ```
+       
+              > **Note**: You can also add `-project`, `-workspace`, and `-scheme` arguments as appropriate to target your development setup. Refer to the [xcodebuild (Command Line Tools) FAQ](https://developer.apple.com/library/archive/technotes/tn2339/_index.html) and `-help` section.
+
+            - If the command above ran successfully, your project should be able to successfully resolve the dependency from Xcode as well.
+         - Alternatively, you may prefer to use CocoaPods instead. This issue has been [reported to Apple](https://github.com/apple/swift-package-manager/issues/5351) and we are awaiting resolution.
 
 1. [Refer to the API reference documentation](#api-reference-documentation) to learn more about our SDK APIs.
 
@@ -73,7 +87,7 @@ Now that you have setup your environment you can either:
 ## Build and run sample App
 
 1. Download the sample App folder. Double click the .xcodeproj file. This will open the project in Xcode.
-1. Add package dependency through Swift Package Manager, as mentioned before. You should add both AzureAIVisionFace.xcframework and AzureAIVisionCore.xcframework into the project.
+1. Add package dependency through CocoaPods or Swift Package Manager, as mentioned before. You should add both AzureAIVisionFace.xcframework and AzureAIVisionCore.xcframework into the project.
 1. Set the App bundle identifier and developer team in XCode per your needs.
 1. Now attach your phone to the Mac. You should get prompt on the phone asking you to "Trust" the Mac. Enable the trust.
 1. The phone should now show up in the Xcode top bar. Your iPhone name should be visible.
