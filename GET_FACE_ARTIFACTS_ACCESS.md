@@ -7,8 +7,8 @@ This guide provides step-by-step instructions to access Face Client SDK release 
 1. An [Azure Subscription ID](https://learn.microsoft.com/azure/azure-portal/get-subscription-tenant-id) approved for Face Liveness Detection (complete the [Face Recognition intake form](https://aka.ms/facerecognition)).
 2. Azure account with [Cognitive Services Contributor role](https://learn.microsoft.com/azure/role-based-access-control/role-assignments-list-portal) for permissions:
    - [`Microsoft.Authorization/permissions/read`](https://learn.microsoft.com/en-us/azure/role-based-access-control/permissions/management-and-governance#:~:text=Microsoft.Authorization/permissions/read)
-   - [`Microsoft.CognitiveServices/accounts/listKeys/action`]([https://learn.microsoft.com/rest/api/cognitiveservices/accountmanagement/accounts/list-keys](https://learn.microsoft.com/en-us/azure/role-based-access-control/permissions/management-and-governance#:~:text=Microsoft.CognitiveServices/accounts/listKeys/action))
-   - [`Microsoft.CognitiveServices/accounts/regenerateKey/action`]([https://learn.microsoft.com/rest/api/cognitiveservices/accountmanagement/accounts/regenerate-key](https://learn.microsoft.com/en-us/azure/role-based-access-control/permissions/management-and-governance#:~:text=Microsoft.CognitiveServices/accounts/regenerateKey/action))
+   - [`Microsoft.CognitiveServices/accounts/listKeys/action`](https://learn.microsoft.com/en-us/azure/role-based-access-control/permissions/management-and-governance#:~:text=Microsoft.CognitiveServices/accounts/listKeys/action)
+   - [`Microsoft.CognitiveServices/accounts/regenerateKey/action`](https://learn.microsoft.com/en-us/azure/role-based-access-control/permissions/management-and-governance#:~:text=Microsoft.CognitiveServices/accounts/regenerateKey/action)
 
 ## Using Endpoints
 Two endpoints are available for token generations and queries:
