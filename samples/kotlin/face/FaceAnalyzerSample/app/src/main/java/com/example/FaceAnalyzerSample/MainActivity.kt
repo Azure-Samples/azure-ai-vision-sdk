@@ -19,6 +19,8 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
+import android.provider.DocumentsContract
+import android.provider.MediaStore
 import android.widget.ImageView
 import android.view.View
 import android.widget.Button
@@ -60,9 +62,26 @@ open class MainActivity : AppCompatActivity() {
         mPickMedia = registerForActivityResult(PickImage()) { uri ->
             if (uri != null) {
                 mVerifyImage = AppUtils.getVerifyImage(this, uri)
+                val orientation = this.applicationContext.contentResolver.query(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        arrayOf(MediaStore.Images.ImageColumns.ORIENTATION),
+                        MediaStore.Images.Media._ID + " = ?",
+                        arrayOf(DocumentsContract.getDocumentId(uri).split(":")[1]),
+                        null).use {
+                    return@use if (it == null || it.count != 1 || !it.moveToFirst()) null else
+                        when (it.getInt(0)) {
+                            -270 -> ExifInterface.ORIENTATION_ROTATE_90
+                            -180 -> ExifInterface.ORIENTATION_ROTATE_180
+                            -90 -> ExifInterface.ORIENTATION_ROTATE_270
+                            90 -> ExifInterface.ORIENTATION_ROTATE_90
+                            180 -> ExifInterface.ORIENTATION_ROTATE_180
+                            270 -> ExifInterface.ORIENTATION_ROTATE_270
+                            else -> null
+                        }
+                }
                 this.applicationContext.contentResolver.openInputStream(uri).use { inputStream ->
                     if (inputStream != null) {
-                        showImage(inputStream)
+                        showImage(inputStream, orientation)
                     }
                 }
             }
@@ -76,14 +95,13 @@ open class MainActivity : AppCompatActivity() {
         }
     }
     @SuppressLint("NewApi")
-    private fun showImage(inputStream: InputStream) {
+    private fun showImage(inputStream: InputStream, knownOrientationExifEnum: Int?) {
         var bitmapImage =
             BitmapFactory.decodeStream(inputStream)
 
         try {   // rotate bitmap (best effort)
             val matrix = Matrix()
-            ExifInterface(inputStream)
-                .getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+            (knownOrientationExifEnum ?: ExifInterface(inputStream).getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL))
                 .let { orientation ->
                     when (orientation) {
                         ExifInterface.ORIENTATION_ROTATE_90 -> matrix.postRotate(90F)
@@ -104,7 +122,7 @@ open class MainActivity : AppCompatActivity() {
         } catch (_: Throwable) {
         }
 
-        val imageSz = 100.0
+        val imageSz = 200.0
         bitmapImage = if (bitmapImage.height < bitmapImage.width) {
             val nw = (bitmapImage.width * (imageSz / bitmapImage.height)).toInt()
             Bitmap.createScaledBitmap(bitmapImage, nw, imageSz.toInt(), true)

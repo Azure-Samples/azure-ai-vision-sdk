@@ -197,8 +197,8 @@ Here are the recommended steps you should consider to follow during your integra
    ```swift
    // this is for demo purpose only, session-authorization-token can be obtained in the App server directly
    let sessionAuthorizationToken = obtainToken(...)
-   serviceOptions = try  VisionServiceOptions(endpoint: "")
-   serviceOptions?.authorizationToken = sessionAuthorizationToken
+   serviceOptions = try VisionServiceOptions()
+   serviceOptions.authorizationToken = sessionAuthorizationToken
    ```
 
    Note:

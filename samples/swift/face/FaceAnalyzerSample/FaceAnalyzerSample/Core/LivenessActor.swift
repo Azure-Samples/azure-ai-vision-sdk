@@ -53,9 +53,8 @@ class LivenessActor
             let createOptions = try FaceAnalyzerCreateOptions()
             methodOptions = try FaceAnalysisOptions()
 
-            var serviceOptions: VisionServiceOptions? = nil
-            serviceOptions = try VisionServiceOptions(endpoint: "")
-            serviceOptions?.authorizationToken = sessionAuthorizationToken
+            let serviceOptions = try VisionServiceOptions()
+            serviceOptions.authorizationToken = sessionAuthorizationToken
 
             createOptions.faceAnalyzerMode = FaceAnalyzerMode.trackFacesAcrossImageStream
             methodOptions.faceSelectionMode = FaceSelectionMode.largest
