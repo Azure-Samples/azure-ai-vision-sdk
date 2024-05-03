@@ -66,11 +66,11 @@ class AutoFitSurfaceView @JvmOverloads constructor(
         }
     }
 
-    override fun dispatchDraw(canvas: Canvas?) {
+    override fun dispatchDraw(canvas: Canvas) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             super.dispatchDraw(canvas)
         } else {
-            canvas?.apply {
+            canvas.apply {
                 val save = save()
                 clipPath(path)
                 super@AutoFitSurfaceView.dispatchDraw(canvas)

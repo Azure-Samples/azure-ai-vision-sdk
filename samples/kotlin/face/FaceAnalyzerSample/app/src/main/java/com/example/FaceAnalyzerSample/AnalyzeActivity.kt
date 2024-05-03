@@ -131,8 +131,7 @@ open class AnalyzeActivity : AppCompatActivity() {
      */
     private fun initializeConfig() {
         if (!mFaceApiEndpoint.isNullOrBlank()) {
-            mServiceOptions = VisionServiceOptions(URL(mFaceApiEndpoint))
-            mServiceOptions?.setTokenCredential(StringTokenCredential(mSessionToken.toString()))
+            mServiceOptions = VisionServiceOptions(StringTokenCredential(mSessionToken.toString()))
         }
     }
 
@@ -179,6 +178,9 @@ open class AnalyzeActivity : AppCompatActivity() {
                         face.actionRequiredFromApplicationTask.setAsCompleted()
                     } else if (requiredAction == ActionRequiredFromApplication.DARKEN_DISPLAY) {
                         mBackgroundLayout.setBackgroundColor(Color.BLACK)
+                        face.actionRequiredFromApplicationTask.setAsCompleted()
+                    } else if (requiredAction == ActionRequiredFromApplication.STOP_CAMERA) {
+                        mCameraPreviewLayout.visibility = View.INVISIBLE
                         face.actionRequiredFromApplicationTask.setAsCompleted()
                     }
 
