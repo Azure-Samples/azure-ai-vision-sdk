@@ -56,7 +56,7 @@ Install Azure Command-Line Interface (CLI) as per the documentation [here](https
    $subscriptionId = #SUBSCRIPTION_ID#
    $tokenId = #TOKEN_ID#
    $bearerToken = $(az account get-access-token -s $subscriptionId -o tsv).split()[0];
-   Invoke-RestMethod -Uri "https://face-sdk-gating-helper.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?id=${tokenId}" -Method POST -Headers @{"Authorization"="Bearer ${bearerToken}"} [5:43 PM] | format-list
+   Invoke-RestMethod -Uri "https://face-sdk-gating-helper.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?id=${tokenId}" -Method POST -Headers @{"Authorization"="Bearer ${bearerToken}"} | format-list
    ```
 
 ### Querying Access Token
