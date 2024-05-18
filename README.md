@@ -82,3 +82,4 @@ Please see the readme documents listed below for instructions on how to build an
 
 * Kotlin API reference documents: [Azure SDK for Android](https://azure.github.io/azure-sdk-for-android/), [azure-ai-vision-common](https://azure.github.io/azure-sdk-for-android/azure-ai-vision-common/index.html), [azure-ai-vision-faceanalyzer](https://azure.github.io/azure-sdk-for-android/azure-ai-vision-faceanalyzer/com/azure/android/ai/vision/faceanalyzer/package-summary.html)
 * Swift API reference documents: [Azure SDK for iOS Docs](https://azure.github.io/azure-sdk-for-ios/), [AzureAIVisionCore](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionCore/index.html), [AzureAIVisionFace](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionFace/index.html)
+* JavaScript API reference documents: [Azure SDK for JavaScript Docs](https://azurefacedocs.blob.core.windows.net/$web/javascript/azure-ai-vision-faceanalyzer/0.16.3-alpha.0.46447439/index.html)
