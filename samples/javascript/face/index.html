@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width initial-scale=1.0">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/fabric-9.6.1.min.css" integrity="sha512-4izcHjYiKwdXts4inRja2CQsDOk0If4/2ZCcZtWNMhGbY+g1EBGlrdL7N01gVLy3LVjcw47IWLRv8nG9tyfCIA==">
+  <script type="module" src="https://unpkg.com/@fluentui/web-components@2.0.0" crossorigin="anonymous" integrity="sha512-wyYWUoZ8xBnVgKl15H3yF8GUSVSs45CMvJDjl3o3tHX/I403ECl1pEbsgva+gQ/1CZTM9NIKLzvg6uaAzo9ZXg=="></script>
+</head>
+<body class="ms-Fabric">
+  <iframe id="splash" title="splash" src="splash.html" role="status"></iframe>
+  <div class="feedback" id="feedbackContainer" role="status" hidden></div>
+  <div id="container"></div>
+  <div class = "row" id="verifyImageRow">
+    <label for="useVerifyImageFileInput">Select verify image:</label>
+    <input type="file" id="useVerifyImageFileInput" accept="image/*">
+  </div>
+  <div class="row">
+    <fluent-progress-ring id="loading" hidden></fluent-progress-ring>
+    <fluent-button class="ms-fontSize-l" appearance="accent" id="startPassiveButton" data-mode="Passive">Start Passive</fluent-button>
+    <fluent-button class="ms-fontSize-l" appearance="accent" id="startPassiveActiveButton" data-mode="PassiveActive">Start PassiveActive</fluent-button>
+    <fluent-button class="ms-fontSize-l" appearance="accent" id="continueButton" hidden>Continue</fluent-button>
+  </div>
+  <script type="module" src="./js/AzureAIVisionFaceSample.js" integrity="sha512-+CI69BOiICvxYZznDfw/V250IeLi+rgN2bgmRz1XZqObN3g9G5EhirmfuFD11+IsNJxAljJhw2iEjNyQ8t8aDw=="></script>
+</body>
