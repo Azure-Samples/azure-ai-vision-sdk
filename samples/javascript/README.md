@@ -1,1 +1,1 @@
-Please refer to [Readme.md](../nextjs/readme.md) under the nextjs sample folder.
+Please refer to [Readme.md](../nextjs/README.md) under the nextjs sample folder.
