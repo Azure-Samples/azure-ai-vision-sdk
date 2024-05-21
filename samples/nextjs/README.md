@@ -146,7 +146,7 @@ always-auth=true
 ; end auth token
 ```
 Please replace the password to the Base64 encoded access-token and email to your email.
-To obtain a Base64 token from access-token, use following command:
+To obtain a Base64 token from access-token, use following command (you just need to run the command as is, and it will prompt you to enter the token on the command line):
 ```sh
 node -e "require('readline') .createInterface({input:process.stdin,output:process.stdout,historySize:0}) .question('access-token> ',p => { b64=Buffer.from(p.trim()).toString('base64');console.log(b64);process.exit(); })"
 ```
