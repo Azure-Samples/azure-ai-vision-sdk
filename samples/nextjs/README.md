@@ -39,6 +39,7 @@ The Azure AI Vision FaceAnalyzer Web SDK is a client library intended to enable 
 ## Prerequisites
 
 1. An Azure Face API resource subscription.
+2. Install node from https://nodejs.org/en/download/prebuilt-installer
 
 ## Get started
 
