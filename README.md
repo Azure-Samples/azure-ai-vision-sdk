@@ -6,6 +6,8 @@ languages:
 - python
 - swift
 - kotlin
+- javascript
+- nextjs
 name: "Microsoft Azure AI Vision SDK Samples"
 description: "Learn how to use the Microsoft Azure AI Vision SDK to add computer vision features to your apps."
 products:
@@ -76,9 +78,11 @@ Please see the readme documents listed below for instructions on how to build an
 | ------------------------------------------------------------ | -------- | ---------------------------------------- |
 | [Kotlin sample app for Android](samples/kotlin/face) | Android | App with source code that demonstrates face analysis on Android |
 | [Swift sample app for iOS](samples/swift/face) | iOS | App with source code that demonstrates face analysis on iOS |
-
+| [NextJS sample app for Web](samples/nextjs/) | Web | App with source code that demonstrates face analysis on Web |
+| [JavaScript sample app for Web](samples/javascript/) | Web | App with source code that demonstrates face analysis on Web |
 
 ### API Reference Documentation
 
 * Kotlin API reference documents: [Azure SDK for Android](https://azure.github.io/azure-sdk-for-android/), [azure-ai-vision-common](https://azure.github.io/azure-sdk-for-android/azure-ai-vision-common/index.html), [azure-ai-vision-faceanalyzer](https://azure.github.io/azure-sdk-for-android/azure-ai-vision-faceanalyzer/com/azure/android/ai/vision/faceanalyzer/package-summary.html)
 * Swift API reference documents: [Azure SDK for iOS Docs](https://azure.github.io/azure-sdk-for-ios/), [AzureAIVisionCore](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionCore/index.html), [AzureAIVisionFace](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionFace/index.html)
+* Web API reference documents: [AzureAIVisionFace](https://aka.ms/azure-ai-vision-face-liveness-client-sdk-web-api-reference)
