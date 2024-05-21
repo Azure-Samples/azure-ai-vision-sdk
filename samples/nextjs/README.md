@@ -75,6 +75,7 @@ export default function Home() {
 6. Update the face-api key and endpoint in the face_analyzer/face.tsx file.
 7. Copy faceanalyzer-assets folder from node_modules/azure-ai-vision-faceanalyzer to public.
 8. Run the app with "npm run dev"
+9. Use your localhost url to view the liveness check in action.
 
 Note: the [javascript](../javascript) contains a fully featured vanilla-javascript sample
 
