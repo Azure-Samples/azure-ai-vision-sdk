@@ -54,7 +54,7 @@ This is an illustration of how to quickly build and run a sample app using next.
 
 1. Get started by creating a new app using: https://nextjs.org/docs/getting-started/installation
 2. Use default settings but with TypeScript == Yes
-3. Run through the steps in the [SetupEnvironment.md](./setupenvironment.md) to install the npm package.
+3. Run through the steps in the [SetupEnvironment.md](./SetupEnvironment.md) to install the npm package.
 4. Copy all of the contents of [face](./face) into the root folder of the app (ensure middleware.js is at the root of the app) (you may need to clone this repo to copy the files).
 5. Replace the contents of page.tsx with the following:
 ```
