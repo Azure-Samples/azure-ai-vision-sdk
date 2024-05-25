@@ -80,7 +80,7 @@ Note: the [javascript](../javascript) contains a fully featured vanilla-javascri
 
 ### Integrate face analysis into your own application
 
-First run through the steps in the [SetupEnvironment.md](./setupenvironment.md) section to install the npm package.
+First run through the steps in the [SetupEnvironment.md](./SetupEnvironment.md) section to install the npm package.
 
 #### Obtaining a session token
 A demo version on obtaining the token is in sample for the demo app to be built as an standalone solution, but this is not recommended. The session-authorization-token is required to start a liveness session. 
