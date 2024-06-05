@@ -144,8 +144,8 @@ plugins {
 ```
 * You need to add the following dependencies to apps' build.grade `dependencies` section.
 ```
-    implementation "com.azure.ai:azure-ai-vision-common:0.16.3-beta.3"
-    implementation "com.azure.ai:azure-ai-vision-faceanalyzer:0.16.3-beta.3"
+    implementation "com.azure.ai:azure-ai-vision-common:0.17.0-beta.1"
+    implementation "com.azure.ai:azure-ai-vision-faceanalyzer:0.17.0-beta.1"
 ```
 * You need to add repository in the settings.gradle for dependencyResolutionManagement
 ```
