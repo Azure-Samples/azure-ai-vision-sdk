@@ -12,6 +12,7 @@ struct SettingsView: View {
     var body: some View {
         VStack {
             TextField("Face API endpoint", text: $sessionData.endpoint)
+                .autocorrectionDisabled()
                 .font(Font.custom("Helvetica Neue", size: 15.0))
                 .textFieldStyle(RoundedBorderTextFieldStyle.init())
                 .padding()
@@ -26,16 +27,16 @@ struct SettingsView: View {
                     .disabled(true)
                     .padding()
             }
-            .contentShape(Rectangle())
-            .onTapGesture {
-                if ($sessionData.resultId.wrappedValue != "") {
-                    UIPasteboard.general.string = $sessionData.resultId.wrappedValue
-                    showCopyAlert = true
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    if ($sessionData.resultId.wrappedValue != "") {
+                        UIPasteboard.general.string = $sessionData.resultId.wrappedValue
+                        showCopyAlert = true
+                    }
                 }
-            }
-            .alert(isPresented: $showCopyAlert) {
-                Alert(title: Text("Result ID Copied"), message: Text("Result ID has been copied"))
-            }
+                .alert(isPresented: $showCopyAlert) {
+                    Alert(title: Text("Result ID Copied"), message: Text("Result ID has been copied"))
+                }
 
             Toggle("Send results to client", isOn: $sessionData.sendResultsToClient)
                 .padding(.horizontal)

@@ -29,32 +29,32 @@ import com.azure.android.core.credential.AccessToken
 import com.azure.android.core.credential.TokenCredential
 import com.azure.android.core.credential.TokenRequestContext
 import org.threeten.bp.OffsetDateTime
-import java.net.URL
 import kotlin.math.sqrt
-/***
- * Sample class to fetch token for starting liveness session.
- * It is recommended to fetch this token from app server for production as part of init section.
- */
-class StringTokenCredential(token: String) : TokenCredential {
-    override fun getToken(
-        request: TokenRequestContext,
-        callback: TokenCredential.TokenCredentialCallback
-    ) {
-        callback.onSuccess(_token)
-    }
-
-    private var _token: AccessToken? = null
-
-    init {
-        _token = AccessToken(token, OffsetDateTime.MAX)
-    }
-}
 
 /***
  * Analyze activity performs one-time face analysis, using the default camera stream as input.
  * Launches the result activity once the analyzed event is triggered.
  */
 open class AnalyzeActivity : AppCompatActivity() {
+    /***
+     * Sample class to fetch token for starting liveness session.
+     * It is recommended to fetch this token from app server for production as part of init section.
+     */
+    class StringTokenCredential(token: String) : TokenCredential {
+        override fun getToken(
+            request: TokenRequestContext,
+            callback: TokenCredential.TokenCredentialCallback
+        ) {
+            callback.onSuccess(_token)
+        }
+
+        private var _token: AccessToken? = null
+
+        init {
+            _token = AccessToken(token, OffsetDateTime.MAX)
+        }
+    }
+
     private lateinit var mSurfaceView: SurfaceView
     private lateinit var mCameraPreviewLayout: FrameLayout
     private lateinit var mBackgroundLayout: ConstraintLayout
@@ -81,12 +81,12 @@ open class AnalyzeActivity : AppCompatActivity() {
         mCameraPreviewLayout.removeAllViews()
         mCameraPreviewLayout.addView(mSurfaceView)
         mCameraPreviewLayout.visibility = View.INVISIBLE
-        mInstructionsView = findViewById(R.id.instructionString);
+        mInstructionsView = findViewById(R.id.instructionString)
         mBackgroundLayout = findViewById(R.id.activity_main_layout)
-        var analyzeModel = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        val analyzeModel = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra("model", AnalyzeModel::class.java)
         } else {
-            @Suppress("DEPRECATION") intent.getParcelableExtra<AnalyzeModel>("model")
+            @Suppress("DEPRECATION") intent.getParcelableExtra("model")
         }
         mFaceApiEndpoint = analyzeModel?.endpoint
         mSessionToken = analyzeModel?.token
@@ -99,14 +99,16 @@ open class AnalyzeActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        initializeConfig()
-        val visionSourceOptions = VisionSourceOptions(this, this as LifecycleOwner)
-        visionSourceOptions.setPreview(mSurfaceView)
-        mVisionSource = VisionSource.fromDefaultCamera(visionSourceOptions)
-        displayCameraOnLayout()
+        if (mFaceAnalyzer == null) {
+            initializeConfig()
+            val visionSourceOptions = VisionSourceOptions(this, this as LifecycleOwner)
+            visionSourceOptions.setPreview(mSurfaceView)
+            mVisionSource = VisionSource.fromDefaultCamera(visionSourceOptions)
+            displayCameraOnLayout()
 
-        // Initialize faceAnalyzer with default camera as vision source
-        createFaceAnalyzer()
+            // Initialize faceAnalyzer with default camera as vision source
+            createFaceAnalyzer()
+        }
         startAnalyzeOnce()
     }
 
@@ -156,39 +158,46 @@ open class AnalyzeActivity : AppCompatActivity() {
 
         mFaceAnalyzer?.apply {
             this.analyzed.addEventListener(analyzedListener)
-            this.analyzing.addEventListener(analyzinglistener)
+            this.analyzing.addEventListener(analyzingListener)
+            this.stopped.addEventListener(stoppedListener)
         }
     }
 
     /**
      * Listener for Analyzing callback. Receives tracking and user feedback information
      */
-    protected var analyzinglistener =
+    @Suppress("MemberVisibilityCanBePrivate")
+    protected var analyzingListener =
         EventListener<FaceAnalyzingEventArgs> { _, e ->
 
             e.result.use { result ->
                 if (result.faces.isNotEmpty()) {
                     // Get the first face in result
-                    var face = result.faces.iterator().next()
+                    val face = result.faces.iterator().next()
 
                     // Lighten/darken the screen based on liveness feedback
-                    var requiredAction = face.actionRequiredFromApplicationTask?.action;
-                    if (requiredAction == ActionRequiredFromApplication.BRIGHTEN_DISPLAY) {
-                        mBackgroundLayout.setBackgroundColor(Color.WHITE)
-                        face.actionRequiredFromApplicationTask.setAsCompleted()
-                    } else if (requiredAction == ActionRequiredFromApplication.DARKEN_DISPLAY) {
-                        mBackgroundLayout.setBackgroundColor(Color.BLACK)
-                        face.actionRequiredFromApplicationTask.setAsCompleted()
-                    } else if (requiredAction == ActionRequiredFromApplication.STOP_CAMERA) {
-                        mCameraPreviewLayout.visibility = View.INVISIBLE
-                        face.actionRequiredFromApplicationTask.setAsCompleted()
+                    val requiredAction = face.actionRequiredFromApplicationTask?.action
+                    when (requiredAction) {
+                        ActionRequiredFromApplication.BRIGHTEN_DISPLAY -> {
+                            mBackgroundLayout.setBackgroundColor(Color.WHITE)
+                            face.actionRequiredFromApplicationTask.setAsCompleted()
+                        }
+                        ActionRequiredFromApplication.DARKEN_DISPLAY -> {
+                            mBackgroundLayout.setBackgroundColor(Color.BLACK)
+                            face.actionRequiredFromApplicationTask.setAsCompleted()
+                        }
+                        ActionRequiredFromApplication.STOP_CAMERA -> {
+                            mCameraPreviewLayout.visibility = View.INVISIBLE
+                            face.actionRequiredFromApplicationTask.setAsCompleted()
+                        }
+                        else -> {}
                     }
 
                     // Display user feedback and warnings on UI
                     if (!mDoneAnalyzing) {
-                        var feedbackMessage = MapFeedbackToMessage(FeedbackForFace.NONE)
+                        var feedbackMessage = mapFeedbackToMessage(FeedbackForFace.NONE)
                         if (face.feedbackForFace != null) {
-                            feedbackMessage = MapFeedbackToMessage(face.feedbackForFace)
+                            feedbackMessage = mapFeedbackToMessage(face.feedbackForFace)
                         }
 
                         val currentTime = System.currentTimeMillis()
@@ -210,18 +219,19 @@ open class AnalyzeActivity : AppCompatActivity() {
      * Receives recognition and liveness result.
      * Launches result activity.
      */
+    @Suppress("MemberVisibilityCanBePrivate")
     protected var analyzedListener =
         EventListener<FaceAnalyzedEventArgs> { _, e ->
             val bd = Bundle()
             e.result.use { result ->
                 if (result.faces.isNotEmpty()) {
                     // Get the first face in result
-                    var face = result.faces.iterator().next()
-                    var livenessStatus: LivenessStatus = face.livenessResult?.livenessStatus?: LivenessStatus.FAILED
-                    var livenessFailureReason = face.livenessResult?.livenessFailureReason?: LivenessFailureReason.NONE
-                    var verifyStatus = face.recognitionResult?.recognitionStatus?:RecognitionStatus.NOT_COMPUTED
-                    var verifyConfidence = face.recognitionResult?.confidence?:Float.NaN
-                    var resultIdsList: ArrayList<String> = ArrayList()
+                    val face = result.faces.iterator().next()
+                    val livenessStatus: LivenessStatus = face.livenessResult?.livenessStatus?: LivenessStatus.FAILED
+                    val livenessFailureReason = face.livenessResult?.livenessFailureReason?: LivenessFailureReason.NONE
+                    val verifyStatus = face.recognitionResult?.recognitionStatus?:RecognitionStatus.NOT_COMPUTED
+                    val verifyConfidence = face.recognitionResult?.confidence?:Float.NaN
+                    val resultIdsList: ArrayList<String> = ArrayList()
                     if (face.livenessResult.resultId != null) {
                         resultIdsList.add(face.livenessResult.resultId.toString())
                     }
@@ -239,6 +249,14 @@ open class AnalyzeActivity : AppCompatActivity() {
                 if (!mBackPressed) {
                     mResultReceiver?.send(AnalyzedResultType.RESULT, bd)
                 }
+            }
+        }
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    protected var stoppedListener =
+        EventListener<FaceAnalysisStoppedEventArgs> { _, e ->
+            if (e.reason == FaceAnalysisStoppedReason.ERROR) {
+                mResultReceiver?.send(AnalyzedResultType.ERROR, null)
             }
         }
 
@@ -260,12 +278,12 @@ open class AnalyzeActivity : AppCompatActivity() {
             return
         }
 
-        mFaceAnalysisOptions = FaceAnalysisOptions();
+        mFaceAnalysisOptions = FaceAnalysisOptions()
 
         mFaceAnalysisOptions?.setFaceSelectionMode(FaceSelectionMode.LARGEST)
 
         try {
-            mFaceAnalyzer?.analyzeOnceAsync(mFaceAnalysisOptions);
+            mFaceAnalyzer?.analyzeOnceAsync(mFaceAnalysisOptions)
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
@@ -282,7 +300,7 @@ open class AnalyzeActivity : AppCompatActivity() {
      * Displays camera stream on UI in a circular shape.
      */
     private fun displayCameraOnLayout() {
-        val previewSize = mVisionSource?.getCameraPreviewFormat()
+        val previewSize = mVisionSource?.cameraPreviewFormat
         val params = mCameraPreviewLayout.layoutParams as ConstraintLayout.LayoutParams
         params.dimensionRatio = previewSize?.height.toString() + ":" + previewSize?.width
         params.width = ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
@@ -295,17 +313,18 @@ open class AnalyzeActivity : AppCompatActivity() {
     /**
      * Override back button to always return to main activity
      */
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         synchronized(this) {
             mBackPressed = true
         }
         @Suppress("DEPRECATION") super.onBackPressed()
-        mFaceAnalyzer?.stopAnalyzeOnce();
+        mFaceAnalyzer?.stopAnalyzeOnce()
         val bd = Bundle()
         mResultReceiver?.send(AnalyzedResultType.BACKPRESSED, bd)
     }
 
-    private fun MapFeedbackToMessage(feedback : FeedbackForFace): String {
+    private fun mapFeedbackToMessage(feedback : FeedbackForFace): String {
         when(feedback) {
             FeedbackForFace.NONE -> return getString(R.string.feedback_none)
             FeedbackForFace.LOOK_AT_CAMERA -> return getString(R.string.feedback_look_at_camera)

@@ -8,7 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import com.example.FaceAnalyzerSample.app.Utils
+import com.example.FaceAnalyzerSample.Utils
 import java.io.IOException
 import java.io.ByteArrayOutputStream
 
@@ -27,7 +27,7 @@ object AppUtils {
         val faceApiKey = sharedPref.getString("key", "").toString()
         val sendResultsToClient = sharedPref.getBoolean("sendResultsToClient", false)
 
-        Utils.getFaceAPISessionToken(faceApiEndpoint, faceApiKey, verifyImage, sendResultsToClient)
+        Utils.getFaceAPISessionToken(faceApiEndpoint, faceApiKey, verifyImage, sendResultsToClient, context.contentResolver)
     }
     // Function to retrieve a string value from SharedPreferences
     fun getVerifyImage(context: Context, uri: Uri) : ByteArray {

@@ -23,6 +23,8 @@ struct LocalizationStrings {
     static let recognitionFailureImageSizeIsTooLarge = NSLocalizedString("ImageSizeIsTooLarge", comment: "")
     static let recognitionFailureImageSizeIsTooSmall = NSLocalizedString("ImageSizeIsTooSmall", comment: "")
     static let recognitionFailureGenericFailure = NSLocalizedString("GenericFailure", comment: "")
+    static let recognitionFailureFaceMouthRegionNotVisible = NSLocalizedString("FaceMouthRegionNotVisible", comment: "")
+    static let recognitionFailureFaceWithMaskDetected = NSLocalizedString("FaceWithMaskDetected", comment: "")
 
     static let livenessStatusNotComputed = NSLocalizedString("NotComputed", comment: "")
     static let livenessStatusFailed = NSLocalizedString("Failed", comment: "")
@@ -45,7 +47,7 @@ struct LocalizationStrings {
     static let livenessFailureUnexpected = NSLocalizedString("Unexpected", comment: "")
     static let livenessFailureUnknown = NSLocalizedString("Unknown", comment: "")
 
-    static let faceFeedbackFaceNotCentered = NSLocalizedString("Look at camera.", comment: "")
+    static let faceFeedbackFaceNotCentered = NSLocalizedString("Center your face in the circle.", comment: "")
     static let faceFeedbackLookAtCamera = NSLocalizedString("Look at camera.", comment: "")
     static let faceFeedbackMoveBack = NSLocalizedString("Too close! Move farther away.", comment: "")
     static let faceFeedbackMoveCloser = NSLocalizedString("Too far away! Move in closer.", comment: "")

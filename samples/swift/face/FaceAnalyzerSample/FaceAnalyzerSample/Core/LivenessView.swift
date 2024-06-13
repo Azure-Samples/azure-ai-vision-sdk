@@ -9,6 +9,7 @@ import AzureAIVisionFace
 
 struct LivenessView: View {
 
+    @EnvironmentObject var livenessModel: LivenessModel
     @State private var actor: LivenessActor? = nil
     // localization can be applied to feedbackMessage
     @State private var feedbackMessage: String = "Hold still."
@@ -30,8 +31,8 @@ struct LivenessView: View {
 
     init(sessionAuthorizationToken: String,
          withVerification: Bool = false,
-         completionHandler: @escaping (String, String, String)->Void = {_,_,_ in },
-         detailsHandler: @escaping (FaceAnalyzedDetails?)->Void = {_ in }) {
+         completionHandler: @escaping (String, String, String) -> Void = { _, _, _ in },
+         detailsHandler: @escaping (FaceAnalyzedDetails?) -> Void = { _ in }) {
         self.sessionAuthorizationToken = sessionAuthorizationToken
         self.withVerification = withVerification
         self.completionHandler = completionHandler
@@ -44,36 +45,53 @@ struct LivenessView: View {
                 backgroundColor: $backgroundColor,
                 feedbackMessage: $feedbackMessage,
                 isCameraPreviewVisible: $isCameraPreviewVisible) { visionSource in
-                    let actor = self.actor ?? LivenessActor.init(
-                        userFeedbackHandler: { feedback in
-                            self.feedbackMessage = feedback
-                        },
-                        resultHandler: {result, resultId, resultDigest in
-                            // This is just for demo purpose
-                            // You should handle the liveness result in your own way
-                            self.feedbackMessage = result
-                            self.resultMessage = result
-                            self.resultId = resultId
-                            self.resultDigest = resultDigest
-                            self.actionDidComplete()
-                        },
-                        screenBackgroundColorHandler: { color in
-                            self.backgroundColor = color
-                        },
-                        detailsHandler: { faceAnalyzedDetails in
-                            // Not necessary, but you can get the digest details here
-                            self.detailsHandler(faceAnalyzedDetails)
-                        },
-                        logHandler: {
-                            self.logHandler()
-                        },
-                        stopCameraHandler: {
-                            self.isCameraPreviewVisible = false
-                        },
-                        withVerification: self.withVerification)
-                    self.actor = actor
                     Task {
-                        await actor.start(usingSource: visionSource, sessionAuthorizationToken: self.sessionAuthorizationToken)
+                        if self.livenessModel.analyzer == nil {
+                            do {
+                                guard let analyzer = try await LivenessActor.createFaceAnalyzer(source: visionSource, sessionAuthorizationToken: self.sessionAuthorizationToken) else {
+                                    self.feedbackMessage = ""
+                                    self.resultMessage = "Error creating FaceAnalyzer"
+                                    self.actionDidComplete()
+                                    return
+                                }
+                                self.livenessModel.analyzer = analyzer
+                            } catch {
+                                self.feedbackMessage = ""
+                                self.resultMessage = "Error configuring service"
+                                self.actionDidComplete()
+                                return
+                            }
+                        }
+                        self.actor = self.actor ?? LivenessActor.init(
+                            faceAnalyzer: self.livenessModel.analyzer!,
+                            withVerification: self.withVerification,
+                            userFeedbackHandler: { feedback in
+                                self.feedbackMessage = feedback
+                            },
+                            resultHandler: { result, resultId, resultDigest in
+                                // This is just for demo purpose
+                                // You should handle the liveness result in your own way
+                                self.feedbackMessage = result
+                                self.resultMessage = result
+                                self.resultId = resultId
+                                self.resultDigest = resultDigest
+                                self.actionDidComplete()
+                            },
+                            screenBackgroundColorHandler: { color in
+                                self.backgroundColor = color
+                            },
+                            detailsHandler: { faceAnalyzedDetails in
+                                // Not necessary, but you can get the digest details here
+                                self.detailsHandler(faceAnalyzedDetails)
+                            },
+                            logHandler: {
+                                self.logHandler()
+                            },
+                            stopCameraHandler: {
+                                self.isCameraPreviewVisible = false
+                            })
+                        self.isCameraPreviewVisible = true
+                        await self.actor?.start()
                     }
                 }
         }

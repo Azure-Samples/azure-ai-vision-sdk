@@ -31,7 +31,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.FaceAnalyzerSample.app.Utils
+import com.example.FaceAnalyzerSample.Utils
 import java.io.InputStream
 
 /***
@@ -62,26 +62,9 @@ open class MainActivity : AppCompatActivity() {
         mPickMedia = registerForActivityResult(PickImage()) { uri ->
             if (uri != null) {
                 mVerifyImage = AppUtils.getVerifyImage(this, uri)
-                val orientation = this.applicationContext.contentResolver.query(
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                        arrayOf(MediaStore.Images.ImageColumns.ORIENTATION),
-                        MediaStore.Images.Media._ID + " = ?",
-                        arrayOf(DocumentsContract.getDocumentId(uri).split(":")[1]),
-                        null).use {
-                    return@use if (it == null || it.count != 1 || !it.moveToFirst()) null else
-                        when (it.getInt(0)) {
-                            -270 -> ExifInterface.ORIENTATION_ROTATE_90
-                            -180 -> ExifInterface.ORIENTATION_ROTATE_180
-                            -90 -> ExifInterface.ORIENTATION_ROTATE_270
-                            90 -> ExifInterface.ORIENTATION_ROTATE_90
-                            180 -> ExifInterface.ORIENTATION_ROTATE_180
-                            270 -> ExifInterface.ORIENTATION_ROTATE_270
-                            else -> null
-                        }
-                }
                 this.applicationContext.contentResolver.openInputStream(uri).use { inputStream ->
                     if (inputStream != null) {
-                        showImage(inputStream, orientation)
+                        showImage(inputStream)
                     }
                 }
             }
@@ -95,13 +78,14 @@ open class MainActivity : AppCompatActivity() {
         }
     }
     @SuppressLint("NewApi")
-    private fun showImage(inputStream: InputStream, knownOrientationExifEnum: Int?) {
+    private fun showImage(inputStream: InputStream) {
         var bitmapImage =
             BitmapFactory.decodeStream(inputStream)
 
         try {   // rotate bitmap (best effort)
             val matrix = Matrix()
-            (knownOrientationExifEnum ?: ExifInterface(inputStream).getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL))
+            ExifInterface(inputStream)
+                .getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
                 .let { orientation ->
                     when (orientation) {
                         ExifInterface.ORIENTATION_ROTATE_90 -> matrix.postRotate(90F)

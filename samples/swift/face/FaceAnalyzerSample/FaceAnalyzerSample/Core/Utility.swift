@@ -84,7 +84,6 @@ func getSourceFromImage(image: UIImage) ->VisionFrameSource {
     let width = image.size.width
     let height = image.size.height
     let stride = image.cgImage?.bytesPerRow
-    let bitmatpinfo = image.cgImage?.bitmapInfo
     let fourcc = image.cgImage?.bitmapInfo.pixelFormat?.getFourCCString()
     let format = try! VisionFrameFormat(fourCCFormat: fourcc!, width: Int(width), height: Int(height), stride: Int(stride!))
     let source = try! VisionFrameSource(format: format)
@@ -136,6 +135,8 @@ func RecognitionFailureToString(reason: FaceRecognitionFailureReason) -> String 
         case .contentDecodingError: return LocalizationStrings.recognitionFailureContentDecodingError
         case .imageSizeIsTooLarge: return LocalizationStrings.recognitionFailureImageSizeIsTooLarge
         case .imageSizeIsTooSmall: return LocalizationStrings.recognitionFailureImageSizeIsTooSmall
+        case .faceMouthRegionNotVisible: return LocalizationStrings.recognitionFailureFaceMouthRegionNotVisible
+        case .faceWithMaskDetected: return LocalizationStrings.recognitionFailureFaceWithMaskDetected
         default: return LocalizationStrings.recognitionFailureGenericFailure
     }
 }

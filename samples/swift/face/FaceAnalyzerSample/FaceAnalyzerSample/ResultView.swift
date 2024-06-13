@@ -26,12 +26,26 @@ struct ResultView: View {
                     .foregroundColor(Color.black)
                     .padding(.top, -2.5)
                 Spacer()
-                Button(action: doneReviewInDemo, label: {
-                    Text("Continue")
-                        .padding()
-                })
+                HStack() {
+                    Button(action: retry, label: {
+                        Text("Retry")
+                            .foregroundColor(.red)
+                            .padding()
+                    })
+                    Spacer()
+                    Button(action: doneReviewInDemo, label: {
+                        Text("Continue")
+                            .padding()
+                    })
+                }
             }
 
+        }
+    }
+    
+    func retry() {
+        withAnimation {
+            pageSelection.current = .liveness
         }
     }
 

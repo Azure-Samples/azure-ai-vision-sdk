@@ -18,6 +18,7 @@ struct SecureInputView: View {
                     SecureField(title, text: $text)
                 } else {
                     TextField(title, text: $text)
+                        .autocorrectionDisabled()
                 }
             }.padding(.trailing, 48)
 

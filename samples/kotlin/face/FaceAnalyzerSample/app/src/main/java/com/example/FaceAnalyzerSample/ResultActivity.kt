@@ -7,6 +7,7 @@ package com.example.FaceAnalyzerSample
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 class ResultActivity : AppCompatActivity() {
 
     private val viewMap: LinkedHashMap<TextView, TextView> = LinkedHashMap()
+    private lateinit var mRetryButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,22 +28,22 @@ class ResultActivity : AppCompatActivity() {
         viewMap[findViewById(R.id.resultLabel3)] = findViewById(R.id.resultValue3)
         viewMap[findViewById(R.id.resultLabel4)] = findViewById(R.id.resultValue4)
 
-        var livenessStatus = intent.getStringExtra("livenessStatus")
-        var livenessFailureReason = intent.getStringExtra("livenessFailureReason")
-        var verificationStatus = intent.getStringExtra("verificationStatus")
-        var verificationConfidence = intent.getStringExtra("verificationConfidence")
-        var errorMessage = intent.getStringExtra("error")
+        val livenessStatus = intent.getStringExtra("livenessStatus")
+        val livenessFailureReason = intent.getStringExtra("livenessFailureReason")
+        val verificationStatus = intent.getStringExtra("verificationStatus")
+        val verificationConfidence = intent.getStringExtra("verificationConfidence")
+        val errorMessage = intent.getStringExtra("error")
 
-        var itr = viewMap.entries.iterator()
+        val itr = viewMap.entries.iterator()
         var mapEntry = itr.next()
 
-        if(errorMessage.isNullOrBlank() == false){
+        if(!errorMessage.isNullOrBlank()){
             mapEntry.key.text = "Error:"
             mapEntry.value.text = errorMessage
 
         } else {
             // Display liveness results
-            if (livenessStatus.isNullOrBlank() == false) {
+            if (!livenessStatus.isNullOrBlank()) {
                 mapEntry.key.text = "Liveness status:"
                 mapEntry.value.text = livenessStatus
                 mapEntry = itr.next()
@@ -50,7 +52,7 @@ class ResultActivity : AppCompatActivity() {
                 mapEntry = itr.next()
             }
 
-            if (verificationStatus.isNullOrBlank() == false) {
+            if (!verificationStatus.isNullOrBlank()) {
                 mapEntry.key.text = "Verification status:"
                 mapEntry.value.text = verificationStatus
                 mapEntry = itr.next()
@@ -58,11 +60,15 @@ class ResultActivity : AppCompatActivity() {
                 mapEntry.value.text = verificationConfidence
             }
         }
+
+        mRetryButton = findViewById(R.id.retryButton)
+        mRetryButton.setOnClickListener { @Suppress("DEPRECATION") super.onBackPressed() }
     }
 
     /**
      * Overrides back button to always return to main activity
      */
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         @Suppress("DEPRECATION") super.onBackPressed()
         for (entry in viewMap.entries) {
