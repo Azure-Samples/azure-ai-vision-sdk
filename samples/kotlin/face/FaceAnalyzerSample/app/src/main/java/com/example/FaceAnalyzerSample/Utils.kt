@@ -1,5 +1,7 @@
-package com.example.FaceAnalyzerSample.app
+package com.example.FaceAnalyzerSample
 
+import android.annotation.SuppressLint
+import android.content.ContentResolver
 import android.provider.Settings
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
@@ -20,9 +22,11 @@ import java.util.UUID
 
 object Utils {
     var mSessionToken: String = ""
-    const val LINE_FEED = "\r\n"
+    private const val LINE_FEED = "\r\n"
 
-    fun getFaceAPISessionToken(faceApiEndpoint: String, faceApiKey: String, verifyImageArray: ByteArray?, sendResultsToClient: Boolean): String = runBlocking {
+    @OptIn(ExperimentalStdlibApi::class)
+    @SuppressLint("HardwareIds")
+    fun getFaceAPISessionToken(faceApiEndpoint: String, faceApiKey: String, verifyImageArray: ByteArray?, sendResultsToClient: Boolean, contentResolver: ContentResolver): String = runBlocking {
         withContext(Dispatchers.IO) {
             val url: URL?
             var urlConnection: HttpsURLConnection? = null
@@ -34,10 +38,12 @@ object Utils {
                         URL("$faceApiEndpoint/face/v1.1-preview.1/detectLiveness/singleModal/sessions")
                     }
 
+                    val deviceId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID).hexToLong()
+
                     val tokenRequest = JSONObject(mapOf(
                         "livenessOperationMode" to "Passive",
                         "sendResultsToClient" to sendResultsToClient,
-                        "deviceCorrelationId" to Settings.Secure.ANDROID_ID
+                        "deviceCorrelationId" to UUID(deviceId, deviceId)
                     )).toString()
                     val charset: Charset = Charset.forName("UTF-8")
                     urlConnection = url.openConnection() as HttpsURLConnection

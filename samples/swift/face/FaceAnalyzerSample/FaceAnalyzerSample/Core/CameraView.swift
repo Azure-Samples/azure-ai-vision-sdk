@@ -15,6 +15,7 @@ struct CameraView: View {
     static let previewAreaRatio = 0.12
     static let screenAspectRatio = Double(UIScreen.main.bounds.size.height / UIScreen.main.bounds.size.width)
     static let previewWidthRatio = CGFloat(2 * sqrt(previewAreaRatio * screenAspectRatio / Double.pi))
+    static let previewHeightRatio = CGFloat(2 * sqrt(previewAreaRatio / screenAspectRatio / Double.pi))
     
     let onViewDidLoad: (VisionSource) -> Void
     
@@ -25,8 +26,8 @@ struct CameraView: View {
                     Spacer()
                     VStack(alignment: .leading) {
                         CameraPreviewView(isCameraPreviewVisible: $isCameraPreviewVisible, onViewDidLoad: onViewDidLoad)
-                            .frame(width: metrics.size.width * CameraView.previewWidthRatio,
-                                   height: metrics.size.width * CameraView.previewWidthRatio,
+                            .frame(width: getLength(metrics),
+                                   height: getLength(metrics),
                                    alignment: .center)
                             .mask(Circle())
                             .padding(.top)
@@ -43,6 +44,10 @@ struct CameraView: View {
                 Spacer()
             }
         }.background(backgroundColor)
+    }
+    
+    func getLength(_ metrics: GeometryProxy) -> CGFloat {
+        return metrics.size.width < metrics.size.height ? metrics.size.width * CameraView.previewWidthRatio : metrics.size.height * CameraView.previewHeightRatio
     }
 }
 

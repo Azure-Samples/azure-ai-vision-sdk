@@ -9,69 +9,56 @@ import AzureAIVisionFace
 
 class LivenessActor
 {
-    private var faceAnalyzer: FaceAnalyzer? = nil
-    private var withVerification: Bool = false
     private var resultId: String = ""
     private var resultDigest: String = ""
 
-    let userFeedbackHandler: (String) -> Void
-    let screenBackgroundColorHandler: (Color) -> Void
-    let resultHandler: (String, String, String) -> Void
-    let detailsHandler: (FaceAnalyzedDetails?) -> Void
-    let logHandler: () -> Void
-    let stopCameraHandler: () -> Void
+    private let withVerification: Bool
+    private let faceAnalyzer: FaceAnalyzer
+    private let userFeedbackHandler: (String) -> Void
+    private let screenBackgroundColorHandler: (Color) -> Void
+    private let resultHandler: (String, String, String) -> Void
+    private let detailsHandler: (FaceAnalyzedDetails?) -> Void
+    private let logHandler: () -> Void
+    private let stopCameraHandler: () -> Void
 
     func stopAnalyzer() {
-        if let analyzer = self.faceAnalyzer
-        {
-            try! analyzer.stopAnalyzeOnce()
-            self.faceAnalyzer = nil
-        }
+        try! self.faceAnalyzer.stopAnalyzeOnce()
     }
 
-    init(userFeedbackHandler: @escaping (String) -> Void,
+    init(faceAnalyzer: FaceAnalyzer,
+         withVerification: Bool,
+         userFeedbackHandler: @escaping (String) -> Void,
          resultHandler: @escaping (String, String, String) -> Void,
          screenBackgroundColorHandler: @escaping (Color) -> Void,
          detailsHandler: @escaping (FaceAnalyzedDetails?) -> Void,
          logHandler: @escaping () -> Void,
-         stopCameraHandler: @escaping () -> Void,
-         withVerification: Bool) {
+         stopCameraHandler: @escaping () -> Void) {
+        self.faceAnalyzer = faceAnalyzer
+        self.withVerification = withVerification
         self.resultHandler = resultHandler
         self.userFeedbackHandler = userFeedbackHandler
         self.screenBackgroundColorHandler = screenBackgroundColorHandler
         self.detailsHandler = detailsHandler
         self.logHandler = logHandler
-        self.withVerification = withVerification
         self.stopCameraHandler = stopCameraHandler
     }
-
-    func start(usingSource visionSource: VisionSource,
-               sessionAuthorizationToken: String) async
-    {
-        let methodOptions: FaceAnalysisOptions
-        do {
-            let createOptions = try FaceAnalyzerCreateOptions()
-            methodOptions = try FaceAnalysisOptions()
-
-            let serviceOptions = try VisionServiceOptions()
-            serviceOptions.authorizationToken = sessionAuthorizationToken
-
-            createOptions.faceAnalyzerMode = FaceAnalyzerMode.trackFacesAcrossImageStream
-            methodOptions.faceSelectionMode = FaceSelectionMode.largest
-            faceAnalyzer = try await FaceAnalyzer.create(serviceOptions: serviceOptions, input: visionSource, createOptions: createOptions)
-        }
-        catch {
-            self.resultHandler("Error configuring service", self.resultId, self.resultDigest)
-            return
+    
+    static func createFaceAnalyzer(source: VisionSource,
+                                   sessionAuthorizationToken: String) async throws -> FaceAnalyzer? {
+        guard let createOptions = try? FaceAnalyzerCreateOptions() else {
+            return nil
         }
 
-        guard faceAnalyzer != nil else {
-            self.resultHandler("Error creating FaceAnalyzer", self.resultId, self.resultDigest)
-            return
-        }
+        var serviceOptions = try VisionServiceOptions()
+        serviceOptions.authorizationToken = sessionAuthorizationToken
 
-        let visionCamera = visionSource.getVisionCamera()
-        faceAnalyzer?.addAnalyzedEventHandler {[] (analyzer: FaceAnalyzer, result: FaceAnalyzedResult) in
+        createOptions.faceAnalyzerMode = FaceAnalyzerMode.trackFacesAcrossImageStream
+        return try await FaceAnalyzer.create(serviceOptions: serviceOptions, input: source, createOptions: createOptions)
+    }
+
+    func start() async {
+
+        self.faceAnalyzer.addAnalyzedEventHandler {[] (analyzer: FaceAnalyzer, result: FaceAnalyzedResult) in
             print("session analyzed event callback")
 
             // this result is used for sample App demo purpose only, you should handle the liveness results in your own way
@@ -142,7 +129,7 @@ class LivenessActor
             print(livenessResultString)
         }
 
-        faceAnalyzer?.addAnalyzingEventHandler { (analyzer: FaceAnalyzer, result: FaceAnalyzingResult) in
+        self.faceAnalyzer.addAnalyzingEventHandler { (analyzer: FaceAnalyzer, result: FaceAnalyzingResult) in
             var userNotification = ""
             let count = result.faces.count
             guard  count != 0  else {
@@ -174,16 +161,25 @@ class LivenessActor
             self.userFeedbackHandler(String(userNotification))
         }
 
-        faceAnalyzer?.addSessionStartedEventHandler { analyzer, evt in
+        self.faceAnalyzer.addSessionStartedEventHandler { analyzer, evt in
             print("session started event callback")
         }
 
-        faceAnalyzer?.addSessionStoppedEventHandler {[weak self] FaceAnalyzer, session, evt in
+        self.faceAnalyzer.addSessionStoppedEventHandler {[weak self] FaceAnalyzer, session, evt in
             print("session stopped event callback")
             self!.userFeedbackHandler("Done, finishing up...")
         }
 
-        faceAnalyzer?.analyzeOnce(using: methodOptions,completionHandler: { (result, error) in
+        let methodOptions: FaceAnalysisOptions
+        do {
+            methodOptions = try FaceAnalysisOptions()
+            methodOptions.faceSelectionMode = FaceSelectionMode.largest
+        } catch {
+            self.resultHandler("Error configuring analysis", self.resultId, self.resultDigest)
+            return
+        }
+
+        self.faceAnalyzer.analyzeOnce(using: methodOptions, completionHandler: { (result, error) in
             print("analyzeOnce completion handler")
         })
 

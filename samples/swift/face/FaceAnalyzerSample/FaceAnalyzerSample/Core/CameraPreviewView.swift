@@ -7,14 +7,22 @@ import SwiftUI
 import AzureAIVisionFace
 
 struct CameraPreviewView: View {
+    @EnvironmentObject private var actor: LivenessModel
     @Binding var isCameraPreviewVisible: Bool
     let onViewDidLoad: (VisionSource) -> Void
     
     var body: some View {
             CameraRepresentable { view in
-                if let visionSourceOption = VisionSourceOptions.init(deviceOption: VisionSourceDeviceOption.defaultCaptureDevice, preview: view) {
+                if let visionSourceOption = VisionSourceOptions.init(deviceOption: VisionSourceDeviceOption.defaultCaptureDevice) {
                     DispatchQueue.main.async {
-                        onViewDidLoad(try! VisionSource.init(sourceOptions: visionSourceOption))
+                        if actor.source == nil,
+                           let source = try? VisionSource.init(sourceOptions: visionSourceOption) {
+                            actor.source = source
+                        }
+                        if let source = actor.source {
+                            source.getVisionCamera()?.setPreviewView(view)
+                            onViewDidLoad(source)
+                        }
                     }
                 }
             }

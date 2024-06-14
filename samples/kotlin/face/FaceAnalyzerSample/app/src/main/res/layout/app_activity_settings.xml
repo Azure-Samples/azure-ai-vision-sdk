@@ -31,19 +31,27 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-            <EditText
-                android:id="@+id/keyText"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/keyTextLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
+                app:passwordToggleEnabled="true"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="30dp"
-                android:ems="10"
-                android:hint="00000000000000000000000000000000"
-                android:inputType="textPassword"
-                android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                app:layout_constraintTop_toBottomOf="@+id/textView4" >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/keyText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="30dp"
+                    android:ems="10"
+                    android:hint="00000000000000000000000000000000"
+                    android:inputType="textPassword"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/textView3"
@@ -73,7 +81,7 @@
                 android:layout_marginTop="30dp"
                 android:text="Last session apim-request-id"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/keyText" />
+                app:layout_constraintTop_toBottomOf="@+id/keyTextLayout" />
 
             <TextView
                 android:id="@+id/resultIdtextView"

@@ -30,6 +30,7 @@
 		8C020C252B173595001E72AE /* AzureAIVisionFace in Frameworks */ = {isa = PBXBuildFile; productRef = 8C020C242B173595001E72AE /* AzureAIVisionFace */; };
 		8C020C272B1735B8001E72AE /* AzureAIVisionCore in Frameworks */ = {isa = PBXBuildFile; productRef = 8C020C262B1735B8001E72AE /* AzureAIVisionCore */; };
 		8C07F2B22B699582009CFF14 /* SecureInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C07F2B12B699582009CFF14 /* SecureInputView.swift */; };
+		D3B3084B2C083DC4005C0C97 /* LivenessModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B3084A2C083DC4005C0C97 /* LivenessModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -70,6 +71,7 @@
 		8C020C1B2B0CA45D001E72AE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "Core/zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		8C020C1C2B16A524001E72AE /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
 		8C07F2B12B699582009CFF14 /* SecureInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureInputView.swift; sourceTree = "<group>"; };
+		D3B3084A2C083DC4005C0C97 /* LivenessModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LivenessModel.swift; path = Core/LivenessModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +115,7 @@
 				8C020B872B0C1304001E72AE /* CameraView.swift */,
 				8C020B842B0C1304001E72AE /* CameraViewController.swift */,
 				8C020B822B0C1303001E72AE /* LivenessActor.swift */,
+				D3B3084A2C083DC4005C0C97 /* LivenessModel.swift */,
 				8C020B882B0C1304001E72AE /* LivenessView.swift */,
 				8C020B832B0C1303001E72AE /* Localization.swift */,
 				8C020B862B0C1304001E72AE /* Utility.swift */,
@@ -228,6 +231,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C07F2B22B699582009CFF14 /* SecureInputView.swift in Sources */,
+				D3B3084B2C083DC4005C0C97 /* LivenessModel.swift in Sources */,
 				8C020B8F2B0C1304001E72AE /* Utility.swift in Sources */,
 				8C020B912B0C1304001E72AE /* LivenessView.swift in Sources */,
 				8C020C1D2B16A524001E72AE /* AppUtility.swift in Sources */,

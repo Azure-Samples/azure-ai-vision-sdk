@@ -46,7 +46,8 @@ class SessionData: ObservableObject {
 struct MainView: View {
     @EnvironmentObject var pageSelection: PageSelection
     @EnvironmentObject var sessionData: SessionData
-    
+    @StateObject var livenessModel = LivenessModel()
+
     var body: some View {
         ZStack {
             switch pageSelection.current {
@@ -69,12 +70,14 @@ struct MainView: View {
                                     }
                                 }
                             })
+                    .environmentObject(livenessModel)
 
             case .result:
                 ResultView()
 
             case .clientStart:
                 ClientStartView()
+                    .environmentObject(livenessModel)
 
             case .imageSelection:
                 ImageSelectionView()
@@ -94,6 +97,6 @@ struct MainView: View {
                 }.padding()
             }
         }
-        
+
     }
 }

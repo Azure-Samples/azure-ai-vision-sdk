@@ -8,6 +8,7 @@ import SwiftUI
 struct ClientStartView: View {
     @EnvironmentObject var pageSelection: PageSelection
     @EnvironmentObject var sessionData: SessionData
+    @EnvironmentObject var livenessModel: LivenessModel
 
     @State private var backgroundColor: Color = Color.white
 
@@ -18,12 +19,13 @@ struct ClientStartView: View {
                 Text("Start").font(.title)
                     .padding()
             })
-            .disabled(sessionData.token == nil || sessionData.token == "")
+                .disabled(sessionData.token == nil || sessionData.token == "")
             Spacer()
         }
     }
 
     func startClient() {
+        livenessModel.reset()
         withAnimation {
             pageSelection.current = .liveness
         }
