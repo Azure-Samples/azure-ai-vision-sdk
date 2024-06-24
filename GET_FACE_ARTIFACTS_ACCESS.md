@@ -31,7 +31,7 @@ Install Azure Command-Line Interface (CLI) as per the documentation [here](https
    subscriptionId=#SUBSCRIPTION_ID#
    tokenId=#TOKEN_ID#
    bearerToken=$(az account get-access-token -s $subscriptionId -o tsv | cut -f1)
-   curl -X POST --header "Authorization: Bearer ${bearerToken}" "https://face-sdk-gating-helper.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?id=${tokenId}"
+   curl -X POST --header "Authorization: Bearer ${bearerToken}" "https://face-sdk-gating-helper-2.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?id=${tokenId}"
    ```
 
    **For Windows or PowerShell:**
@@ -39,7 +39,7 @@ Install Azure Command-Line Interface (CLI) as per the documentation [here](https
    $subscriptionId = #SUBSCRIPTION_ID#
    $tokenId = #TOKEN_ID#
    $bearerToken = $(az account get-access-token -s $subscriptionId -o tsv).split()[0];
-   Invoke-RestMethod -Uri "https://face-sdk-gating-helper.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?id=${tokenId}" -Method POST -Headers @{"Authorization"="Bearer ${bearerToken}"} | format-list
+   Invoke-RestMethod -Uri "https://face-sdk-gating-helper-2.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?id=${tokenId}" -Method POST -Headers @{"Authorization"="Bearer ${bearerToken}"} | format-list
    ```
 
 ### Querying Access Token
@@ -51,7 +51,7 @@ Install Azure Command-Line Interface (CLI) as per the documentation [here](https
    subscriptionId=#SUBSCRIPTION_ID#
    tokenId=#TOKEN_ID#
    bearerToken=$(az account get-access-token -s $subscriptionId -o tsv | cut -f1)
-   curl -X GET --header "Authorization: Bearer ${bearerToken}" "https://face-sdk-gating-helper.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?id=${tokenId}"
+   curl -X GET --header "Authorization: Bearer ${bearerToken}" "https://face-sdk-gating-helper-2.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?id=${tokenId}"
    ```
 
    **For Windows or PowerShell:**
@@ -59,7 +59,7 @@ Install Azure Command-Line Interface (CLI) as per the documentation [here](https
    $subscriptionId = #SUBSCRIPTION_ID#
    $tokenId = #TOKEN_ID#
    $bearerToken = $(az account get-access-token -s $subscriptionId -o tsv).split()[0];
-   Invoke-WebRequest -Uri "https://face-sdk-gating-helper.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?id=${tokenId}" -Method GET -Headers @{"Authorization"="Bearer ${bearerToken}"} | Format-List
+   Invoke-WebRequest -Uri "https://face-sdk-gating-helper-2.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?id=${tokenId}" -Method GET -Headers @{"Authorization"="Bearer ${bearerToken}"} | Format-List
    ```
 
 ## References
@@ -68,13 +68,13 @@ Two endpoints are available for token generations and queries:
 1. **Token Generation Endpoint (`POST`):**
    
    ```
-   https://face-sdk-gating-helper.azurewebsites.net/sdk/subscriptions/{subscriptionId}/tokens?id={tokenId}
+   https://face-sdk-gating-helper-2.azurewebsites.net/sdk/subscriptions/{subscriptionId}/tokens?id={tokenId}
    ```
    
 1. **Token Query Endpoint (`GET`):**
 
    ```
-   https://face-sdk-gating-helper.azurewebsites.net/sdk/subscriptions/{subscriptionId}/tokens?id={tokenId}
+   https://face-sdk-gating-helper-2.azurewebsites.net/sdk/subscriptions/{subscriptionId}/tokens?id={tokenId}
    ```
    
 > **Note:** The `GET` endpoint lists all tokens if `tokenId` is not specified. Use `POST` to generate tokens if none exist.
