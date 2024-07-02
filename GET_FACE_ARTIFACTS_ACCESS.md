@@ -15,68 +15,33 @@ This guide provides step-by-step instructions to access Face Client SDK release 
 ### Install The Azure Command-Line Interface (CLI)
 Install Azure Command-Line Interface (CLI) as per the documentation [here](https://learn.microsoft.com/cli/azure/).
 
-### Generating Access Token
+### Fetching Access Token
 
-> **Note:** This will overwrite the previously generated token of `tokenId` if any. If you would like to preserve and retrieve the token value previously generated, go to [querying access token](#querying-access-token) section.
-
-1. Open your command-line tool (e.g., Bash in Linux/MacOS, PowerShell in Windows).
-1. Run the following commands:
+1. Open your command-line tool (e.g., Terminal in Linux/MacOS, PowerShell in Windows).
+1. Run the following script:
 
    Parameters:
    - **subscriptionId**: Azure Subscription ID that has been registered for Face API Limited Access.
-   - **tokenId**: An integer (0 or 1) for primary or secondary tokens. This allows you to generate primary and secondary keys that can be used while rotating secrets in build-automations. This parameter is required for `POST` and optional for `GET`.
-
-   **For Linux/MacOS or Shell:**
-   ```bash
-   subscriptionId=#SUBSCRIPTION_ID#
-   tokenId=#TOKEN_ID#
-   bearerToken=$(az account get-access-token -s $subscriptionId -o tsv | cut -f1)
-   curl -X POST --header "Authorization: Bearer ${bearerToken}" "https://face-sdk-gating-helper-2.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?id=${tokenId}"
-   ```
-
-   **For Windows or PowerShell:**
-   ```powershell
-   $subscriptionId = #SUBSCRIPTION_ID#
-   $tokenId = #TOKEN_ID#
-   $bearerToken = $(az account get-access-token -s $subscriptionId -o tsv).split()[0];
-   Invoke-RestMethod -Uri "https://face-sdk-gating-helper-2.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?id=${tokenId}" -Method POST -Headers @{"Authorization"="Bearer ${bearerToken}"} | format-list
-   ```
-
-### Querying Access Token
-1. Use the same command-line tool as above.
-1. Run the following commands:
    
    **For Linux/MacOS or Shell:**
    ```bash
-   subscriptionId=#SUBSCRIPTION_ID#
-   tokenId=#TOKEN_ID#
-   bearerToken=$(az account get-access-token -s $subscriptionId -o tsv | cut -f1)
-   curl -X GET --header "Authorization: Bearer ${bearerToken}" "https://face-sdk-gating-helper-2.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?id=${tokenId}"
+   ./scripts/get_face_access_token.sh #SUBSCRIPTION_ID#
    ```
 
    **For Windows or PowerShell:**
    ```powershell
-   $subscriptionId = #SUBSCRIPTION_ID#
-   $tokenId = #TOKEN_ID#
-   $bearerToken = $(az account get-access-token -s $subscriptionId -o tsv).split()[0];
-   Invoke-WebRequest -Uri "https://face-sdk-gating-helper-2.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?id=${tokenId}" -Method GET -Headers @{"Authorization"="Bearer ${bearerToken}"} | Format-List
+   ./scripts/get_face_access_token.ps1 -subscriptionId #SUBSCRIPTION_ID#
    ```
 
 ## References
-Two endpoints are available for token generations and queries:
+This endpoint is available for token generations and queries:
    
-1. **Token Generation Endpoint (`POST`):**
+1. **Token Generation (POST)/ Query (GET) Endpoint (`POST`):**
    
    ```
    https://face-sdk-gating-helper-2.azurewebsites.net/sdk/subscriptions/{subscriptionId}/tokens?id={tokenId}
    ```
-   
-1. **Token Query Endpoint (`GET`):**
-
-   ```
-   https://face-sdk-gating-helper-2.azurewebsites.net/sdk/subscriptions/{subscriptionId}/tokens?id={tokenId}
-   ```
-   
+      
 > **Note:** The `GET` endpoint lists all tokens if `tokenId` is not specified. Use `POST` to generate tokens if none exist.
    
 ## Additional Resources
