@@ -1,0 +1,30 @@
+<div class="feedback">
+  <div class="feedback-column">
+    <div class="item">
+      <img src="HeartPulse.png" alt="Liveness Icon" />
+      <span>Liveness</span>
+    </div>
+    <div class="item">
+      <img [src]="livenessIcon" alt="Liveness Status Icon" />
+      <span>{{ livenessText }}</span>
+    </div>
+    <div class="separationLine" *ngIf="recognitionIcon"></div>
+    <div class="item" *ngIf="recognitionIcon">
+      <img src="Person.png" alt="Verification Icon" />
+      <span>Verification</span>
+    </div>
+    <div class="item" *ngIf="recognitionIcon">
+      <img [src]="recognitionIcon" alt="Verification Status Icon" />
+      <span>{{ recognitionText }}</span>
+    </div>
+  </div>
+  <div class="item">
+    <fluent-button
+      class="ms-fontSize-l"
+      appearance="accent"
+      id="continueButton"
+      (click)="onContinue()"
+      >Continue</fluent-button
+    >
+  </div>
+</div>

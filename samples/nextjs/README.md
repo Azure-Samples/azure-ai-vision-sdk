@@ -48,35 +48,20 @@ Depending on your scenario, you can choose from either one of the following scen
 - [Build and run sample app](#build-and-run-sample-app) 
 - [Integrate face analysis into your own application](#integrate-face-analysis-into-your-own-application)
 
-### Build and run sample App
+### Build and run sample app (Next.js, AngularJS, Vue.js)
 
-This is an illustration of how to quickly build and run a sample app using next.js.
+This is an illustration of how to quickly download and run a sample app built with Next.js or AngularJS.
 
-1. Get started by creating a new app using: https://nextjs.org/docs/getting-started/installation
-2. Use default settings but with TypeScript == Yes
-3. Run through the steps in the [SetupEnvironment.md](./SetupEnvironment.md) to install the npm package.
-4. Copy all of the contents of [face](./face) into the root folder of the app (ensure middleware.js is at the root of the app) (you may need to clone this repo to copy the files).
-5. Replace the contents of page.tsx with the following:
-```
-import dynamic from 'next/dynamic'
-const FaceAnalyzerComponent  = dynamic(
-  () => import('@/face_analyzer/face'),
-  { ssr: false }
-)
+1. Clone the [sample repository](https://github.com/Azure-Samples/azure-ai-vision-sdk) and navigate into the sample directory that you want to run.
+- Next.js: `samples/nextjs/face-nextjs/`
+- AngularJS: `samples/angularjs/face-angularjs/`
+- Vue.js: `samples/vuejs/face-vuejs/`
+2. Run through the steps in [SetupEnvironment.md](./SetupEnvironment.md) to install the npm package.
+3. Copy `faceanalyzer-assets/` folder from `node_modules/azure-ai-vision-faceanalyzer` to `public/`.
+4. Update the variables in `.env.local` with your own face-api key and endpoint.
+5. Run the app with `npm run dev`. On the first run, the development server may take a few minutes to initialize. See `package.json` for framework-specific commands.
 
-export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <FaceAnalyzerComponent />
-    </main>
-  );
-}
-```
-6. Update the face-api key and endpoint in the face_analyzer/face.tsx file.
-7. Copy faceanalyzer-assets folder from node_modules/azure-ai-vision-faceanalyzer to public.
-8. Run the app with "npm run dev". The localhost url will be shown in the console output, you can use this url in your browser to view the liveness check in action.
-
-Note: the [javascript](../javascript) contains a fully featured vanilla-javascript sample
+Note: the `samples/javascript` contains a fully featured vanilla-javascript sample
 
 ### Integrate face analysis into your own application
 
@@ -127,41 +112,8 @@ It's important to note that essential assets like WebAssembly (wasm) files and w
 
 ## Framework specific integration notes
 
-### React
-Integrating with React is simple. Start by importing azure-ai-vision-faceanalyzer package into your project. Now simply add the web-component into your application.
-
-```javascript
-import React from 'react';
-
-// Step 1: Import the web component.
-import "azure-ai-vision-faceanalyzer";
-
-const AzureAIVisionFaceAnalyzerComponent = () => {
-    const containerRef = useRef(null);
-    // Step 2: Create the faceanalyzer element, set the token and upgrade the element.
-    azureAIVisionFaceAnalyzer = document.createElement("azure-ai-vision-faceanalyzer");
-    customElements.upgrade(azureAIVisionFaceAnalyzer);
-    azureAIVisionFaceAnalyzer.token = "***FACE_API_SESSION_TOKEN***";
-    azureAIVisionFaceAnalyzer.addEventListener('analyzed', (event) => {
-            // The event.result, which is FaceAnalyzedResult interface, contains the result of the analysis. 
-        });
-    if (containerRef.current) {
-        containerRef.current.appendChild(azureAIVisionFaceAnalyzer);
-    }
-    
-    return <div ref={containerRef}></div>;
-};
-
-function App() {
-  return (
-    <div className="App">
-      <AzureAIVisionFaceAnalyzerComponent />
-    </div>
-  );
-}
-
-export default App;
-```
+### React or Next.js
+Please see Next.js integration example `samples/nextjs/face-nextjs/face_analyzer/face.tsx`
 
 For deployment
 You can add postbuild script to your package.json to copy faceanalyzer-assets to public
@@ -172,7 +124,7 @@ You can add postbuild script to your package.json to copy faceanalyzer-assets to
 ```
 
 ### Angular
-Integrating with Angular is similarly simple. as you can inject web-component into your application in the same way as JavaScript or React.
+Please see AngularJS integration example `samples/angularjs/face-angularjs/src/face_analyzer/analyzer-page.component.ts`
 
 For deployment you can add section to deploy faceanalyzer-assets in your projects' build section of the configuration file
 ```
@@ -191,7 +143,7 @@ For deployment you can add section to deploy faceanalyzer-assets in your project
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              { "glob": "**/*", "input": "./node_modules/AzureAIVisionFaceAnalyzer/faceanalyzer-assets", "output": "/faceanalyzer-assets" }
+              { "glob": "**/*", "input": "./node_modules/azure-ai-vision-faceanalyzer/faceanalyzer-assets", "output": "/faceanalyzer-assets" }
             ],
           }
         }
@@ -199,6 +151,9 @@ For deployment you can add section to deploy faceanalyzer-assets in your project
     }
 }
 ```
+
+### Vue.js
+Please see Vue.js integration example `samples/vuejs/face-vuejs/src/components/AnalyzerView.vue`
 
 ## 🌍 Localization Support
 

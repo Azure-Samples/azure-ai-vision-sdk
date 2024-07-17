@@ -1,0 +1,34 @@
+<main>
+  <!-- Initial view of web app -->
+  <initial-page
+    *ngIf="pageHidden['Initial']"
+    (initFaceAnalyzer)="initFaceAnalyzer($event)"
+  ></initial-page>
+
+  <!-- Face Analyzer view -->
+  <analyzer-page
+    *ngIf="pageHidden['Analyzer']"
+    [livenessOperationMode]="livenessOperationMode"
+    [action]="action"
+    [file]="verifyImage"
+    (retryAnalyzer)="fetchFailureCallback($event)"
+    (displayResult)="displayResult($event)"
+  ></analyzer-page>
+
+  <!-- Result display view -->
+  <result-page
+    *ngIf="pageHidden['Result']"
+    [livenessCondition]="livenessCondition"
+    [livenessText]="livenessText"
+    [recognitionCondition]="recognitionCondition"
+    [recognitionText]="recognitionText"
+    (continueAnalyzer)="continueFaceAnalyzer()"
+  ></result-page>
+
+  <!-- Retry display view (in case of token generation failure) -->
+  <retry-page
+    *ngIf="pageHidden['Retry']"
+    [errorMessage]="errorMessage"
+    (retryAnalyzer)="continueFaceAnalyzer()"
+  ></retry-page>
+</main>

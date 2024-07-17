@@ -1,0 +1,21 @@
+@import url("../../page_styles.css");
+
+img#verify-image-preview {
+    max-width: 30vw;
+    max-height: 80px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media screen and (max-width: 640px) {
+    .verify-input {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    div#verifyImageRow {
+        flex-direction: column;
+    }
+}
