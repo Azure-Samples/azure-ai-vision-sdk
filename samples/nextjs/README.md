@@ -50,9 +50,9 @@ Depending on your scenario, you can choose from either one of the following scen
 
 ### Build and run sample app (Next.js, AngularJS, Vue.js)
 
-This is an illustration of how to quickly download and run a sample app built with Next.js or AngularJS.
+This is an illustration of how to quickly download and run a sample app built with Next.js, AngularJS, or Vue.js.
 
-1. Clone the [sample repository](https://github.com/Azure-Samples/azure-ai-vision-sdk) and navigate into the sample directory that you want to run.
+1. In your local machine command line, navigate to the sample directory that you want to run.
 - Next.js: `samples/nextjs/face-nextjs/`
 - AngularJS: `samples/angularjs/face-angularjs/`
 - Vue.js: `samples/vuejs/face-vuejs/`
