@@ -16,6 +16,7 @@
 5. [Framework specific integration notes](#framework-specific-integration-notes)
    1. [React](#react)
    2. [Angular](#angular)
+   3. [Vue.js](#vuejs)
 6. [Localization Support](#localization-support)
    1. [Supported Languages](#supported-languages)
    2. [Setting a Locale](#setting-a-locale)
@@ -113,7 +114,7 @@ It's important to note that essential assets like WebAssembly (wasm) files and w
 ## Framework specific integration notes
 
 ### React or Next.js
-Please see Next.js integration example `samples/nextjs/face-nextjs/face_analyzer/face.tsx`
+Please see the [Next.js integration example](./face-nextjs/face_analyzer/face.tsx) at `samples/nextjs/face-nextjs/face_analyzer/face.tsx`
 
 For deployment
 You can add postbuild script to your package.json to copy faceanalyzer-assets to public
@@ -124,7 +125,7 @@ You can add postbuild script to your package.json to copy faceanalyzer-assets to
 ```
 
 ### Angular
-Please see AngularJS integration example `samples/angularjs/face-angularjs/src/face_analyzer/analyzer-page.component.ts`
+Please see the [AngularJS integration example](../angularjs/face-angularjs/src/face_analyzer/analyzer-page.component.ts) at `samples/angularjs/face-angularjs/src/face_analyzer/analyzer-page.component.ts`
 
 For deployment you can add section to deploy faceanalyzer-assets in your projects' build section of the configuration file
 ```
@@ -153,7 +154,7 @@ For deployment you can add section to deploy faceanalyzer-assets in your project
 ```
 
 ### Vue.js
-Please see Vue.js integration example `samples/vuejs/face-vuejs/src/components/AnalyzerView.vue`
+Please see the [Vue.js integration example](../vuejs/face-vuejs/src/components/AnalyzerView.vue) at `samples/vuejs/face-vuejs/src/components/AnalyzerView.vue`
 
 ## 🌍 Localization Support
 
