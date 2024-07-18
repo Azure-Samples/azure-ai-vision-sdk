@@ -120,7 +120,7 @@ It's important to note that essential assets like WebAssembly (wasm) files and w
 
 ## Framework specific integration notes
 
-### React or Next.js
+### React
 Please see the [Next.js integration example](./face-nextjs/face_analyzer/face.tsx) at `samples/nextjs/face-nextjs/face_analyzer/face.tsx`
 
 For deployment
