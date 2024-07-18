@@ -51,12 +51,14 @@ Depending on your scenario, you can choose from either one of the following scen
 
 ### Build and run sample app (Next.js, AngularJS, Vue.js)
 
+This is an illustration of how to quickly run a sample app built with Next.js, AngularJS, or Vue.js.
+
 To get started, make sure that you have downloaded the CLI for the web framework that you want to use.
 - [Next.js Installation](https://nextjs.org/docs/getting-started/installation#manual-installation)
 - [AngularJS CLI Installation](https://angular.dev/installation#install-angular-cli)
 - [Vue.js CLI Installation](https://cli.vuejs.org/guide/installation.html)
 
-This is an illustration of how to quickly download and run a sample app built with Next.js, AngularJS, or Vue.js.
+Then follow these steps to run a sample app.
 
 1. In your local machine command line, navigate to the sample directory that you want to run.
 - Next.js: [`samples/web/nextjs/face-nextjs/`](./face-nextjs/)
