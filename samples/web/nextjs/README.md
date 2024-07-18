@@ -67,7 +67,7 @@ Then follow these steps to run a sample app.
 2. Run through the steps in [SetupEnvironment.md](./SetupEnvironment.md) to install the npm package.
 3. Copy `faceanalyzer-assets/` folder from `node_modules/azure-ai-vision-faceanalyzer` to `public/`.
 4. Update the variables in `.env.local` with your own face-api key and endpoint.
-5. Run the app with `npm run dev`. On the first run, the development server may take a few minutes to initialize. See `package.json` for framework-specific commands.
+5. Run the app with `npm run dev`. On the first run, the development server may take a few minutes to initialize. See `package.json` for other framework-specific commands.
 
 Note: the [`samples/javascript`](../../javascript/) contains a fully featured vanilla-javascript sample
 
