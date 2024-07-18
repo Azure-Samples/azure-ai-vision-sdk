@@ -2,7 +2,7 @@
 
 The SDK is conveniently available as an NPM package. It leverages the power of [Web Components](https://www.webcomponents.org/introduction) APIs, ensuring effortless integration and usage. It is fully compatible with bundlers such as Webpack. 
 
-1. If you have a valid Azure subscription that has been provisioned for Face API Liveness Detection, you can get the access token to access the release artifacts. More details can be found in [GET_FACE_ARTIFACTS_ACCESS](../../GET_FACE_ARTIFACTS_ACCESS.md).
+1. If you have a valid Azure subscription that has been provisioned for Face API Liveness Detection, you can get the access token to access the release artifacts. More details can be found in [GET_FACE_ARTIFACTS_ACCESS](../../../GET_FACE_ARTIFACTS_ACCESS.md).
 
 2. Prepare NPM authentication
 Create .npmrc file with following content in the root of the app folder.

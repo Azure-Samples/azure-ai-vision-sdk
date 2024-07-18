@@ -62,14 +62,14 @@ Then follow these steps to run a sample app.
 
 1. In your local machine command line, navigate to the sample directory that you want to run.
 - Next.js: [`samples/web/nextjs/face-nextjs/`](./face-nextjs/)
-- AngularJS: [`samples/angularjs/face-angularjs/`](../angularjs/face-angularjs/)
-- Vue.js: [`samples/vuejs/face-vuejs/`](../vuejs/face-vuejs/)
+- AngularJS: [`samples/web/angularjs/face-angularjs/`](../angularjs/face-angularjs/)
+- Vue.js: [`samples/web/vuejs/face-vuejs/`](../vuejs/face-vuejs/)
 2. Run through the steps in [SetupEnvironment.md](./SetupEnvironment.md) to install the npm package.
 3. Copy `faceanalyzer-assets/` folder from `node_modules/azure-ai-vision-faceanalyzer` to `public/`.
 4. Update the variables in `.env.local` with your own face-api key and endpoint.
 5. Run the app with `npm run dev`. On the first run, the development server may take a few minutes to initialize. See `package.json` for other framework-specific commands.
 
-Note: the [`samples/javascript`](../../javascript/) contains a fully featured vanilla-javascript sample
+Note: the [`samples/web/javascript`](../javascript/) contains a fully featured vanilla-javascript sample
 
 ### Integrate face analysis into your own application
 

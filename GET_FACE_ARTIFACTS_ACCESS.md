@@ -47,4 +47,4 @@ This endpoint is available for token generations and queries:
 ## Additional Resources
 - Use the token to get started with Android sample [here](samples/kotlin/face/FaceAnalyzerSample/README.md).
 - Use the token to get started with iOS sample [here](samples/swift/face/FaceAnalyzerSample/README.md).
-- Use the token to get started with NextJS sample [here](samples/nextjs/README.md).
+- Use the token to get started with Web sample [here](samples/web/nextjs/README.md).
