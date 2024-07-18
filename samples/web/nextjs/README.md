@@ -51,6 +51,11 @@ Depending on your scenario, you can choose from either one of the following scen
 
 ### Build and run sample app (Next.js, AngularJS, Vue.js)
 
+To get started, make sure that you have downloaded the CLI for the web framework that you want to use.
+- [Next.js Installation](https://nextjs.org/docs/getting-started/installation#manual-installation)
+- [AngularJS CLI Installation](https://angular.dev/installation#install-angular-cli)
+- [Vue.js CLI Installation](https://cli.vuejs.org/guide/installation.html)
+
 This is an illustration of how to quickly download and run a sample app built with Next.js, AngularJS, or Vue.js.
 
 1. In your local machine command line, navigate to the sample directory that you want to run.
@@ -62,7 +67,7 @@ This is an illustration of how to quickly download and run a sample app built wi
 4. Update the variables in `.env.local` with your own face-api key and endpoint.
 5. Run the app with `npm run dev`. On the first run, the development server may take a few minutes to initialize. See `package.json` for framework-specific commands.
 
-Note: the `samples/javascript` contains a fully featured vanilla-javascript sample
+Note: the [`samples/javascript`](../../javascript/) contains a fully featured vanilla-javascript sample
 
 ### Integrate face analysis into your own application
 
