@@ -2,16 +2,15 @@
 <div class="feedback" id="feedbackContainer" role="status" hidden></div>
 <div id="container"></div>
 <div class="row" id="verifyImageRow">
-  <label class="verify-input" for="useVerifyImageFileInput"
-    >Select verify image:</label
-  >
-  <input
-    class="verify-input"
-    type="file"
-    id="useVerifyImageFileInput"
-    accept="image/*"
-    (change)="setImage($event)"
-  />
+  <label class="verify-input">
+    <input
+      type="file"
+      id="useVerifyImageFileInput"
+      accept="image/*"
+      (change)="setImage($event)"
+    />
+    Select Verify Image
+  </label>
 </div>
 <img *ngIf="verifyImage" [src]="imageObjectUrl" id="verify-image-preview" />
 <div class="row">

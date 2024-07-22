@@ -23,6 +23,9 @@ type AnalyzerState = "Initial" | "Analyzer" | "Result" | "Retry";
 const buttonStyle =
   "relative text-white bg-[#036ac4] hover:bg-[#0473ce] flex grow-1 px-2.5 py-1.5 rounded-md text-sm md:text-[1.1rem]";
 
+const imageButtonStyle = 
+  "relative text-white bg-[#838383] hover:bg-[#9A9A9A] flex grow-1 px-2.5 py-1.5 rounded-md text-sm md:text-[1.1rem] cursor-pointer"
+
 // These components are separated from the original page.tsx because
 // Next.js App Directory separately renders static and interactive components as server and client components.
 // Learn more: https://nextjs.org/docs/app/building-your-application/rendering
@@ -131,21 +134,26 @@ const InitialView = ({
       ></iframe>
       <div className="flex-[0_1_20vh] flex gap-y-4 md:flex-row flex-col justify-center mb-[2vh] pb-[2vh] items-center min-h-fit text-2xl md:gap-y-0 md:gap-x-4 max-sm:text-base">
         {/* Upload component for verifying person with detectLivenessWithVerify */}
-        <label htmlFor="useVerifyImageFileInput">Select verify image: </label>
-        <input
+        <label
+          className={imageButtonStyle}
+        >
+          <input
           onChange={handleFile}
           type="file"
           accept="image/*"
           id="useVerifyImageFileInput"
+          className="hidden"
         />
+          Select Verify Image
+        </label>        
       </div>
       {verifyImage && (
         <Image
           className="mx-auto mb-[2vh] pb-[2vh]"
           src={URL.createObjectURL(verifyImage)}
           alt="uploaded image"
-          width={80}
-          height={80}
+          width={100}
+          height={100}
         />
       )}
       <div className="flex-[0_1_20vh] flex items-center flex-row gap-x-4 mb-[2vh] pb-[2vh] min-h-fit justify-center">

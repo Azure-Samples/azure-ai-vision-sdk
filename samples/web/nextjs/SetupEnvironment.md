@@ -26,7 +26,7 @@ node -e "require('readline') .createInterface({input:process.stdin,output:proces
 
 3. NPM Package
 
-To install the SDK via NPM, use the following command:
+To install the SDK via NPM, run the following command in the root of the app folder:
 
 ```sh
 npm install azure-ai-vision-faceanalyzer

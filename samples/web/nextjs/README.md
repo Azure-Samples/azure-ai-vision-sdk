@@ -5,26 +5,26 @@
 1. [Introduction](#introduction)
 2. [Prerequisites](#prerequisites)
 3. [Get started](#get-started)
-   1. [Build and run sample App](#build-and-run-sample-app)
+   1. [Build and run sample app in Next.js, Angular, or Vue.js](#build-and-run-sample-app-nextjs-angular-vuejs)
    2. [Integrate face analysis into your own application](#integrate-face-analysis-into-your-own-application)
       1. [Obtaining a session token](#obtaining-a-session-token)
       2. [Integration with JavaScript](#integration-with-javascript)
       3. [Integration with HTML](#integration-with-html)
       4. [Hosting environment updates](#hosting-environment-updates)
       5. [Deployment](#deployment)
-4. [Set up the environment](#set-up-the-environment)
+4. [Set up the environment](SetupEnvironment.md)
 5. [Framework specific integration notes](#framework-specific-integration-notes)
-   1. [React](#react)
+   1. [React or Next.js](#react)
    2. [Angular](#angular)
    3. [Vue.js](#vuejs)
-6. [Localization Support](#localization-support)
-   1. [Supported Languages](#supported-languages)
-   2. [Setting a Locale](#setting-a-locale)
+6. [Localization Support](#🌍-localization-support)
+   1. [Supported Languages](#📚-supported-languages)
+   2. [Setting a Locale](#🌐-setting-a-locale)
       1. [Example - Enabling Portuguese](#example---enabling-portuguese)
-   3. [Customizing Language Strings](#customizing-language-strings)
+   3. [Customizing Language Strings](#📝-customizing-language-strings)
       1. [Default Language Strings (English - en)](#default-language-strings-english---en)
       2. [Example - Custom Language Overrides](#example---custom-language-overrides)
-   4. [Right-to-Left (RTL) Language Support](#right-to-left-(rtl)-language-support)
+   4. [Right-to-Left (RTL) Language Support](#↔️-right-to-left-rtl-language-support)
       1. [Example - Arabic RTL Support](#example---arabic-rtl-support)
 7. [UX Customization](#ux-customization)
    1. [Increase your brightness image](#increase-your-brightness-image)
@@ -49,25 +49,17 @@ Depending on your scenario, you can choose from either one of the following scen
 - [Build and run sample app](#build-and-run-sample-app) 
 - [Integrate face analysis into your own application](#integrate-face-analysis-into-your-own-application)
 
-### Build and run sample app (Next.js, AngularJS, Vue.js)
+### Build and run sample app (Next.js, Angular, Vue.js)
 
-This is an illustration of how to quickly run a sample app built with Next.js, AngularJS, or Vue.js.
+This is an illustration of how to quickly run a sample app built with Next.js, Angular, or Vue.js.
 
-To get started, make sure that you have downloaded the CLI for the web framework that you want to use.
-- [Next.js Installation](https://nextjs.org/docs/getting-started/installation#manual-installation)
-- [AngularJS CLI Installation](https://angular.dev/installation#install-angular-cli)
-- [Vue.js CLI Installation](https://cli.vuejs.org/guide/installation.html)
-
-Then follow these steps to run a sample app.
-
-1. In your local machine command line, navigate to the sample directory that you want to run.
+1. Follow the steps in [SetupEnvironment.md](./SetupEnvironment.md) to install the npm package.<br />**IMPORTANT:** use any of the following sample directories as "the root of the app" referenced in [SetupEnvironment.md](./SetupEnvironment.md).
 - Next.js: [`samples/web/nextjs/face-nextjs/`](./face-nextjs/)
-- AngularJS: [`samples/web/angularjs/face-angularjs/`](../angularjs/face-angularjs/)
+- Angular: [`samples/web/angularjs/face-angularjs/`](../angularjs/face-angularjs/)
 - Vue.js: [`samples/web/vuejs/face-vuejs/`](../vuejs/face-vuejs/)
-2. Run through the steps in [SetupEnvironment.md](./SetupEnvironment.md) to install the npm package.
-3. Copy `faceanalyzer-assets/` folder from `node_modules/azure-ai-vision-faceanalyzer` to `public/`.
-4. Update the variables in `.env.local` with your own face-api key and endpoint.
-5. Run the app with `npm run dev`. On the first run, the development server may take a few minutes to initialize. See `package.json` for other framework-specific commands.
+2. Copy `faceanalyzer-assets/` folder from `node_modules/azure-ai-vision-faceanalyzer` to `public/`.
+3. Update the variables in `.env.local` with your own face-api key and endpoint.
+4. Run the app with `npm run dev`. On the first run, the development server may take a few minutes to initialize. See `package.json` for other framework-specific commands.
 
 Note: the [`samples/web/javascript`](../javascript/) contains a fully featured vanilla-javascript sample
 

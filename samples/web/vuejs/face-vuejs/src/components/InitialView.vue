@@ -11,9 +11,9 @@ function onFileChange(e: Event) {
   if (elem.files) {
     verifyImageUrl.value = URL.createObjectURL(elem.files[0]);
     verifyImage.value = elem.files[0];
-    } else {
-      verifyImage.value = undefined;
-    }
+  } else {
+    verifyImage.value = undefined;
+  }
 }
 </script>
 
@@ -23,16 +23,15 @@ function onFileChange(e: Event) {
     <div class="feedback" id="feedbackContainer" role="status" hidden></div>
     <div id="container"></div>
     <div class="row" id="verifyImageRow">
-      <label class="verify-input" for="useVerifyImageFileInput"
-        >Select verify image:</label
-      >
-      <input
-        class="verify-input"
-        type="file"
-        id="useVerifyImageFileInput"
-        accept="image/*"
-        @change="onFileChange"
-      />
+      <label class="verify-input">
+        <input
+          type="file"
+          id="useVerifyImageFileInput"
+          accept="image/*"
+          @change="onFileChange"
+        />
+        Select Verify Image
+      </label>
     </div>
     <img v-if="verifyImage" :src="verifyImageUrl" id="verify-image-preview" />
     <div class="row">
@@ -72,6 +71,29 @@ img#verify-image-preview {
   max-height: 80px;
   margin-left: auto;
   margin-right: auto;
+}
+
+input#useVerifyImageFileInput {
+  display: none;
+}
+
+.verify-input {
+  position: relative;
+  color: white;
+  background-color: #838383;
+  display: flex;
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  cursor: pointer;
+}
+
+.verify-input:hover {
+  background-color: #9a9a9a;
 }
 
 @media screen and (max-width: 640px) {

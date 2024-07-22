@@ -2,6 +2,7 @@
 
 # local env files
 .env*.local
+.npmrc
 
 # Compiled output
 /dist

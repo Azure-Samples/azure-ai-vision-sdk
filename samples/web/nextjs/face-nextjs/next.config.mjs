@@ -1,5 +1,4 @@
 /** @type {import('next').NextConfig} */
-
-const nextConfig = {};
+import nextConfig from './nextConfig.json' assert { type: 'json' };
 
 export default nextConfig;
