@@ -53,10 +53,7 @@ Depending on your scenario, you can choose from either one of the following scen
 
 This is an illustration of how to quickly run a sample app built with Next.js, Angular, or Vue.js.
 
-1. Follow the steps in [SetupEnvironment.md](./SetupEnvironment.md) to install the npm package.<br />**IMPORTANT:** use any of the following sample directories as "the root of the app" referenced in [SetupEnvironment.md](./SetupEnvironment.md).
-- Next.js: [`samples/web/nextjs/face-nextjs/`](./face-nextjs/)
-- Angular: [`samples/web/angularjs/face-angularjs/`](../angularjs/face-angularjs/)
-- Vue.js: [`samples/web/vuejs/face-vuejs/`](../vuejs/face-vuejs/)
+1. Follow the steps in [SetupEnvironment.md](./SetupEnvironment.md) to install the npm package.<br />
 2. Copy `faceanalyzer-assets/` folder from `node_modules/azure-ai-vision-faceanalyzer` to `public/`.
 3. Update the variables in `.env.local` with your own face-api key and endpoint.
 4. Run the app with `npm run dev`. On the first run, the development server may take a few minutes to initialize. See `package.json` for other framework-specific commands.
