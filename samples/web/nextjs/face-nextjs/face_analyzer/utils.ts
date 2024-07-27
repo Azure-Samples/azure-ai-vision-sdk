@@ -9,34 +9,24 @@ export async function fetchTokenFromAPI(
   setLoadingToken?: (b: boolean) => void,
   setErrorMessage?: (msg: string) => void
 ): Promise<void> {
-  // This is just one example of how to generate a liveness session without exposing your api key or endpoint to the client side
+  // This is an example of how to generate a liveness session without exposing your api key or endpoint to the client side
+  let action = (file !== undefined) ? "detectLivenessWithVerify": "detectLiveness";
   let parameters: { [key: string]: string | boolean } = {
+    action,
     livenessOperationMode,
     sendResultsToClient,
     deviceCorrelationId: await getDummyDeviceId(),
   };
-
-  let sessionCreationHeaders: { [key: string]: string } = {};
-  let sessionCreationBody: string | FormData = new FormData();
-  let action = 'detectLiveness';
-  if (file === undefined) {
-    // Action: detectLiveness
-    // No file uploaded, therefore we are just checking liveness through camera feed
-    action = 'detectLiveness';
-    sessionCreationBody = JSON.stringify(parameters);
-    sessionCreationHeaders['Content-Type'] = 'application/json';
-  } else {
-    // Action: detectLivenessWithVerify
-    // File is uploaded, therefore we check liveness and verify that the person in camera is the same person
-    // as in the provided image
-    action = 'detectLivenessWithVerify';
+  let sessionCreationBody: FormData = new FormData();
+  sessionCreationBody.append('Parameters', JSON.stringify(parameters));
+  if (action === "detectLivenessWithVerify" && file !== undefined) {
+    // When action is detectLivenessWithVerify, file is uploaded, therefore we check liveness and
+    // verify that the person in camera is the same person as in the provided image
     sessionCreationBody.append('VerifyImage', file, file.name);
-    sessionCreationBody.append('Parameters', JSON.stringify(parameters));
   }
 
-  const res = await fetch(`/api/${action}/singleModal/sessions`, {
+  const res = await fetch(`/api/generateAccessToken`, {
     method: 'POST',
-    headers: sessionCreationHeaders,
     body: sessionCreationBody,
   });
 

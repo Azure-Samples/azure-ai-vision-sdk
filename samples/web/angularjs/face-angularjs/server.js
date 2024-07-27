@@ -25,72 +25,25 @@ app.get("/", (_req, res) => {
   res.sendFile(`${__dirname}/dist/face-angular-js/browser/index.html`);
 });
 
-// This is the server-side code example for generating access tokens of a liveness session without verify image, and without exposing API endpoint and key to the client-side.
-// DISCLAIMER: In your production environment, you should perform this step on your app-backend and pass down the session-authorization-token down to the frontend
-// For more information on how to orchestrate the liveness solution, please refer to https://aka.ms/azure-ai-vision-face-liveness-tutorial
-app.post("/api/detectLiveness/singleModal/sessions", async (req, res) => {
-  const parameters = req.body;
-  const livenessOperationMode = parameters.livenessOperationMode;
-  const sendResultsToClient = parameters.sendResultsToClient;
-  const deviceCorrelationId = parameters.deviceCorrelationId;
-
-  // Ensure parameters are within expectation
-  if (
-    !(
-      livenessOperationMode == "Passive" ||
-      livenessOperationMode == "PassiveActive"
-    )
-  ) {
-    return res.status(400).send({
-      message: "livenessOperationMode parameter not expected",
-      token: null,
-    });
-  }
-  if (typeof sendResultsToClient != "boolean") {
-    return res.status(400).send({
-      message: "sendResultsToClient parameter not expected",
-      token: null,
-    });
-  }
-  if (typeof deviceCorrelationId != "string") {
-    return res.status(400).send({
-      message: "deviceCorrelationId parameter not expected",
-      token: null,
-    });
-  }
-
-  // Note1: More information regarding each request parameter involved in creating a liveness session is here: https://aka.ms/face-api-reference-createlivenesssession
-  let formBody = JSON.stringify({
-    livenessOperationMode,
-    sendResultsToClient,
-    deviceCorrelationId,
-  });
-
-  // Token is fetched with API endpoint and key
-  // On server-side, the endpoint and key can be safely accessed without exposure to client-side
-  const result = await fetchTokenOnServer(
-    process.env.FACE_ENDPOINT,
-    process.env.FACE_KEY,
-    "detectLiveness", // detectLiveness for this endpoint
-    formBody // string for detectLiveness body
-  );
-  res.status(result.hasOwnProperty("error") ? 400 : 200).send(result);
-});
-
-// This is the server-side code example for generating access tokens of a liveness session with verify image without exposing API endpoint and key to the client-side.
-// DISCLAIMER: In your production environment, you should perform this step on your app-backend and pass down the session-authorization-token down to the frontend
+// This is the server-side code example for generating access tokens of a liveness session without exposing API endpoint and key to the client-side.
+// DISCLAIMER: In your production environment, you should perform this step on your app backend and pass down the session-authorization-token down to the frontend
 // For more information on how to orchestrate the liveness solution, please refer to https://aka.ms/azure-ai-vision-face-liveness-tutorial
 app.post(
-  "/api/detectLivenessWithVerify/singleModal/sessions",
+  "/api/generateAccessToken",
   upload.single("VerifyImage"),
   async (req, res) => {
-    const file = new Blob([req.file.buffer], { name: req.file.originalname });
+    let file = null;
     const parameters = JSON.parse(req.body.Parameters);
     const livenessOperationMode = parameters.livenessOperationMode;
     const sendResultsToClient = parameters.sendResultsToClient;
     const deviceCorrelationId = parameters.deviceCorrelationId;
+    const action = parameters.action;
 
-    if (file == null) {
+    if (req.file) {
+      file = new Blob([req.file.buffer], { name: req.file.originalname });
+    }
+
+    if (file == undefined && action == "detectLivenessWithVerify") {
       res.status(400).send({
         message: "VerifyImage not provided for detectLivenessWithVerify",
         token: null,
@@ -123,25 +76,35 @@ app.post(
       });
     }
 
-    // Note2: You can also create a liveness session with verification by attaching a verify image during session-create, reference: https://aka.ms/face-api-reference-createlivenesswithverifysession
-    let formBody = new FormData();
-    formBody.append(
-      "Parameters",
-      JSON.stringify({
-        livenessOperationMode,
-        sendResultsToClient,
-        deviceCorrelationId,
-      })
-    );
-    formBody.append("VerifyImage", file, file.name);
+    // Note1: More information regarding each request parameter involved in creating a liveness session is here: https://aka.ms/face-api-reference-createlivenesssession
+    let formBody = JSON.stringify({
+      livenessOperationMode,
+      sendResultsToClient,
+      deviceCorrelationId,
+    });
+
+    // Note2: You can create a liveness session with verification by attaching a verify image during session-create, reference: https://aka.ms/face-api-reference-createlivenesswithverifysession
+    if (action == "detectLivenessWithVerify") {
+      formBody = new FormData();
+      formBody.append(
+        "Parameters",
+        JSON.stringify({
+          livenessOperationMode,
+          sendResultsToClient,
+          deviceCorrelationId,
+        })
+      );
+      formBody.append("VerifyImage", file, file.name);
+    }
 
     // Token is fetched with API endpoint and key
     // On server-side, the endpoint and key can be safely accessed without exposure to client-side
+    // detectLiveness takes a stringified JSON object and detectLivenessWithVerify takes a multipart form
     const result = await fetchTokenOnServer(
       process.env.FACE_ENDPOINT,
       process.env.FACE_KEY,
-      "detectLivenessWithVerify", // detectLivenessWithVerify for this endpoint
-      formBody // FormData for detectLivenessWithVerify
+      action,
+      formBody
     );
     res.status(result.hasOwnProperty("error") ? 400 : 200).send(result);
     return;
