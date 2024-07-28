@@ -37,7 +37,7 @@ app.post(
     const livenessOperationMode = parameters.livenessOperationMode;
     const sendResultsToClient = parameters.sendResultsToClient;
     const deviceCorrelationId = parameters.deviceCorrelationId;
-    const action = parameters.action;
+    const action = req.body.Action;
 
     if (req.file) {
       file = new Blob([req.file.buffer], { name: req.file.originalname });
@@ -52,6 +52,12 @@ app.post(
     }
 
     // Ensure parameters are within expectation
+    if (!(action == "detectLiveness" || action == "detectLivenessWithVerify")) {
+      return res.status(400).send({
+        message: "action parameter not expected",
+        token: null,
+      });
+    }
     if (
       !(
         livenessOperationMode == "Passive" ||

@@ -16,7 +16,7 @@ export async function POST(request: Request) {
   const livenessOperationMode = parameters.livenessOperationMode;
   const sendResultsToClient = parameters.sendResultsToClient;
   const deviceCorrelationId = parameters.deviceCorrelationId;
-  const action = parameters.action;
+  const action = formData.get("Action");
 
   if (file == undefined && action == "detectLivenessWithVerify") {
     return Response.json(
@@ -29,6 +29,15 @@ export async function POST(request: Request) {
   }
 
   // Ensure parameters are within expectation
+  if (!(action == "detectLiveness" || action == "detectLivenessWithVerify")) {
+    return Response.json(
+      {
+        message: "action parameter not expected",
+        token: null,
+      },
+      { status: 400 }
+    );
+  }
   if (
     !(
       livenessOperationMode == "Passive" ||

@@ -14,12 +14,12 @@ export async function fetchTokenFromAPI(
   // This is an example of how to generate a liveness session without exposing your api key or endpoint to the client side
   let action = (file !== undefined) ? "detectLivenessWithVerify": "detectLiveness";
   let parameters: { [key: string]: string | boolean } = {
-    action,
     livenessOperationMode,
     sendResultsToClient,
     deviceCorrelationId: await getDummyDeviceId(),
   };
   let sessionCreationBody: FormData = new FormData();
+  sessionCreationBody.append('Action', action);
   sessionCreationBody.append('Parameters', JSON.stringify(parameters));
   if (action === "detectLivenessWithVerify" && file !== undefined) {
     // When action is detectLivenessWithVerify, file is uploaded, therefore we check liveness and
