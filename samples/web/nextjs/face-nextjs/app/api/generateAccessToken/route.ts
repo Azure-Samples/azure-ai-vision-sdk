@@ -117,6 +117,7 @@ const fetchTokenOnServer = async (
   try {
     let headers: { [key: string]: string } = {
       "Ocp-Apim-Subscription-Key": faceApiKey,
+      "X-MS-AZSDK-Telemetry": "sample=nextjs-face-web-sdk",
     };
     if (action === "detectLiveness") {
       headers["Content-Type"] = "application/json";

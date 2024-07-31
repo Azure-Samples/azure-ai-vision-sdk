@@ -124,9 +124,17 @@ app.listen(port, () => {
 });
 
 // Fetch Token Function
-const fetchTokenOnServer = async (faceApiEndPoint, faceApiKey, action, formBody) => {
+const fetchTokenOnServer = async (
+  faceApiEndPoint,
+  faceApiKey,
+  action,
+  formBody
+) => {
   try {
-    let headers = { "Ocp-Apim-Subscription-Key": faceApiKey };
+    let headers = {
+      "Ocp-Apim-Subscription-Key": faceApiKey,
+      "X-MS-AZSDK-Telemetry": "sample=vuejs-face-web-sdk",
+    };
     if (action === "detectLiveness") {
       headers["Content-Type"] = "application/json";
     }
