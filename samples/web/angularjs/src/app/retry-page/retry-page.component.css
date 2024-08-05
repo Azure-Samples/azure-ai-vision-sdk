@@ -30,7 +30,11 @@
     position: relative;
     justify-content: center;
   }
-  
+
+  .feedback-message {
+    width: 80%;
+    text-wrap: wrap;
+  }
   
   .feedback .item img {
     width: var(--height);

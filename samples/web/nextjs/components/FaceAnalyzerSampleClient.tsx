@@ -239,7 +239,7 @@ type RetryViewProps = {
 const RetryView = ({ errorMessage, retryFunction }: RetryViewProps) => {
   return (
     <div className="flex flex-col h-screen justify-start items-center py-24 gap-y-24 text-lg md:text-2xl">
-      <span className="text-center">{errorMessage}</span>
+      <p className="text-center w-[80%] text-wrap">{errorMessage}</p>
       {retryFunction !== undefined && (
         <div>
           <button onClick={retryFunction} className={buttonStyle}>

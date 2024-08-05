@@ -10,7 +10,7 @@ const errorMessage = ref<string>(props.error);
 
 <template>
   <div class="feedback">
-    <div class="item">
+    <div class="feedback-message">
       <span>{{ errorMessage }}</span>
     </div>
     <div class="item">
@@ -69,4 +69,9 @@ const errorMessage = ref<string>(props.error);
   padding: 0 10px;
   display: inline-block;
 }
+
+.feedback-message {
+    width: 80%;
+    text-wrap: wrap;
+  }
 </style>
