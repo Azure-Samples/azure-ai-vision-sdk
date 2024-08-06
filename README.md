@@ -8,6 +8,8 @@ languages:
 - kotlin
 - javascript
 - nextjs
+- angular
+- vuejs
 name: "Microsoft Azure AI Vision SDK Samples"
 description: "Learn how to use the Microsoft Azure AI Vision SDK to add computer vision features to your apps."
 products:
@@ -78,8 +80,10 @@ Please see the readme documents listed below for instructions on how to build an
 | ------------------------------------------------------------ | -------- | ---------------------------------------- |
 | [Kotlin sample app for Android](samples/kotlin/face) | Android | App with source code that demonstrates face analysis on Android |
 | [Swift sample app for iOS](samples/swift/face) | iOS | App with source code that demonstrates face analysis on iOS |
-| [NextJS sample app for Web](samples/nextjs/) | Web | App with source code that demonstrates face analysis on Web |
-| [JavaScript sample app for Web](samples/javascript/) | Web | App with source code that demonstrates face analysis on Web |
+| [Next.js sample app for Web](samples/web/nextjs/) | Web | App with source code that demonstrates face analysis on Web |
+| [Angular sample app for Web](samples/web/angularjs/) | Web | App with source code that demonstrates face analysis on Web |
+| [Vue.js sample app for Web](samples/web/vuejs/) | Web | App with source code that demonstrates face analysis on Web |
+| [JavaScript sample app for Web](samples/web/javascript/) | Web | App with source code that demonstrates face analysis on Web |
 
 ### API Reference Documentation
 

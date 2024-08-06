@@ -18,14 +18,6 @@ if [ -z "$bearerToken" ]; then
     exit 1
 fi
 
-# Query the token
-response=$(curl -s -o /dev/null -w "%{http_code}" -X GET --header "Authorization: Bearer ${bearerToken}" "https://face-sdk-gating-helper-2.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?id=${tokenId}")
-
-if [ "$response" -eq 200 ]; then
-  echo "Token exists."
-  curl -s -X GET --header "Authorization: Bearer ${bearerToken}" "https://face-sdk-gating-helper-2.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?id=${tokenId}"
-else
-  echo "Token does not exist. Status code: $response"
-  echo "Generating a new token..."
-  curl -s -X POST --header "Authorization: Bearer ${bearerToken}" "https://face-sdk-gating-helper-2.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?id=${tokenId}"
-fi
+# Generate the token
+echo "Generating a new token..."
+curl -s -X POST --header "Authorization: Bearer ${bearerToken}" "https://face-sdk-gating-helper-2.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?id=${tokenId}"

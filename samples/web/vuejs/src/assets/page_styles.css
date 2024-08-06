@@ -1,0 +1,126 @@
+* {
+    touch-action: pan-y;
+  }
+  
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    min-width: 100%;
+    margin: 0;
+    overflow: hidden;
+    overflow-y: auto;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  button,
+  input,
+  label,
+  select,
+  a,
+  .feedback {
+    font-size: 1.5rem;
+  }
+  .feedback {
+    position: relative;
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 50px;
+    --height: 30px;
+    line-height: 1.5;
+    display: none;
+    flex-direction: column;
+    padding: 2em 0;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  iframe#splash {
+    flex: 1 1 80vh;
+    position: relative;
+    background-color: white;
+    z-index: 99999;
+    border-width: 0px;
+    width: 100%;
+    min-height: 50vh;
+    max-height: 90dvh;
+    max-height: 70vh;
+  }
+  .row {
+    flex: 0 1 20vh;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    text-align: center;
+    min-height: fit-content;
+    margin-bottom: 2vh;
+    padding-bottom: 2vh;
+  }
+  .row > * {
+    margin-inline: 0.5rem;
+  }
+  body:not(.ms-Fabric) > :not(.camera, #splash) {
+    margin: 8px;
+    max-width: 90vw;
+    max-width: 90dvw;
+    overflow-wrap: break-word;
+  }
+  
+  .row,
+  #startButtonPassive,
+  #startButtonPassiveActive,
+  #continueButton {
+    position: relative;
+    z-index: 10;
+  }
+  [hidden] {
+    display: none !important;
+  }
+  
+  /* Responsive adjustment for smaller heights, if needed */
+  @media screen and (max-height: 500px) {
+    iframe#splash {
+      flex: 1 1 60vh;
+    }
+  
+    .row {
+      flex: 0 1 40vh;
+    }
+  }
+  
+  @media screen and (max-width: 300px) {
+    .row {
+      flex-direction: column; /* Stack buttons vertically */
+    }
+  
+    .row > * {
+      margin-top: 10px; /* Add some space between buttons */
+      margin-bottom: 10px;
+    }
+  }
+  
+  .feedback .item {
+    font-weight: 500;
+    font-size: 1.2em;
+    padding: 5px;
+  }
+  
+  .feedback .item img {
+    width: var(--height);
+    height: var(--height);
+  }
+  
+  .feedback .item span {
+    line-height: var(--height);
+    padding: 0 10px;
+    display: inline-block;
+  }
+  
+  .separationLine {
+    height: 1px;
+    background-color: gray;
+    margin: 10px 0;
+    width: 20vw;
+    min-width: 200px;
+  }
+  

@@ -1,0 +1,31 @@
+<iframe id="splash" title="splash" src="splash.html" role="status"></iframe>
+<div class="feedback" id="feedbackContainer" role="status" hidden></div>
+<div id="container"></div>
+<div class="row" id="verifyImageRow">
+  <label class="verify-input">
+    <input
+      type="file"
+      id="useVerifyImageFileInput"
+      accept="image/*"
+      (change)="setImage($event)"
+    />
+    Select Verify Image
+  </label>
+</div>
+<img *ngIf="verifyImage" [src]="imageObjectUrl" id="verify-image-preview" />
+<div class="row">
+  <fluent-button
+    class="ms-fontSize-l"
+    appearance="accent"
+    id="startPassiveButton"
+    (click)="initAnalyzer('Passive')"
+    >Start Passive</fluent-button
+  >
+  <fluent-button
+    class="ms-fontSize-l"
+    appearance="accent"
+    id="startPassiveActiveButton"
+    (click)="initAnalyzer('PassiveActive')"
+    >Start PassiveActive</fluent-button
+  >
+</div>
