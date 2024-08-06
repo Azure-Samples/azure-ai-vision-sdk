@@ -46,7 +46,7 @@ The Azure AI Vision FaceAnalyzer Web SDK is a client library intended to enable 
 
 Depending on your scenario, you can choose from either one of the following scenarios:
 
-- [Build and run sample app](#build-and-run-sample-app) 
+- [Build and run sample app](#build-and-run-sample-app-nextjs-angular-vuejs) 
 - [Integrate face analysis into your own application](#integrate-face-analysis-into-your-own-application)
 
 ### Build and run sample app (Next.js, Angular, Vue.js)
