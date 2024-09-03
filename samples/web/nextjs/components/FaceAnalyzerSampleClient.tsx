@@ -4,9 +4,6 @@ import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import dynamic from "next/dynamic";
 
-// Only import type because "azure-ai-vision-faceanalyzer" is already initialized in face_analyzer/face.tsx
-import type { FaceAnalyzedResult } from "azure-ai-vision-faceanalyzer";
-
 // Result View static assets
 const checkmarkCircleIcon = "CheckmarkCircle.png";
 const heartPulseIcon = "HeartPulse.png";

@@ -92,17 +92,6 @@ For rapid testing, you can initiate a liveness session by adding the <azure-ai-v
 <azure-ai-vision-faceanalyzer token="***FACE_API_SESSION_TOKEN***"></azure-ai-vision-faceanalyzer>
 ```
 
-#### Hosting environment updates
-
-This SDK uses WebAssembly, SharedArrayBuffer, and MediaDevices.getUserMedia() features from Web API. To host your web app, your hosting environment must support secure context. In particular, the response headers must include the following as baseline requirement:
-
- - `Content-Type` must be set properly according to the MIME type.
- - For top-level documents:
-    - `Cross-Origin-Opener-Policy` must be set to `same-origin` .
-    - `Cross-Origin-Embedder-Policy` must be set to `require-corp` (more widely supported) or `credentialless` (less widely supported).
- - For nested documents and subresources:
-    - `Cross-Origin-Resource-Policy` must not be empty and must be set appropriately.
-
 #### Deployment
 
 It's important to note that essential assets like WebAssembly (wasm) files and worker JavaScript files are packaged within the NPM distribution. During deployment to a production environment, it's essential to include these assets. As an example, you can deploy the 'faceanalyzer-assets' from the node_modules\azure-ai-vision-faceanalyzer folder to the root assets directory after the npm installation to ensure proper asset deployment.
