@@ -14,13 +14,6 @@ app.use(express.json());
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-// **IMPORTANT**: This middleware sets headers for all responses, static or not.
-app.all("*", function (req, res, next) {
-  res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
-  res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
-  next();
-});
-
 app.get("/", (_req, res) => {
   res.sendFile(`${__dirname}/dist/index.html`);
 });

@@ -73,14 +73,7 @@
               "buildTarget": "face-angular-js:build:development"
             }
           },
-          "defaultConfiguration": "development",
-          "options": {
-            "headers": {
-                "X-Frame-Options": "SAMEORIGIN",
-                "Cross-Origin-Opener-Policy": "same-origin",
-                "Cross-Origin-Embedder-Policy": "require-corp"
-            }
-          }
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
