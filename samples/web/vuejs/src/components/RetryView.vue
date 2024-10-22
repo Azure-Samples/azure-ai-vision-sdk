@@ -1,5 +1,6 @@
 <script setup lang="ts">
-/* NOTE: This is an EXAMPLE retry page for displaying errors from generating face liveness session. To see how to use the SDK in your application please see face-vuejs/src/components/AnalyzerView.vue */
+/* NOTE: This is an EXAMPLE retry page for displaying errors from generating face liveness session. 
+To see how to use the SDK in your application please see face-vuejs/src/components/LivenessDetectorView.vue */
 
 import { ref, defineProps } from "vue";
 

@@ -1,4 +1,5 @@
-/* NOTE: This is an EXAMPLE retry page for displaying errors from generating face liveness session. To see how to use the SDK in your application please see face-angularjs/src/face_analyzer/analyzer-page.component.ts */
+/* NOTE: This is an EXAMPLE retry page for displaying errors from generating face liveness session. 
+To see how to use the SDK in your application please see face-angularjs/src/face/liveness-detector-page.component.ts */
 
 import {
   CUSTOM_ELEMENTS_SCHEMA,
@@ -19,9 +20,9 @@ import {
 export class RetryPageComponent {
   @Input('errorMessage') errorMessage: string | undefined;
 
-  @Output() retryAnalyzer: EventEmitter<void> = new EventEmitter();
+  @Output() retryFaceLivenessDetection: EventEmitter<void> = new EventEmitter();
 
   onRetry() {
-    this.retryAnalyzer.emit();
+    this.retryFaceLivenessDetection.emit();
   }
 }

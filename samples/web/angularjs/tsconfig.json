@@ -9,7 +9,7 @@
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "esModuleInterop": true,
     "sourceMap": true,
     "declaration": false,

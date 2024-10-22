@@ -9,13 +9,12 @@ const checkmarkCircleIcon = "CheckmarkCircle.png";
 const heartPulseIcon = "HeartPulse.png";
 const personIcon = "Person.png";
 
-const FaceAnalyzerComponent = dynamic(() => import("@/face_analyzer/face"), {
+const FaceLivenessDetectorComponent = dynamic(() => import("@/face/face"), {
   ssr: false,
 });
 
 type LivenessOperationMode = "Passive" | "PassiveActive";
-
-type AnalyzerState = "Initial" | "Analyzer" | "Result" | "Retry";
+type LivenessDetectorState = 'Initial' | 'LivenessDetector' | 'Result' | 'Retry';
 
 const buttonStyle =
   "relative text-white bg-[#036ac4] hover:bg-[#0473ce] flex grow-1 px-2.5 py-1.5 rounded-md text-sm md:text-[1.1rem]";
@@ -26,14 +25,14 @@ const imageButtonStyle =
 // These components are separated from the original page.tsx because
 // Next.js App Directory separately renders static and interactive components as server and client components.
 // Learn more: https://nextjs.org/docs/app/building-your-application/rendering
-export default function FaceAnalyzerSampleClient() {
+export default function FaceLivenessDetectorSampleClient() {
   const [verifyImage, setVerifyImage] = useState<File>();
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [livenessOperationMode, setLivenessOperationMode] =
     useState<LivenessOperationMode>("PassiveActive");
-  const [analyzerState, setAnalyzerState] = useState<AnalyzerState>("Initial");
-  const [faceAnalyzedResult, setFaceAnalyzedResult] =
-    useState<FaceAnalyzedResult | null>(null);
+  const [livenessDetectorState, setLivenessDetectorState] = useState<LivenessDetectorState>("Initial");
+  const [isDetectLivenessWithVerify, setIsDetectLivenessWithVerify] =
+    useState<Boolean>(false);
   const [livenessIcon, setLivenessIcon] = useState<string>(checkmarkCircleIcon);
   const [livenessText, setLivenessText] = useState<string>("Live Person");
   const [recognitionIcon, setRecognitionIcon] = useState<string>(checkmarkCircleIcon);
@@ -47,40 +46,40 @@ export default function FaceAnalyzerSampleClient() {
     }
   }
 
-  function initFaceAnalyzer(livenessOperation: LivenessOperationMode) {
+  function initFaceLivenessDetector(livenessOperation: LivenessOperationMode) {
     setLivenessOperationMode(livenessOperation);
-    setAnalyzerState("Analyzer");
+    setLivenessDetectorState("LivenessDetector"); 
   }
 
-  function continueFaceAnalyzer() {
-    setAnalyzerState("Initial");
+  function continueFaceLivenessDetector() {
+    setLivenessDetectorState("Initial");
     setVerifyImage(undefined);
   }
 
-  function displayResult(analyzedResult: FaceAnalyzedResult | null) {
-    setFaceAnalyzedResult(analyzedResult);
-    setAnalyzerState("Result");
+  function displayResult(isDetectLivenessWithVerify: Boolean) {
+    setIsDetectLivenessWithVerify(isDetectLivenessWithVerify);
+    setLivenessDetectorState("Result");
   }
 
   function fetchFailureCallback(error: string) {
     setErrorMessage(error);
-    setAnalyzerState("Retry");
+    setLivenessDetectorState("Retry");
   }
 
   return (
     <>
-      {analyzerState === "Initial" && (
+      {livenessDetectorState === "Initial" && (
         <InitialView
           verifyImage={verifyImage}
           handleFile={handleFile}
-          initFaceAnalyzer={initFaceAnalyzer}
+          initFaceLivenessDetector={initFaceLivenessDetector}
         />
       )}
-      {analyzerState === "Analyzer" && (
-        <FaceAnalyzerComponent
+      {livenessDetectorState === "LivenessDetector" && (
+        <FaceLivenessDetectorComponent
           livenessOperationMode={livenessOperationMode}
           file={verifyImage}
-          setFaceAnalyzerResult={displayResult}
+          setIsDetectLivenessWithVerify={displayResult}
           fetchFailureCallback={fetchFailureCallback}
           setLivenessIcon={setLivenessIcon}
           setLivenessText={setLivenessText}
@@ -88,21 +87,21 @@ export default function FaceAnalyzerSampleClient() {
           setRecognitionText={setRecognitionText}
         />
       )}
-      {analyzerState === "Result" && (
+      {livenessDetectorState === "Result" && (
         <ResultView
           livenessIcon={livenessIcon}
           livenessText={livenessText}
           recognitionIcon={recognitionIcon}
           recognitionText={recognitionText}
-          continueFunction={continueFaceAnalyzer}
-          faceAnalyzedResult={faceAnalyzedResult}
+          continueFunction={continueFaceLivenessDetector}
+          isDetectLivenessWithVerify={isDetectLivenessWithVerify}
         />
       )}
       {/* Retry (in cases of failure) for token retrieval */}
-      {analyzerState === "Retry" && (
+      {livenessDetectorState === "Retry" && (
         <RetryView
           errorMessage={errorMessage}
-          retryFunction={continueFaceAnalyzer}
+          retryFunction={continueFaceLivenessDetector}
         />
       )}
     </>
@@ -113,12 +112,12 @@ export default function FaceAnalyzerSampleClient() {
 type InitialViewProps = {
   verifyImage: File | undefined;
   handleFile: (e: ChangeEvent<HTMLInputElement>) => void;
-  initFaceAnalyzer: (s: LivenessOperationMode) => void;
+  initFaceLivenessDetector: (s: LivenessOperationMode) => void;
 };
 const InitialView = ({
   verifyImage,
   handleFile,
-  initFaceAnalyzer,
+  initFaceLivenessDetector,
 }: InitialViewProps) => {
   return (
     <>
@@ -156,14 +155,14 @@ const InitialView = ({
       <div className="flex-[0_1_20vh] flex items-center flex-row gap-x-4 mb-[2vh] pb-[2vh] min-h-fit justify-center">
       <button
           type="button"
-          onClick={() => initFaceAnalyzer("Passive")}
+          onClick={() => initFaceLivenessDetector("Passive")}
           className={buttonStyle}
         >
           Start Passive
         </button>
         <button
           type="button"
-          onClick={() => initFaceAnalyzer("PassiveActive")}
+          onClick={() => initFaceLivenessDetector("PassiveActive")}
           className={buttonStyle}
         >
           Start PassiveActive
@@ -175,7 +174,7 @@ const InitialView = ({
 
 // This component displays the results of the detection
 type ResultViewProps = {
-  faceAnalyzedResult: FaceAnalyzedResult | null;
+  isDetectLivenessWithVerify: Boolean;
   livenessIcon: string;
   livenessText: string;
   recognitionIcon: string;
@@ -183,7 +182,7 @@ type ResultViewProps = {
   continueFunction?: () => void;
 };
 const ResultView = ({
-  faceAnalyzedResult,
+  isDetectLivenessWithVerify,
   livenessIcon,
   livenessText,
   recognitionIcon,
@@ -202,8 +201,7 @@ const ResultView = ({
           <span>{livenessText}</span>
         </div>
 
-        {faceAnalyzedResult?.recognitionResult.status !== undefined &&
-          faceAnalyzedResult.recognitionResult.status > 0 && (
+        {isDetectLivenessWithVerify && (
             <>
               <div className="w-40 h-0 border border-transparent border-t-gray-500" />
               <div className="flex flex-row items-center gap-x-2">
