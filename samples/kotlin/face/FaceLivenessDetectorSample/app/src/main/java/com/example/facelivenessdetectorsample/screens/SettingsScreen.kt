@@ -139,15 +139,6 @@ fun SettingsScreen(
             )
             Text(text = "PassiveActive", fontSize = 16.sp)
         }
-        Row(
-            verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 30.dp)
-        ) {
-            Checkbox(
-                checked = settingsViewModel.experimentalMode,
-                onCheckedChange = settingsViewModel::updatesetExperimentalMode
-            )
-            Text(text = "ExperimentalMode(non-public data collection AAR API only)", fontSize = 16.sp)
-        }
 
         Spacer(modifier = Modifier.weight(1f))
 

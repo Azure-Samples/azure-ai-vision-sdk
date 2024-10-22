@@ -48,12 +48,6 @@ class SettingsViewModel(private val sharedPreferences: SharedPreferences) : View
         )
     )
         private set
-    var experimentalMode by mutableStateOf(
-        sharedPreferences.getBoolean(
-            SharedPrefKeys.EXPERIMENTAL_MODE, false
-        )
-    )
-        private set
 
     fun updateFaceApiEndpoint(value: String) {
         faceApiEndpoint = value
@@ -78,10 +72,6 @@ class SettingsViewModel(private val sharedPreferences: SharedPreferences) : View
     fun updatesetPassiveActive(value: Boolean) {
         passiveActive = value
         sharedPreferences.edit().putBoolean(SharedPrefKeys.PASSIVE_ACTIVE, value).apply()
-    }
-    fun updatesetExperimentalMode(value: Boolean) {
-        experimentalMode = value
-        sharedPreferences.edit().putBoolean(SharedPrefKeys.EXPERIMENTAL_MODE, value).apply()
     }
 
     init {
