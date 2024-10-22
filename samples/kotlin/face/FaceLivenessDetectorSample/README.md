@@ -100,7 +100,9 @@ See [GET_FACE_ARTIFACTS_ACCESS](../../../../GET_FACE_ARTIFACTS_ACCESS.md).
 * You need to add the following dependencies to apps' build.grade.kts `plugins` section.
 ```
 plugins {
-    id 'kotlin-parcelize'
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 ```
