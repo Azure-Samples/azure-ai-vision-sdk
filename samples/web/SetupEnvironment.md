@@ -29,5 +29,5 @@ node -e "require('readline') .createInterface({input:process.stdin,output:proces
 To install the SDK via NPM, run the following command in the root of the app folder:
 
 ```sh
-npm install azure-ai-vision-faceanalyzer@latest
+npm install azure-ai-vision-face-ui@latest
 ```
