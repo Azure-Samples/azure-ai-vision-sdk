@@ -107,6 +107,7 @@ plugins {
 * You need to add the following dependencies to apps' build.grade.kts `dependencies` section.
 ```
     implementation("com.azure.ai:azure-ai-vision-face-ui:0.18.0-beta.1")
+    implementation("com.azure.android:azure-core-http-httpurlconnection:1.0.0-beta.10")
 ```
 * You need to add repository in the settings.gradle.kts for dependencyResolutionManagement
 ```
