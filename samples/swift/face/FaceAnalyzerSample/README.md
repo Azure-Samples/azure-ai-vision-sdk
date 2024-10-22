@@ -4,7 +4,7 @@ In this sample, you will learn how to build and run the face liveness detection 
 
 ### API Reference Documentation
 
-* Swift API reference documents: [Azure SDK for iOS Docs](https://azure.github.io/azure-sdk-for-ios/), [AzureAIVisionCore](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionCore/index.html), [AzureAIVisionFace](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionFace/index.html)
+* Swift API reference documents: [Azure SDK for iOS Docs](https://azure.github.io/azure-sdk-for-ios/), [AzureAIVisionCore](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionCore/index.html), [AzureAIVisionFaceUI](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionFaceUI/index.html)
 
 ## Prerequisites
 
@@ -52,7 +52,7 @@ In this sample, you will learn how to build and run the face liveness detection 
          ```
 
          ```
-         https://msface.visualstudio.com/SDK/_git/AzureAIVisionFace.xcframework
+         https://msface.visualstudio.com/SDK/_git/AzureAIVisionFaceUI.xcframework
          ````
 
       - You will see a pop-up window asking for username and password. Make a random username and use the accessToken from previous step to be the password.
@@ -63,24 +63,24 @@ In this sample, you will learn how to build and run the face liveness detection 
          - use the access token from [GET_FACE_ARTIFACTS_ACCESS](../../../../GET_FACE_ARTIFACTS_ACCESS.md) as a "password" to clone the following repositories, then manually copy the files to your project.
             ```
             git clone https://username:{accessToken}@msface.visualstudio.com/SDK/_git/AzureAIVisionCore.xcframework 
-            git clone https://username:{accessToken}@msface.visualstudio.com/SDK/_git/AzureAIVisionFace.xcframework 
+            git clone https://username:{accessToken}@msface.visualstudio.com/SDK/_git/AzureAIVisionFaceUI.xcframework 
             ```
 
             Note: "accessToken" is the only required parameter here.
 
-         - After cloning the repositories, you should see 'AzureAIVisionCore.xcframework' and 'AzureAIVisionFace.xcframework' as two separate folders in your local path. The frameworks you should use are located under the parent folders, like:
+         - After cloning the repositories, you should see 'AzureAIVisionCore.xcframework' and 'AzureAIVisionFaceUI.xcframework' as two separate folders in your local path. The frameworks you should use are located under the parent folders, like:
             ```
             AzureAIVisionCore.xcframework/AzureAIVisionCore.xcframework
-            AzureAIVisionFace.xcframework/AzureAIVisionFace.xcframework
+            AzureAIVisionFaceUI.xcframework/AzureAIVisionFaceUI.xcframework
             ```
             Ensure their disk size is larger than 100MB. If not, check your Git LFS installation and initialization, then run the following commands in each repository directory:
             ```
             git lfs pull
             ```
-         - Open your Xcode project and navigate to Target -> General -> Frameworks, Libraries, and Embedded Content. Remove any existing Swift Package Manager dependencies for 'AzureAIVisionCore.xcframework' and 'AzureAIVisionFace.xcframework' if they are defined that way. Choose "Add Other", then "Add files", and add both frameworks from your cloned repositories path:
+         - Open your Xcode project and navigate to Target -> General -> Frameworks, Libraries, and Embedded Content. Remove any existing Swift Package Manager dependencies for 'AzureAIVisionCore.xcframework' and 'AzureAIVisionFaceUI.xcframework' if they are defined that way. Choose "Add Other", then "Add files", and add both frameworks from your cloned repositories path:
             ```
             localPath\AzureAIVisionCore.xcframework\AzureAIVisionCore.xcframework
-            localPath\AzureAIVisionFace.xcframework\AzureAIVisionFace.xcframework
+            localPath\AzureAIVisionFaceUI.xcframework\AzureAIVisionFaceUI.xcframework
             ```
             Mark them as "Embedded & Sign".
 
@@ -90,12 +90,12 @@ In this sample, you will learn how to build and run the face liveness detection 
          ```ruby
          # add repos as source
          source 'https://msface.visualstudio.com/SDK/_git/AzureAIVisionCore.podspec'
-         source 'https://msface.visualstudio.com/SDK/_git/AzureAIVisionFace.podspec'
+         source 'https://msface.visualstudio.com/SDK/_git/AzureAIVisionFaceUI.podspec'
 
          target 'YourBuildTargetNameHere' do
             # add the pods here, optionally with version specification as needed
             pod 'AzureAIVisionCore', '0.17.1-beta.1'
-            pod 'AzureAIVisionFace', '0.17.1-beta.1'
+            pod 'AzureAIVisionFaceUI', '0.17.1-beta.1'
          end
          ```
 
@@ -124,7 +124,7 @@ Now that you have setup your environment you can either:
 ## Build and run sample App
 
 1. Download the sample App folder. Double click the .xcodeproj file. This will open the project in Xcode.
-2. Add package dependency through Swift Package Manager, as mentioned before. You should add both AzureAIVisionFace.xcframework and AzureAIVisionCore.xcframework into the project. If you failed to use Swift Package Manager to add the frameworks, Please consider using alternative ways like cloning the source Git repositories or CocoaPods in [Set up the environment](#set-up-the-environment).
+2. Add package dependency through Swift Package Manager, as mentioned before. You should add both AzureAIVisionFaceUI.xcframework and AzureAIVisionCore.xcframework into the project. If you failed to use Swift Package Manager to add the frameworks, Please consider using alternative ways like cloning the source Git repositories or CocoaPods in [Set up the environment](#set-up-the-environment).
 3. Set the App bundle identifier and developer team in "XCode -> Targets -> Signing & Capabilities" using your Apple developer account information.
 4. Now attach your phone to the Mac. You should get prompt on the phone asking you to "Trust" the Mac. Enable the trust.
 5. The phone should now show up in the Xcode top bar. Your iPhone name should be visible.
@@ -174,7 +174,7 @@ Here are the recommended steps you should consider to follow during your integra
 
 ### 2. Add package dependency
 
-   In the "Xcode -> Files -> Add Package Dependencies", add the AzureAIVisionCore.xcframework, AzureAIVisionFace.xcframework as mentioned in [Set up the environment](#set-up-the-environment).
+   In the "Xcode -> Files -> Add Package Dependencies", add the AzureAIVisionCore.xcframework, AzureAIVisionFaceUI.xcframework as mentioned in [Set up the environment](#set-up-the-environment).
 
 ### 3. Copy the required files
 
