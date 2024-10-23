@@ -1,5 +1,5 @@
 /* NOTE: This is an EXAMPLE result page for displaying the result of the face liveness session on the client-side. For production, it is recommended that the results of the face liveness session should not be sent to client for security.
-To see how to use the SDK in your application please see face-angularjs/src/face_analyzer/analyzer-page.component.ts */
+To see how to use the SDK in your application please see face-angularjs/src/face/liveness-detector-page.component.ts */
 
 import { NgIf } from '@angular/common';
 import {
@@ -28,7 +28,7 @@ export class ResultPageComponent implements OnInit {
   @Input('livenessCondition') livenessCondition: boolean = false;
   @Input('livenessText') livenessText: string = '';
 
-  @Output() continueAnalyzer: EventEmitter<void> = new EventEmitter();
+  @Output() continueLivenessDetection: EventEmitter<void> = new EventEmitter();
 
   recognitionIcon: string | undefined;
   livenessIcon: string = '';
@@ -44,6 +44,6 @@ export class ResultPageComponent implements OnInit {
   }
 
   onContinue() {
-    this.continueAnalyzer.emit();
+    this.continueLivenessDetection.emit();
   }
 }

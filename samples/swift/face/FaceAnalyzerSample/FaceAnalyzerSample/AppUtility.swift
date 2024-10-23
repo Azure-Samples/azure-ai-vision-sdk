@@ -8,9 +8,23 @@
 import Foundation
 import UIKit
 
+enum LivenessMode {
+    case passive
+    case passiveActive
+
+    var livenessOperationMode: String {
+        switch self {
+        case .passive:
+            return "Passive"
+        case .passiveActive:
+            return "PassiveActive"
+        }
+    }
+}
+
 // this method is for sample App demonstration purpose, the session token should be obtained in customer backend
 func obtainToken(usingEndpoint endpoint: String,
-                 key: String, withVerify: Bool, sendResultsToClient: Bool, verifyImage: Data? = nil) -> String? {
+                 key: String, withVerify: Bool, sendResultsToClient: Bool, verifyImage: Data? = nil, livenessOperationMode: String = "PassiveActive") -> String? {
     var createSessionUri = URL(string: endpoint + "/face/v1.1-preview.1/detectLiveness/singleModal/sessions")!
     if (withVerify)
     {
@@ -22,7 +36,7 @@ func obtainToken(usingEndpoint endpoint: String,
     request.setValue(key, forHTTPHeaderField: "Ocp-Apim-Subscription-Key")
 
     let parameters: [String: Any] = [
-        "livenessOperationMode": "Passive",
+        "livenessOperationMode": livenessOperationMode,
         "sendResultsToClient": sendResultsToClient,
         "deviceCorrelationId": UIDevice.current.identifierForVendor?.uuidString ?? UUID().uuidString,
     ]
@@ -90,7 +104,7 @@ func obtainToken(usingEndpoint endpoint: String,
                     if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
                         if let authTokenValue = json["authToken"] as? String {
                             authToken = authTokenValue
-                            print(authToken)
+                            print(authToken as Any)
                         }
                     }
                 } catch {

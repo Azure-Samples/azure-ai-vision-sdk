@@ -1,5 +1,6 @@
 <script setup lang="ts">
-/* NOTE: This is an EXAMPLE splash page for starting the face liveness session. To see how to use the SDK in your application please see face-vuejs/src/components/AnalyzerView.vue */
+/* NOTE: This is an EXAMPLE splash page for starting the face liveness session. 
+To see how to use the SDK in your application please see face-vuejs/src/components/LivenessDetectorView.vue */
 
 import { ref } from "vue";
 
@@ -40,7 +41,7 @@ function onFileChange(e: Event) {
         appearance="accent"
         id="startPassiveButton"
         @click="
-          $emit('initFaceAnalyzer', {
+          $emit('initFaceLivenessDetector', {
             file: verifyImage,
             livenessOperationMode: 'Passive',
           })
@@ -52,7 +53,7 @@ function onFileChange(e: Event) {
         appearance="accent"
         id="startPassiveActiveButton"
         @click="
-          $emit('initFaceAnalyzer', {
+          $emit('initFaceLivenessDetector', {
             file: verifyImage,
             livenessOperationMode: 'PassiveActive',
           })

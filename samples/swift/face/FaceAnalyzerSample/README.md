@@ -1,10 +1,10 @@
-# Get started with the Azure AI Vision Face Client SDK for iOS (Preview)
+# Get started with the Azure AI Vision Face UI SDK for iOS (Preview)
 
-In this sample, you will learn how to build and run the face liveness detection application. The Azure AI Vision Face Client SDK for iOS is currently in preview. The APIs are subject to change.
+In this sample, you will learn how to build and run the face liveness detection application. The Azure AI Vision Face UI SDK for iOS is currently in preview. The APIs are subject to change.
 
 ### API Reference Documentation
 
-* Swift API reference documents: [Azure SDK for iOS Docs](https://azure.github.io/azure-sdk-for-ios/), [AzureAIVisionCore](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionCore/index.html), [AzureAIVisionFace](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionFace/index.html)
+* Swift API reference documents: [Azure SDK for iOS Docs](https://azure.github.io/azure-sdk-for-ios/), [AzureAIVisionCore](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionCore/index.html), [AzureAIVisionFaceUI](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionFaceUI/index.html)
 
 ## Prerequisites
 
@@ -52,37 +52,54 @@ In this sample, you will learn how to build and run the face liveness detection 
          ```
 
          ```
-         https://msface.visualstudio.com/SDK/_git/AzureAIVisionFace.xcframework
+         https://msface.visualstudio.com/SDK/_git/AzureAIVisionFaceUI.xcframework
          ````
 
       - You will see a pop-up window asking for username and password. Make a random username and use the accessToken from previous step to be the password.
 
          Note: the username is just a placeholder, and it can be any random string.
 
-      - Alternatively, if SIP is enabled or you cannot resolve Git LFS issue for Swift Package Manager, you can download the packages by cloning the source Git repositories directly.
+      - If your Xcode's Git cannot be configured to enable Git LFS, [switch to using your system Git](https://developer.apple.com/documentation/xcode/building-swift-packages-or-apps-that-use-them-in-continuous-integration-workflows#Use-your-systems-Git-tooling), as follows:
+
+         - When you encounter error that says "Package Resolution Failed", dismiss with "Add Anyway". This will add a partially configured package dependency.
+
+         - If Xcode Command Line Tools is never installed on your machine, install it first [following instructions from Apple Developer website](https://developer.apple.com/library/archive/technotes/tn2339/_index.html).
+
+         - Run the following command from Terminal, from the directory where your .xcodeproj is located, as appropriate for your project. It will resolve the package through your system Git. Your system Git should already have Git LFS configured, as mentioned in Prerequisites section.
+
+            ```
+            xcodebuild -scmProvider system -resolvePackageDependencies
+            ```
+
+            > **Note**: You can also add `-project`, `-workspace`, and `-scheme` arguments as appropriate to target your development setup. Refer to the [xcodebuild (Command Line Tools) FAQ](https://developer.apple.com/library/archive/technotes/tn2339/_index.html) and `-help` section.
+
+         - Once the command above ran successfully, your project should be able to successfully resolve the dependency from Xcode as well.
+
+      - Alternatively, if you still cannot resolve Git LFS issue for Swift Package Manager, you can download the packages by cloning the source Git repositories directly. This should be the least preferred method, as it requires manual dependency version management and may lead to staleness or version conflicts.
+
          - use the access token from [GET_FACE_ARTIFACTS_ACCESS](../../../../GET_FACE_ARTIFACTS_ACCESS.md) as a "password" to clone the following repositories, then manually copy the files to your project.
             ```
             git clone https://username:{accessToken}@msface.visualstudio.com/SDK/_git/AzureAIVisionCore.xcframework 
-            git clone https://username:{accessToken}@msface.visualstudio.com/SDK/_git/AzureAIVisionFace.xcframework 
+            git clone https://username:{accessToken}@msface.visualstudio.com/SDK/_git/AzureAIVisionFaceUI.xcframework 
             ```
 
             Note: "accessToken" is the only required parameter here.
 
-         - After cloning the repositories, you should see 'AzureAIVisionCore.xcframework' and 'AzureAIVisionFace.xcframework' as two separate folders in your local path. The frameworks you should use are located under the parent folders, like:
+         - After cloning the repositories, you should see 'AzureAIVisionCore.xcframework' and 'AzureAIVisionFaceUI.xcframework' as two separate folders in your local path. The frameworks you should use are located under the parent folders, like:
             ```
             AzureAIVisionCore.xcframework/AzureAIVisionCore.xcframework
-            AzureAIVisionFace.xcframework/AzureAIVisionFace.xcframework
+            AzureAIVisionFaceUI.xcframework/AzureAIVisionFaceUI.xcframework
             ```
             Ensure their disk size is larger than 100MB. If not, check your Git LFS installation and initialization, then run the following commands in each repository directory:
             ```
             git lfs pull
             ```
-         - Open your Xcode project and navigate to Target -> General -> Frameworks, Libraries, and Embedded Content. Remove any existing Swift Package Manager dependencies for 'AzureAIVisionCore.xcframework' and 'AzureAIVisionFace.xcframework' if they are defined that way. Choose "Add Other", then "Add files", and add both frameworks from your cloned repositories path:
+         - Open your Xcode project and navigate to Target -> General -> Frameworks, Libraries, and Embedded Content. Remove any existing Swift Package Manager dependencies for 'AzureAIVisionCore.xcframework' and 'AzureAIVisionFaceUI.xcframework' if they are defined that way. Choose "Add Other", then "Add files", and add both frameworks from your cloned repositories path:
             ```
             localPath\AzureAIVisionCore.xcframework\AzureAIVisionCore.xcframework
-            localPath\AzureAIVisionFace.xcframework\AzureAIVisionFace.xcframework
+            localPath\AzureAIVisionFaceUI.xcframework\AzureAIVisionFaceUI.xcframework
             ```
-            Mark them as "Embedded & Sign".
+            Mark them as "Do Not Embed".
 
    - CocoaPods ([CocoaPods Guides - Getting Started](https://guides.cocoapods.org/using/getting-started.html))
       - Add the following lines to your project's Podfile. `'YourBuildTargetNameHere'` is an example target, and you should use your actual target project instead.
@@ -90,12 +107,12 @@ In this sample, you will learn how to build and run the face liveness detection 
          ```ruby
          # add repos as source
          source 'https://msface.visualstudio.com/SDK/_git/AzureAIVisionCore.podspec'
-         source 'https://msface.visualstudio.com/SDK/_git/AzureAIVisionFace.podspec'
+         source 'https://msface.visualstudio.com/SDK/_git/AzureAIVisionFaceUI.podspec'
 
          target 'YourBuildTargetNameHere' do
             # add the pods here, optionally with version specification as needed
             pod 'AzureAIVisionCore', '0.17.1-beta.1'
-            pod 'AzureAIVisionFace', '0.17.1-beta.1'
+            pod 'AzureAIVisionFaceUI', '0.17.1-beta.1'
          end
          ```
 
@@ -119,12 +136,12 @@ In this sample, you will learn how to build and run the face liveness detection 
 Now that you have setup your environment you can either:
 
 - [Build and run sample app](#build-and-run-sample-app) 
-- [Integrate face analysis into your own application](#integrate-face-analysis-into-your-own-application)
+- [Integrate face liveness detection into your own application](#integrate-face-analysis-into-your-own-application)
 
 ## Build and run sample App
 
 1. Download the sample App folder. Double click the .xcodeproj file. This will open the project in Xcode.
-2. Add package dependency through Swift Package Manager, as mentioned before. You should add both AzureAIVisionFace.xcframework and AzureAIVisionCore.xcframework into the project. If you failed to use Swift Package Manager to add the frameworks, Please consider using alternative ways like cloning the source Git repositories or CocoaPods in [Set up the environment](#set-up-the-environment).
+2. Add package dependency through Swift Package Manager, as mentioned before. You should add both AzureAIVisionFaceUI.xcframework and AzureAIVisionCore.xcframework into the project. If you failed to use Swift Package Manager to add the frameworks, Please consider using alternative ways like cloning the source Git repositories or CocoaPods in [Set up the environment](#set-up-the-environment).
 3. Set the App bundle identifier and developer team in "XCode -> Targets -> Signing & Capabilities" using your Apple developer account information.
 4. Now attach your phone to the Mac. You should get prompt on the phone asking you to "Trust" the Mac. Enable the trust.
 5. The phone should now show up in the Xcode top bar. Your iPhone name should be visible.
@@ -158,125 +175,97 @@ This mode checks the person liveness with verification against a provided face i
 3. The result is displayed as Liveness status (Real/Spoof), verification status (Recognized/NotRecognized), and verification confidence score.
 4. You can return to the main page by clicking "Continue".
 
-## Integrate face analysis into your own application
-Based on the provided sample App, here is the instructions on how to integrate face analysis function into your own App. First, face analysis using AzureAIVision SDK requires a Vision source and a Vision service to be configured. The Vision source for the mobile scenario defaults to built in camera on the mobile device. The Vision source is wrapped into a SwiftUI View object that is required for a preview (please refer to sample App file "CameraPreviewView.swift"). The Vision service requires Azure subscription. The Azure subscription prerequisites are also common to all scenarios.
-In the sample App, we provide sample views like: MainView.swift, LaunchView.swift, ResultView.swift, SettingsView.swift to help with the App flow. These files are not needed in your Application, and please take them for your reference only. More importantly, we provide the following example code to interact with the camera and the AzureAIVision SDK, which you should adapt into your own App properly. For your convenience, we put all those required files under the "FaceAnalyerSample/Core" folder.
+## Integrate face liveness detection into your own application
 
-Here are the recommended steps you should consider to follow during your integration. Also, here is an companion video that shows **[how to do the integration in an empty Xcode project](https://aka.ms/azure-ai-vision-face-liveness-client-sdk-ios-integration-video)**.
-
-[![iOS integration video front](../../../../docs/face/iOS-integration-video-front.jpg)](https://aka.ms/azure-ai-vision-face-liveness-client-sdk-ios-integration-video)
+Based on the provided sample App, please refer to `MainView.swift` for an example usage of the `FaceLivenessDetectorView`. Here are the steps to integrate the face liveness detection into your own application:
 
 ### 1. Configure your Xcode project
 
-   (1) in the "Xcode -> Targets -> Build Settings -> Swift Compiler - Language", select the "C++ and Objective-C Interoperability" to be "C++ / Objective-C++
+   1. in the "Xcode -> Targets -> Build Settings -> Swift Compiler - Language", select the "C++ and Objective-C Interoperability" to be "C++ / Objective-C++
 
-   (2) in the "Xcode -> Targets -> Info -> Custom iOS Target Properties", add Key "Privacy-Camera Usage Description" with your description, like "This App requires camera usage."
+   2. in the "Xcode -> Targets -> Info -> Custom iOS Target Properties", add Key "Privacy-Camera Usage Description" with your description, like "This App requires camera usage."
 
 ### 2. Add package dependency
 
-   In the "Xcode -> Files -> Add Package Dependencies", add the AzureAIVisionCore.xcframework, AzureAIVisionFace.xcframework as mentioned in [Set up the environment](#set-up-the-environment).
+   In the "Xcode -> Files -> Add Package Dependencies", add the AzureAIVisionCore.xcframework, AzureAIVisionFaceUI.xcframework as mentioned in [Set up the environment](#set-up-the-environment).
 
-### 3. Copy the required files
+### 3. Insert FaceLivenessDetectorView into your Screen-type View.
 
-   Copy all the files under FaceAnalyzerSample/Core folder into your project.
+Please refer to `MainView.swift` for an example usage of the `FaceLivenessDetectorView`.
+Here are more details about the `FaceLivenessDetectorView` parameters.
 
-### 4. Insert LivenessView into your UI logic
+For more information on how to orchestrate the liveness flow by utilizing the Azure AI Vision Face service, visit: https://aka.ms/azure-ai-vision-face-liveness-tutorial.
 
-   "LivenessView" is the view you should insert into your application to serve for the liveness detection.
-   Here are more details about the LivenessView init parameters.
+   1. `result: Binding<LivenessDetectionResult?>`
+   
+      **Required parameter.**
+      The result of liveness detection. It is only `nil` while the analysis has not completed.
 
-   For more information on how to orchestrate the liveness flow by utilizing the Azure AI Vision Face service, visit: https://aka.ms/azure-ai-vision-face-liveness-tutorial.
+      Define a `@Binding` of type `LivenessDetectionResult?` in your View to receive the result of the liveness detection, and provide this to `FaceLivenessDetectorView`.
+      In `MainView.swift` example, this `View` holds the source `@State` variable of the passed binding directly.
 
-   (1) sessionAuthorizationToken: String.
+   2. `sessionAuthorizationToken: String`
 
-   required parameter. Used to authorize the client and allow the client to establish the session connection to the server.
+      **Required parameter.**
+      Used to authorize the client and allow the client to establish the session connection to the server.
 
-   (2) withVerification: Boolean.
+    /// - Parameter deviceCorrelationId: The client-specified correlation ID, if required.
 
-   Optional parameter, default as false. This boolean indicates whether the liveness detection is with verification or not.
+   3. `verifyImageFileContent: Data?`
 
-   (3) referenceImage: UIImage?.
+      **Optional parameter**, default as `nil`.
+      This refers to the reference image, if provided in client.
+      For most production scenario, you should provide this in the App server when creating the session.
+      A non-`nil` value here requires that the provided `sessionAuthorizationToken` allows setting this value on client-side.
+      Else, re-specifying them here will result in an error.
 
-   Optional parameter, default as nil. This refers to the reference image provided in client. You can also provide this in the App server when creating the session.
+   4. `deviceCorrelationId: String?`
 
-   (4) completionHandler: @escaping (String, String)->Void.
+      **Optional parameter**, default as `nil`.
+      This refers to the device correlation identifier, if provided in client.
+      For most production scenario, you should provide this in the App server when creating the session.
+      A non-`nil` value here requires that the provided `sessionAuthorizationToken` allows setting this value on client-side.
+      Else, re-specifying them here will result in an error.
 
-   Optional parameter, default as empty function. Used to handle the liveness detection results and also help on the UI switch possibly, as shown in the FaceAnalyzerSample/MainView.swift, the completionHandler is set as:
-   ```
-   completionHandler: { resultMessage, resultId in
-                        sessionData.resultMessage = resultMessage
-                        sessionData.resultId = resultId
-                        DispatchQueue.main.async {
-                           withAnimation {
-                                 pageSelection.current = .result
-                           }
-                        }
-                     }
-   ```
-   In this case, the liveness result is processed to be a string "resultMessage" and saved in the sample App's "sessionData" object. The "resultId" represents the client requestId for trace logs purpose. You can modify the "completionHandler" definition and functionality here to process the liveness result in your own way and may also utilize it to help for your UI logic.
+Next, respond to the update of the passed binding in your `View`.
+In `MainView.swift` example, the `View` uses `onChange(of:perform:)` to demonstrate a more imperative way of handling the result, but you can also use a more SwiftUI-esque declarative way of handling the result, like:
 
-   (5) detailsHandler: @escaping (FaceAnalyzedDetails?)->Void.
+```swift
+struct HostView: View {
+    @State var livenessDetectionResult: LivenessDetectionResult? = nil
+    var token: String
+    var body: some View {
+        if livenessDetectionResult == nil {
+            FaceLivenessDetectorView(result: $livenessDetectionResult,
+                                     sessionAuthorizationToken: token)
+        } else if let result = livenessDetectionResult {
+            VStack {
+                switch result { 
+                    case .success(let result):
+                    /// <#handle success#>
+                    case .failure(let error):
+                    /// <#handle failure#>
+                }
+            }
+        }
+    }
+}
+```
 
-   Optional parameter, default as empty function. Used to handle the "digest". You can get the "digest" like:
-   ```
-   var digest = faceAnalyzedDetails?.digest
-   ```
-   This "digest" is recommended to be used to validate the integrity of the transport.
-   For more information, please refer to the later part: [Add validation for the integrity of the service result](#7-add-validation-for-the-integrity-of-the-service-result).
+### 4. Configure the liveness algorithm details for advanced settings
 
-   Create other views per your needs, like what we have in the sample App (MainView.swift, LaunchView.swift, etc) to start/end the process, and save the face analysis results for your usage.
+   With first 4 steps, you should be able to run liveness detection in your own project. Here are more advanced details for you to understand the API usage. The file `LaunchView.swift` contains the method on how the token was obtained.
 
-### 5. Configure the liveness algorithm details for advanced settings
-
-   With first 4 steps, you should be able to run liveness detection in your own project. Here are more advanced details for you to understand the API usage. The file LivenessActor.swift contains the method on how to create and initialize the "FaceAnalyzer". Specifically,
-
-   (1) ***Configuring the FaceAPI service to obtain the required session-authorization-token***
+   1. ***Configuring the FaceAPI service to obtain the required session-authorization-token***
    ```swift
    // this is for demo purpose only, session-authorization-token can be obtained in the App server directly
-   let sessionAuthorizationToken = obtainToken(...)
-   serviceOptions = try  VisionServiceOptions(endpoint: "")
-   serviceOptions?.authorizationToken = sessionAuthorizationToken
+   sessionData.token = obtainToken(...)
    ```
 
    Note:
    * A demo version on obtaining the token is in `AppUtility.swift` for the demo app to be built as an standalone solution, but this is not recommended.  The "session-authorization-token" is required to start a liveness session.  For more information on how to orchestrate the liveness flow by utilizing the Azure AI Vision Face service, visit: https://aka.ms/azure-ai-vision-face-liveness-tutorial.
 
-   (2) ***Configuring the face analyzer***
-   ```swift
-   let createOptions = try! FaceAnalyzerCreateOptions()
-   createOptions.faceAnalyzerMode = FaceAnalyzerMode.trackFacesAcrossImageStream
-   ```
-   (3)  ***Configuring the Analysis method***
-   ```swift
-   let methodOptions = try! FaceAnalysisOptions()
-   methodOptions.faceSelectionMode = FaceSelectionMode.largest
-   ```
-   (4)  ***Initializing the face analyzer***
-   ```swift
-   faceAnalyzer = try await FaceAnalyzer.create(serviceOptions: serviceOptions, input: visionSource, createOptions: createOptions)
-   ```
-   (5)  ***Registering listeners for analyzer events and results***
-   ```swift
-   faceAnalyzer?.addAnalyzingEventHandler{(analyzer: FaceAnalyzer, result: FaceAnalyzingResult) in
-       let faces = result.faces
-       let face = faces?[faces!.startIndex]
-       // your analyzingEventHandler
-   }
-
-   faceAnalyzer?.addAnalyzedEventHandler {[parameters] (analyzer: FaceAnalyzer, result: FaceAnalyzedResult) in
-       let faces = result.faces
-       let face = faces?[faces!.startIndex]
-       // your analyzedEventHandler
-   }
-   ```
-   (6)  ***Starting the analyzer***
-   ```swift
-   faceAnalyzer?.analyzeOnce(using: methodOptions, completionHandler: { (result, error) in
-       // your analyzeOnce completionHandler
-   })
-   ```
-
-### 6. Add required localizations
+### 5. Add required localizations
 
    All the on-screen prompt are defined with English as default language. We provide Chinese (simplified) as an example to add your localization.
 
@@ -284,12 +273,19 @@ Here are the recommended steps you should consider to follow during your integra
 
    (2) Refer to the Core/en.lproj and Core/zh-Hans.lproj to add the corresponding translation for all the added languages in your localizations.
 
-### 7. Add validation for the integrity of the service result
+### 6. Add validation for the integrity of the service result
 
    We highly recommend leveraging the "digest" generated within the solution to validate the integrity of the communication between your application and the Azure AI Vision Face service. This is necessary to ensure that the final liveness detection result is trustworthy. "Digest" is provided in the following two locations:
-1. The Face Analyzer running on your application.
+1. The `FaceLivenessDetectorView` running on your application.
 
-   In the FaceAnalyzedDetails object.
+   In the resulting `LivenessDetectionResult`:
+
+```swift
+if case let .success(success) = result {
+    sessionData.resultDigest = success.digest
+}
+```
+
 2. The Azure AI Vision Face service.
 
    The "digest" will be contained within the liveness detection result when calling the detectliveness/singlemodal/sessions/<session-id> REST call. Look for an example of the "digest" in the [tutorial](https://aka.ms/azure-ai-vision-face-liveness-tutorial) where the liveness detection result is shown.

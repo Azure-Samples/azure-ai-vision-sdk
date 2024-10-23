@@ -61,7 +61,12 @@ struct ImageSelectionView: View {
         }
         withAnimation {
             pageSelection.current = .clientStart
-            sessionData.token = obtainToken(usingEndpoint: sessionData.endpoint, key: sessionData.key, withVerify: true, sendResultsToClient: sessionData.sendResultsToClient, verifyImage: sessionData.referenceImageData)
+            sessionData.token = obtainToken(usingEndpoint: sessionData.endpoint,
+                                            key: sessionData.key,
+                                            withVerify: true,
+                                            sendResultsToClient: sessionData.sendResultsToClient,
+                                            verifyImage: sessionData.referenceImageData,
+                                            livenessOperationMode: sessionData.livenessMode.livenessOperationMode)
         }
     }
 }

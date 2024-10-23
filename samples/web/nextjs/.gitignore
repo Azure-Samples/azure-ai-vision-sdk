@@ -19,7 +19,7 @@
 
 # production
 /build
-public/faceanalyzer-assets
+public/facelivenessdetector-assets
 
 # misc
 .DS_Store

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /* NOTE: This is an EXAMPLE result page for displaying the result of the face liveness session on the client-side. For production, it is recommended that the results of the face liveness session should not be sent to client for security.
-To see how to use the SDK in your application please see face-vuejs/src/components/AnalyzerView.vue */
+To see how to use the SDK in your application please see face-vuejs/src/components/LivenessDetectorView.vue */
 import { ref, defineProps } from "vue";
 
 const checkIcon = 'CheckmarkCircle.png';

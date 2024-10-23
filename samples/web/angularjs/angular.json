@@ -27,8 +27,8 @@
               },
               {
                 "glob": "**/*",
-                "input": "./node_modules/azure-ai-vision-faceanalyzer/faceanalyzer-assets",
-                "output": "/faceanalyzer-assets"
+                "input": "./node_modules/azure-ai-vision-face-ui/facelivenessdetector-assets",
+                "output": "/facelivenessdetector-assets"
               }
             ],
             "styles": [
@@ -36,7 +36,7 @@
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
-              "azure-ai-vision-faceanalyzer"
+              "azure-ai-vision-face-ui"
             ]
           },
           "configurations": {

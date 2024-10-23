@@ -5,7 +5,7 @@
 import Foundation
 import SwiftUI
 import Combine
-import AzureAIVisionFace
+import AzureAIVisionFaceUI
 
 enum Page {
     case launch
@@ -37,6 +37,7 @@ class SessionData: ObservableObject {
     @Published var resultMessage = ""
     @Published var livenessWithVerify = false
     @Published var sendResultsToClient = true
+    @Published var livenessMode: LivenessMode = .passive
 
     var settingsConfigured: Bool {
         !endpoint.isEmpty && !key.isEmpty
@@ -46,7 +47,7 @@ class SessionData: ObservableObject {
 struct MainView: View {
     @EnvironmentObject var pageSelection: PageSelection
     @EnvironmentObject var sessionData: SessionData
-    @StateObject var livenessModel = LivenessModel()
+    @State var livenessDetectionResult: LivenessDetectionResult?
 
     var body: some View {
         ZStack {
@@ -58,26 +59,27 @@ struct MainView: View {
                 SettingsView()
 
             case .liveness:
-                LivenessView(sessionAuthorizationToken: sessionData.token!,
-                             withVerification: sessionData.livenessWithVerify,
-                             completionHandler: { resultMessage, resultId, resultDigest in
-                                sessionData.resultMessage = resultMessage
-                                sessionData.resultId = resultId
-                                sessionData.resultDigest = resultDigest
-                                DispatchQueue.main.async {
-                                    withAnimation {
-                                        pageSelection.current = .result
-                                    }
-                                }
-                            })
-                    .environmentObject(livenessModel)
+                FaceLivenessDetectorView(result: $livenessDetectionResult,
+                                         sessionAuthorizationToken: sessionData.token!)
+                .onChange(of: livenessDetectionResult) { result in
+                    sessionData.resultMessage = result?.message ?? "Unexpected"
+                    if case let .success(success) = result {
+                        sessionData.resultId = success.resultId
+                        sessionData.resultDigest = success.digest
+                    } else if case let .failure(error) = result,
+                              let resultId = error.resultId {
+                        sessionData.resultId = resultId
+                    }
+                    withAnimation {
+                        pageSelection.current = .result
+                    }
+                }
 
             case .result:
                 ResultView()
 
             case .clientStart:
                 ClientStartView()
-                    .environmentObject(livenessModel)
 
             case .imageSelection:
                 ImageSelectionView()

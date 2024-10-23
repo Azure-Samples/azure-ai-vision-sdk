@@ -5,7 +5,8 @@
 import Foundation
 import SwiftUI
 import AVFoundation
-import AzureAIVisionFace
+import AzureAIVisionCore
+import AzureAIVisionFaceUI
 
 public enum PixelFormat
 {
@@ -112,77 +113,6 @@ func getFrameFromImage(image: UIImage) ->VisionFrame {
     return frame
 }
 
-func RecognitionStatusToString(status: FaceRecognitionStatus) -> String {
-    switch status {
-    case .notComputed: return LocalizationStrings.recognitionStatusNotComputed
-    case .failed: return LocalizationStrings.recognitionStatusFailed
-    case .notRecognized: return LocalizationStrings.recognitionStatusNotRecognized
-    case .recognized: return LocalizationStrings.recognitionStatusRecognized
-    case .completedResultQueryableFromService: return LocalizationStrings.recognitionStatusCompletedResultQueryableFromService
-    default: return LocalizationStrings.recognitionStatusUnknown
-    }
-}
-
-func RecognitionFailureToString(reason: FaceRecognitionFailureReason) -> String {
-    switch reason {
-        case .excessiveFaceBrightness: return LocalizationStrings.recognitionFailureExcessiveFaceBrightness
-        case .excessiveImageBlurDetected: return LocalizationStrings.recognitionFailureExcessiveImageBlurDetected
-        case .faceEyeRegionNotVisible: return LocalizationStrings.recognitionFailureFaceEyeRegionNotVisible
-        case .faceNotFrontal: return LocalizationStrings.recognitionFailureFaceNotFrontal
-        case .none: return LocalizationStrings.recognitionFailureNone
-        case .faceNotFound: return LocalizationStrings.recognitionFailureFaceNotFound
-        case .multipleFaceFound: return LocalizationStrings.recognitionFailureMultipleFaceFound
-        case .contentDecodingError: return LocalizationStrings.recognitionFailureContentDecodingError
-        case .imageSizeIsTooLarge: return LocalizationStrings.recognitionFailureImageSizeIsTooLarge
-        case .imageSizeIsTooSmall: return LocalizationStrings.recognitionFailureImageSizeIsTooSmall
-        case .faceMouthRegionNotVisible: return LocalizationStrings.recognitionFailureFaceMouthRegionNotVisible
-        case .faceWithMaskDetected: return LocalizationStrings.recognitionFailureFaceWithMaskDetected
-        default: return LocalizationStrings.recognitionFailureGenericFailure
-    }
-}
-
-func LivenessStatusToString(status: FaceLivenessStatus) -> String {
-    switch status {
-        case .notComputed: return LocalizationStrings.livenessStatusNotComputed
-        case .failed: return LocalizationStrings.livenessStatusFailed
-        case .live: return LocalizationStrings.livenessStatusLive
-        case .spoof: return LocalizationStrings.livenessStatusSpoof
-        case .completedResultQueryableFromService: return LocalizationStrings.livenessStatusCompletedResultQueryableFromService
-        default: return LocalizationStrings.livenessStatusUnknown
-    }
-}
-
-func LivenessFailureReasonToString(reason: FaceLivenessFailureReason) -> String {
-    switch reason {
-        case .none: return LocalizationStrings.livenessFailureNone
-        case .faceMouthRegionNotVisible: return LocalizationStrings.livenessFailureFaceMouthRegionNotVisible
-        case .faceEyeRegionNotVisible: return LocalizationStrings.livenessFailureFaceEyeRegionNotVisible
-        case .excessiveImageBlurDetected: return LocalizationStrings.livenessFailureExcessiveImageBlurDetected
-        case .excessiveFaceBrightness: return LocalizationStrings.livenessFailureExcessiveFaceBrightness
-        case .faceWithMaskDetected: return LocalizationStrings.livenessFailureFaceWithMaskDetected
-        case .actionNotPerformed: return LocalizationStrings.livenessFailureActionNotPerformed
-        case .timedOut: return LocalizationStrings.livenessFailureTimedOut
-        case .environmentNotSupported: return LocalizationStrings.livenessFailureEnvironmentNotSupported
-        case .unexpectedClientError: return LocalizationStrings.livenessFailureUnexpectedClientError
-        case .unexpectedServerError: return LocalizationStrings.livenessFailureUnexpectedServerError
-        case .unexpected: return LocalizationStrings.livenessFailureUnexpected
-        default: return LocalizationStrings.livenessFailureUnknown
-    }
-}
-
-func FaceFeedbackToString(feedback: FaceAnalyzingFeedbackForFace) -> String {
-    switch feedback {
-        case .faceNotCentered: return LocalizationStrings.faceFeedbackFaceNotCentered
-        case .lookAtCamera: return LocalizationStrings.faceFeedbackLookAtCamera
-        case .moveBack: return LocalizationStrings.faceFeedbackMoveBack
-        case .moveCloser: return LocalizationStrings.faceFeedbackMoveCloser
-        case .continueToMoveCloser: return LocalizationStrings.faceFeedbackContinueToMoveCloser
-        case .tooMuchMovement: return LocalizationStrings.faceFeedbackTooMuchMovement
-        case .attentionNotNeeded: return LocalizationStrings.faceFeedbackAttentionNotNeeded
-        default: return LocalizationStrings.faceFeedbackHoldStill
-    }
-}
-
 func convertToRGBImage(inputImage: CGImage) -> CGImage? {
     let colorSpace = CGColorSpaceCreateDeviceRGB()
     let width = inputImage.width
@@ -224,6 +154,32 @@ extension UIImage {
             return normalizedImage
         } else {
             return self
+        }
+    }
+}
+
+extension LivenessDetectionResult {
+    var message: String {
+        get {
+            switch (self) {
+            case .success(let result):
+                var livenessResultString = "Liveness status: \(result.livenessStatus.localizedDescription)\n"
+                
+                if let recognitionStatus = result.recognitionStatus
+                {
+                    livenessResultString += "Verify Result: \(recognitionStatus.localizedDescription)\n"
+                    if let matchConfidence = recognitionStatus.matchConfidence {
+                        livenessResultString += "Verify Score: \(matchConfidence)\n"
+                    }
+                }
+                return livenessResultString
+            case .failure(let error):
+                return """
+                    Liveness status: Failure
+                    Liveness Failure Reason: \(error.livenessError.localizedDescription)
+                    Verify Failure Reason: \(error.recognitionError.localizedDescription)
+                """
+            }
         }
     }
 }

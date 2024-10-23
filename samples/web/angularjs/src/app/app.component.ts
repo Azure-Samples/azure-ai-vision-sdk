@@ -1,21 +1,18 @@
 /* NOTE: This is an EXAMPLE app page for controlling the state of the app. This is not required to use the web component.
-          For integration example, please see face-angularjs/src/face_analyzer/analyzer-page.component.ts */
+          For integration example, please see face-angularjs/src/face/liveness-detector-page.component.ts */
 
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LivenessOperationMode } from './utils';
 import { NgIf } from '@angular/common';
 
-// Components for different views based on state of the face analyzer
+// Components for different views based on state of the face liveness detector
 import { InitialComponent } from './initial-page/initial-page.component';
-import { AnalyzerPageComponent } from '../face_analyzer/analyzer-page.component';
+import { FaceLivenessDetectorComponent } from '../face/liveness-detector-page.component';
 import { ResultPageComponent } from './result-page/result-page.component';
 import { RetryPageComponent } from './retry-page/retry-page.component';
 
-// Only import type because "azure-ai-vision-faceanalyzer" is already initialized in face_analyzer/face.tsx
-import type { FaceAnalyzedResult } from 'azure-ai-vision-faceanalyzer';
-
-type AnalyzerState = 'Initial' | 'Analyzer' | 'Result' | 'Retry';
+type LivenessDetectorState = 'Initial' | 'LivenessDetector' | 'Result' | 'Retry';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +20,7 @@ type AnalyzerState = 'Initial' | 'Analyzer' | 'Result' | 'Retry';
   imports: [
     RouterOutlet,
     InitialComponent,
-    AnalyzerPageComponent,
+    FaceLivenessDetectorComponent,
     ResultPageComponent,
     RetryPageComponent,
     NgIf,
@@ -34,10 +31,9 @@ type AnalyzerState = 'Initial' | 'Analyzer' | 'Result' | 'Retry';
 export class AppComponent {
   title = 'face-angular';
 
-  // State of face analyzer, similar to different pages
-  analyzerState: AnalyzerState = 'Initial';
+  livenessDetectorState: LivenessDetectorState = 'Initial';
 
-  // Face analyzer parameters
+  // Face liveness detector parameters
   livenessOperationMode: LivenessOperationMode = 'PassiveActive';
   verifyImage: File | undefined;
   action: string = 'detectLiveness';
@@ -46,7 +42,6 @@ export class AppComponent {
   errorMessage: string | undefined;
 
   // Result display variables
-  faceAnalyzedResult: FaceAnalyzedResult | undefined;
   recognitionCondition: boolean | undefined;
   recognitionText: string | undefined;
   livenessCondition: boolean = false;
@@ -55,51 +50,49 @@ export class AppComponent {
   // View toggle
   pageHidden: { [key: string]: boolean } = {
     Initial: true,
-    Analyzer: false,
+    LivenessDetector: false,
     Result: false,
     Retry: false,
   };
 
-  setAnalyzerState(s: AnalyzerState) {
-    if (this.analyzerState === s) {
+  setLivenessDetectorState(s: LivenessDetectorState) {
+    if (this.livenessDetectorState === s) {
       return;
     }
-    this.pageHidden[this.analyzerState] = false;
-    this.analyzerState = s;
+    this.pageHidden[this.livenessDetectorState] = false;
+    this.livenessDetectorState = s;
     this.pageHidden[s] = true;
   }
 
-  initFaceAnalyzer(event: {
+  initFaceLivenessDetector(event: {
     livenessOperationMode: LivenessOperationMode;
     file: File | undefined;
   }) {
     this.verifyImage = event.file;
     this.action = event.file ? 'detectLivenessWithVerify' : 'detectLiveness';
     this.livenessOperationMode = event.livenessOperationMode;
-    this.setAnalyzerState('Analyzer');
+    this.setLivenessDetectorState('LivenessDetector');
   }
 
-  continueFaceAnalyzer() {
-    this.setAnalyzerState('Initial');
+  continueLivenessDetection() {
+    this.setLivenessDetectorState('Initial');
   }
 
   displayResult(event: {
-    faceAnalyzedResult: FaceAnalyzedResult;
     recognitionCondition: boolean | undefined;
     recognitionText: string | undefined;
     livenessCondition: boolean;
     livenessText: string;
   }) {
-    this.faceAnalyzedResult = event.faceAnalyzedResult;
     this.recognitionCondition = event.recognitionCondition;
     this.recognitionText = event.recognitionText;
     this.livenessCondition = event.livenessCondition;
     this.livenessText = event.livenessText;
-    this.setAnalyzerState('Result');
+    this.setLivenessDetectorState('Result');
   }
 
   fetchFailureCallback(error: string) {
     this.errorMessage = `Failed to fetch the token. ${error}`;
-    this.setAnalyzerState('Retry');
+    this.setLivenessDetectorState('Retry');
   }
 }

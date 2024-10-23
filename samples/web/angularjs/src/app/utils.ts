@@ -7,7 +7,7 @@ export async function fetchTokenFromAPI(
   livenessOperationMode: string,
   sendResultsToClient: boolean,
   file: File | undefined,
-  setToken: (token: string) => void,
+  setToken: (token: string, action: string) => void,
   setLoadingToken?: (b: boolean) => void,
   setErrorMessage?: (msg: string) => void
 ): Promise<void> {
@@ -45,7 +45,7 @@ export async function fetchTokenFromAPI(
     return;
   }
 
-  setToken(tokenData.authToken);
+  setToken(tokenData.authToken, action);
 }
 
 const getDummyDeviceId = async (): Promise<string> => {

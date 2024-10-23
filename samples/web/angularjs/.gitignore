@@ -42,7 +42,7 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
-public/faceanalyzer-assets
+public/facelivenessdetector-assets
 
 # System files
 .DS_Store

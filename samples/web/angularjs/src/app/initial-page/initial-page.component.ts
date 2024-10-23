@@ -1,4 +1,5 @@
-/* NOTE: This is an EXAMPLE splash page for starting the face liveness session. To see how to use the SDK in your application please see face-angularjs/src/face_analyzer/analyzer-page.component.ts */
+/* NOTE: This is an EXAMPLE splash page for starting the face liveness session. 
+To see how to use the SDK in your application please see face-angularjs/src/face/liveness-detector-page.component.ts */
 
 import {
   CUSTOM_ELEMENTS_SCHEMA,
@@ -24,15 +25,15 @@ type InitResponse = {
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class InitialComponent {
-  @Output() initFaceAnalyzer: EventEmitter<InitResponse> = new EventEmitter();
+  @Output() initFaceLivenessDetector: EventEmitter<InitResponse> = new EventEmitter();
 
   @HostBinding('className') componentClass: string = 'page ms-Fabric';
 
   verifyImage: File | undefined;
   imageObjectUrl: string = '';
 
-  initAnalyzer(mode: LivenessOperationMode) {
-    this.initFaceAnalyzer.emit({
+  initDetector(mode: LivenessOperationMode) {
+    this.initFaceLivenessDetector.emit({
       livenessOperationMode: mode,
       file: this.verifyImage,
     });

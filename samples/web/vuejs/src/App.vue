@@ -1,13 +1,12 @@
 <script setup lang="ts">
 /* NOTE: This is an EXAMPLE app page for controlling the state of the app. This is not required to use the web component.
-          For integration example, please see face-vuejs/src/components/AnalyzerView.vue */
+          For integration example, please see face-vuejs/src/components/LivenessDetectorView.vue */
 
 import { ref } from "vue";
 import InitialView from "./components/InitialView.vue";
-import AnalyzerView from "./components/AnalyzerView.vue";
+import LivenessDetectorView from "./components/LivenessDetectorView.vue";
 import ResultView from "./components/ResultView.vue";
 import RetryView from "./components/RetryView.vue";
-import type { FaceAnalyzedResult } from "azure-ai-vision-faceanalyzer";
 
 type LivenessOperationMode = "Passive" | "PassiveActive";
 
@@ -15,78 +14,75 @@ const verifyImage = ref<File | undefined>(undefined);
 const action = ref<"detectLiveness" | "detectLivenessWithVerify">(
   "detectLiveness"
 );
-const analyzerState = ref<"Initial" | "Analyzer" | "Retry" | "Result">(
+const livenessDetectorState = ref<"Initial" | "LivenessDetector" | "Retry" | "Result">(
   "Initial"
 );
 const livenessOperationMode = ref<LivenessOperationMode>("PassiveActive");
-const faceAnalyzedResult = ref<FaceAnalyzedResult>();
 const recognitionCondition = ref<boolean | undefined>();
 const recognitionText = ref<string | undefined>();
 const livenessCondition = ref<boolean>(false);
 const livenessText = ref<string>("");
 const errorMessage = ref<string>("");
 
-function initFaceAnalyzer(event: {
+function initFaceLivenessDetector(event: {
   file: File | undefined;
   livenessOperationMode: LivenessOperationMode;
 }) {
   verifyImage.value = event.file;
   action.value = event.file ? "detectLivenessWithVerify" : "detectLiveness";
   livenessOperationMode.value = event.livenessOperationMode;
-  analyzerState.value = "Analyzer";
+  livenessDetectorState.value = "LivenessDetector";
 }
 
 function displayResult(event: {
-  faceAnalyzedResult: FaceAnalyzedResult;
   recognitionCondition: boolean | undefined;
   recognitionText: string | undefined;
   livenessCondition: boolean;
   livenessText: string;
 }) {
-  faceAnalyzedResult.value = event.faceAnalyzedResult;
   recognitionCondition.value = event.recognitionCondition;
   recognitionText.value = event.recognitionText;
   livenessCondition.value = event.livenessCondition;
   livenessText.value = event.livenessText;
-  analyzerState.value = "Result";
+  livenessDetectorState.value = "Result";
 }
 
 function fetchFailureCallback(error: string) {
   errorMessage.value = `Failed to fetch the token. ${error}`;
-  analyzerState.value = "Retry";
+  livenessDetectorState.value = "Retry";
 }
 
-function continueFaceAnalyzer() {
-  analyzerState.value = "Initial";
+function continueFaceLivenessDetector() {
+  livenessDetectorState.value = "Initial";
 }
 </script>
 
 <template>
   <InitialView
-    v-if="analyzerState === 'Initial'"
-    @initFaceAnalyzer="initFaceAnalyzer"
+    v-if="livenessDetectorState === 'Initial'"
+    @initFaceLivenessDetector="initFaceLivenessDetector"
   />
-  <AnalyzerView
-    v-if="analyzerState === 'Analyzer'"
+  <LivenessDetectorView
+    v-if="livenessDetectorState === 'LivenessDetector'"
     :liveness-operation-mode="livenessOperationMode"
     :action="action"
     :file="verifyImage"
     :send-results-to-client="true"
     @display-result="displayResult"
-    @retry-analyzer="fetchFailureCallback"
+    @retry-liveness-detector="fetchFailureCallback"
   />
   <ResultView
-    v-if="analyzerState === 'Result'"
+    v-if="livenessDetectorState === 'Result'"
     :liveness-text="livenessText"
     :liveness-condition="livenessCondition"
     :recognition-text="recognitionText"
     :recognition-condition="recognitionCondition"
-    @continue="continueFaceAnalyzer"
+    @continue="continueFaceLivenessDetector"
   />
   <RetryView
-    v-if="analyzerState === 'Retry'"
+    v-if="livenessDetectorState === 'Retry'"
     :error="errorMessage"
-    @retry="continueFaceAnalyzer"
+    @retry="continueFaceLivenessDetector"
   />
 </template>
 
