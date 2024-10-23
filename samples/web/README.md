@@ -74,11 +74,14 @@ The <azure-ai-vision-face-ui> element can also be injected dynamically using Jav
 
 ```javascript
 const azureAIVisionFaceUI = document.createElement("azure-ai-vision-face-ui");
-azureAIVisionFaceUI.sessionAuthorizationToken = "***FACE_API_SESSION_TOKEN***";
-azureAIVisionFaceAnalyzer.addEventListener('analyzed', (event) => {
-    // The event.result, which is FaceAnalyzedResult interface, contains the result of the analysis.
-});
 document.getElementById("your-container-id").appendChild(azureAIVisionFaceUI);
+azureAIVisionFaceUI.start("***FACE_API_SESSION_TOKEN***")
+  .then(resultData => { 
+    // The resultData which is LivenessDetectionSuccess interface, contains the result of the analysis
+  })
+  .catch(errorData => {
+    // In case of failures, the promise is rejected. The errorData which is LivenessDetectionError interface, contains the reason for the failure.
+  });
 ```
 
 #### Deployment
