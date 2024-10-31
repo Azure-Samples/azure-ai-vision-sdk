@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>AzureAIVisionFaceUI  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+
+    <a title="AzureAIVisionFaceUI  Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="index.html">
+          AzureAIVisionFaceUI Docs
+        </a>
+         (100% documented)
+      </p>
+    
+      <div class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </div>
+    
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html">AzureAIVisionFaceUI</a>
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/LivenessError.html">LivenessError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/LivenessStatus.html">LivenessStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/RecognitionError.html">RecognitionError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/RecognitionStatus.html">RecognitionStatus</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/FaceLivenessDetectorView.html">FaceLivenessDetectorView</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/LivenessDetectionError.html">LivenessDetectionError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/LivenessDetectionSuccess.html">LivenessDetectionSuccess</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Typealiases.html#/s:19AzureAIVisionFaceUI23LivenessDetectionResulta">LivenessDetectionResult</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            
+            <h1 id='get-started-with-the-azure-ai-vision-face-ui-sdk-for-ios-preview' class='heading'>Get started with the Azure AI Vision Face UI SDK for iOS (Preview)</h1>
+
+<p>In this sample, you will learn how to build and run the face liveness detection application. The Azure AI Vision Face UI SDK for iOS is currently in preview. The APIs are subject to change.</p>
+<h3 id='api-reference-documentation' class='heading'>API Reference Documentation</h3>
+
+<ul>
+<li>Swift API reference documents: <a href="https://azure.github.io/azure-sdk-for-ios/">Azure SDK for iOS Docs</a>, <a href="https://azure.github.io/azure-sdk-for-ios/AzureAIVisionCore/index.html">AzureAIVisionCore</a>, <a href="https://azure.github.io/azure-sdk-for-ios/AzureAIVisionFaceUI/index.html">AzureAIVisionFaceUI</a></li>
+</ul>
+<h2 id='prerequisites' class='heading'>Prerequisites</h2>
+
+<ol>
+<li>An Azure Face API resource subscription.</li>
+<li>A Mac (with iOS development environment including Xcode 13+) and an iPhone (with iOS version 14 or above) to test the AzureAIVision SDK.</li>
+<li>An Apple developer account to install and run development apps on the iPhone.</li>
+</ol>
+<h2 id='set-up-the-environment' class='heading'>Set up the environment</h2>
+
+<ol>
+<li>If this is your first time using your Mac to develop, you should build a sample app from <a href="https://developer.apple.com/tutorials/sample-apps/aboutme">About Me &#x2014; Sample Apps Tutorials | Apple Developer Documentation</a> and run it on your phone before you attempt to build the App here. This will help ensure that your developer environment has been setup properly.</li>
+<li>If you have a valid Azure subscription that has been provisioned for Face API Liveness Detection, you can get the access token to access the release artifacts. More details can be found in <a href="../../../../GET_FACE_ARTIFACTS_ACCESS.md">GET_FACE_ARTIFACTS_ACCESS</a>.</li>
+<li>To install the SDK packages for your iOS development Application in Xcode, here are ways through CocoaPods or Swift Package Manager:</li>
+</ol>
+
+<ul>
+<li><p>Prerequisite</p>
+
+<ul>
+<li>You may encounter error if your Xcode has never been configured to use Git LFS. If Git LFS is never installed on your machine, refer to <a href="https://git-lfs.github.com/">Git LFS official site</a> for instructions on how to install.</li>
+<li>An example installation command in macOS is:
+ <code>
+ brew install git-lfs
+</code></li>
+<li>Make sure you initialize Git LFS after installation is done:
+ <code>
+ git lfs install
+</code></li>
+<li>You can verify your Git LFS installation by checking the version:
+ <code>
+ git lfs --version
+</code></li>
+</ul></li>
+<li><p>Swift Package Manager (<a href="https://www.swift.org/documentation/package-manager/">Swift.org - Package Manager</a>)</p>
+
+<ul>
+<li>This approach requires XCode recognize and execute <code>git-lfs</code> command. However, the execution of <code>git-lfs</code> may be impacted by your macOS <a href="https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection">System Integrity Protection (SIP)</a>. First, please check whether SIP is enabled or not by running in your macOS Terminal:
+ <code>
+ csrutil status
+</code></li>
+<li><p>If SIP is not enabled, or you temporarily disabled it. You can run the following command to create symbolic link and make Xcode recognize the <code>git-lfs</code> command:</p>
+<pre class="highlight shell"><code> sudo ln -s <span class="k">$(</span>which git-lfs<span class="k">)</span> <span class="k">$(</span>xcode-select -p<span class="k">)</span>/usr/bin/git-lfs
+</code></pre></li>
+<li><p>After you configured Git LFS successfully, use the following repository URLs in Swift Package Manager, one at a time:</p>
+<pre class="highlight plaintext"><code> https://msface.visualstudio.com/SDK/_git/AzureAIVisionCore.xcframework
+</code></pre>
+<pre class="highlight plaintext"><code> https://msface.visualstudio.com/SDK/_git/AzureAIVisionFaceUI.xcframework
+</code></pre></li>
+<li><p>You will see a pop-up window asking for username and password. Make a random username and use the accessToken from previous step to be the password.</p>
+
+<p>Note: the username is just a placeholder, and it can be any random string.</p></li>
+<li><p>If your Xcode&rsquo;s Git cannot be configured to enable Git LFS, <a href="https://developer.apple.com/documentation/xcode/building-swift-packages-or-apps-that-use-them-in-continuous-integration-workflows#Use-your-systems-Git-tooling">switch to using your system Git</a>, as follows:</p>
+
+<ul>
+<li>When you encounter error that says &ldquo;Package Resolution Failed&rdquo;, dismiss with &ldquo;Add Anyway&rdquo;. This will add a partially configured package dependency.</li>
+<li>If Xcode Command Line Tools is never installed on your machine, install it first <a href="https://developer.apple.com/library/archive/technotes/tn2339/_index.html">following instructions from Apple Developer website</a>.</li>
+<li><p>Run the following command from Terminal, from the directory where your .xcodeproj is located, as appropriate for your project. It will resolve the package through your system Git. Your system Git should already have Git LFS configured, as mentioned in Prerequisites section.</p>
+<pre class="highlight plaintext"><code>xcodebuild -scmProvider system -resolvePackageDependencies
+</code></pre>
+
+<blockquote>
+<p><strong>Note</strong>: You can also add <code>-project</code>, <code>-workspace</code>, and <code>-scheme</code> arguments as appropriate to target your development setup. Refer to the <a href="https://developer.apple.com/library/archive/technotes/tn2339/_index.html">xcodebuild (Command Line Tools) FAQ</a> and <code>-help</code> section.</p>
+</blockquote></li>
+<li><p>Once the command above ran successfully, your project should be able to successfully resolve the dependency from Xcode as well.</p></li>
+</ul></li>
+<li><p>Alternatively, if you still cannot resolve Git LFS issue for Swift Package Manager, you can download the packages by cloning the source Git repositories directly. This should be the least preferred method, as it requires manual dependency version management and may lead to staleness or version conflicts.</p>
+
+<ul>
+<li><p>use the access token from <a href="../../../../GET_FACE_ARTIFACTS_ACCESS.md">GET_FACE_ARTIFACTS_ACCESS</a> as a &ldquo;password&rdquo; to clone the following repositories, then manually copy the files to your project.</p>
+<pre class="highlight plaintext"><code>git clone https://username:{accessToken}@msface.visualstudio.com/SDK/_git/AzureAIVisionCore.xcframework 
+git clone https://username:{accessToken}@msface.visualstudio.com/SDK/_git/AzureAIVisionFaceUI.xcframework 
+</code></pre>
+
+<p>Note: &ldquo;accessToken&rdquo; is the only required parameter here.</p></li>
+<li><p>After cloning the repositories, you should see &lsquo;AzureAIVisionCore.xcframework&rsquo; and &lsquo;AzureAIVisionFaceUI.xcframework&rsquo; as two separate folders in your local path. The frameworks you should use are located under the parent folders, like:</p>
+<pre class="highlight plaintext"><code>AzureAIVisionCore.xcframework/AzureAIVisionCore.xcframework
+AzureAIVisionFaceUI.xcframework/AzureAIVisionFaceUI.xcframework
+</code></pre>
+
+<p>Ensure their disk size is larger than 100MB. If not, check your Git LFS installation and initialization, then run the following commands in each repository directory:</p>
+<pre class="highlight plaintext"><code>git lfs pull
+</code></pre></li>
+<li><p>Open your Xcode project and navigate to Target -&gt; General -&gt; Frameworks, Libraries, and Embedded Content. Remove any existing Swift Package Manager dependencies for &lsquo;AzureAIVisionCore.xcframework&rsquo; and &lsquo;AzureAIVisionFaceUI.xcframework&rsquo; if they are defined that way. Choose &ldquo;Add Other&rdquo;, then &ldquo;Add files&rdquo;, and add both frameworks from your cloned repositories path:</p>
+<pre class="highlight plaintext"><code>localPath\AzureAIVisionCore.xcframework\AzureAIVisionCore.xcframework
+localPath\AzureAIVisionFaceUI.xcframework\AzureAIVisionFaceUI.xcframework
+</code></pre>
+
+<p>Mark them as &ldquo;Do Not Embed&rdquo;.</p></li>
+</ul></li>
+</ul></li>
+<li><p>CocoaPods (<a href="https://guides.cocoapods.org/using/getting-started.html">CocoaPods Guides - Getting Started</a>)</p>
+
+<ul>
+<li><p>Add the following lines to your project&rsquo;s Podfile. <code>&#39;YourBuildTargetNameHere&#39;</code> is an example target, and you should use your actual target project instead.</p>
+<pre class="highlight ruby"><code> <span class="c1"># add repos as source</span>
+ <span class="n">source</span> <span class="s1">'https://msface.visualstudio.com/SDK/_git/AzureAIVisionCore.podspec'</span>
+ <span class="n">source</span> <span class="s1">'https://msface.visualstudio.com/SDK/_git/AzureAIVisionFaceUI.podspec'</span>
+
+ <span class="n">target</span> <span class="s1">'YourBuildTargetNameHere'</span> <span class="k">do</span>
+    <span class="c1"># add the pods here, optionally with version specification as needed</span>
+    <span class="n">pod</span> <span class="s1">'AzureAIVisionCore'</span><span class="p">,</span> <span class="s1">'0.17.1-beta.1'</span>
+    <span class="n">pod</span> <span class="s1">'AzureAIVisionFaceUI'</span><span class="p">,</span> <span class="s1">'0.17.1-beta.1'</span>
+ <span class="k">end</span>
+</code></pre></li>
+<li><p>For access authorization to the repos, the steps depend on your system Git and your security preferences.</p>
+
+<ul>
+<li><p>If you are using Git credential manager, you will be prompted for username and password.</p>
+
+<p>Note: the username is just a placeholder, and it can be any random string.</p></li>
+<li><p>To use <a href="https://git-scm.com/docs/git-config/2.22.0#Documentation/git-config.txt-httpextraHeader"><code>http.extraHeader</code> approach of <code>git-config</code></a>, you need to convert the token to base64 format. Refer to <a href="https://learn.microsoft.com/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=Linux#use-a-pat">the <strong>Use a PAT</strong> section of this Azure DevOps documentation article</a>. Note that instead of using the git clone invocation as shown in the example, you should call:</p>
+<pre class="highlight plaintext"><code>MY_PAT=accessToken
+HEADER_VALUE=$(printf "Authorization: Basic %s" "$MY_PAT" | base64)
+git config --global http.https://msface.visualstudio.com/SDK.extraHeader "${HEADER_VALUE}"
+</code></pre></li>
+<li><p>For other types of Git installation, refer to <a href="https://git-scm.com/docs/gitfaq#_credentials">the <strong>Credentials</strong> section of Git FAQ</a>.</p></li>
+</ul></li>
+</ul></li>
+</ul>
+
+<ol>
+<li><a href="#api-reference-documentation">Refer to the API reference documentation</a> to learn more about our SDK APIs.</li>
+</ol>
+<h2 id='next-steps' class='heading'>Next steps</h2>
+
+<p>Now that you have setup your environment you can either:</p>
+
+<ul>
+<li><a href="#build-and-run-sample-app">Build and run sample app</a></li>
+<li><a href="#integrate-face-analysis-into-your-own-application">Integrate face liveness detection into your own application</a></li>
+</ul>
+<h2 id='build-and-run-sample-app' class='heading'>Build and run sample App</h2>
+
+<ol>
+<li>Download the sample App folder. Double click the .xcodeproj file. This will open the project in Xcode.</li>
+<li>Add package dependency through Swift Package Manager, as mentioned before. You should add both AzureAIVisionFaceUI.xcframework and AzureAIVisionCore.xcframework into the project. If you failed to use Swift Package Manager to add the frameworks, Please consider using alternative ways like cloning the source Git repositories or CocoaPods in <a href="#set-up-the-environment">Set up the environment</a>.</li>
+<li>Set the App bundle identifier and developer team in &ldquo;XCode -&gt; Targets -&gt; Signing &amp; Capabilities&rdquo; using your Apple developer account information.</li>
+<li>Now attach your phone to the Mac. You should get prompt on the phone asking you to &ldquo;Trust&rdquo; the Mac. Enable the trust.</li>
+<li>The phone should now show up in the Xcode top bar. Your iPhone name should be visible.</li>
+<li>Now build and run the app.</li>
+</ol>
+<h3 id='run-the-sample' class='heading'>Run the sample</h3>
+
+<p>The first time the app runs, It is going to ask for camera permission. Allow the camera access. The App starts with the launch page. Some of the buttons are disabled until you configure the settings. Click the settings page. The settings page has the following fields/settings from top to bottom. Enter them correctly.</p>
+
+<p><strong>API endpoint</strong>
+This is the Azure subscription endpoint, where the application makes the FaceAPI calls to.</p>
+
+<p><strong>Subscription</strong>
+This secret key to access the Azure endpoint.</p>
+<h3 id='test-out-the-key-scenarios' class='heading'>Test out the key scenarios</h3>
+
+<p>The application supports 2 scenarios.</p>
+<h4 id='liveness' class='heading'>Liveness</h4>
+
+<p>This mode checks to see if the person in camera view is a live person or not.</p>
+
+<ol>
+<li>Click on the &ldquo;Liveness&rdquo; button, following the guidance on the screen.</li>
+<li>Click &ldquo;Start&rdquo; and show your face to the front-facing camera. As it processes your images, the screen will display user feedback on image quality. The screen will also flash black and white. This is needed for liveness analysis.</li>
+<li>The result is displayed as Liveness status (Real/Spoof).</li>
+<li>You can return to the main page by clicking &ldquo;Continue&rdquo;.</li>
+</ol>
+<h4 id='livenesswithverify' class='heading'>LivenessWithVerify</h4>
+
+<p>This mode checks the person liveness with verification against a provided face image.</p>
+
+<ol>
+<li>Click on the &ldquo;LivenessWithVerify&rdquo; button and it will prompt you to select an image of a face to verify against.</li>
+<li>Click next and show your face to the front-facing camera. As it processes your images, the screen will display user feedback on image quality. The screen will also flash black and white. This is needed for liveness analysis.</li>
+<li>The result is displayed as Liveness status (Real/Spoof), verification status (Recognized/NotRecognized), and verification confidence score.</li>
+<li>You can return to the main page by clicking &ldquo;Continue&rdquo;.</li>
+</ol>
+<h2 id='integrate-face-liveness-detection-into-your-own-application' class='heading'>Integrate face liveness detection into your own application</h2>
+
+<p>Based on the provided sample App, please refer to <code>MainView.swift</code> for an example usage of the <code><a href="Structs/FaceLivenessDetectorView.html">FaceLivenessDetectorView</a></code>. Here are the steps to integrate the face liveness detection into your own application:</p>
+<h3 id='1-configure-your-xcode-project' class='heading'>1. Configure your Xcode project</h3>
+
+<ol>
+<li><p>in the &ldquo;Xcode -&gt; Targets -&gt; Build Settings -&gt; Swift Compiler - Language&rdquo;, select the &ldquo;C++ and Objective-C Interoperability&rdquo; to be &ldquo;C++ / Objective-C++</p></li>
+<li><p>in the &quot;Xcode -&gt; Targets -&gt; Info -&gt; Custom iOS Target Properties&rdquo;, add Key &ldquo;Privacy-Camera Usage Description&rdquo; with your description, like &ldquo;This App requires camera usage.&rdquo;</p></li>
+</ol>
+<h3 id='2-add-package-dependency' class='heading'>2. Add package dependency</h3>
+
+<p>In the &ldquo;Xcode -&gt; Files -&gt; Add Package Dependencies&rdquo;, add the AzureAIVisionCore.xcframework, AzureAIVisionFaceUI.xcframework as mentioned in <a href="#set-up-the-environment">Set up the environment</a>.</p>
+<h3 id='3-insert-facelivenessdetectorview-into-your-screen-type-view' class='heading'>3. Insert FaceLivenessDetectorView into your Screen-type View.</h3>
+
+<p>Please refer to <code>MainView.swift</code> for an example usage of the <code><a href="Structs/FaceLivenessDetectorView.html">FaceLivenessDetectorView</a></code>.
+Here are more details about the <code><a href="Structs/FaceLivenessDetectorView.html">FaceLivenessDetectorView</a></code> parameters.</p>
+
+<p>For more information on how to orchestrate the liveness flow by utilizing the Azure AI Vision Face service, visit: <a href="https://aka.ms/azure-ai-vision-face-liveness-tutorial">https://aka.ms/azure-ai-vision-face-liveness-tutorial</a>.</p>
+
+<ol>
+<li><p><code>result: Binding&lt;LivenessDetectionResult?&gt;</code></p>
+
+<p><strong>Required parameter.</strong>
+  The result of liveness detection. It is only <code>nil</code> while the analysis has not completed.</p>
+
+<p>Define a <code>@Binding</code> of type <code>LivenessDetectionResult?</code> in your View to receive the result of the liveness detection, and provide this to <code><a href="Structs/FaceLivenessDetectorView.html">FaceLivenessDetectorView</a></code>.
+  In <code>MainView.swift</code> example, this <code>View</code> holds the source <code>@State</code> variable of the passed binding directly.</p></li>
+<li><p><code>sessionAuthorizationToken: String</code></p>
+
+<p><strong>Required parameter.</strong>
+  Used to authorize the client and allow the client to establish the session connection to the server.</p>
+
+<p>/// - Parameter deviceCorrelationId: The client-specified correlation ID, if required.</p></li>
+<li><p><code>verifyImageFileContent: Data?</code></p>
+
+<p><strong>Optional parameter</strong>, default as <code>nil</code>.
+  This refers to the reference image, if provided in client.
+  For most production scenario, you should provide this in the App server when creating the session.
+  A non-<code>nil</code> value here requires that the provided <code>sessionAuthorizationToken</code> allows setting this value on client-side.
+  Else, re-specifying them here will result in an error.</p></li>
+<li><p><code>deviceCorrelationId: String?</code></p>
+
+<p><strong>Optional parameter</strong>, default as <code>nil</code>.
+  This refers to the device correlation identifier, if provided in client.
+  For most production scenario, you should provide this in the App server when creating the session.
+  A non-<code>nil</code> value here requires that the provided <code>sessionAuthorizationToken</code> allows setting this value on client-side.
+  Else, re-specifying them here will result in an error.</p></li>
+</ol>
+
+<p>Next, respond to the update of the passed binding in your <code>View</code>.
+In <code>MainView.swift</code> example, the <code>View</code> uses <code>onChange(of:perform:)</code> to demonstrate a more imperative way of handling the result, but you can also use a more SwiftUI-esque declarative way of handling the result, like:</p>
+<pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">HostView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">livenessDetectionResult</span><span class="p">:</span> <span class="kt">LivenessDetectionResult</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
+    <span class="k">var</span> <span class="nv">token</span><span class="p">:</span> <span class="kt">String</span>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="n">some</span> <span class="kt">View</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="n">livenessDetectionResult</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+            <span class="kt">FaceLivenessDetectorView</span><span class="p">(</span><span class="nv">result</span><span class="p">:</span> <span class="err">$</span><span class="n">livenessDetectionResult</span><span class="p">,</span>
+                                     <span class="nv">sessionAuthorizationToken</span><span class="p">:</span> <span class="n">token</span><span class="p">)</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="n">livenessDetectionResult</span> <span class="p">{</span>
+            <span class="kt">VStack</span> <span class="p">{</span>
+                <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span> 
+                    <span class="k">case</span> <span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="k">let</span> <span class="nv">result</span><span class="p">):</span>
+                    <span class="c1">/// &lt;#handle success#&gt;</span>
+                    <span class="k">case</span> <span class="o">.</span><span class="nf">failure</span><span class="p">(</span><span class="k">let</span> <span class="nv">error</span><span class="p">):</span>
+                    <span class="c1">/// &lt;#handle failure#&gt;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id='4-configure-the-liveness-algorithm-details-for-advanced-settings' class='heading'>4. Configure the liveness algorithm details for advanced settings</h3>
+
+<p>With first 4 steps, you should be able to run liveness detection in your own project. Here are more advanced details for you to understand the API usage. The file <code>LaunchView.swift</code> contains the method on how the token was obtained.</p>
+
+<ol>
+<li><strong><em>Configuring the FaceAPI service to obtain the required session-authorization-token</em></strong>
+<code>swift
+// this is for demo purpose only, session-authorization-token can be obtained in the App server directly
+sessionData.token = obtainToken(...)
+</code></li>
+</ol>
+
+<p>Note:</p>
+
+<ul>
+<li>A demo version on obtaining the token is in <code>AppUtility.swift</code> for the demo app to be built as an standalone solution, but this is not recommended.  The &ldquo;session-authorization-token&rdquo; is required to start a liveness session.  For more information on how to orchestrate the liveness flow by utilizing the Azure AI Vision Face service, visit: <a href="https://aka.ms/azure-ai-vision-face-liveness-tutorial">https://aka.ms/azure-ai-vision-face-liveness-tutorial</a>.</li>
+</ul>
+<h3 id='5-add-required-localizations' class='heading'>5. Add required localizations</h3>
+
+<p>All the on-screen prompt are defined with English as default language. We provide Chinese (simplified) as an example to add your localization.</p>
+
+<p>(1) Go to &ldquo;Xcode -&gt; Targets -&gt; Info -&gt; Custom iOS Target Properties -&gt; Localizations&rdquo; to add all the languages you want to support.</p>
+
+<p>(2) Refer to the Core/en.lproj and Core/zh-Hans.lproj to add the corresponding translation for all the added languages in your localizations.</p>
+<h3 id='6-add-validation-for-the-integrity-of-the-service-result' class='heading'>6. Add validation for the integrity of the service result</h3>
+
+<p>We highly recommend leveraging the &ldquo;digest&rdquo; generated within the solution to validate the integrity of the communication between your application and the Azure AI Vision Face service. This is necessary to ensure that the final liveness detection result is trustworthy. &ldquo;Digest&rdquo; is provided in the following two locations:</p>
+
+<ol>
+<li>The <code><a href="Structs/FaceLivenessDetectorView.html">FaceLivenessDetectorView</a></code> running on your application.</li>
+</ol>
+
+<p>In the resulting <code><a href="Typealiases.html#/s:19AzureAIVisionFaceUI23LivenessDetectionResulta">LivenessDetectionResult</a></code>:</p>
+<pre class="highlight swift"><code><span class="k">if</span> <span class="k">case</span> <span class="kd">let</span> <span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="n">success</span><span class="p">)</span> <span class="o">=</span> <span class="n">result</span> <span class="p">{</span>
+    <span class="n">sessionData</span><span class="o">.</span><span class="n">resultDigest</span> <span class="o">=</span> <span class="n">success</span><span class="o">.</span><span class="n">digest</span>
+<span class="p">}</span>
+</code></pre>
+
+<ol>
+<li>The Azure AI Vision Face service.</li>
+</ol>
+
+<p>The &ldquo;digest&rdquo; will be contained within the liveness detection result when calling the detectliveness/singlemodal/sessions/<session-id> REST call. Look for an example of the &ldquo;digest&rdquo; in the <a href="https://aka.ms/azure-ai-vision-face-liveness-tutorial">tutorial</a> where the liveness detection result is shown.</p>
+
+<p>Digests must match between the application and the service. We recommend using these digests in conjunction with iOS integrity APIs to perform the final validation.
+   For more information on the iOS Integrity APIs, please refer to:</p>
+
+<ul>
+<li><a href="https://developer.apple.com/documentation/devicecheck">DeviceCheck | Apple Developer Documentation</a></li>
+</ul>
+
+          </div>
+        </section>
+
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2024 <a class="link" href="" target="_blank" rel="external noopener"></a>. All rights reserved. (Last updated: 2024-10-31)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.15.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+    </section>
+  </body>
+</html>
