@@ -90,7 +90,7 @@ To test out other liveness detection scenarios, repeat steps 1-5, this time hold
 ### Step 3.1 The overview of face recognition with liveness detection in Azure AI Vision SDK for Android
 Here is the outline of the SDK sample and integration structure
 1. The solution uses azure maven repo artifact to add the binary enabling the liveness feature.  You will need to set up azure `maven` repo with any `username` and valid "access token" as "password.  It will be mentioned below in [Get Access Token to SDK Artifact](#get-access-token-to-sdk-artifact) section for getting the password, along with the [Add Build Dependencies](#add-build-dependency) to set the repo in the solution files.
-2. The app requires camera permission.  You will need to set it up in the app configuration and code.  It will be mentioned below in [Add Camera Permission](#add-camera-permissions) and [Add Kotlin code to Request Camera Permission](#add-kotlin-code-to-request-camera-permission) sections for demostration.
+2. The app requires camera permission.  You will need to set it up in the app configuration and code.  It will be mentioned below in [Add Camera Permission](#add-camera-permissions) and [Add Kotlin code to Request Camera Permission](#add-kotlin-code-to-request-camera-permission) sections for demonstration.
 3. There is an compose method called `FaceLivenessDetector`.  The compose component consists a one stop bundle for the liveness feature with UI code.
 4. The compose method takes a set of parameters launching it, the parameters defines the liveness session and callback behaviour.  It will be mentioned below in [Add code to interpret the result](#add-code-to-interpret-the-result) section to demostrate how to use it.
 
@@ -108,7 +108,7 @@ Add permission for the app in `AndroidManifest.xml`
 , and now add proper code to request camera permission in kotlin as below
 
 ### Step 3.3 Add Kotlin code to Request Camera Permission
-You can look at `MainActivity.kt` for sample on how to achieve the same or follow the guidelines for [Android](https://developer.android.com/training/permissions/requesting).  Camera permission needs to be ready before calling the livness process.
+You can look at `MainActivity.kt` for sample on how to achieve the same or follow the guidelines for [Android](https://developer.android.com/training/permissions/requesting).  Camera permission needs to be ready before calling the liveness process.
 Here is part of the code piece that asks camera permission
 ```
     private fun requestPermissions() {
@@ -163,7 +163,7 @@ mavenPassword=access_token
 ### Step 3.6 Add code to interpret the result
 The activity takes a set of parameters launching it.  The parameter defines the activity callback behaviour.  The parameters for input are `sessionAuthorizationToken`, `verifyImageFileContent`, `deviceCorrelationId`.  
 
-* sessionAuthorizationToken: session authroization token from the server
+* sessionAuthorizationToken: session authorization token from the server
 * verifyImageFileContent: when choosing livenessWithVerify and setting verify image in the client, this is the ByteArray of the file content of the image.  Otherwise it should be `null`.
 * deviceCorrelationId: when choosing not to set deviceCorrelationId in the token creation time, you can put the deviceCorrelationId here.  Otherwise it should be `null`.
 
