@@ -1,4 +1,4 @@
-package com.example.facelivenessdetectorsample.screens
+package com.microsoft.azure.ai.vision.facelivenessdetectorsample.screens
 
 import android.preference.PreferenceManager
 import android.util.Log
@@ -23,15 +23,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.paneTitle
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.facelivenessdetectorsample.navigation.Routes
-import com.example.facelivenessdetectorsample.utils.getDeviceIdExt
-import com.example.facelivenessdetectorsample.viewmodel.MainScreenViewModel
-import com.example.facelivenessdetectorsample.viewmodel.MainScreenViewModelFactory
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.navigation.Routes
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.token.FaceSessionToken
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.utils.getDeviceIdExt
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.viewmodel.MainScreenViewModel
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.viewmodel.MainScreenViewModelFactory
 
 @Preview(showBackground = true)
 @Composable
@@ -60,7 +63,9 @@ fun MainScreen(
             uri?.let {
                 context.contentResolver.openInputStream(uri)?.readBytes()?.let {
                     mainScreenViewModel.updateVerifyImage(it) {
-                        navController.navigate(Routes.Liveness)
+                        navController.navigate(Routes.Liveness) {
+                            launchSingleTop = true
+                        }
                     }
                 }
             } ?: run {
@@ -76,7 +81,6 @@ fun MainScreen(
             faceApiEndpoint = mainScreenViewModel.faceApiEndpoint,
             faceApiKey = mainScreenViewModel.faceApiKey,
             verifyImageArray = null,
-            sendResultsToClient = mainScreenViewModel.sendResultsToClient,
             setImageInClient = mainScreenViewModel.setImageInClient,
             passiveActive = mainScreenViewModel.passiveActive,
             deviceId = deviceId,
@@ -84,7 +88,10 @@ fun MainScreen(
     }
 
     Box(
-        modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
+        modifier = Modifier
+            .fillMaxSize()
+            .semantics { paneTitle = "Main screen" },
+        contentAlignment = Alignment.Center
     ) {
         if (mainScreenViewModel.isLoading) {
             Column(
@@ -110,7 +117,9 @@ fun MainScreen(
                         .align(Alignment.CenterHorizontally)
                 ) {
                     Button(
-                        onClick = { navController.navigate(Routes.Liveness) },
+                        onClick = { navController.navigate(Routes.Liveness) {
+                            launchSingleTop = true
+                        } },
                         modifier = Modifier.align(Alignment.CenterHorizontally),
                         enabled = isTokenReady
                     ) {
@@ -118,7 +127,10 @@ fun MainScreen(
                     }
 
                     Button(
-                        onClick = { imagePickerLauncher.launch("image/*") },
+                        onClick = {
+                            FaceSessionToken.sessionToken = ""
+                            imagePickerLauncher.launch("image/*")
+                        },
                         modifier = Modifier.align(Alignment.CenterHorizontally),
                         enabled = isTokenReady,
                     ) {
@@ -136,12 +148,6 @@ fun MainScreen(
                         onClick = { navController.navigate(Routes.Settings) },
                     ) {
                         Text("Settings")
-                    }
-
-                    Button(
-                        onClick = { /* Handle click */ },
-                    ) {
-                        Text("Select verification image")
                     }
                 }
             }

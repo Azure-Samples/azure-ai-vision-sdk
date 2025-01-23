@@ -16,10 +16,12 @@ struct SettingsView: View {
                 .font(Font.custom("Helvetica Neue", size: 15.0))
                 .textFieldStyle(RoundedBorderTextFieldStyle.init())
                 .padding(.horizontal)
+                .accessibilityIdentifier("faceAPIEndpoint")
             SecureInputView("Face API key", text: $sessionData.key)
                 .font(Font.custom("Helvetica Neue", size: 15.0))
                 .textFieldStyle(RoundedBorderTextFieldStyle.init())
                 .padding(.horizontal)
+                .accessibilityIdentifier("faceAPIKey")
             ZStack {
                 TextField("Last session apim-request-id", text: $sessionData.resultId)
                     .font(Font.custom("Helvetica Neue", size: 15.0))
@@ -37,11 +39,13 @@ struct SettingsView: View {
                 .alert(isPresented: $showCopyAlert) {
                     Alert(title: Text("Result ID Copied"), message: Text("Result ID has been copied"))
                 }
-            Toggle("Send results to client", isOn: $sessionData.sendResultsToClient)
-                .padding(.horizontal)
             Picker("Liveness mode", selection: $sessionData.livenessMode) {
-                Text("Passive").tag(LivenessMode.passive)
-                Text("Passive/Active").tag(LivenessMode.passiveActive)
+                Text("Passive")
+                    .tag(LivenessMode.passive)
+                    .accessibilityIdentifier( "passiveMode")
+                Text("Passive/Active")
+                    .tag(LivenessMode.passiveActive)
+                    .accessibilityIdentifier( "passiveActiveMode")
             }.pickerStyle(.segmented)
                 .padding(.horizontal)
             Spacer()
@@ -52,7 +56,7 @@ struct SettingsView: View {
                     .foregroundColor(Color.white)
                     .background(Color.blue)
                     .cornerRadius(12)
-            }
+            }.accessibilityIdentifier( "doneButton")
         }
     }
     func doneClicked() {

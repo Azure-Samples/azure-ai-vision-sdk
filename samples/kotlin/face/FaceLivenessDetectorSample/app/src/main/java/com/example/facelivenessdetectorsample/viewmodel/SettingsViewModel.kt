@@ -1,4 +1,4 @@
-package com.example.facelivenessdetectorsample.viewmodel
+package com.microsoft.azure.ai.vision.facelivenessdetectorsample.viewmodel
 
 import android.content.SharedPreferences
 import androidx.compose.runtime.getValue
@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.facelivenessdetectorsample.utils.SharedPrefKeys
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.utils.SharedPrefKeys
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(private val sharedPreferences: SharedPreferences) : ViewModel() {
@@ -30,12 +30,6 @@ class SettingsViewModel(private val sharedPreferences: SharedPreferences) : View
     )
         private set
 
-    var sendResultsToClient by mutableStateOf(
-        sharedPreferences.getBoolean(
-            SharedPrefKeys.SEND_RESULTS_TO_CLIENT, false
-        )
-    )
-        private set
     var setImageInClient by mutableStateOf(
         sharedPreferences.getBoolean(
             SharedPrefKeys.SET_IMAGE_IN_CLIENT, false
@@ -59,10 +53,6 @@ class SettingsViewModel(private val sharedPreferences: SharedPreferences) : View
         sharedPreferences.edit().putString(SharedPrefKeys.FACE_API_KEY, value).apply()
     }
 
-    fun updateSendResultsToClient(value: Boolean) {
-        sendResultsToClient = value
-        sharedPreferences.edit().putBoolean(SharedPrefKeys.SEND_RESULTS_TO_CLIENT, value).apply()
-    }
 
     fun updatesetImageInClient(value: Boolean) {
         setImageInClient = value

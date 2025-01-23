@@ -31,12 +31,12 @@ class SessionData: ObservableObject {
     @Published var endpoint: String = "https://your.azure.endpoint.com"
     @Published var key: String = ""
     @Published var token: String? = nil
+    @Published var sessionId: String? = nil
     @Published var referenceImageIsSelected = false
     @Published var isShowPhotoLibraryForReferenceImage = false
     @Published var isNetworkAvailable = true
     @Published var resultMessage = ""
     @Published var livenessWithVerify = false
-    @Published var sendResultsToClient = true
     @Published var livenessMode: LivenessMode = .passive
 
     var settingsConfigured: Bool {
@@ -62,16 +62,22 @@ struct MainView: View {
                 FaceLivenessDetectorView(result: $livenessDetectionResult,
                                          sessionAuthorizationToken: sessionData.token!)
                 .onChange(of: livenessDetectionResult) { result in
-                    sessionData.resultMessage = result?.message ?? "Unexpected"
-                    if case let .success(success) = result {
-                        sessionData.resultId = success.resultId
-                        sessionData.resultDigest = success.digest
-                    } else if case let .failure(error) = result,
-                              let resultId = error.resultId {
-                        sessionData.resultId = resultId
-                    }
-                    withAnimation {
-                        pageSelection.current = .result
+                    if let result = result {
+                        sessionData.resultMessage = sessionData.sessionResultMessage(livenessDetectionResult: result)
+                        if case let .success(success) = result {
+                            // Once the session is completed, the client does not receive the outcome whether face is live or spoof.
+                            // You can query the result from your backend service by calling the sessions results API
+                            // https://aka.ms/face/liveness-session/get-liveness-session-result
+                            sessionData.resultId = success.resultId
+                            sessionData.resultDigest = success.digest
+                        } else if case let .failure(error) = result,
+                                  let resultId = error.resultId {
+                            sessionData.resultId = resultId
+                        }
+                        livenessDetectionResult = nil
+                        withAnimation {
+                            pageSelection.current = .result
+                        }
                     }
                 }
 
@@ -99,6 +105,5 @@ struct MainView: View {
                 }.padding()
             }
         }
-
     }
 }

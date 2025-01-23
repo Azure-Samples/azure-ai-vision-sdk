@@ -1,4 +1,4 @@
-package com.example.facelivenessdetectorsample
+package com.microsoft.azure.ai.vision.facelivenessdetectorsample
 
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.compose.rememberNavController
-import com.example.facelivenessdetectorsample.navigation.AppNavHost
-import com.example.facelivenessdetectorsample.ui.theme.FaceLivenessDetectorSampleTheme
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.navigation.AppNavHost
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.ui.theme.FaceLivenessDetectorSampleTheme
 class MainActivity : ComponentActivity() {
     val cAppRequestCode = 1
     override fun onCreate(savedInstanceState: Bundle?) {

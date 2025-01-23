@@ -1,4 +1,4 @@
-package com.example.facelivenessdetectorsample.models
+package com.microsoft.azure.ai.vision.facelivenessdetectorsample.models
 
 import kotlinx.serialization.Serializable
 

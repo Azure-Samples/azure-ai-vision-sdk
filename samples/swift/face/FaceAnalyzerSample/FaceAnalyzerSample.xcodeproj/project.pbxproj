@@ -21,7 +21,6 @@
 		8C020C1A2B0CA44F001E72AE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8C020C182B0CA44F001E72AE /* Localizable.strings */; };
 		8C020C1D2B16A524001E72AE /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C020C1C2B16A524001E72AE /* AppUtility.swift */; };
 		8C020C252B173595001E72AE /* AzureAIVisionFaceUI in Frameworks */ = {isa = PBXBuildFile; productRef = 8C020C242B173595001E72AE /* AzureAIVisionFaceUI */; };
-		8C020C272B1735B8001E72AE /* AzureAIVisionCore in Frameworks */ = {isa = PBXBuildFile; productRef = 8C020C262B1735B8001E72AE /* AzureAIVisionCore */; };
 		8C07F2B22B699582009CFF14 /* SecureInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C07F2B12B699582009CFF14 /* SecureInputView.swift */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +55,7 @@
 		8C020C1B2B0CA45D001E72AE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "Core/zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		8C020C1C2B16A524001E72AE /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
 		8C07F2B12B699582009CFF14 /* SecureInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureInputView.swift; sourceTree = "<group>"; };
+		D36DEE3B2D31D06000970057 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +64,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C020C252B173595001E72AE /* AzureAIVisionFaceUI in Frameworks */,
-				8C020C272B1735B8001E72AE /* AzureAIVisionCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +73,7 @@
 		8C020B4D2B0C1086001E72AE = {
 			isa = PBXGroup;
 			children = (
+				D36DEE3B2D31D06000970057 /* README.md */,
 				8C020B582B0C1086001E72AE /* FaceAnalyzerSample */,
 				8C020B572B0C1086001E72AE /* Products */,
 				8C020B772B0C11C6001E72AE /* Frameworks */,
@@ -144,7 +144,6 @@
 			name = FaceAnalyzerSample;
 			packageProductDependencies = (
 				8C020C242B173595001E72AE /* AzureAIVisionFaceUI */,
-				8C020C262B1735B8001E72AE /* AzureAIVisionCore */,
 			);
 			productName = FaceAnalyzerSample;
 			productReference = 8C020B562B0C1086001E72AE /* FaceAnalyzerSample.app */;
@@ -176,7 +175,6 @@
 			);
 			mainGroup = 8C020B4D2B0C1086001E72AE;
 			packageReferences = (
-				8C020C222B172A45001E72AE /* XCRemoteSwiftPackageReference "AzureAIVisionCore" */,
 				8C020C232B173467001E72AE /* XCRemoteSwiftPackageReference "AzureAIVisionFaceUI" */,
 			);
 			productRefGroup = 8C020B572B0C1086001E72AE /* Products */;
@@ -359,10 +357,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"FaceAnalyzerSample/Preview Content\"";
-				DEVELOPMENT_TEAM = UBF8T346G9;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FaceAnalyzerSample/Info.plist;
@@ -382,6 +381,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.faceapi.FaceAnalyzerSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_INTEROP_MODE = objcxx;
 				SWIFT_VERSION = 5.0;
@@ -394,10 +394,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"FaceAnalyzerSample/Preview Content\"";
-				DEVELOPMENT_TEAM = UBF8T346G9;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FaceAnalyzerSample/Info.plist;
@@ -417,6 +418,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.faceapi.FaceAnalyzerSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_INTEROP_MODE = objcxx;
 				SWIFT_VERSION = 5.0;
@@ -448,14 +450,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		8C020C222B172A45001E72AE /* XCRemoteSwiftPackageReference "AzureAIVisionCore" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://msface.visualstudio.com/SDK/_git/AzureAIVisionCore.xcframework";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		8C020C232B173467001E72AE /* XCRemoteSwiftPackageReference "AzureAIVisionFaceUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://msface.visualstudio.com/SDK/_git/AzureAIVisionFaceUI.xcframework";
@@ -471,11 +465,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8C020C232B173467001E72AE /* XCRemoteSwiftPackageReference "AzureAIVisionFaceUI" */;
 			productName = AzureAIVisionFaceUI;
-		};
-		8C020C262B1735B8001E72AE /* AzureAIVisionCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8C020C222B172A45001E72AE /* XCRemoteSwiftPackageReference "AzureAIVisionCore" */;
-			productName = AzureAIVisionCore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

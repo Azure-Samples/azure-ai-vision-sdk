@@ -1,16 +1,29 @@
-package com.example.facelivenessdetectorsample.viewmodel
+package com.microsoft.azure.ai.vision.facelivenessdetectorsample.viewmodel
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.azure.android.ai.vision.face.ui.LivenessDetectionError
 import com.azure.android.ai.vision.face.ui.LivenessDetectionSuccess
-import com.example.facelivenessdetectorsample.models.ResultData
-import com.example.facelivenessdetectorsample.utils.SharedPrefKeys
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.models.ResultData
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.token.FaceSessionToken
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.utils.SharedPrefKeys
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.URL
+import java.nio.charset.Charset
+import javax.net.ssl.HttpsURLConnection
 
 
 data class LivenessResult (
@@ -34,6 +47,7 @@ class LivenessScreenViewModel(sharedPreferences: SharedPreferences) : ViewModel(
     private val _initialPermissionState = MutableStateFlow(false)
     val initialPermissionState: StateFlow<Boolean> = _initialPermissionState
 
+    val mSharedPreferences = sharedPreferences
     var faceApiEndpoint by mutableStateOf(
         sharedPreferences.getString(
             SharedPrefKeys.FACE_API_ENDPOINT, ""
@@ -48,30 +62,107 @@ class LivenessScreenViewModel(sharedPreferences: SharedPreferences) : ViewModel(
     )
         private set
 
-    private var experimentalMode by mutableStateOf(
-        sharedPreferences.getBoolean(
-            SharedPrefKeys.EXPERIMENTAL_MODE, false
-        )
+    private var fetchTokenJob: Job? = null
+    var isWaitingForResult by mutableStateOf(false)
+        private set
+    var faceApiKey by mutableStateOf(
+        sharedPreferences.getString(SharedPrefKeys.FACE_API_KEY, "") ?: ""
     )
+        private set
+    fun fetchFaceAPILivenssResult(
+        onResultFetched: (() -> Unit)? = null){
+        fetchTokenJob?.cancel()
 
-    fun propertyBag(): Map<String, String>? {
-        return if (experimentalMode) {
-            mapOf("ExperimentalMode" to "true")
-        } else {
-            null
+        onResultFetched?.let {
+            isWaitingForResult = true
+        }
+
+        fetchTokenJob = viewModelScope.launch(context = Dispatchers.IO) {
+            var url: URL?
+            var urlConnection: HttpsURLConnection? = null
+            val type = if (FaceSessionToken.isVerifyImage) "detectLivenessWithVerify" else "detectLiveness"
+            if (faceApiEndpoint.isNotBlank() && faceApiKey.isNotBlank()) {
+                try {
+                    //fetch result url
+                    url = URL("$faceApiEndpoint/face/${FaceSessionToken.mFaceApiVersion}/$type-sessions/${FaceSessionToken.sessionId}")
+                    val charset: Charset = Charset.forName("UTF-8")
+                    urlConnection = url.openConnection() as HttpsURLConnection
+                    urlConnection.setRequestProperty("Ocp-Apim-Subscription-Key", faceApiKey)
+                    urlConnection.setRequestProperty(
+                        "Content-Type", "application/json; charset=$charset"
+                    )
+                    urlConnection.requestMethod = "GET"
+                    val (reader, throwable) = try {
+                        Pair(BufferedReader(InputStreamReader(urlConnection.inputStream)), null)
+                    } catch (t: Throwable) {
+                        Pair(BufferedReader(InputStreamReader(urlConnection.errorStream)), t)
+                    }
+                    val response = StringBuilder()
+                    var line: String?
+                    while (reader.readLine().also { line = it } != null) {
+                        response.append(line)
+                    }
+                    reader.close()
+
+                    // Parse the JSON response
+                    val jsonResponse = response.toString()
+
+                    if (throwable == null) {
+                        val jsonObject = JSONObject(jsonResponse)
+                        val results = jsonObject.getJSONObject("results")
+                        val attempts = results.getJSONArray("attempts")
+                        val attempt = attempts.getJSONObject(0)
+                        val result = attempt.getJSONObject("result")
+                        FaceSessionToken.livenessStatus = result.getString("livenessDecision")
+                        if (FaceSessionToken.isVerifyImage) {
+                            val verificationResult = result.getJSONObject("verifyResult")
+                            FaceSessionToken.verificationStatus = verificationResult.getBoolean("isIdentical").toString()
+                            FaceSessionToken.verificationMatchConfidence = verificationResult.getDouble("matchConfidence").toString()
+                        } 
+                    } else {
+                        Log.d(
+                            "Face API Session Result Fetched",
+                            "Status: ${urlConnection.responseCode} ${urlConnection.responseMessage}"
+                        )
+                        Log.d("Face API Session Fetched", "Body: $jsonResponse")
+                        throw throwable
+                    }
+                } catch (ex: Exception) {
+                    Log.wtf("Face API Session Result Fetched", "Error: ${ex.message}")
+                    ex.printStackTrace()
+                } finally {
+                    withContext(Dispatchers.Main) {
+                        onResultFetched?.invoke()
+                    }
+                    isWaitingForResult = false
+                    urlConnection?.disconnect()
+                }
+            }
         }
     }
 
     fun onSuccess(livenessDetectionSuccess: LivenessDetectionSuccess) {
+        val editor = mSharedPreferences.edit()
+        editor.putString(SharedPrefKeys.LAST_SESSION_APIM_REQ_ID, livenessDetectionSuccess.resultId)
+        editor.commit()
         val livenessResult = LivenessResult(livenessDetectionSuccess, null)
-        _analyzedResultResponse.value = livenessResult
-        val result = ResultData(
-            livenessStatus = livenessDetectionSuccess.livenessStatus.toString(),
-            livenessFailureReason = null,
-            verificationStatus = livenessDetectionSuccess.recognitionResult.recognitionStatus.toString(),
-            verificationConfidence = livenessDetectionSuccess.recognitionResult.matchConfidence.toString()
-        )
-        _resultData.value = result
+       
+        // Once the session is completed, the client does not receive the outcome whether face is live or spoof.
+        // You can query the result from your backend service by calling the sessions results API
+        // https://aka.ms/face/liveness-session/get-liveness-session-result
+        val onResultFetched: () -> Unit = {
+            _analyzedResultResponse.value = livenessResult
+            val result = ResultData(
+                livenessStatus = FaceSessionToken.livenessStatus,
+                livenessFailureReason = null,
+                verificationStatus = FaceSessionToken.verificationStatus,
+                verificationConfidence = FaceSessionToken.verificationMatchConfidence
+            )
+            _resultData.value = result
+        }
+        fetchFaceAPILivenssResult(onResultFetched)
+
+
     }
 
     fun onError(livenessDetectionError: LivenessDetectionError) {

@@ -1,4 +1,4 @@
-package com.example.facelivenessdetectorsample.ui.theme
+package com.microsoft.azure.ai.vision.facelivenessdetectorsample.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

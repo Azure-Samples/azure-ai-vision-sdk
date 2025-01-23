@@ -2,16 +2,15 @@
 
 // Step 1: Import the web component.
 import "azure-ai-vision-face-ui";
-import { FaceLivenessDetector, LivenessDetectionSuccess, LivenessDetectionError, LivenessStatus, RecognitionStatus } from 'azure-ai-vision-face-ui';
+import { FaceLivenessDetector, LivenessDetectionError } from 'azure-ai-vision-face-ui';
 
 import { ref, watchEffect, defineProps, defineEmits } from "vue";
-import { fetchTokenFromAPI } from "../utils/utils";
+import { SessionAuthorizationData, fetchTokenFromAPI, fetchSessionResultFromAPI } from "../utils/utils";
 
 
 const props = defineProps([
   "livenessOperationMode",
   "action",
-  "sendResultsToClient",
   "file",
 ]);
 
@@ -25,19 +24,18 @@ const emit = defineEmits(["retryLivenessDetector", "displayResult"]);
 watchEffect(async () => {
   const fetchResult = await fetchTokenFromAPI(
     props.livenessOperationMode,
-    props.sendResultsToClient,
     props.file
   );
 
-  if (fetchResult.token) {
-    startFaceLiveness(fetchResult.token, props.file);
+  if (fetchResult.sessionAuthData) {
+    startFaceLiveness(fetchResult.sessionAuthData, props.file);
   } else {
     emit("retryLivenessDetector", fetchResult.message);
   }
 });
 
 // This method shows how to start face liveness check.
-async function startFaceLiveness(authToken: string, file: string) {
+async function startFaceLiveness(sessionData: SessionAuthorizationData, file: string) {
   let action = (file !== undefined) ? "detectLivenessWithVerify": "detectLiveness";
 
   // Step 2: query the azure-ai-vision-face-ui element to process face liveness.
@@ -60,40 +58,36 @@ async function startFaceLiveness(authToken: string, file: string) {
   // You can then set the desired deviceId as an attribute faceLivenessDetector.mediaInfoDeviceId = <desired-device-id>
 
   // Step 4: Start the face liveness check session and handle the promise returned appropriately.
-  // Note: For added security, you are not required to trust the 'status' property from client.
-  // Your backend can and should verify this by querying about the session Face API directly.
-  faceLivenessDetector.value.start(authToken)
-  .then(resultData => {
-    // Once the session is completed and promise fulfilled, the resultData contains the result of the analysis.
-    // - livenessStatus: The result of the liveness detection.
-    const faceLivenessDetectorResult = resultData as LivenessDetectionSuccess;
+  faceLivenessDetector.value.start(sessionData.authToken)
+  .then(async resultData => {
+    console.log(resultData);
       
+    // Once the session is completed and promise fulfilled, the client does not receive the outcome whether face is live or spoof.
+    // You can query the result from your backend service by calling the sessions results API
+    // https://aka.ms/face/liveness-session/get-liveness-session-result
+    var sessionResult = await fetchSessionResultFromAPI(action, sessionData.sessionId);
+  
     // Set Liveness Status Results
-    const livenessStatus = faceLivenessDetectorResult.livenessStatus;
-    const livenessCondition = livenessStatus == LivenessStatus.RealFace;
+    const livenessStatus = sessionResult.results.attempts[0].result.livenessDecision;
+    const livenessCondition = livenessStatus == "realface";
 
-    let livenessText = null;
-    if (livenessStatus == LivenessStatus.RealFace) {
-      livenessText = "Real Person";
-    } else if (livenessStatus == LivenessStatus.SpoofFace) {
-      livenessText = "Spoof Person";
-    } else if (livenessStatus == LivenessStatus.ResultQueryableFromService) {
-      livenessText = "ResultQueryableFromService";
+    let livenessText = "";
+    if (livenessCondition) {
+      livenessText = 'Real Person';
+    } else {
+      livenessText = 'Spoof';
     }
 
     // Set Recognition Status Results (if applicable)
     let recognitionCondition;
     let recognitionText;
-    if (action == "detectLivenessWithVerify") {
-      const recognitionStatus = faceLivenessDetectorResult.recognitionResult.status;
-      recognitionCondition = recognitionStatus == RecognitionStatus.Recognized;
+    if (action === "detectLivenessWithVerify") {
+      recognitionCondition = sessionResult.results.attempts[0].result.verifyResult.isIdentical;
 
-      if (recognitionStatus == RecognitionStatus.Recognized) {
-        recognitionText = "Same Person";
-      } else if (recognitionStatus == RecognitionStatus.NotRecognized) {
-        recognitionText = "Not the same person";
-      } else if (recognitionStatus == RecognitionStatus.ResultQueryableFromService) {
-        recognitionText = "ResultQueryableFromService";
+      if (recognitionCondition) {
+        recognitionText = 'Same Person';
+      } else {
+        recognitionText = 'Not the same person';
       }
     }
 

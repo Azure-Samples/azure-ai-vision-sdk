@@ -1,4 +1,4 @@
-package com.example.facelivenessdetectorsample.screens
+package com.microsoft.azure.ai.vision.facelivenessdetectorsample.screens
 
 import android.preference.PreferenceManager
 import androidx.compose.foundation.layout.Arrangement
@@ -22,10 +22,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.azure.android.ai.vision.face.ui.FaceLivenessDetector
-import com.example.facelivenessdetectorsample.utils.getCameraPermissionState
-import com.example.facelivenessdetectorsample.token.FaceSessionToken
-import com.example.facelivenessdetectorsample.viewmodel.LivenessScreenViewModel
-import com.example.facelivenessdetectorsample.viewmodel.LivenessScreenViewModelFactory
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.utils.getCameraPermissionState
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.token.FaceSessionToken
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.viewmodel.LivenessScreenViewModel
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.viewmodel.LivenessScreenViewModelFactory
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.isGranted
