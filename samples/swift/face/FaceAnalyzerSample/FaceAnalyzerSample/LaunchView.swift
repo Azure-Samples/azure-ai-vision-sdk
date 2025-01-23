@@ -22,19 +22,19 @@ struct LaunchView: View {
                         .font(.title)
                         .padding()
                         .disabled(!sessionData.settingsConfigured)
-                }
+                }.accessibilityIdentifier("livenessButton")
                 Button(action: livenessWithVerifyClicked) {
                     Text("LivenessWithVerify")
                         .font(.title)
                         .padding()
                         .disabled(!sessionData.settingsConfigured)
-                }
+                }.accessibilityIdentifier("livenessWithVerifyButton")
                 Section {
                     Button(action: settingClicked) {
                         Text("Settings")
                             .font(.title)
                             .padding()
-                    }
+                    }.accessibilityIdentifier( "settingsButton")
                 }
             }
         }.onAppear {
@@ -93,13 +93,17 @@ struct LaunchView: View {
     func livenessClicked() {
         if !sessionData.settingsConfigured { return }
         sessionData.livenessWithVerify = false
+        sessionData.token = nil
+        sessionData.sessionId = nil
         withAnimation {
             pageSelection.current = .clientStart
-            sessionData.token = obtainToken(usingEndpoint: sessionData.endpoint,
-                                            key: sessionData.key,
-                                            withVerify: false,
-                                            sendResultsToClient: sessionData.sendResultsToClient,
-                                            livenessOperationMode: sessionData.livenessMode.livenessOperationMode)
+            if let auth = obtainToken(usingEndpoint: sessionData.endpoint,
+                                      key: sessionData.key,
+                                      withVerify: false,
+                                      livenessOperationMode: sessionData.livenessMode.livenessOperationMode) {
+                sessionData.token = auth.token
+                sessionData.sessionId = auth.id
+            }
         }
     }
     func livenessWithVerifyClicked() {

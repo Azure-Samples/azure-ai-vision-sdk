@@ -2,7 +2,7 @@
 
 // Step 1: Import the web component.
 import 'azure-ai-vision-face-ui';
-import { FaceLivenessDetector, LivenessDetectionSuccess, LivenessDetectionError, LivenessStatus, RecognitionStatus } from 'azure-ai-vision-face-ui';
+import { FaceLivenessDetector, LivenessDetectionError } from 'azure-ai-vision-face-ui';
 
 import {
   CUSTOM_ELEMENTS_SCHEMA,
@@ -13,7 +13,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { LivenessOperationMode, fetchTokenFromAPI } from '../app/utils';
+import { LivenessOperationMode, SessionAuthorizationData, fetchTokenFromAPI, fetchSessionResultFromAPI } from '../app/utils';
 
 @Component({
   selector: 'liveness-detector-page',
@@ -23,11 +23,11 @@ import { LivenessOperationMode, fetchTokenFromAPI } from '../app/utils';
   styleUrl: './liveness-detector-page.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
+
 export class FaceLivenessDetectorComponent implements OnInit, OnDestroy {
   @Input('livenessOperationMode') livenessOperationMode: LivenessOperationMode =
     'Passive'; // for more information: https://aka.ms/face-api-reference-livenessoperationmode
   @Input('action') action: string = 'detectLiveness';
-  @Input('sendResultsToClient') sendResultsToClient: boolean = true; // By setting the sendResultsToClient to true, you should be able to view the final results in the frontend, else you will get a LivenessStatus of CompletedResultQueryableFromService
 
   @Input('file') file: File | undefined;
 
@@ -40,7 +40,6 @@ export class FaceLivenessDetectorComponent implements OnInit, OnDestroy {
   }> = new EventEmitter();
 
   faceLivenessDetector: FaceLivenessDetector | null = null;
-  faceLivenessDetectionResult: LivenessDetectionSuccess | undefined;
 
   // Step 3: Obtain session-authorization-token.
   // Disclaimer: This is just an illustration of what information is used to create a liveness session using a mocked backend. For more information on how to orchestrate the liveness solution, please refer to https://aka.ms/azure-ai-vision-face-liveness-tutorial
@@ -49,7 +48,6 @@ export class FaceLivenessDetectorComponent implements OnInit, OnDestroy {
   async ngOnInit(): Promise<void> {
     await fetchTokenFromAPI(
       this.livenessOperationMode,
-      this.sendResultsToClient,
       this.file,
       this.startFaceLiveness.bind(this),
       undefined,
@@ -62,7 +60,7 @@ export class FaceLivenessDetectorComponent implements OnInit, OnDestroy {
   }
 
   // This method shows how to start face liveness check.
-  async startFaceLiveness(authToken: string, action: string) {
+  async startFaceLiveness(sessionData: SessionAuthorizationData, action: string) {
     // Step 2: query the azure-ai-vision-face-ui element to process face liveness.
     // For scenarios where you want to use the same element to process multiple sessions, you can query the element once and store it in a variable.
     // An example would be to retry in case of a failure.
@@ -85,40 +83,36 @@ export class FaceLivenessDetectorComponent implements OnInit, OnDestroy {
     // You can then set the desired deviceId as an attribute faceLivenessDetector.mediaInfoDeviceId = <desired-device-id>
 
     // Step 5: Start the face liveness check session and handle the promise returned appropriately.
-    // Note: For added security, you are not required to trust the 'status' property from client.
-    // Your backend can and should verify this by querying about the session Face API directly.
-    this.faceLivenessDetector.start(authToken)
-    .then (resultData => {
-        // Once the session is completed and promise fulfilled, the resultData contains the result of the analysis.
-        // - livenessStatus: The result of the liveness detection.
-        var livenessDetectionResult = resultData as LivenessDetectionSuccess;
-        this.faceLivenessDetectionResult = livenessDetectionResult;
+    this.faceLivenessDetector.start(sessionData.authToken)
+    .then (async resultData => {
+        console.log(resultData);
+      
+        // Once the session is completed and promise fulfilled, the client does not receive the outcome whether face is live or spoof.
+        // You can query the result from your backend service by calling the sessions results API
+        // https://aka.ms/face/liveness-session/get-liveness-session-result
+        var sessionResult = await fetchSessionResultFromAPI(action, sessionData.sessionId);
+      
         // Set Liveness Status Results
-        const livenessStatus = livenessDetectionResult.livenessStatus;
-        const livenessCondition = livenessStatus == LivenessStatus.RealFace;
+        const livenessStatus = sessionResult.results.attempts[0].result.livenessDecision;
+        const livenessCondition = livenessStatus == "realface";
 
         let livenessText = "";
-        if (livenessStatus == LivenessStatus.RealFace) {
+        if (livenessCondition) {
           livenessText = 'Real Person';
-        } else if (livenessStatus == LivenessStatus.SpoofFace) {
+        } else {
           livenessText = 'Spoof';
-        } else if (livenessStatus == LivenessStatus.ResultQueryableFromService) {
-          livenessText = 'ResultQueryableFromService';
         }
 
         // Set Recognition Status Results (if applicable)
         let recognitionCondition = undefined;
         let recognitionText = undefined;
         if (action === "detectLivenessWithVerify") {
-          const recognitionStatus = livenessDetectionResult.recognitionResult.status;
-          recognitionCondition = recognitionStatus == RecognitionStatus.Recognized;
+          recognitionCondition = sessionResult.results.attempts[0].result.verifyResult.isIdentical;
 
-          if (recognitionStatus == RecognitionStatus.Recognized) {
+          if (recognitionCondition) {
             recognitionText = 'Same Person';
-          } else if (recognitionStatus == RecognitionStatus.NotRecognized) {
+          } else {
             recognitionText = 'Not the same person';
-          } else if (recognitionStatus == RecognitionStatus.ResultQueryableFromService) {
-            recognitionText = 'ResultQueryableFromService';
           }
         }
 

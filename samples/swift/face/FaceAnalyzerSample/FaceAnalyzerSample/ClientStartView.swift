@@ -19,6 +19,7 @@ struct ClientStartView: View {
                     .padding()
             })
                 .disabled(sessionData.token == nil || sessionData.token == "")
+                .accessibilityIdentifier("startButton")
             Spacer()
         }
     }

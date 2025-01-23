@@ -1,4 +1,4 @@
-package com.example.facelivenessdetectorsample.viewmodel
+package com.microsoft.azure.ai.vision.facelivenessdetectorsample.viewmodel
 
 import android.content.SharedPreferences
 import android.util.Log
@@ -8,8 +8,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.facelivenessdetectorsample.token.FaceSessionToken
-import com.example.facelivenessdetectorsample.utils.SharedPrefKeys
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.token.FaceSessionToken
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.utils.SharedPrefKeys
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -57,12 +57,6 @@ class MainScreenViewModel(sharedPreferences: SharedPreferences) : ViewModel() {
         )
     )
 
-    var sendResultsToClient by mutableStateOf(
-        sharedPreferences.getBoolean(
-            SharedPrefKeys.SEND_RESULTS_TO_CLIENT, false
-        )
-    )
-        private set
     var setImageInClient by mutableStateOf(
         sharedPreferences.getBoolean(
             SharedPrefKeys.SET_IMAGE_IN_CLIENT, false
@@ -86,7 +80,6 @@ class MainScreenViewModel(sharedPreferences: SharedPreferences) : ViewModel() {
         faceApiEndpoint: String,
         faceApiKey: String,
         verifyImageArray: ByteArray?,
-        sendResultsToClient: Boolean,
         setImageInClient: Boolean,
         passiveActive: Boolean,
         deviceId: Long,
@@ -99,35 +92,32 @@ class MainScreenViewModel(sharedPreferences: SharedPreferences) : ViewModel() {
         }
 
         fetchTokenJob = viewModelScope.launch(context = Dispatchers.IO) {
-            val url: URL?
+            var url: URL?
             var urlConnection: HttpsURLConnection? = null
+            val type = if (verifyImageArray != null) "detectLivenessWithVerify" else "detectLiveness"
+            var urlConnectionResponseCode: Int = 0
             if (faceApiEndpoint.isNotBlank() && faceApiKey.isNotBlank()) {
                 try {
-                    url = if (verifyImageArray != null) {
-                        URL("$faceApiEndpoint/face/v1.1-preview.1/detectLivenessWithVerify/singleModal/sessions")
-                    } else {
-                        URL("$faceApiEndpoint/face/v1.1-preview.1/detectLiveness/singleModal/sessions")
-                    }
+                    url = URL("$faceApiEndpoint/face/${FaceSessionToken.mFaceApiVersion}/$type-sessions")
                     val livenessMode = if (passiveActive) "PassiveActive" else "Passive"
-                    val tokenRequest = JSONObject(
+                    val parameters =
                         mapOf(
                             "livenessOperationMode" to livenessMode,
-                            "sendResultsToClient" to sendResultsToClient,
                             "deviceCorrelationId" to UUID(deviceId, deviceId)
                         )
-                    ).toString()
                     val charset: Charset = Charset.forName("UTF-8")
                     urlConnection = url.openConnection() as HttpsURLConnection
+                    urlConnection.setConnectTimeout(30000)
                     urlConnection.doOutput = true
                     urlConnection.setChunkedStreamingMode(0)
                     urlConnection.useCaches = false
                     urlConnection.setRequestProperty("Ocp-Apim-Subscription-Key", faceApiKey)
-                    if (verifyImageArray == null || setImageInClient == true) {
+                    if (verifyImageArray == null) {
                         urlConnection.setRequestProperty(
                             "Content-Type", "application/json; charset=$charset"
                         )
                         val out: OutputStream = BufferedOutputStream(urlConnection.outputStream)
-                        out.write(tokenRequest.toByteArray(charset))
+                        out.write(JSONObject(parameters).toString().toByteArray(charset))
                         out.flush()
                     } else {
                         val boundary: String = UUID.randomUUID().toString()
@@ -137,25 +127,28 @@ class MainScreenViewModel(sharedPreferences: SharedPreferences) : ViewModel() {
                         val outputStream = BufferedOutputStream(urlConnection.outputStream)
 
                         PrintWriter(OutputStreamWriter(outputStream, charset), true).use { writer ->
-                            writer.append("--$boundary").append(LINE_FEED)
-                            writer.append("Content-Type: application/json; charset=$charset")
-                                .append(LINE_FEED)
-                            writer.append("Content-Disposition: form-data; name=Parameters")
-                                .append(LINE_FEED)
-                            writer.append(LINE_FEED).append(tokenRequest).append(LINE_FEED)
+                            for ((name, content) in parameters) {
+                                writer.append("--$boundary").append(LINE_FEED)
+                                writer.append("Content-Type: application/json; charset=$charset")
+                                    .append(LINE_FEED)
+                                writer.append("Content-Disposition: form-data; name=$name")
+                                    .append(LINE_FEED)
+                                writer.append(LINE_FEED).append(content.toString()).append(LINE_FEED)
+                            }
+                            if(setImageInClient == false){
+                                writer.append("--$boundary").append(LINE_FEED)
+                                writer.append("Content-Disposition: form-data; name=verifyImage; filename=VerifyImage")
+                                    .append(LINE_FEED)
+                                writer.append("Content-Type: application/octet-stream")
+                                    .append(LINE_FEED)
+                                writer.append("Content-Transfer-Encoding: binary").append(LINE_FEED)
+                                writer.append(LINE_FEED).flush()
+                                outputStream.write(verifyImageArray, 0, verifyImageArray.size)
+                                outputStream.flush()
+                                writer.append(LINE_FEED).flush()
+                            }
 
-                            writer.append("--$boundary").append(LINE_FEED)
-                            writer.append("Content-Disposition: form-data; name=VerifyImage; filename=VerifyImage")
-                                .append(LINE_FEED)
-                            writer.append("Content-Type: application/octet-stream")
-                                .append(LINE_FEED)
-                            writer.append("Content-Transfer-Encoding: binary").append(LINE_FEED)
-                            writer.append(LINE_FEED).flush()
-                            outputStream.write(verifyImageArray, 0, verifyImageArray.size)
-                            outputStream.flush()
-                            writer.append(LINE_FEED).flush()
-                            writer.append(LINE_FEED).flush()
-
+                       
                             writer.append("--$boundary--").append(LINE_FEED).flush()
                             outputStream.flush()
                         }
@@ -182,6 +175,12 @@ class MainScreenViewModel(sharedPreferences: SharedPreferences) : ViewModel() {
                     if (throwable == null) {
                         val jsonObject = JSONObject(jsonResponse)
                         FaceSessionToken.sessionToken = jsonObject.getString("authToken")
+                        FaceSessionToken.sessionId = jsonObject.getString("sessionId")
+                        if(verifyImageArray != null){
+                            FaceSessionToken.isVerifyImage = true
+                        } else {
+                            FaceSessionToken.isVerifyImage = false
+                        }
                         _isTokenReady.value = true
                         if(setImageInClient == true && verifyImageArray != null) {
                             FaceSessionToken.sessionSetInClientVerifyImage = verifyImageArray
@@ -194,6 +193,10 @@ class MainScreenViewModel(sharedPreferences: SharedPreferences) : ViewModel() {
                             "Face API Session Create",
                             "Status: ${urlConnection.responseCode} ${urlConnection.responseMessage}"
                         )
+                        val requestId: String? = urlConnection.getHeaderField("apim-request-id")
+                        requestId?.also {
+                            Log.d("Face API Session Create", "apim-request-id: $this")
+                        }
                         Log.d("Face API Session Create", "Body: $jsonResponse")
                         throw throwable
                     }
@@ -202,7 +205,14 @@ class MainScreenViewModel(sharedPreferences: SharedPreferences) : ViewModel() {
                     ex.printStackTrace()
                 } finally {
                     isLoading = false
-                    urlConnection?.disconnect()
+                    try {
+                        urlConnectionResponseCode = urlConnection?.responseCode ?: 0
+                    } catch (ex: Exception) {
+                        Log.wtf("Face API Session Create Cleanup", "Error: ${ex.message}")
+                        ex.printStackTrace()
+                    } finally {
+                        urlConnection?.disconnect()
+                    }
                 }
             }
         }
@@ -213,7 +223,6 @@ class MainScreenViewModel(sharedPreferences: SharedPreferences) : ViewModel() {
             faceApiEndpoint = faceApiEndpoint,
             faceApiKey = faceApiKey,
             verifyImageArray = verifyImageArray,
-            sendResultsToClient = sendResultsToClient,
             setImageInClient = setImageInClient,
             deviceId = deviceId,
             passiveActive = passiveActive,

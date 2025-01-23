@@ -3,8 +3,8 @@
 // For more information on how to orchestrate the liveness solution, please refer to https://aka.ms/azure-ai-vision-face-liveness-tutorial
 export async function POST(request: Request) {
   const formData = await request.formData();
-  const paramString = formData.get("Parameters");
-  const file = formData.get("VerifyImage") as File | null;
+  const paramString = formData.get("parameters");
+  const file = formData.get("verifyImage") as File | null;
   if (typeof paramString !== "string") {
     return Response.json(
       { message: "Parameters not formatted correctly", token: null },
@@ -14,7 +14,6 @@ export async function POST(request: Request) {
 
   const parameters = await JSON.parse(paramString);
   const livenessOperationMode = parameters.livenessOperationMode;
-  const sendResultsToClient = parameters.sendResultsToClient;
   const deviceCorrelationId = parameters.deviceCorrelationId;
   const action = formData.get("Action");
 
@@ -52,15 +51,6 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
-  if (typeof sendResultsToClient != "boolean") {
-    return Response.json(
-      {
-        message: "sendResultsToClient parameter not expected",
-        token: null,
-      },
-      { status: 400 }
-    );
-  }
   if (typeof deviceCorrelationId != "string") {
     return Response.json(
       {
@@ -72,24 +62,17 @@ export async function POST(request: Request) {
   }
 
   // Note1: More information regarding each request parameter involved in creating a liveness session is here: https://aka.ms/face-api-reference-createlivenesssession
-  let formBody: FormData | string = JSON.stringify({
+  let requestBody: FormData | string = JSON.stringify({
     livenessOperationMode,
-    sendResultsToClient,
     deviceCorrelationId,
   });
 
   // Note2: You can create a liveness session with verification by attaching a verify image during session-create, reference: https://aka.ms/face-api-reference-createlivenesswithverifysession
   if (action == "detectLivenessWithVerify" && file != undefined) {
-    formBody = new FormData();
-    formBody.append(
-      "Parameters",
-      JSON.stringify({
-        livenessOperationMode,
-        sendResultsToClient,
-        deviceCorrelationId,
-      })
-    );
-    formBody.append("VerifyImage", file, file.name);
+    requestBody = new FormData();
+    requestBody.append("verifyImage", file, file.name);
+    requestBody.append("livenessOperationMode", livenessOperationMode);
+    requestBody.append("deviceCorrelationId", deviceCorrelationId);
   }
 
   // Token is fetched with API endpoint and key
@@ -99,7 +82,7 @@ export async function POST(request: Request) {
     process.env.FACE_ENDPOINT!,
     process.env.FACE_KEY!,
     action,
-    formBody
+    requestBody
   );
 
   return Response.json(result, {
@@ -112,7 +95,7 @@ const fetchTokenOnServer = async (
   faceApiEndPoint: string,
   faceApiKey: string,
   action: string,
-  formBody: FormData | string
+  requestBody: FormData | string
 ) => {
   try {
     let headers: { [key: string]: string } = {
@@ -123,11 +106,11 @@ const fetchTokenOnServer = async (
       headers["Content-Type"] = "application/json";
     }
     const response = await fetch(
-      `${faceApiEndPoint}/face/v1.1-preview.1/${action}/singleModal/sessions`,
+      `${faceApiEndPoint}/face/v1.2/${action}-sessions`,
       {
         method: "POST",
         headers: headers,
-        body: formBody,
+        body: requestBody,
       }
     );
 
@@ -137,7 +120,7 @@ const fetchTokenOnServer = async (
       throw new Error(sessions.error?.message);
     }
 
-    return { authToken: sessions.authToken, message: "success" };
+    return { sessionData: sessions, message: "success" };
   } catch (error) {
     if (typeof error === "string") {
       return { error: { token: null, message: error } };

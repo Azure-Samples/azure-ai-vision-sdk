@@ -34,7 +34,7 @@ export default function FaceLivenessDetectorSampleClient() {
   const [isDetectLivenessWithVerify, setIsDetectLivenessWithVerify] =
     useState<Boolean>(false);
   const [livenessIcon, setLivenessIcon] = useState<string>(checkmarkCircleIcon);
-  const [livenessText, setLivenessText] = useState<string>("Live Person");
+  const [livenessText, setLivenessText] = useState<string>("Real Person");
   const [recognitionIcon, setRecognitionIcon] = useState<string>(checkmarkCircleIcon);
   const [recognitionText, setRecognitionText] = useState<string>("Same Person");
 

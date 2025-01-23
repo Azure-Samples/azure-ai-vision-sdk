@@ -60,20 +60,21 @@ async function startFaceLiveness(event) {
   // Note: The liveness-operation-mode is retrieved from 'data-mode' attribute of the start buttons, for more information: https://aka.ms/face-api-reference-livenessoperationmode
   const livenessOperationMode = event.target.dataset.mode;
   // Note1: More information regarding each request parameter involved in creating a liveness session is here: https://aka.ms/face-api-reference-createlivenesssession
-  const sessionBodyStruct = { livenessOperationMode: livenessOperationMode, sendResultsToClient: true, deviceCorrelationId: await getDummyDeviceId() };
+  const sessionBodyStruct = { livenessOperationMode: livenessOperationMode, deviceCorrelationId: await getDummyDeviceId() };
   let sessionCreationBody = JSON.stringify(sessionBodyStruct);
   let sessionCreationHeaders = { 'Content-Type': 'application/json' };
   let action = "detectLiveness";
   // Note2: You can also create a liveness session with verification by attaching a verify image during session-create, reference: https://aka.ms/face-api-reference-createlivenesswithverifysession
   if (useVerifyImageFileInput.files.length > 0) {
     sessionCreationBody = new FormData();
-    sessionCreationBody.append("Parameters", JSON.stringify(sessionBodyStruct));
-    sessionCreationBody.append("VerifyImage", useVerifyImageFileInput.files[0], useVerifyImageFileInput.files[0].name);
+    sessionCreationBody.append("verifyImage", useVerifyImageFileInput.files[0], useVerifyImageFileInput.files[0].name);
+    sessionCreationBody.append("livenessOperationMode", livenessOperationMode);
+    sessionCreationBody.append("deviceCorrelationId", await getDummyDeviceId());
     sessionCreationHeaders = {};
     action = "detectLivenessWithVerify";
   }
   // Calling a mocked app backend to create the session, this part is left to the developer to implement in a production setting. Code samples are provided in https://aka.ms/azure-ai-vision-face-liveness-tutorial
-  const session = await (await fetch(`/api/${action}/singleModal/sessions`, { method: "POST", headers: sessionCreationHeaders, body: sessionCreationBody, })).json();
+  const session = await (await fetch(`/api/${action}-sessions`, { method: "POST", headers: sessionCreationHeaders, body: sessionCreationBody, })).json();
 
   if (faceLivenessDetector == null) {
     // Step 4: Create the face liveness detector element and attach it to DOM.
@@ -86,25 +87,23 @@ async function startFaceLiveness(event) {
   // You can then set the desired deviceId as an attribute faceLivenessDetector.mediaInfoDeviceId = <desired-device-id>
 
   // Step 5: Start the face liveness check session and handle the promise returned appropriately.
-  // Note: For added security, you are not required to trust the 'status' property from client.
-  // Your backend can and should verify this by querying about the session Face API directly.
   faceLivenessDetector.start(session.authToken)
-  .then(resultData => {
-    // Once the session is completed and promise fulfilled, the resultData contains the result of the analysis.
-    // - livenessStatus: The result of the liveness detection.
-    const livenessStatus = resultData.livenessStatus;
-    const livenessCondition = livenessStatus == LivenessStatus.RealFace;
+  .then(async resultData => {
+    console.log(resultData);
+    // Once the session is completed and promise fulfilled, the client does not receive the outcome whether face is live or spoof.
+    // You can query the result from your backend service by calling the sessions results API
+    // https://aka.ms/face/liveness-session/get-liveness-session-result
+    const sessionResult = await (await fetch(`/api/${action}-sessions/${session.sessionId}`, { method: "GET", headers: sessionCreationHeaders })).json();
+    const livenessStatus = sessionResult?.results?.attempts?.[0]?.result?.livenessDecision ?? sessionResult?.result?.response?.body?.livenessDecision ?? null;
+    const livenessCondition = livenessStatus == "realface";
     const livenessIcon = livenessCondition ? checkmarkCircleIcon : dismissCircleIcon;
     
     let livenessText = null;
-    if (livenessStatus == LivenessStatus.RealFace) {
-      livenessText = "Live Person";
+    if (livenessCondition) {
+      livenessText = "Real Person";
     }
-    else if (livenessStatus == LivenessStatus.SpoofFace) {
+    else {
       livenessText = "Spoof";
-    }
-    else if (livenessStatus == LivenessStatus.ResultQueryableFromService) {
-      livenessText = "ResultQueryableFromService";
     }
     
     createOrUpdateFeedbackItem("liveness-icon", heartPulseIcon, "Liveness");
@@ -112,24 +111,20 @@ async function startFaceLiveness(event) {
 
     // For scenario that requires face verification, the resultData.recognitionResult contains the result of the face verification.
     if (action == "detectLivenessWithVerify") {
-      const verificationStatus = resultData.recognitionResult.status;
-      const verificationCondition = verificationStatus == RecognitionStatus.Recognized;
+      const verificationCondition = sessionResult?.results?.attempts?.[0]?.result?.verifyResult?.isIdentical ?? sessionResult?.result?.response?.body?.verifyResult?.isIdentical ?? null;
       const verificationIcon = verificationCondition ? checkmarkCircleIcon : dismissCircleIcon;
       let verificationText = null;
         
-      if (verificationStatus == RecognitionStatus.Recognized) {
-        verificationText = "Matched";
+      if (verificationCondition) {
+        verificationText = "Same Person";
       }
-      else if (verificationStatus == RecognitionStatus.NotRecognized) {
-        verificationText = "Not Matched";
-      }
-      else if (verificationStatus == RecognitionStatus.ResultQueryableFromService) {
-        verificationText = "ResultQueryableFromService";
+      else {
+        verificationText = "Not the same person";
       }
     
       createOrUpdateLine("separator-line");
       createOrUpdateFeedbackItem('verification-icon', personIcon, 'Verification');
-      createOrUpdateFeedbackItem('verificatio-status', verificationIcon, verificationText);
+      createOrUpdateFeedbackItem('verification-status', verificationIcon, verificationText);
     }
     // - Show continue button so user can restart the liveness check.
     continueButton.toggleAttribute("hidden");
@@ -148,7 +143,7 @@ async function startFaceLiveness(event) {
       const verificationIcon = dismissCircleIcon;
       createOrUpdateLine("separator-line");
       createOrUpdateFeedbackItem('verification-icon', personIcon, 'Verification');
-      createOrUpdateFeedbackItem('verificatio-status', verificationIcon, verificationText);
+      createOrUpdateFeedbackItem('verification-status', verificationIcon, verificationText);
     }
   
     // - Show continue button so user can restart the liveness check.

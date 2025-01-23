@@ -18,17 +18,34 @@ app.get("/", (_req, res) => {
   res.sendFile(`${__dirname}/dist/index.html`);
 });
 
+// This is the server-side code example for fetching final results of a liveness session without exposing API endpoint and key to the client-side.
+// DISCLAIMER: In your production environment, you should perform this step on your app backend
+// For more information on how to orchestrate the liveness solution, please refer to https://aka.ms/azure-ai-vision-face-liveness-tutorial
+app.get('/api/getSessionResult', async (req, res) => {
+  const action = req.query.action;
+  const sessionId = req.query.sessionId;
+  // Session results are fetched with API endpoint and key
+  // On server-side, the endpoint and key can be safely accessed without exposure to client-side
+  const result = await fetchSessionResultOnServer(
+    process.env.FACE_ENDPOINT,
+    process.env.FACE_KEY,
+    action,
+    sessionId
+  );
+  res.status(result.hasOwnProperty("error") ? 400 : 200).send(result);
+  return;
+});
+
 // This is the server-side code example for generating access tokens of a liveness session without exposing API endpoint and key to the client-side.
 // DISCLAIMER: In your production environment, you should perform this step on your app backend and pass down the session-authorization-token down to the frontend
 // For more information on how to orchestrate the liveness solution, please refer to https://aka.ms/azure-ai-vision-face-liveness-tutorial
 app.post(
   "/api/generateAccessToken",
-  upload.single("VerifyImage"),
+  upload.single("verifyImage"),
   async (req, res) => {
     let file = null;
-    const parameters = JSON.parse(req.body.Parameters);
+    const parameters = JSON.parse(req.body.parameters);
     const livenessOperationMode = parameters.livenessOperationMode;
-    const sendResultsToClient = parameters.sendResultsToClient;
     const deviceCorrelationId = parameters.deviceCorrelationId;
     const action = req.body.Action;
 
@@ -62,12 +79,6 @@ app.post(
         token: null,
       });
     }
-    if (typeof sendResultsToClient != "boolean") {
-      return res.status(400).send({
-        message: "sendResultsToClient parameter not expected",
-        token: null,
-      });
-    }
     if (typeof deviceCorrelationId != "string") {
       return res.status(400).send({
         message: "deviceCorrelationId parameter not expected",
@@ -76,24 +87,17 @@ app.post(
     }
 
     // Note1: More information regarding each request parameter involved in creating a liveness session is here: https://aka.ms/face-api-reference-createlivenesssession
-    let formBody = JSON.stringify({
+    let requestBody = JSON.stringify({
       livenessOperationMode,
-      sendResultsToClient,
       deviceCorrelationId,
     });
 
     // Note2: You can create a liveness session with verification by attaching a verify image during session-create, reference: https://aka.ms/face-api-reference-createlivenesswithverifysession
     if (action == "detectLivenessWithVerify") {
-      formBody = new FormData();
-      formBody.append(
-        "Parameters",
-        JSON.stringify({
-          livenessOperationMode,
-          sendResultsToClient,
-          deviceCorrelationId,
-        })
-      );
-      formBody.append("VerifyImage", file, file.name);
+      requestBody = new FormData();
+      requestBody.append("verifyImage", file, file.name);
+      requestBody.append("livenessOperationMode", livenessOperationMode);
+      requestBody.append("deviceCorrelationId", deviceCorrelationId);
     }
 
     // Token is fetched with API endpoint and key
@@ -103,7 +107,7 @@ app.post(
       process.env.FACE_ENDPOINT,
       process.env.FACE_KEY,
       action,
-      formBody
+      requestBody
     );
     res.status(result.hasOwnProperty("error") ? 400 : 200).send(result);
     return;
@@ -121,7 +125,7 @@ const fetchTokenOnServer = async (
   faceApiEndPoint,
   faceApiKey,
   action,
-  formBody
+  requestBody
 ) => {
   try {
     let headers = {
@@ -132,11 +136,11 @@ const fetchTokenOnServer = async (
       headers["Content-Type"] = "application/json";
     }
     const response = await fetch(
-      `${faceApiEndPoint}/face/v1.1-preview.1/${action}/singleModal/sessions`,
+      `${faceApiEndPoint}/face/v1.2/${action}-sessions`,
       {
         method: "POST",
         headers: headers,
-        body: formBody,
+        body: requestBody,
       }
     );
 
@@ -146,7 +150,7 @@ const fetchTokenOnServer = async (
       throw new Error(sessions.error?.message);
     }
 
-    return { authToken: sessions.authToken, message: "success" };
+    return { sessionData: sessions, message: "success" };
   } catch (error) {
     if (typeof error === "string") {
       return { error: { token: null, message: error } };
@@ -158,3 +162,31 @@ const fetchTokenOnServer = async (
     return { error: { token: null, message: "Unknown error" } };
   }
 };
+
+const fetchSessionResultOnServer = async (
+  faceApiEndPoint,
+  faceApiKey,
+  action,
+  sessionId
+) => {
+  let headers = {
+    "Ocp-Apim-Subscription-Key": faceApiKey,
+    "X-MS-AZSDK-Telemetry": "sample=angular-face-web-sdk",
+    "Content-Type": "application/json"
+  };
+
+  const response = await fetch(
+    `${faceApiEndPoint}/face/v1.2/${action}-sessions/${sessionId}`,
+    {
+      method: "GET",
+      headers: headers,
+    }
+  );
+
+  const result = await response.json();
+  if (!response.ok) {
+    throw new Error(sessions.error?.message);
+  }
+
+  return { sessionResult: result, message: "success" };
+}

@@ -13,8 +13,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
-import com.example.facelivenessdetectorsample.models.ResultData
-import com.example.facelivenessdetectorsample.navigation.Routes
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.models.ResultData
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.navigation.Routes
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.token.FaceSessionToken
 
 @Composable
 fun ResultScreen(navController: NavController, resultData: ResultData) {
@@ -49,7 +50,16 @@ fun ResultScreen(navController: NavController, resultData: ResultData) {
 
         Button(
             onClick = {
-                navController.navigate(Routes.Main, NavOptions.Builder().setPopUpTo(Routes.Main, true).build())
+                FaceSessionToken.sessionToken = ""
+                FaceSessionToken.isVerifyImage = false
+                FaceSessionToken.verificationStatus = null
+                FaceSessionToken.verificationMatchConfidence = null
+                FaceSessionToken.sessionSetInClientVerifyImage = null
+                navController.navigate(Routes.Main) {
+                    popUpTo(Routes.Main) {
+                        inclusive = true
+                    }
+                }
             },
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
@@ -57,7 +67,12 @@ fun ResultScreen(navController: NavController, resultData: ResultData) {
         }
         Button(
             onClick = {
-                navController.navigate(Routes.Liveness, NavOptions.Builder().setPopUpTo(Routes.Main, true).build())
+                navController.navigate(Routes.Liveness) {
+                    launchSingleTop = true
+                    popUpTo(Routes.Main) {
+                        inclusive = true
+                    }
+                }
             },
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {

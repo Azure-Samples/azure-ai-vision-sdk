@@ -22,14 +22,13 @@ enum LivenessMode {
     }
 }
 
+fileprivate var apiVersion = "v1.2"
+
 // this method is for sample App demonstration purpose, the session token should be obtained in customer backend
 func obtainToken(usingEndpoint endpoint: String,
-                 key: String, withVerify: Bool, sendResultsToClient: Bool, verifyImage: Data? = nil, livenessOperationMode: String = "PassiveActive") -> String? {
-    var createSessionUri = URL(string: endpoint + "/face/v1.1-preview.1/detectLiveness/singleModal/sessions")!
-    if (withVerify)
-    {
-        createSessionUri = URL(string: endpoint + "/face/v1.1-preview.1/detectLivenessWithVerify/singleModal/sessions")!
-    }
+                 key: String, withVerify: Bool, verifyImage: Data? = nil, livenessOperationMode: String = "PassiveActive") -> (token: String, id: String, type: String)? {
+    let type = withVerify ? "detectLivenessWithVerify" : "detectLiveness"
+    let createSessionUri = URL(string: endpoint + "/face/\(apiVersion)/\(type)-sessions")!
     var request = URLRequest(url: createSessionUri)
     request.httpMethod = "POST"
 
@@ -37,31 +36,33 @@ func obtainToken(usingEndpoint endpoint: String,
 
     let parameters: [String: Any] = [
         "livenessOperationMode": livenessOperationMode,
-        "sendResultsToClient": sendResultsToClient,
         "deviceCorrelationId": UIDevice.current.identifierForVendor?.uuidString ?? UUID().uuidString,
     ]
 
     do {
         let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: [])
-        if (withVerify && verifyImage != nil) {
+        if (withVerify) {
             let boundary = UUID().uuidString
             request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
             
             var body = Data()
             
-            // Append JSON part
-            body.append("--\(boundary)\r\n".data(using: .utf8)!)
-            body.append("Content-Type: application/json; charset=utf-8\r\n".data(using: .utf8)!)
-            body.append("Content-Disposition: form-data; name=\"Parameters\"\r\n\r\n".data(using: .utf8)!)
-            body.append(jsonData)
-            body.append("\r\n".data(using: .utf8)!)
-
-            // Append image data
-            body.append("--\(boundary)\r\n".data(using: .utf8)!)
-            body.append("Content-Disposition: form-data; name=\"VerifyImage\"; filename=\"VerifyImage\"\r\n".data(using: .utf8)!)
-            body.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!)
-            body.append(verifyImage!)
-            body.append("\r\n".data(using: .utf8)!)
+            for (name, content) in parameters {
+                body.append("--\(boundary)\r\n".data(using: .utf8)!)
+                body.append("Content-Type: text/plain; charset=utf-8\r\n".data(using: .utf8)!)
+                body.append("Content-Disposition: form-data; name=\"\(name)\"\r\n\r\n".data(using: .utf8)!)
+                body.append(String(describing: content).data(using: .utf8)!)
+                body.append("\r\n".data(using: .utf8)!)
+            }
+           
+            if verifyImage != nil {
+                // Append image data
+                body.append("--\(boundary)\r\n".data(using: .utf8)!)
+                body.append("Content-Disposition: form-data; name=\"verifyImage\"; filename=\"VerifyImage\"\r\n".data(using: .utf8)!)
+                body.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!)
+                body.append(verifyImage!)
+                body.append("\r\n".data(using: .utf8)!)
+            }
             
             // End of multipart/form-data
             body.append("--\(boundary)--\r\n".data(using: .utf8)!)
@@ -81,7 +82,7 @@ func obtainToken(usingEndpoint endpoint: String,
     let group = DispatchGroup()
 
     group.enter()
-    var authToken: String?
+    var auth: (token: String, id: String, type: String)? = nil
 
     let task: URLSessionTask = session.dataTask(with: request) { data, response, error in
         defer {
@@ -102,9 +103,72 @@ func obtainToken(usingEndpoint endpoint: String,
             if let data = data {
                 do {
                     if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                        if let authTokenValue = json["authToken"] as? String {
-                            authToken = authTokenValue
-                            print(authToken as Any)
+                        if let authToken = json["authToken"] as? String,
+                           let sessionId = json["sessionId"] as? String {
+                            auth = (token: authToken, id: sessionId, type: type)
+                        }
+                    }
+                } catch {
+                    print("Error parsing JSON: \(error)")
+                }
+            }
+        } else {
+            print("Error status code: \(httpResponse.statusCode)")
+        }
+    }
+
+    task.resume()
+    group.wait()
+    
+    return auth
+}
+
+typealias ServiceResult = (livenessDecision: String, verifyResult: (isIdentical: Bool, matchConfidence: Double)?)
+
+func obtainResult(usingEndpoint endpoint: String,
+                  key: String, withVerify: Bool, sessionId: String) -> ServiceResult? {
+    let type = withVerify ? "detectLivenessWithVerify" : "detectLiveness"
+    let getSessionUri = URL(string: endpoint + "/face/\(apiVersion)/\(type)-sessions/\(sessionId)")! 
+    var request = URLRequest(url: getSessionUri)
+    request.httpMethod = "GET"
+
+    request.setValue(key, forHTTPHeaderField: "Ocp-Apim-Subscription-Key")
+
+    let session = URLSession.shared
+    let group = DispatchGroup()
+
+    group.enter()
+    var result: ServiceResult? = nil
+
+    let task: URLSessionTask = session.dataTask(with: request) { data, response, error in
+        defer {
+            group.leave()
+        }
+
+        if let error = error {
+            print("Error: \(error)")
+            return
+        }
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            print("Invalid response")
+            return
+        }
+
+        if (200..<300).contains(httpResponse.statusCode) {
+            if let data = data {
+                do {
+                    if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                        let sessionResults = json["results"] as? [String: Any],
+                        let sessionAttempts = sessionResults["attempts"] as? [Any],
+                        let sessionAttempt = sessionAttempts.first as? [String: Any],
+                        let sessionResult = sessionAttempt["result"] as? [String: Any],
+                        let livenessDecision = sessionResult["livenessDecision"] as? String {
+                        result = ServiceResult(livenessDecision: livenessDecision, verifyResult: nil)
+                        if let verifyResult = sessionResult["verifyResult"] as? [String: Any],
+                            let isIdentical = verifyResult["isIdentical"] as? Bool,
+                            let matchConfidence = verifyResult["matchConfidence"] as? Double {
+                            result?.verifyResult = (isIdentical: isIdentical, matchConfidence: matchConfidence)
                         }
                     }
                 } catch {
@@ -119,7 +183,7 @@ func obtainToken(usingEndpoint endpoint: String,
     task.resume()
     group.wait()
 
-    return authToken
+    return result
 }
 
 func loadDataFromFile(sessionData: SessionData) {

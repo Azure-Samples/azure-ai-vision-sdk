@@ -1,6 +1,6 @@
-package com.example.facelivenessdetectorsample.screens
+package com.microsoft.azure.ai.vision.facelivenessdetectorsample.screens
 
-import com.example.facelivenessdetectorsample.viewmodel.SettingsViewModelFactory
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.viewmodel.SettingsViewModelFactory
 import android.preference.PreferenceManager
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,6 +30,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,8 +40,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.facelivenessdetectorsample.navigation.Routes
-import com.example.facelivenessdetectorsample.viewmodel.SettingsViewModel
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.navigation.Routes
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.token.FaceSessionToken
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.viewmodel.SettingsViewModel
 
 @Preview(showBackground = true)
 @Composable
@@ -113,37 +116,41 @@ fun SettingsScreen(
         )
 
         Row(
-            verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 30.dp)
-        ) {
-            Checkbox(
-                checked = settingsViewModel.sendResultsToClient,
-                onCheckedChange = settingsViewModel::updateSendResultsToClient
-            )
-            Text(text = "sendResultsToClient", fontSize = 16.sp)
-        }
-        Row(
-            verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 30.dp)
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .padding(top = 30.dp)
+                .semantics(mergeDescendants =  true) { }
         ) {
             Checkbox(
                 checked = settingsViewModel.setImageInClient,
                 onCheckedChange = settingsViewModel::updatesetImageInClient
             )
-            Text(text = "setImageInClient", fontSize = 16.sp)
+            Text(text = "setImageInClient", fontSize = 16.sp, modifier = Modifier.semantics {
+                contentDescription = "Set image in client"
+            })
         }
         Row(
-            verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 30.dp)
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .padding(top = 30.dp)
+                .semantics(mergeDescendants =  true) { }
         ) {
             Checkbox(
                 checked = settingsViewModel.passiveActive,
                 onCheckedChange = settingsViewModel::updatesetPassiveActive
             )
-            Text(text = "PassiveActive", fontSize = 16.sp)
+            Text(text = "PassiveActive", fontSize = 16.sp, modifier = Modifier.semantics {
+                contentDescription = "Passive active"
+            })
         }
 
         Spacer(modifier = Modifier.weight(1f))
 
         Button(
-            onClick = { navController.navigate(Routes.Main) },
+            onClick = {
+                FaceSessionToken.sessionToken = ""
+                navController.navigate(Routes.Main)
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 30.dp)

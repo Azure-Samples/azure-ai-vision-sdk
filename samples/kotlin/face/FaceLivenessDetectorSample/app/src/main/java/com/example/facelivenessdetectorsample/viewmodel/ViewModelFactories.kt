@@ -1,4 +1,4 @@
-package com.example.facelivenessdetectorsample.viewmodel
+package com.microsoft.azure.ai.vision.facelivenessdetectorsample.viewmodel
 
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel

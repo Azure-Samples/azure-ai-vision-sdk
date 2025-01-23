@@ -67,7 +67,6 @@ function continueFaceLivenessDetector() {
     :liveness-operation-mode="livenessOperationMode"
     :action="action"
     :file="verifyImage"
-    :send-results-to-client="true"
     @display-result="displayResult"
     @retry-liveness-detector="fetchFailureCallback"
   />

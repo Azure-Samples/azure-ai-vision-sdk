@@ -1,4 +1,4 @@
-package com.example.facelivenessdetectorsample.utils
+package com.microsoft.azure.ai.vision.facelivenessdetectorsample.utils
 
 import android.content.Context
 import android.net.Uri
