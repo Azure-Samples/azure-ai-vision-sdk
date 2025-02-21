@@ -6,6 +6,18 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
+# do az login if needed
+if az account show --output none 2>/dev/null; then
+    echo "User is already logged in."
+else
+    if az login --output none ; then
+        echo "Azure login successful!"
+    else
+        echo "az login failed, install Azure CLI from https://learn.microsoft.com/cli/azure/."
+        exit 1
+    fi
+fi
+
 subscriptionId=$1
 tokenId=0
 
