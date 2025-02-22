@@ -57,6 +57,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
     implementation("com.google.accompanist:accompanist-permissions:0.35.1-alpha")
     implementation("androidx.navigation:navigation-compose:2.8.0-alpha08")
-    implementation("com.azure.ai:azure-ai-vision-face-ui:+")
+    implementation("com.azure.ai:azure-ai-vision-face-ui:1.1.0")
     implementation("com.azure.android:azure-core-http-httpurlconnection:1.0.0-beta.10")
 }
