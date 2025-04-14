@@ -1,0 +1,12 @@
+/*
+  Localizable.strings
+  FaceAnalyzerSample
+
+  You can use this file to override default localized strings used by the SDK.
+  Refer to the README for a list of available keys.
+
+  For example, to change the feedback text from "Hold Still" to "Hold Steady", add:
+  "AZAIF_FeedbackHoldStill" = "Hold Steady";
+
+  Note: Customizing strings is optional and intended for advanced use only.
+*/

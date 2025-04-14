@@ -25,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
@@ -61,7 +62,9 @@ fun LivenessButtons(navController: NavController,
                     launchSingleTop = true
                 }
             },
-            modifier = Modifier.align(Alignment.CenterHorizontally),
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .semantics { contentDescription="livenessButton" },
             enabled = isTokenReady
         ) {
             Text("Liveness")
@@ -72,7 +75,9 @@ fun LivenessButtons(navController: NavController,
                 FaceSessionToken.sessionToken = ""
                 imagePickerLauncher.launch("image/*")
             },
-            modifier = Modifier.align(Alignment.CenterHorizontally),
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .semantics { contentDescription="livenessWithVerifyButton" },
             enabled = isTokenReady,
         ) {
             Text("Liveness with verification")
@@ -167,6 +172,7 @@ fun MainScreen(
                 ) {
                     Button(
                         onClick = { navController.navigate(Routes.Settings) },
+                        modifier = Modifier.semantics { contentDescription = "settingsButton" }
                     ) {
                         Text("Settings")
                     }

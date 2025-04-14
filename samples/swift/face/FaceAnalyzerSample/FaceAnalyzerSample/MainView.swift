@@ -37,7 +37,7 @@ class SessionData: ObservableObject {
     @Published var isNetworkAvailable = true
     @Published var resultMessage = ""
     @Published var livenessWithVerify = false
-    @Published var livenessMode: LivenessMode = .passive
+    @Published var livenessMode: LivenessMode = .passiveActive
 
     var settingsConfigured: Bool {
         !endpoint.isEmpty && !key.isEmpty
@@ -47,6 +47,8 @@ class SessionData: ObservableObject {
 struct MainView: View {
     @EnvironmentObject var pageSelection: PageSelection
     @EnvironmentObject var sessionData: SessionData
+    @EnvironmentObject var errorState: ErrorState
+
     @State var livenessDetectionResult: LivenessDetectionResult?
 
     var body: some View {

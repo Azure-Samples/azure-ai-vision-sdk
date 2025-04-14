@@ -231,10 +231,9 @@ For other types of Git installation, refer to [the **Credentials** section of Gi
 
 ### Q: How can I get the results of the liveness session?
 
-Once the session is completed, for security reasons the client does not receive the outcome whether face is live or spoof. 
+Once the session is completed, for security reasons the client does not receive the outcome whether face is live or spoof.
 
-You can query the result from your backend service by calling the sessions results API to get the outcome
-https://aka.ms/face/liveness-session/get-liveness-session-result
+You can query the result from your backend service by calling the sessions results API to get the outcome [[API Reference](https://aka.ms/face/liveness-session/get-liveness-session-result)].
 
 ### Q: How do I provide localization?
 

@@ -53,6 +53,7 @@ struct ResultView: View {
     func doneReviewInDemo() {
         withAnimation {
             pageSelection.current = .launch
+            sessionData.token = nil
         }
     }
 }

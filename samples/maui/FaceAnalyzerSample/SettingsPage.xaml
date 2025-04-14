@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mauiLibrary="clr-namespace:AzureAIVisionFaceUIHandler;assembly=AzureAIVisionFaceUIHandler"
+             x:Class="FaceAnalyzerSample.SettingsPage">
+
+            <Grid RowDefinitions="*, Auto" ColumnDefinitions="Auto, *, Auto" Padding="20">
+                <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="Auto, *" Padding="20">
+                    <Label Grid.Row="0" Grid.Column="0" Text="Endpoint: " HorizontalOptions="End" VerticalOptions="Center" />
+                    <Entry Grid.Row="0" Grid.Column="1" Placeholder="Endpoint" Text="{Binding Endpoint, Mode=TwoWay}" />
+                    <Label Grid.Row="1" Grid.Column="0" Text="Key: " HorizontalOptions="End" VerticalOptions="Center" />
+                    <Entry Grid.Row="1" Grid.Column="1" Placeholder="Key" Text="{Binding Key, Mode=TwoWay}" IsPassword="{Binding HideKey}" />
+                    <CheckBox Grid.Row="2" Grid.Column="0" HorizontalOptions="End" IsChecked="{Binding ShowKey, Mode=TwoWay}" />
+                    <Label Grid.Row="2" Grid.Column="1" Text="Show Key" VerticalOptions="Center" Margin="10,0,0,0" />
+                </Grid>
+                <Button Text="Back" Grid.Row="1" Grid.Column="0" Clicked="BackButton_Clicked"/>
+                <Button Text="Save" Grid.Row="1" Grid.Column="2" Clicked="SaveButton_Clicked"/>
+            </Grid>
+</ContentPage>

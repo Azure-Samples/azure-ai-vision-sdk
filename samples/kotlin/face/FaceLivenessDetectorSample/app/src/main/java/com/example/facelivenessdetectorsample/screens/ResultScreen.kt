@@ -8,6 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -27,15 +29,33 @@ fun ResultScreen(navController: NavController, resultData: ResultData) {
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.Start
     ) {
-        Text("Results", fontSize = 24.sp, modifier = Modifier.padding(bottom = 16.dp))
+        Text(
+            "Results",
+            fontSize = 24.sp,
+            modifier = Modifier
+                .padding(bottom = 16.dp)
+                .semantics { contentDescription = "livenessResults" }
+        )
 
         resultData.livenessStatus?.let {
             Text("Liveness status:", fontSize = 14.sp, fontWeight = FontWeight.Bold)
-            Text(it, fontSize = 14.sp, modifier = Modifier.padding(bottom = 16.dp))
+            Text(
+                it,
+                fontSize = 14.sp,
+                modifier = Modifier
+                    .padding(bottom = 16.dp)
+                    .semantics { contentDescription = "livenessStatus" }
+            )
         }
         resultData.livenessFailureReason?.let {
             Text("Liveness failure reason:", fontSize = 14.sp, fontWeight = FontWeight.Bold)
-            Text(it, fontSize = 14.sp, modifier = Modifier.padding(bottom = 16.dp))
+            Text(
+                it,
+                fontSize = 14.sp,
+                modifier = Modifier
+                    .padding(bottom = 16.dp)
+                    .semantics { contentDescription ="livenessFailureReason" }
+            )
         }
         resultData.verificationStatus?.let {
             Text("Verification status:", fontSize = 14.sp, fontWeight = FontWeight.Bold)
@@ -61,7 +81,9 @@ fun ResultScreen(navController: NavController, resultData: ResultData) {
                     }
                 }
             },
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .semantics { contentDescription = "mainScreenButton" }
         ) {
             Text("Go to the main screen")
         }
@@ -74,7 +96,9 @@ fun ResultScreen(navController: NavController, resultData: ResultData) {
                     }
                 }
             },
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .semantics { contentDescription = "retryButton" }
         ) {
             Text("Retry with the same token")
         }

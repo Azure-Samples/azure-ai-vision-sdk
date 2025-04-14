@@ -1,0 +1,156 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <!-- <TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks> -->
+        <TargetFrameworks>net9.0-android;net9.0-ios</TargetFrameworks>
+        <!-- <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks> -->
+        <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+        <!-- <TargetFrameworks>$(TargetFrameworks);net9.0-tizen</TargetFrameworks> -->
+
+        <!-- Note for MacCatalyst:
+        The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
+        When specifying both architectures, use the plural <RuntimeIdentifiers> instead of the singular <RuntimeIdentifier>.
+        The Mac App Store will NOT accept apps with ONLY maccatalyst-arm64 indicated;
+        either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
+        <!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
+
+        <OutputType>Exe</OutputType>
+        <RootNamespace>FaceAnalyzerSample</RootNamespace>
+        <UseMaui>true</UseMaui>
+        <SingleProject>true</SingleProject>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+
+        <!-- Display name -->
+        <ApplicationTitle>FaceAnalyzerSample</ApplicationTitle>
+
+        <!-- App Identifier -->
+        <ApplicationId>com.example.FaceAnalyzerSample</ApplicationId>
+
+        <!-- Versions -->
+        <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+        <ApplicationVersion>1</ApplicationVersion>
+
+        <!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
+        <WindowsPackageType>None</WindowsPackageType>
+
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">26.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+        <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+    </PropertyGroup>
+
+    <!-- Android -->
+    <ItemGroup Condition="$(TargetFramework.StartsWith('net')) == true AND $(TargetFramework.Contains('-android')) != true">
+        <Compile Remove="**\**\*_Android.xaml" />
+    </ItemGroup>
+
+    <!-- iOS -->
+    <ItemGroup Condition="$(TargetFramework.StartsWith('net')) == true AND $(TargetFramework.Contains('-ios')) != true">
+        <Compile Remove="**\**\*_iOS.xaml" />
+    </ItemGroup>
+
+    <!-- Uncomment below to override provisioning profile selection.
+         Replace PROVISIONING_PROFILE_UUID appropriately -->
+    <PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">
+        <CodesignProvision>PROVISIONING_PROFILE_UUID</CodesignProvision>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+        <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    </PropertyGroup>
+    <ItemGroup>
+        <!-- App Icon -->
+        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+
+        <!-- Splash Screen -->
+        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+
+        <!-- Images -->
+        <MauiImage Include="Resources\Images\*" />
+        <MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
+
+        <!-- Custom Fonts -->
+        <MauiFont Include="Resources\Fonts\*" />
+
+        <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+        <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
+    </ItemGroup>
+    <PropertyGroup>
+        <GradleCaches Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android' AND ('$(OS)' == 'Unix')">$(HOME)/.gradle/caches</GradleCaches>
+        <GradleCaches Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android' AND ('$(OS)' == 'Windows_NT')">%USERPROFILE%/.gradle/caches</GradleCaches>
+    </PropertyGroup>
+        
+    <ItemGroup>
+        <ProjectReference Include="../AzureAIVisionFaceUIHandler/AzureAIVisionFaceUIHandler.csproj" />
+    </ItemGroup>
+    <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+    </ItemGroup>
+    <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+        <AndroidLibrary Include="$(GradleCaches)/modules-2/files-2.1/com.azure.ai/azure-ai-vision-face-ui/1.1.1/ebf404907f01149935aea29e8c566e3cc9c8e8ea/azure-ai-vision-face-ui-1.1.1.aar"
+            Manifest="$(GradleCaches)/modules-2/files-2.1/com.azure.ai/azure-ai-vision-face-ui/1.1.1/96e4158fbb825e58ae9100716c433254f49ccbf2/azure-ai-vision-face-ui-1.1.1.pom"
+            JavaArtifact="AzureAIVisionFaceUIWrapper:azure-ai-vision-face-ui:1.1.1"
+            Bind="False" />
+    </ItemGroup>
+    <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+        <AndroidMavenLibrary Include="com.azure.android:azure-core-credential" Version="1.0.0-beta.14" Repository="Central" Bind="False" />
+        <AndroidMavenLibrary Include="com.azure.android:azure-core-http" Version="1.0.0-beta.14" Repository="Central" Bind="False" />
+        <AndroidMavenLibrary Include="com.azure.android:azure-core-http-okhttp" Version="1.0.0-beta.14" Repository="Central" Bind="False" />
+        <AndroidMavenLibrary Include="com.azure.android:azure-core-logging" Version="1.0.0-beta.14" Repository="Central" Bind="False" />
+        <AndroidMavenLibrary Include="com.azure.android:azure-core" Version="1.0.0-beta.14" Repository="Central" Bind="False" />
+        <AndroidMavenLibrary Include="com.jakewharton.threetenabp:threetenabp" Version="1.3.1" Repository="Central" Bind="False" />
+        <AndroidMavenLibrary Include="net.sourceforge.streamsupport:android-retrofuture" Version="1.7.4" Repository="Central" Bind="False" />
+        <AndroidMavenLibrary Include="net.sourceforge.streamsupport:android-retrostreams" Version="1.7.4" Repository="Central" Bind="False" />
+        <AndroidMavenLibrary Include="org.slf4j:slf4j-api" Version="1.7.32" Repository="Central" Bind="False" />
+        <AndroidMavenLibrary Include="org.threeten:threetenbp" Version="1.5.1" Repository="Central" Bind="False" />
+        <AndroidMavenLibrary Include="com.squareup.okhttp3:okhttp" Version="3.14.9" Repository="Central" Bind="False" />
+        <AndroidMavenLibrary Include="com.squareup.okio:okio" Version="1.17.6" Repository="Central" Bind="False" />
+        <PackageReference Include="Xamarin.AndroidX.Activity.Compose" Version="1.9.3" />
+        <PackageReference Include="Xamarin.AndroidX.Activity.Ktx" Version="1.9.3" />
+        <PackageReference Include="Xamarin.AndroidX.Annotation.Experimental" Version="1.4.1.6" />
+        <PackageReference Include="Xamarin.AndroidX.AutoFill" Version="1.1.0.28" />
+        <PackageReference Include="Xamarin.AndroidX.Camera.Camera2" Version="1.1.0" />
+        <PackageReference Include="Xamarin.AndroidX.Camera.Lifecycle" Version="1.1.0" />
+        <PackageReference Include="Xamarin.AndroidX.Camera.View" Version="1.1.0" />
+        <PackageReference Include="Xamarin.AndroidX.Collection" Version="1.4.5" />
+        <PackageReference Include="Xamarin.AndroidX.Compose.Material3" Version="1.3.0" />
+        <PackageReference Include="Xamarin.AndroidX.Compose.UI" Version="1.7.5" />
+        <PackageReference Include="Xamarin.AndroidX.Compose.UI.Android" Version="1.7.5" />
+        <PackageReference Include="Xamarin.AndroidX.Compose.UI.Geometry" Version="1.7.5" />
+        <PackageReference Include="Xamarin.AndroidX.Compose.UI.Graphics" Version="1.7.5" />
+        <PackageReference Include="Xamarin.AndroidX.Compose.UI.Text" Version="1.7.5" />
+        <PackageReference Include="Xamarin.AndroidX.Compose.UI.Tooling.Preview" Version="1.7.5" />
+        <PackageReference Include="Xamarin.AndroidX.Compose.UI.Unit" Version="1.7.5" />
+        <PackageReference Include="Xamarin.AndroidX.Compose.UI.Util" Version="1.7.5" />
+        <PackageReference Include="Xamarin.AndroidX.Concurrent.Futures" Version="1.2.0.3" />
+        <PackageReference Include="Xamarin.AndroidX.Core" Version="1.15.0" />
+        <PackageReference Include="Xamarin.AndroidX.Core.Core.Ktx" Version="1.15.0" />
+        <PackageReference Include="Xamarin.AndroidX.CustomView.PoolingContainer" Version="1.0.0.15" />
+        <PackageReference Include="Xamarin.AndroidX.Emoji2" Version="1.5.0.1" />
+        <PackageReference Include="Xamarin.AndroidX.Lifecycle.Common.Java8" Version="2.8.7" />
+        <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" Version="2.8.7" />
+        <PackageReference Include="Xamarin.AndroidX.Lifecycle.Process" Version="2.8.7" />
+        <PackageReference Include="Xamarin.AndroidX.Lifecycle.Runtime.Compose" Version="2.8.7" />
+        <PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModel" Version="2.8.7" />
+        <PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModel.Ktx" Version="2.8.7" />
+        <PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModel.Compose" Version="2.8.7" />
+        <PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModel.Compose.Android" Version="2.8.7" />
+        <PackageReference Include="Xamarin.AndroidX.ProfileInstaller.ProfileInstaller" Version="1.4.1" />
+        <PackageReference Include="Xamarin.AndroidX.SavedState.SavedState.Ktx" Version="1.2.1.13" />
+        <PackageReference Include="Xamarin.Google.Accompanist.Permissions" Version="0.36.0" />
+        <PackageReference Include="Xamarin.Google.Guava.ListenableFuture" Version="1.0.0.24" />
+        <PackageReference Include="Xamarin.Google.AutoValue.Annotations" Version="1.9.0.2" />
+        <PackageReference Include="Xamarin.Kotlin.StdLib" Version="2.0.21.2" />
+        <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk7" Version="2.0.21.2" />
+        <PackageReference Include="Xamarin.KotlinX.Coroutines.Core.Jvm" Version="1.9.0.2" />
+        <PackageReference Include="Xamarin.KotlinX.Coroutines.Android" Version="1.9.0.2" />
+    </ItemGroup>
+
+</Project>
