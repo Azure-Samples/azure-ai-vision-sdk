@@ -190,7 +190,7 @@ mavenPassword=access_token
 
 The activity takes a set of parameters launching it.  The parameter defines the activity callback behaviour.  The parameters for input are `sessionAuthorizationToken`, `verifyImageFileContent`, `deviceCorrelationId`.  
 
-* sessionAuthorizationToken: session authrorization token from the server
+* sessionAuthorizationToken: session authorization token from the server
 * verifyImageFileContent: when choosing livenessWithVerify and setting verify image in the client, this is the ByteArray of the file content of the image.  Otherwise it should be `null`.
 * deviceCorrelationId: when choosing not to set deviceCorrelationId in the token creation time, you can put the deviceCorrelationId here.  Otherwise it should be `null`.
 

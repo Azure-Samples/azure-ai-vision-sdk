@@ -94,9 +94,9 @@
     <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
     </ItemGroup>
     <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
-        <AndroidLibrary Include="$(GradleCaches)/modules-2/files-2.1/com.azure.ai/azure-ai-vision-face-ui/1.1.1/ebf404907f01149935aea29e8c566e3cc9c8e8ea/azure-ai-vision-face-ui-1.1.1.aar"
-            Manifest="$(GradleCaches)/modules-2/files-2.1/com.azure.ai/azure-ai-vision-face-ui/1.1.1/96e4158fbb825e58ae9100716c433254f49ccbf2/azure-ai-vision-face-ui-1.1.1.pom"
-            JavaArtifact="AzureAIVisionFaceUIWrapper:azure-ai-vision-face-ui:1.1.1"
+        <AndroidLibrary Include="$(GradleCaches)/modules-2/files-2.1/com.azure.ai/azure-ai-vision-face-ui/1.2.0/5de7f6fca1178220ceec34e3c7334d9e3dc0efbc/azure-ai-vision-face-ui-1.2.0.aar"
+            Manifest="$(GradleCaches)/modules-2/files-2.1/com.azure.ai/azure-ai-vision-face-ui/1.2.0/5879b13c8c9c4d6e1889f943137ca007edbde21c/azure-ai-vision-face-ui-1.2.0.pom"
+            JavaArtifact="AzureAIVisionFaceUIWrapper:azure-ai-vision-face-ui:1.2.0"
             Bind="False" />
     </ItemGroup>
     <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
