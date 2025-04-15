@@ -10,7 +10,8 @@ import Network
 struct LaunchView: View {
     @EnvironmentObject var pageSelection: PageSelection
     @EnvironmentObject var sessionData: SessionData
-    
+    @EnvironmentObject var errorState: ErrorState
+
     @State var monitor: NWPathMonitor? = nil
     @State private var isCameraAccessDeniedAlertPresented = false
 
@@ -36,6 +37,11 @@ struct LaunchView: View {
                             .padding()
                     }.accessibilityIdentifier( "settingsButton")
                 }
+            }
+            // display version
+            if let infoDictionary = Bundle.main.infoDictionary,
+               let version = infoDictionary ["CFBundleVersion"] as? String {
+                Section(header: Text("App v\(version)")) { }
             }
         }.onAppear {
             // camera permission check
@@ -97,15 +103,23 @@ struct LaunchView: View {
         sessionData.sessionId = nil
         withAnimation {
             pageSelection.current = .clientStart
-            if let auth = obtainToken(usingEndpoint: sessionData.endpoint,
-                                      key: sessionData.key,
-                                      withVerify: false,
-                                      livenessOperationMode: sessionData.livenessMode.livenessOperationMode) {
-                sessionData.token = auth.token
-                sessionData.sessionId = auth.id
+            do {
+                if let auth = try obtainToken(usingEndpoint: sessionData.endpoint,
+                                          key: sessionData.key,
+                                          withVerify: false,
+                                          livenessOperationMode: sessionData.livenessMode.livenessOperationMode) {
+                    sessionData.token = auth.token
+                    sessionData.sessionId = auth.id
+                }
+            } catch {
+                errorState.show(error.localizedDescription) {
+                    // Optional: on dismiss, go back to launch page
+                    pageSelection.current = .launch
+                }
             }
         }
     }
+
     func livenessWithVerifyClicked() {
         if !sessionData.settingsConfigured { return }
         sessionData.livenessWithVerify = true
@@ -113,6 +127,7 @@ struct LaunchView: View {
             pageSelection.current = .imageSelection
         }
     }
+
     func settingClicked() {
         withAnimation {
             pageSelection.current = .settings

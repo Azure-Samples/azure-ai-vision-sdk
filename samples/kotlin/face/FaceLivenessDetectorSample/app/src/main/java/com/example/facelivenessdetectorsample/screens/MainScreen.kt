@@ -1,7 +1,9 @@
 package com.microsoft.azure.ai.vision.facelivenessdetectorsample.screens
 
+import android.net.Uri
 import android.preference.PreferenceManager
 import android.util.Log
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -23,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,6 +45,45 @@ fun MainPreview() {
     MainScreen(navController = rememberNavController())
 }
 
+@Composable
+fun LivenessButtons(navController: NavController,
+                    isTokenReady: Boolean,
+                    imagePickerLauncher: ManagedActivityResultLauncher<String, Uri?>
+){
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(30.dp),
+        modifier = Modifier
+            .padding(top = 30.dp)
+    ) {
+        Button(
+            onClick = {
+                navController.navigate(Routes.Liveness) {
+                    launchSingleTop = true
+                }
+            },
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .semantics { contentDescription="livenessButton" },
+            enabled = isTokenReady
+        ) {
+            Text("Liveness")
+        }
+
+        Button(
+            onClick = {
+                FaceSessionToken.sessionToken = ""
+                imagePickerLauncher.launch("image/*")
+            },
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .semantics { contentDescription="livenessWithVerifyButton" },
+            enabled = isTokenReady,
+        ) {
+            Text("Liveness with verification")
+        }
+    }
+}
 // TODO: improve UI telling the user about the current state of token fetching.
 @Composable
 fun MainScreen(
@@ -108,36 +150,7 @@ fun MainScreen(
                 verticalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxHeight()
             ) {
-
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(30.dp),
-                    modifier = Modifier
-                        .padding(top = 30.dp)
-                        .align(Alignment.CenterHorizontally)
-                ) {
-                    Button(
-                        onClick = { navController.navigate(Routes.Liveness) {
-                            launchSingleTop = true
-                        } },
-                        modifier = Modifier.align(Alignment.CenterHorizontally),
-                        enabled = isTokenReady
-                    ) {
-                        Text("Liveness")
-                    }
-
-                    Button(
-                        onClick = {
-                            FaceSessionToken.sessionToken = ""
-                            imagePickerLauncher.launch("image/*")
-                        },
-                        modifier = Modifier.align(Alignment.CenterHorizontally),
-                        enabled = isTokenReady,
-                    ) {
-                        Text("Liveness with verification")
-                    }
-                }
-
+                LivenessButtons(navController, isTokenReady, imagePickerLauncher)
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(30.dp),
                     modifier = Modifier
@@ -146,6 +159,7 @@ fun MainScreen(
                 ) {
                     Button(
                         onClick = { navController.navigate(Routes.Settings) },
+                        modifier = Modifier.semantics { contentDescription = "settingsButton" }
                     ) {
                         Text("Settings")
                     }

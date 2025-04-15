@@ -1,0 +1,45 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureAIVisionFaceUIBindings-iOS", "Platforms\iOS\AzureAIVisionFaceUIBindings\AzureAIVisionFaceUIBindings.csproj", "{28E2B0F2-49D5-4733-B86B-0B99C8DC7D41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureAIVisionFaceUIHandler", "AzureAIVisionFaceUIHandler\AzureAIVisionFaceUIHandler.csproj", "{A49D92E0-582E-4BB2-B5CF-C3926C1BB2D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FaceAnalyzerSample", "FaceAnalyzerSample\FaceAnalyzerSample.csproj", "{86D10883-F5B3-4AA5-A736-664ECC4AF23C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{A762424A-15BF-455F-8B57-6523208049FF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "iOS", "iOS", "{4F4D1A12-953E-4B37-87BB-F499FF4A5B1D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Android", "Android", "{2B799458-FBD0-4B1A-BA4E-BA2112829BBA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{28E2B0F2-49D5-4733-B86B-0B99C8DC7D41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28E2B0F2-49D5-4733-B86B-0B99C8DC7D41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28E2B0F2-49D5-4733-B86B-0B99C8DC7D41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28E2B0F2-49D5-4733-B86B-0B99C8DC7D41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A49D92E0-582E-4BB2-B5CF-C3926C1BB2D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A49D92E0-582E-4BB2-B5CF-C3926C1BB2D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A49D92E0-582E-4BB2-B5CF-C3926C1BB2D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A49D92E0-582E-4BB2-B5CF-C3926C1BB2D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86D10883-F5B3-4AA5-A736-664ECC4AF23C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86D10883-F5B3-4AA5-A736-664ECC4AF23C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86D10883-F5B3-4AA5-A736-664ECC4AF23C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86D10883-F5B3-4AA5-A736-664ECC4AF23C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4F4D1A12-953E-4B37-87BB-F499FF4A5B1D} = {A762424A-15BF-455F-8B57-6523208049FF}
+		{28E2B0F2-49D5-4733-B86B-0B99C8DC7D41} = {4F4D1A12-953E-4B37-87BB-F499FF4A5B1D}
+		{2B799458-FBD0-4B1A-BA4E-BA2112829BBA} = {A762424A-15BF-455F-8B57-6523208049FF}
+	EndGlobalSection
+EndGlobal

@@ -76,6 +76,15 @@ class MainScreenViewModel(sharedPreferences: SharedPreferences) : ViewModel() {
     private val _isTokenReady = MutableStateFlow(FaceSessionToken.sessionToken.isNotBlank())
     val isTokenReady: StateFlow<Boolean> = _isTokenReady
 
+    init {
+        if (!sharedPreferences.contains(SharedPrefKeys.PASSIVE_ACTIVE)) {
+            sharedPreferences.edit()
+                .putBoolean(SharedPrefKeys.PASSIVE_ACTIVE, true)
+                .apply()
+            passiveActive = true
+        }
+    }
+
     fun fetchFaceAPISessionToken(
         faceApiEndpoint: String,
         faceApiKey: String,

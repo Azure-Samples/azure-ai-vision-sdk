@@ -118,7 +118,7 @@ class LivenessScreenViewModel(sharedPreferences: SharedPreferences) : ViewModel(
                             val verificationResult = result.getJSONObject("verifyResult")
                             FaceSessionToken.verificationStatus = verificationResult.getBoolean("isIdentical").toString()
                             FaceSessionToken.verificationMatchConfidence = verificationResult.getDouble("matchConfidence").toString()
-                        } 
+                        }
                     } else {
                         Log.d(
                             "Face API Session Result Fetched",

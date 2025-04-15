@@ -17,11 +17,11 @@
 		8C020B742B0C1197001E72AE /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C020B6D2B0C1197001E72AE /* ResultView.swift */; };
 		8C020B752B0C1197001E72AE /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C020B6E2B0C1197001E72AE /* ImagePicker.swift */; };
 		8C020B762B0C1197001E72AE /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C020B6F2B0C1197001E72AE /* LaunchView.swift */; };
-		8C020B8F2B0C1304001E72AE /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C020B862B0C1304001E72AE /* Utility.swift */; };
-		8C020C1A2B0CA44F001E72AE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8C020C182B0CA44F001E72AE /* Localizable.strings */; };
 		8C020C1D2B16A524001E72AE /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C020C1C2B16A524001E72AE /* AppUtility.swift */; };
 		8C020C252B173595001E72AE /* AzureAIVisionFaceUI in Frameworks */ = {isa = PBXBuildFile; productRef = 8C020C242B173595001E72AE /* AzureAIVisionFaceUI */; };
 		8C07F2B22B699582009CFF14 /* SecureInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C07F2B12B699582009CFF14 /* SecureInputView.swift */; };
+		8C725A892DA87FF600070A4E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8C725A872DA87FF600070A4E /* Localizable.strings */; };
+		8C725A8B2DA8834100070A4E /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C725A8A2DA8834100070A4E /* Utility.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,12 +49,11 @@
 		8C020B6D2B0C1197001E72AE /* ResultView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
 		8C020B6E2B0C1197001E72AE /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		8C020B6F2B0C1197001E72AE /* LaunchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
-		8C020B862B0C1304001E72AE /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utility.swift; path = Core/Utility.swift; sourceTree = "<group>"; };
 		8C020C172B0CA42B001E72AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8C020C192B0CA44F001E72AE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Core/en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		8C020C1B2B0CA45D001E72AE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "Core/zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		8C020C1C2B16A524001E72AE /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
 		8C07F2B12B699582009CFF14 /* SecureInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureInputView.swift; sourceTree = "<group>"; };
+		8C725A882DA87FF600070A4E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8C725A8A2DA8834100070A4E /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		D36DEE3B2D31D06000970057 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -91,10 +90,10 @@
 		8C020B582B0C1086001E72AE /* FaceAnalyzerSample */ = {
 			isa = PBXGroup;
 			children = (
-				8C020C182B0CA44F001E72AE /* Localizable.strings */,
+				8C725A8A2DA8834100070A4E /* Utility.swift */,
+				8C725A872DA87FF600070A4E /* Localizable.strings */,
 				8C020C172B0CA42B001E72AE /* Info.plist */,
 				8C020B5F2B0C1088001E72AE /* Preview Content */,
-				8C020B862B0C1304001E72AE /* Utility.swift */,
 				8C020B6A2B0C1197001E72AE /* ClientStartView.swift */,
 				8C020B6E2B0C1197001E72AE /* ImagePicker.swift */,
 				8C020B692B0C1196001E72AE /* ImageSelectionView.swift */,
@@ -192,7 +191,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C020B612B0C1088001E72AE /* Preview Assets.xcassets in Resources */,
-				8C020C1A2B0CA44F001E72AE /* Localizable.strings in Resources */,
+				8C725A892DA87FF600070A4E /* Localizable.strings in Resources */,
 				8C020B5E2B0C1088001E72AE /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -205,9 +204,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C07F2B22B699582009CFF14 /* SecureInputView.swift in Sources */,
-				8C020B8F2B0C1304001E72AE /* Utility.swift in Sources */,
 				8C020C1D2B16A524001E72AE /* AppUtility.swift in Sources */,
 				8C020B732B0C1197001E72AE /* SettingsView.swift in Sources */,
+				8C725A8B2DA8834100070A4E /* Utility.swift in Sources */,
 				8C020B762B0C1197001E72AE /* LaunchView.swift in Sources */,
 				8C020B712B0C1197001E72AE /* ClientStartView.swift in Sources */,
 				8C020B722B0C1197001E72AE /* MainView.swift in Sources */,
@@ -221,11 +220,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		8C020C182B0CA44F001E72AE /* Localizable.strings */ = {
+		8C725A872DA87FF600070A4E /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				8C020C192B0CA44F001E72AE /* en */,
-				8C020C1B2B0CA45D001E72AE /* zh-Hans */,
+				8C725A882DA87FF600070A4E /* en */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

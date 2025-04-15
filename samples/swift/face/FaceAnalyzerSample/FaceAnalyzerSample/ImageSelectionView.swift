@@ -7,7 +7,8 @@ import SwiftUI
 struct ImageSelectionView: View {
     @EnvironmentObject var pageSelection: PageSelection
     @EnvironmentObject var sessionData: SessionData
-    
+    @EnvironmentObject var errorState: ErrorState
+
     @State var selectedImageData: Data? = nil
     @State var selectedImage = UIImage()
 
@@ -55,19 +56,28 @@ struct ImageSelectionView: View {
     func nextClicked() {
         if (selectedImageData != nil) {
             sessionData.referenceImageData = selectedImageData
-        }
-        else {
+        } else {
             return
         }
+
         withAnimation {
             pageSelection.current = .clientStart
-            if let auth = obtainToken(usingEndpoint: sessionData.endpoint,
-                                      key: sessionData.key,
-                                      withVerify: true,
-                                      verifyImage: sessionData.referenceImageData,
-                                      livenessOperationMode: sessionData.livenessMode.livenessOperationMode) {
-                sessionData.token = auth.token
-                sessionData.sessionId = auth.id
+
+            do {
+                // Attempt to obtain the token
+                if let auth = try obtainToken(usingEndpoint: sessionData.endpoint,
+                                               key: sessionData.key,
+                                               withVerify: true,
+                                               verifyImage: sessionData.referenceImageData,
+                                               livenessOperationMode: sessionData.livenessMode.livenessOperationMode) {
+                    sessionData.token = auth.token
+                    sessionData.sessionId = auth.id
+                }
+            } catch {
+                errorState.show(error.localizedDescription) {
+                    // Optional: on dismiss, go back to launch page
+                    pageSelection.current = .launch
+                }
             }
         }
     }

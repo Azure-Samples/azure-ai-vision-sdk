@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0-ios</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>true</ImplicitUsings>
+    <IsBindingProject>true</IsBindingProject>
+
+    <!--
+      Enable trim analyzers for class libraries.
+      To learn more, see: https://learn.microsoft.com/dotnet/core/deploying/trimming/prepare-libraries-for-trimming
+    -->
+    <IsTrimmable>true</IsTrimmable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+      sharpie bind -sdk iphoneos -output ./ -namespace AzureAIVisionFaceUIWrapper -framework ../AzureAIVisionFaceUIWrapper/build/Build/Products/Debug-iphoneos/AzureAIVisionFaceUIWrapper.framework
+      modify FaceLivenessDetectorWrapper Constructor parameter to IFaceLivenessDetectorWrapperDelegate
+    -->
+    <ObjcBindingApiDefinition Include="ApiDefinition.cs" />
+    <ObjcBindingApiDefinition Include="IFaceLivenessDetectorWrapperDelegate.cs" />
+    <!--
+      sharpie bind -sdk iphoneos -output ./ -namespace AzureAIVisionFaceUI -framework ../AzureAIVisionFaceUIWrapper/build/Build/Products/Debug-iphoneos/AzureAIVisionFaceUI.framework
+    -->
+    <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
+  </ItemGroup>
+  <Target Name="BuildNativeIos">
+    <Exec Command="xcodebuild -project '../AzureAIVisionFaceUIWrapper/AzureAIVisionFaceUIWrapper.xcodeproj' -scheme 'AzureAIVisionFaceUIWrapper' -configuration $(Configuration) -derivedDataPath ../AzureAIVisionFaceUIWrapper/build -destination 'generic/platform=iOS'" />
+  </Target>
+
+  <Target Name="BuildNativeIosSimulator">
+    <Exec Command="xcodebuild -project '../AzureAIVisionFaceUIWrapper/AzureAIVisionFaceUIWrapper.xcodeproj' -scheme 'AzureAIVisionFaceUIWrapper' -configuration $(Configuration) -derivedDataPath ../AzureAIVisionFaceUIWrapper/build -destination 'generic/platform=iOS Simulator'" />
+  </Target>
+
+  <Target Name="RemoveOldXCFramework">
+    <Exec Command="rm -rf '../AzureAIVisionFaceUIWrapper/build/Build/Products/$(Configuration)/AzureAIVisionFaceUIWrapper.xcframework' || true" />
+  </Target>
+
+  <Target Name="CreateXCFramework" DependsOnTargets="BuildNativeIos;BuildNativeIosSimulator;RemoveOldXCFramework" BeforeTargets="Build">
+    <Exec Command="xcodebuild -create-xcframework -framework '../AzureAIVisionFaceUIWrapper/build/Build/Products/$(Configuration)-iphoneos/AzureAIVisionFaceUIWrapper.framework' -framework '../AzureAIVisionFaceUIWrapper/build/Build/Products/$(Configuration)-iphonesimulator/AzureAIVisionFaceUIWrapper.framework' -output '../AzureAIVisionFaceUIWrapper/build/Build/Products/$(Configuration)/AzureAIVisionFaceUIWrapper.xcframework'" />
+  </Target>
+  <ItemGroup>
+    <NativeReference Include="../AzureAIVisionFaceUIWrapper/build/Build/Products/Debug/AzureAIVisionFaceUIWrapper.xcframework">
+      <Kind>Framework</Kind>
+      <Frameworks>Foundation UIKit</Frameworks>
+      <SmartLink>True</SmartLink>
+    </NativeReference>
+  </ItemGroup>
+</Project>

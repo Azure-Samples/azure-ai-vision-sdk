@@ -81,6 +81,7 @@ fun SettingsScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 15.dp)
+                .semantics { contentDescription = "faceApiEndpoint" }
         )
 
         Text(
@@ -93,7 +94,8 @@ fun SettingsScreen(
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 15.dp),
+                .padding(vertical = 15.dp)
+                .semantics { contentDescription = "faceApiKey" },
             trailingIcon = {
                 IconButton(onClick = { passwordVisible = !passwordVisible }) {
                     Icon(
@@ -137,7 +139,8 @@ fun SettingsScreen(
         ) {
             Checkbox(
                 checked = settingsViewModel.passiveActive,
-                onCheckedChange = settingsViewModel::updatesetPassiveActive
+                onCheckedChange = settingsViewModel::updatesetPassiveActive,
+                modifier = Modifier.semantics { contentDescription = "passiveActiveMode" }
             )
             Text(text = "PassiveActive", fontSize = 16.sp, modifier = Modifier.semantics {
                 contentDescription = "Passive active"
@@ -154,7 +157,8 @@ fun SettingsScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 30.dp)
-                .align(Alignment.CenterHorizontally),
+                .align(Alignment.CenterHorizontally)
+                .semantics { contentDescription = "saveButton" },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6200EE)) // Change the button color as needed
         ) {
             Text(text = "SAVE", color = Color.White)

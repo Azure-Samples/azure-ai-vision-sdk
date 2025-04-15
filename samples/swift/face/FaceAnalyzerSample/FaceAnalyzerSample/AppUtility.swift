@@ -26,7 +26,7 @@ fileprivate var apiVersion = "v1.2"
 
 // this method is for sample App demonstration purpose, the session token should be obtained in customer backend
 func obtainToken(usingEndpoint endpoint: String,
-                 key: String, withVerify: Bool, verifyImage: Data? = nil, livenessOperationMode: String = "PassiveActive") -> (token: String, id: String, type: String)? {
+                 key: String, withVerify: Bool, verifyImage: Data? = nil, livenessOperationMode: String = "PassiveActive") throws -> (token: String, id: String, type: String)? {
     let type = withVerify ? "detectLivenessWithVerify" : "detectLiveness"
     let createSessionUri = URL(string: endpoint + "/face/\(apiVersion)/\(type)-sessions")!
     var request = URLRequest(url: createSessionUri)
@@ -44,9 +44,9 @@ func obtainToken(usingEndpoint endpoint: String,
         if (withVerify) {
             let boundary = UUID().uuidString
             request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-            
+
             var body = Data()
-            
+
             for (name, content) in parameters {
                 body.append("--\(boundary)\r\n".data(using: .utf8)!)
                 body.append("Content-Type: text/plain; charset=utf-8\r\n".data(using: .utf8)!)
@@ -54,28 +54,23 @@ func obtainToken(usingEndpoint endpoint: String,
                 body.append(String(describing: content).data(using: .utf8)!)
                 body.append("\r\n".data(using: .utf8)!)
             }
-           
-            if verifyImage != nil {
-                // Append image data
+
+            if let verifyImage = verifyImage {
                 body.append("--\(boundary)\r\n".data(using: .utf8)!)
                 body.append("Content-Disposition: form-data; name=\"verifyImage\"; filename=\"VerifyImage\"\r\n".data(using: .utf8)!)
                 body.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!)
-                body.append(verifyImage!)
+                body.append(verifyImage)
                 body.append("\r\n".data(using: .utf8)!)
             }
-            
-            // End of multipart/form-data
+
             body.append("--\(boundary)--\r\n".data(using: .utf8)!)
             request.httpBody = body
-        }
-        else {
+        } else {
             request.httpBody = jsonData
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         }
-    }
-    catch {
-        print("Error encoding parameters: \(error)")
-        return nil
+    } catch {
+        throw NSError(domain: "obtainToken", code: 1, userInfo: [NSLocalizedDescriptionKey: "Encoding parameters failed: \(error.localizedDescription)"])
     }
 
     let session = URLSession.shared
@@ -83,43 +78,48 @@ func obtainToken(usingEndpoint endpoint: String,
 
     group.enter()
     var auth: (token: String, id: String, type: String)? = nil
+    var caughtError: Error? = nil
 
     let task: URLSessionTask = session.dataTask(with: request) { data, response, error in
-        defer {
-            group.leave()
-        }
+        defer { group.leave() }
 
         if let error = error {
             print("Error: \(error)")
+            caughtError = error
             return
         }
 
         guard let httpResponse = response as? HTTPURLResponse else {
-            print("Invalid response")
+            caughtError = NSError(domain: "obtainToken", code: 2, userInfo: [NSLocalizedDescriptionKey: "Invalid response"])
             return
         }
 
         if (200..<300).contains(httpResponse.statusCode) {
             if let data = data {
                 do {
-                    if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                        if let authToken = json["authToken"] as? String,
-                           let sessionId = json["sessionId"] as? String {
-                            auth = (token: authToken, id: sessionId, type: type)
-                        }
+                    if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                       let authToken = json["authToken"] as? String,
+                       let sessionId = json["sessionId"] as? String {
+                        auth = (token: authToken, id: sessionId, type: type)
                     }
                 } catch {
-                    print("Error parsing JSON: \(error)")
+                    caughtError = NSError(domain: "obtainToken", code: 3, userInfo: [NSLocalizedDescriptionKey: "JSON parsing failed: \(error.localizedDescription)"])
                 }
             }
         } else {
             print("Error status code: \(httpResponse.statusCode)")
+            let message = String(data: data ?? Data(), encoding: .utf8) ?? "Unknown error"
+            caughtError = NSError(domain: "obtainToken", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: message])
         }
     }
 
     task.resume()
     group.wait()
-    
+
+    if let error = caughtError {
+        throw error
+    }
+
     return auth
 }
 
