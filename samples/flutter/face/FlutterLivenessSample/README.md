@@ -5,38 +5,33 @@ In this sample, you will learn how to build and run the face liveness detection 
 >
 > * [API Reference Documentation](#api-reference-documentation)
 > * [Prerequisites](#prerequisites)
-> * [Step 1: Set up the environment](#step-1-set-up-the-environment)
->   * [Step 1.1 Get Access Token to SDK Artifact](#step-11-get-access-token-to-sdk-artifact)
->   * [Step 1.2 Add Credential](#step-12-add-credential)
-> * [ANDROID](#android)
-> * [iOS](#iOS)
+>   * [Prerequisites For Android](#prerequisites-for-android)
+>   * [Prerequisites For iOS](#prerequisites-for-ios)
+> * [ANDROID Integration](#android-integration)
+> * [iOS Integration](#iOS-integration)
 
 
 ## API Reference Documentation
-* Kotlin API reference: [azure-ai-vision-face-ui](https://azure.github.io/azure-sdk-for-android/azure-ai-vision-face-ui/index.html)
+* For Android Kotlin API reference: [azure-ai-vision-face-ui](https://azure.github.io/azure-sdk-for-android/azure-ai-vision-face-ui/index.html)
+* For iOS Swift API reference: [AzureAIVisionFaceUI](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionFaceUI/index.html)
 
 ## Prerequisites 
+
+### Prerequisites For Android
 * An Azure Face API resource subscription.
-* A PC (Windows, Linux, Mac) with Flutter (Flutter 3.27.0) installed with Android Studio and Xcode
+* A PC (Windows, Linux, Mac) with Flutter (Flutter 3.27.0) installed with Android Studio
 * An Android mobile device (API level 24 or higher).
-* An iOS mobile device (iOS)
-## Step 1: Set up the environment
 
-### Step 1.1 Get Access Token to SDK Artifact
-The access token is used for maven authentication.  The solution uses azure maven repo artifact to add the binary enabling the liveness feature.  You will need to set up azure maven repo with any username and valid "access token" as "password".  This token will be used as `mavenPassword` in the [Add Build Dependency](#add-build-dependency) section below.
-See [GET_FACE_ARTIFACTS_ACCESS](/GET_FACE_ARTIFACTS_ACCESS.md).
+### Prerequisites For iOS
+* An Azure Face API resource subscription.
+* A Mac (with iOS development environment, Xcode 13+), an iPhone (iOS 14+) and Flutter (Flutter 3.27.0)
+* An Apple developer account to install and run development apps on the iPhone.
 
-### Step 1.2 Add Credential
-![Add Credential](README-resources/maven_cred.png)
-You need to add credentials in `gradle.properties` to set up variable `mavenUser` and `mavenPassword` used above.  These are obtained through azure command in sdk access.  `mavenPassword` is the access token from above section.  
-The creditial is going to look like:
-```
-mavenUser=any_username_string
-mavenPassword=access_token
-```
+## ANDROID-INTEGRATION
 
-## ANDROID
-
+> * [Step 1: Set up the environment](#step-1-set-up-the-environment)
+>   * [Step 1.1 Get Access Token to SDK Artifact](#step-11-get-access-token-to-sdk-artifact)
+>   * [Step 1.2 Add Credential](#step-12-add-credential)
 > * [Step 2: Build and run sample app](#step-2-build-and-run-sample-app)
 >   * [Step 2.1 Build the sample app](#step-21-build-the-sample-app)
 >   * [Step 2.2 Run the sample](#step-22-run-the-sample)
@@ -54,14 +49,13 @@ mavenPassword=access_token
 >   * [Q: How can I get the results of the liveness session?](#q-how-can-i-get-the-results-of-the-liveness-session)
 >   * [Q: How do I provide localization?](#q-how-do-i-provide-localization)
 
-## Step 2: Build and run sample app
-The sample app uses the Face UI SDK to perform face liveness detection. The following sections will walk you through these building and running the sample.
+## Step 1: Set up the environment
 
-### Step 2.1 Build the sample app
-![Build Sample](README-resources/build.png)
-Follow these steps to try out the sample app. The app performs liveness detection using the Vision SDK.
-* Open the "FaceLivenessDetectorSample" folder on Android Studio.
-* Press Ctrl+F9, or select **Build** \> **Make Project**.
+### Step 1.1 Get Access Token to SDK Artifact
+The access token is used for maven authentication.  The solution uses azure maven repo artifact to add the binary enabling the liveness feature.  You will need to set up azure maven repo with any username and valid "access token" as "password".  This token will be used as `mavenPassword` in the [Add Build Dependency](#add-build-dependency) section below.
+See [GET_FACE_ARTIFACTS_ACCESS](/GET_FACE_ARTIFACTS_ACCESS.md).
+
+### Step 1.2 A or select **Build** \> **Make Project**.
 
 ### Step 2.2 Run the sample
 Follow these steps to download and launch the app on your Android device.
@@ -85,7 +79,25 @@ Verification is a 1-1 matching. You can verify against a face, like the photo on
 3. Click next and show your face to the front-facing camera. As it processes your images, the screen will display user feedback on image quality. The screen will also flash black and white. This is needed for liveness detection. 
 4. Once face liveness detection completes, the app will display your verification and liveness results. You should expect a "recognized" and a "live" result. A recognition confidence score is also displayed. 
 
-To test out other liveness detection scenarios, repeat steps 1-5, this time holding up your ID card to the front-facing camera. Since this is not a live face, you should expect a "recognized" and a "spoof" result. 
+To test out other liveness detection scenarios, repeat steps 1-5, this time holding up your ID card to the front-facing camera. Since this is not a live face, you should expect a "recognized" and a "spoof" result.dd Credential
+![Add Credential](README-resources/maven_cred.png)
+You need to add credentials in `gradle.properties` to set up variable `mavenUser` and `mavenPassword` used above.  These are obtained through azure command in sdk access.  `mavenPassword` is the access token from above section.  
+The creditial is going to look like:
+```
+mavenUser=any_username_string
+mavenPassword=access_token
+```
+
+## Step 2: Build and run sample app
+The sample app uses the Face UI SDK to perform face liveness detection. The following sections will walk you through these building and running the sample.
+
+### Step 2.1 Build the sample app
+![Build Sample](README-resources/build.png)
+Follow these steps to try out the sample app. The app performs liveness detection using the Vision SDK.
+* Open the "FlutterLivenessSample"'s Android folder on Android Studio.
+* Press Ctrl+F9,
+
+
 
 ## Step 3 Integrate face liveness detection into your Flutter application
 ### Step 3.1 The overview of face recognition with liveness detection in Azure AI Vision SDK for Android
@@ -199,8 +211,9 @@ Future<void> startLivenessSession(String token, Uint8List imageBytes) async {
 
 * Android Native Setup
 
-* MainActivity.kt
-* Handles Flutter → Android communication and results:
+* In MainActivity.kt file it defines and manages the methods for Flutter MethodChannel communication, enabling Flutter to invoke native Android functions and handle their responses.
+* It Handles Flutter Android communication and result passing – Listens for MethodChannel calls from Flutter, executes native Android actions (such as launching activities), and sends the results back to Flutter.
+
 ```
 class MainActivity : FlutterActivity() {
 
@@ -260,17 +273,10 @@ class MainActivity : FlutterActivity() {
 }
 ```
 
-* LivenessActivity.kt
-* Launches the Azure SDK via Jetpack Compose:
+* Create new LivenessActivity.kt file it is responsible for setting up and managing the Liveness SDK logic, handling initialization, configuration, and result callbacks.
+* Launches the Azure Face Liveness SDK using Jetpack Compose – Provides a Compose-based UI flow to start the liveness detection process, display the camera view, and capture the liveness result seamlessly.
 
 ```
-class LivenessActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val sessionToken = intent.getStringExtra("sessionToken") ?: ""
-        val verifyImageFileContent = intent.getByteArrayExtra("verifyImageFileContent")
-
         setContent {
             FaceLivenessDetector(
                 sessionAuthorizationToken = sessionToken,
@@ -298,8 +304,6 @@ class LivenessActivity : ComponentActivity() {
                 }
             )
         }
-    }
-}
 ```
 
 * Usage in Flutter
@@ -337,18 +341,14 @@ https://aka.ms/face/liveness-session/get-liveness-session-result
 The SDK provides default localization for 75 locales.  They should work automatically.  It is provided through `values-` folder in the resources in aar. For more information, [Localize your app](https://developer.android.com/guide/topics/resources/localization).
 
 
-## iOS
+## iOS Integration
 
 > **Contents**
->
-> * [API Reference Documentation](#api-reference-documentation)
-> * [Prerequisites](#prerequisites)
 > * [Step 1: Set up the environment](#step-1-set-up-the-environment)
-> * [Step 2: Build and run sample app](#step-2-build-and-run-sample-app)
 >   * [Test out key scenarios](#test-out-key-scenarios)
 >     * [Liveness](#liveness)
 >     * [LivenessWithVerify](#livenesswithverify)
-> * [Step 3: Integrate face liveness detection into your own application](#step-3-integrate-face-liveness-detection-into-your-own-application)
+> * [Step 2: Integrate face liveness detection into your own application](#step-3-integrate-face-liveness-detection-into-your-own-application)
 > * [FAQ](#faq)
 >   * [Q: How do we use CocoaPods or other package managers?](#q-how-do-we-use-cocoapods-or-other-package-managers)
 >   * [Q: Are there alternatives for access authorization?](#q-are-there-alternatives-for-access-authorization)
@@ -356,15 +356,6 @@ The SDK provides default localization for 75 locales.  They should work automati
 >   * [Q: How do I provide localization?](#q-how-do-i-provide-localization)
 >   * [Q: How do I customize the displayed strings?](#q-how-do-i-customize-the-displayed-strings)
 
-## API Reference Documentation
-
-* Swift API reference: [AzureAIVisionFaceUI](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionFaceUI/index.html)
-
-## Prerequisites
-
-1. An Azure Face API resource subscription.
-2. A Mac (with iOS development environment, Xcode 13+), an iPhone (iOS 14+).
-3. An Apple developer account to install and run development apps on the iPhone.
 
 ## Step 1: Set up the environment
 
@@ -429,6 +420,27 @@ The SDK provides default localization for 75 locales.  They should work automati
 
 ## Step 3: Integrate face liveness detection into your own application
 
+* Add this in you podfile and install pods. make sure you have followed set up environment steps
+
+```
+# Add Azure Face UI SDK source
+source 'https://msface.visualstudio.com/SDK/_git/AzureAIVisionFaceUI.podspec'
+# Keep the default CocoaPods source
+source 'https://cdn.cocoapods.org/'
+
+target 'Runner' do
+  use_frameworks!
+  use_modular_headers!
+
+  pod 'AzureAIVisionFaceUI'
+
+  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+  target 'RunnerTests' do
+    inherit! :search_paths
+  end
+end
+```
+
 * Add method channel logic in Dart:
 ```
 static const platform = MethodChannel('azure_face_liveness_channel');
@@ -449,13 +461,13 @@ Future<void> startLivenessSession(String token, Uint8List imageBytes) async {
   }
 }
 ```
-* Create FaceLivenessViewController.swift file in Runner
+* Create FaceLivenessViewController.swift inside the Runner folder – This file is responsible for setting up and managing the Liveness SDK logic on iOS, including initialization, configuration, and handling detection results.
+* Handles the Azure Face Liveness SDK integration on iOS – Manages the liveness detection flow, presents the SDK’s UI, and processes the outcome within a native Swift view controller.
 
 ```
 import UIKit
 import SwiftUI
 import AzureAIVisionFaceUI
-//import AzureAIVisionFace
 
 class LivenessViewHostingController: UIHostingController<AnyView> {
     
@@ -509,7 +521,8 @@ class LivenessViewHostingController: UIHostingController<AnyView> {
 }
 ```
 
-* In AppDelegate.swift make these changes
+* In AppDelegate.swift, make the necessary changes to set up Flutter MethodChannel communication – Establishes a communication bridge between Flutter and native iOS code by defining method handlers.
+* Handles Flutter → iOS communication and result passing – Listens for MethodChannel calls from Flutter, executes native Swift functions (such as launching the Face Liveness flow), and returns results back to Flutter.
 
 ```
 import Flutter
