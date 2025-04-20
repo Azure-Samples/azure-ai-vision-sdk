@@ -4,12 +4,12 @@ In this sample, you will learn how to build and run the face liveness detection 
 > **Contents**
 >
 > * [API Reference Documentation](#api-reference-documentation)
-> * [Prerequisites](#prerequisites)
+> * [Prerequisites ](#prerequisites)
 > * [Step 1: Set up the environment](#step-1-set-up-the-environment)
 >   * [Step 1.1 Get Access Token to SDK Artifact](#step-11-get-access-token-to-sdk-artifact)
 >   * [Step 1.2 Add Credential](#step-12-add-credential)
-> * [ANDROID](#android)
-> * [iOS](#iOS)
+> * [ANDROID INTEGRATION](#android)
+> * [iOS INTEGRATION](#iOS)
 
 
 ## API Reference Documentation
@@ -20,11 +20,13 @@ In this sample, you will learn how to build and run the face liveness detection 
 * A PC (Windows, Linux, Mac) with React Native installed with Android Studio and Xcode
 * An Android mobile device (API level 24 or higher).
 * An iOS mobile device (iOS)
+
 ## Step 1: Set up the environment
 
 ### Step 1.1 Get Access Token to SDK Artifact
-The access token is used for maven authentication.  The solution uses azure maven repo artifact to add the binary enabling the liveness feature.  You will need to set up azure maven repo with any username and valid "access token" as "password".  This token will be used as `mavenPassword` in the [Add Build Dependency](#add-build-dependency) section below.
+The access token is used for maven authentication.  The solution uses azure maven repo artifact to add the binary enabling the liveness feature.  You will need to set up azure maven repo with any username and valid "access token" as "password".  This token will be used as `mavenPassword` in the [Add Build Dependency](#step-35-add-build-dependency) section below.
 See [GET_FACE_ARTIFACTS_ACCESS](/GET_FACE_ARTIFACTS_ACCESS.md).
+
 
 ### Step 1.2 Add Credential
 ![Add Credential](README-resources/maven_cred.png)
@@ -60,14 +62,13 @@ The sample app uses the Face UI SDK to perform face liveness detection. The foll
 ### Step 2.1 Build the sample app
 ![Build Sample](README-resources/build.png)
 Follow these steps to try out the sample app. The app performs liveness detection using the Vision SDK.
-* Open the "FaceLivenessDetectorSample" folder on Android Studio.
+* On Android Studio Open the android folder under the "RNLivenessSample" folder 
 * Press Ctrl+R, or select **Run** \> **Run app**.
 
 ### Step 2.2 Run the sample
 Follow these steps to download and launch the app on your Android device.
-* Your android device must be in developer mode with USB debugging enabled.
 
-![Developer options](README-resources/devmode.png)
+* Your android device must be in developer mode on with USB debugging enabled.
 * Check that your device has a network connection.
 * Connect your device to your development PC.
 * Make sure Android Studio recognizes the device. Go to Device Manager in Android Studio, click on the “Physical” tab, and check that your device listed. The app cannot run on an emulator because camera input is needed. 
@@ -110,9 +111,7 @@ Add permission for the app in `AndroidManifest.xml`
 Camera permission needs to be ready before calling the liveness process.
 Here is part of the code piece that asks camera permission
 ```
-  try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.CAMERA,
+         PermissionsAndroid.PERMISSIONS.CAMERA,
           {
             title: 'RNAzureLiveness Camera Permission',
             message:
@@ -123,14 +122,6 @@ Here is part of the code piece that asks camera permission
             buttonPositive: 'OK',
           },
         );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          // Permission granted
-        } else {
-          // Camera permission denied
-        }
-      } catch (err) {
-        console.warn(err);
-      }
 ```
 
 ### Step 3.4 Get Access Token to SDK Artifact
@@ -208,7 +199,11 @@ The activity takes a set of parameters launching it.  The parameter defines the 
 
 ### Step 3.7 Run liveness flow
 
-* Add liveness method logic in kotlin:
+# Create Android native module setup
+
+* Create AzureLivenessModule.kt file
+* This Kotlin file defines your native React Native module that calls the Azure Face Liveness activity.
+
 ```
     @ReactMethod
     fun startLiveness(token: String, verifyImage: String) {
@@ -224,19 +219,10 @@ The activity takes a set of parameters launching it.  The parameter defines the 
     }
 ```
 
-* Android Native Setup
+* Create new LivenessActivity.kt file it is responsible for setting up and managing the Liveness SDK logic, handling initialization, configuration, and result callbacks.
+* Launches the Azure Face Liveness SDK using Jetpack Compose – Provides a Compose-based UI flow to start the liveness detection process, display the camera view, and capture the liveness result seamlessly.
 
-* LivenessActivity.kt
-* Handles react native → Android communication and results:
 ```
-class LivenessActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val sessionToken = intent.getStringExtra("sessionToken") ?: ""
-        val verifyImageFileContent = intent.getByteArrayExtra("verifyImageFileContent")
-
-        setContent {
             FaceLivenessDetector(
                 sessionAuthorizationToken = sessionToken,
                 verifyImageFileContent = verifyImageFileContent,
@@ -263,13 +249,11 @@ class LivenessActivity : ComponentActivity() {
                     finish()
                 }
             )
-        }
-    }
-}
 
 ```
 
-* AzureLivenessPackage.kt
+* To make the AzureLivenessModule.kt accessible in React Native, you need to Create the AzureLivenessPackage.kt file
+
 
 ```
 class AzureLivenessPackage : ReactPackage {
@@ -406,30 +390,20 @@ https://aka.ms/face/liveness-session/get-liveness-session-result
 
 ## Step 3: Integrate face liveness detection into your own application
 
+podfile -
+
+```
+source 'https://msface.visualstudio.com/SDK/_git/AzureAIVisionFaceUI.podspec'
+source 'https://github.com/CocoaPods/Specs.git'
+```
+
+* after update podfile install the pod or update
+
 * Create a Native Module for AzureLiveness
 * AzureLiveness.swift
 ```
-class AzureLivenessManager: RCTEventEmitter {
-  private var hasListeners = false
-
-  // MARK: - React Native EventEmitter Support
-
-  override static func requiresMainQueueSetup() -> Bool {
-    return true
-  }
-  override func supportedEvents() -> [String] {
-    return ["LivenessResultEvent"]
-  }
-  override func startObserving() {
-    hasListeners = true
-  }
-  override func stopObserving() {
-    hasListeners = false
-  }
-  // MARK: - Main Method to Start Detection
-
-  @objc(startLivenessDetection:)
-  func startLivenessDetection(sessionToken: String) {
+  @objc(startLivenessDetection:isLiveness:)
+  func startLivenessDetection(sessionToken: String, isLiveNess: String) {
     DispatchQueue.main.async {
       guard let rootVC = UIApplication.shared.delegate?.window??.rootViewController else {
         self.sendEvent(withName: "LivenessResultEvent", body: [
@@ -438,10 +412,12 @@ class AzureLivenessManager: RCTEventEmitter {
         ])
         return
       }
+
       let resultBinding = Binding<LivenessDetectionResult?>(
         get: { nil },
         set: { result in
           guard let result = result else { return }
+
           var resultMap: [String: Any] = [:]
 
           switch result {
@@ -449,29 +425,35 @@ class AzureLivenessManager: RCTEventEmitter {
             resultMap["status"] = "success"
             resultMap["resultId"] = success.resultId
             resultMap["digest"] = success.digest
+            resultMap["isLiveNess"] = isLiveNess
 
           case .failure(let failure):
             resultMap["status"] = "failure"
+            resultMap["isLiveNess"] = isLiveNess
             resultMap["message"] = failure.localizedDescription
             if let resultId = failure.resultId {
               resultMap["resultId"] = resultId
             }
           }
+
           if self.hasListeners {
             self.sendEvent(withName: "LivenessResultEvent", body: resultMap)
           }
+
           rootVC.dismiss(animated: true, completion: nil)
         }
       )
+
       let livenessView = FaceLivenessDetectorView(
         result: resultBinding,
         sessionAuthorizationToken: sessionToken
       )
+
       let controller = UIHostingController(rootView: AnyView(livenessView))
       rootVC.present(controller, animated: true, completion: nil)
     }
   }
-}
+
 ```
 
 * AzureFaceLivenessBridge.m
@@ -500,13 +482,6 @@ await AzureLivenessManager.startLivenessDetection('YOUR_SESSION_TOKEN');
 ### Q: How do we use CocoaPods or other package managers?
 
 Add the following lines to your project's Podfile. `'YourBuildTargetNameHere'` is an example target, and you should use your actual target project instead. You can also [specify your version requirement](https://guides.cocoapods.org/using/the-podfile.html#specifying-pod-versions) as needed.
-
-podfile -
-
-```
-source 'https://msface.visualstudio.com/SDK/_git/AzureAIVisionFaceUI.podspec'
-source 'https://github.com/CocoaPods/Specs.git'
-```
 
 Also read: CocoaPods ([CocoaPods Guides - Getting Started](https://guides.cocoapods.org/using/getting-started.html))
 
