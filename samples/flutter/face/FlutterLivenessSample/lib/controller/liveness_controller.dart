@@ -110,8 +110,7 @@ class LivenessController extends GetxController {
       String faceApiEndpoint =
           SharedPrefsHelper.getString('FACEAPIENDPOINT') ?? '';
       String faceApiKey = SharedPrefsHelper.getString('FACEAPIKEY') ?? '';
-      bool isPassiveActive =
-          SharedPrefsHelper.getBool('PASSIVEACTIVE') ?? false;
+      bool isPassiveActive = SharedPrefsHelper.getBool('PASSIVEACTIVE') ?? true;
 
       final data = {
         "livenessOperationMode": isPassiveActive ? "PassiveActive" : "Passive",
@@ -166,8 +165,7 @@ class LivenessController extends GetxController {
       String faceApiEndpoint =
           SharedPrefsHelper.getString('FACEAPIENDPOINT') ?? '';
       String faceApiKey = SharedPrefsHelper.getString('FACEAPIKEY') ?? '';
-      bool isPassiveActive =
-          SharedPrefsHelper.getBool('PASSIVEACTIVE') ?? false;
+      bool isPassiveActive = SharedPrefsHelper.getBool('PASSIVEACTIVE') ?? true;
 
       FilePickerResult pickImage = await FilePickerService().pickFile();
 
