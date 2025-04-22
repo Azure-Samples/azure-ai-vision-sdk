@@ -5,6 +5,7 @@ In this sample, you will learn how to build and run the face liveness detection 
 >
 > * [API Reference Documentation](#api-reference-documentation)
 > * [Prerequisites](#prerequisites)
+> * * [Flutter Installation Guide](#flutter-installation-guide)
 >   * [Prerequisites For Android](#prerequisites-for-android)
 >   * [Prerequisites For iOS](#prerequisites-for-ios)
 > * [ANDROID Integration](#android-integration)
@@ -17,14 +18,23 @@ In this sample, you will learn how to build and run the face liveness detection 
 
 ## Prerequisites 
 
+### Flutter Installation Guide
+
+* [Install Flutter](https://flutter.dev/get-started/)
+* Make sure you have Flutter version ```3.27.0``` or higher installed.
+* After installation in your terminal run this command ```flutter doctor``` to verify full setup
+
 ### Prerequisites For Android
 * An Azure Face API resource subscription.
-* A PC (Windows, Linux, Mac) with Flutter (Flutter 3.27.0) installed with Android Studio
+* A PC (Windows, Linux, Mac) with Flutter ```(Flutter 3.27.0)``` installed with Android Studio
+* Android Studio minimum (version 2023.3) or higher.
+* Make sure you have gradle version ```8.3```
+* JDK verison needed for this is ```openjdk 11.0.24```
 * An Android mobile device (API level 24 or higher).
 
 ### Prerequisites For iOS
 * An Azure Face API resource subscription.
-* A Mac (with iOS development environment, Xcode 13+), an iPhone (iOS 14+) and Flutter (Flutter 3.27.0)
+* A Mac (with iOS development environment, ```Xcode 16.0```), an iPhone ```(iOS 14+)``` and  Flutter ```(Flutter 3.27.0)```
 * An Apple developer account to install and run development apps on the iPhone.
 
 ## ANDROID-INTEGRATION
@@ -83,6 +93,7 @@ To test out other liveness detection scenarios, repeat steps 1-5, this time hold
 ![Add Credential](README-resources/maven_cred.png)
 You need to add credentials in `gradle.properties` to set up variable `mavenUser` and `mavenPassword` used above.  These are obtained through azure command in sdk access.  `mavenPassword` is the access token from above section.  
 The creditial is going to look like:
+
 ```
 mavenUser=any_username_string
 mavenPassword=access_token
@@ -92,15 +103,20 @@ mavenPassword=access_token
 The sample app uses the Face UI SDK to perform face liveness detection. The following sections will walk you through these building and running the sample.
 
 ### Step 2.1 Build the sample app
+
+* Before running the project, make sure to fetch the Flutter packages using ```flutter pub get```.
+
+* In the local.properties file, ensure that the ``` sdk.dir``` and ```flutter.sdk``` paths are correctly set.
+
+* Open the "FlutterLivenessSample"'s Android folder on Android Studio.
+
 ![Build Sample](README-resources/build.png)
 Follow these steps to try out the sample app. The app performs liveness detection using the Vision SDK.
-* Open the "FlutterLivenessSample"'s Android folder on Android Studio.
-* Press Ctrl+F9,
-
 
 
 ## Step 3 Integrate face liveness detection into your Flutter application
 ### Step 3.1 The overview of face recognition with liveness detection in Azure AI Vision SDK for Android
+
 Here is the outline of the SDK sample and integration structure
 1. The solution uses azure maven repo artifact to add the binary enabling the liveness feature.  You will need to set up azure `maven` repo with any `username` and valid "access token" as "password.  It will be mentioned below in [Get Access Token to SDK Artifact](#get-access-token-to-sdk-artifact) section for getting the password, along with the [Add Build Dependencies](#add-build-dependency) to set the repo in the solution files.
 2. The app requires camera permission.  You will need to set it up in the app configuration and code.  It will be mentioned below in [Add Camera Permission](#add-camera-permissions) and [Add Flutter code to Request Camera Permission](#add-flutter-code-to-request-camera-permission) sections for demonstration.
@@ -345,23 +361,24 @@ The SDK provides default localization for 75 locales.  They should work automati
 
 > **Contents**
 > * [Step 1: Set up the environment](#step-1-set-up-the-environment)
+> * [Step 2: Build and run sample iOS app](#step-2-build-and-run-sample-ios-app)
+>   * [Run the sample](#run-the-sample)
 >   * [Test out key scenarios](#test-out-key-scenarios)
 >     * [Liveness](#liveness)
 >     * [LivenessWithVerify](#livenesswithverify)
-> * [Step 2: Integrate face liveness detection into your own application](#step-3-integrate-face-liveness-detection-into-your-own-application)
+> * [Step 3: Integrate face liveness detection into your own application](#step-3-integrate-face-liveness-detection-into-your-own-application)
 > * [FAQ](#faq)
 >   * [Q: How do we use CocoaPods or other package managers?](#q-how-do-we-use-cocoapods-or-other-package-managers)
 >   * [Q: Are there alternatives for access authorization?](#q-are-there-alternatives-for-access-authorization)
 >   * [Q: How can I get the results of the liveness session?](#q-how-can-i-get-the-results-of-the-liveness-session)
->   * [Q: How do I provide localization?](#q-how-do-i-provide-localization)
->   * [Q: How do I customize the displayed strings?](#q-how-do-i-customize-the-displayed-strings)
+>   * [Q: If you get project not compailing for Xcode 16 and iOS 18?](#q-if-you-get-project-not-compailing-for-xcode-16-and-ios-18)
 
 
 ## Step 1: Set up the environment
 
 1. For the best experience, please do not open the sample project in Xcode yet before completing the environment setup.
 2. If this is your first time using your Mac to develop, you should build a sample app from [About Me &#x2014; Sample Apps Tutorials | Apple Developer Documentation](https://developer.apple.com/tutorials/sample-apps/aboutme) and run it on your phone before you attempt to build the App here. This will help ensure that your developer environment has been setup properly.
-3. Get the access token to access the release artifacts. More details can be found in [GET_FACE_ARTIFACTS_ACCESS.md](../../../../GET_FACE_ARTIFACTS_ACCESS.md).
+3. Get the access token to access the release artifacts. More details can be found in [GET_FACE_ARTIFACTS_ACCESS.md](./GET_FACE_ARTIFACTS_ACCESS.md).
 4. Prepare Git LFS
    * If you have never installed Git LFS, refer to [Git LFS official site](https://git-lfs.github.com/) for instructions.
    * For example:
@@ -402,6 +419,28 @@ The SDK provides default localization for 75 locales.  They should work automati
 
 6. If Xcode Command Line Tools is never installed on your machine, install it first [following instructions from Apple Developer website](https://developer.apple.com/library/archive/technotes/tn2339/_index.html).
 
+## Step 2: Build and run sample iOS app
+
+* Before running the project, make sure to fetch the Flutter packages using ```flutter pub get``` and install the pods inside the iOS folder using ```pod install```.
+
+1. In **Xcode → Targets → Signing & Capabilities**, set the App bundle identifier and developer team.
+   <br><br>
+   ![Signing & Capabilities](./README-resources/sample_project_signing.png)
+2. Connect your iPhone to the Mac, then trust the Mac when prompted.
+   <br><br>
+   ![Trust This Computer](README-resources/iphone_trust.png) ![Enter Passcode to Trust](README-resources/iphone_trust_passcode.png)
+3. Select your iPhone in the Xcode top bar.
+   <br><br>
+   ![Select your iPhone](README-resources/iphone_select.png)
+4. Build and run the app.
+
+### Run the sample
+
+1. Allow camera permission when prompted.  
+2. This sample creates token on the client, so it needs the API configuration. In production scenario, this will not be necessary. For now, go to the settings page and configure:
+    * API endpoint  
+    * Subscription key
+3. Try one of the buttons (such as “Liveness”) to begin testing.
 
 ### Test out key scenarios
 
@@ -440,6 +479,8 @@ target 'Runner' do
   end
 end
 ```
+
+* After adding this in podfile install the pods using ```pod install``` from ios folder
 
 * Add method channel logic in Dart:
 ```
@@ -608,20 +649,14 @@ Once the session is completed, for security reasons the client does not receive 
 
 You can query the result from your backend service by calling the sessions results API to get the outcome [[API Reference](https://aka.ms/face/liveness-session/get-liveness-session-result)].
 
-### Q: How do I provide localization?
+### Q: If you get project not compiling for Xcode 16 and iOS 18?
 
-The SDK provides default localization for 75 locales. The strings can be customized for each localization by following this guide by Apple: [Localizing and varying text with a string catalog](https://developer.apple.com/documentation/xcode/localizing-and-varying-text-with-a-string-catalog). Please refer to [this document](https://aka.ms/face/liveness/sdk/docs/localization) for the keys of the strings.
+Apply this fix to successfully run the iOS project for this error.
 
-### Q: How do I customize the displayed strings?
+File -> Workspace Settings -> Default Location
 
-Please refer to the localization FAQ answer above.
+to
 
-<!-- markdownlint-configure-file
-{
-  "no-inline-html": {
-    "allowed_elements": [
-      'br'
-    ]
-  }
-}
--->
+File -> Workspace Settings -> Workspace-relative Location
+
+This also worked for me.
