@@ -658,5 +658,3 @@ File -> Workspace Settings -> Default Location
 to
 
 File -> Workspace Settings -> Workspace-relative Location
-
-This also worked for me.
