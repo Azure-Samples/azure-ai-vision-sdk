@@ -36,7 +36,7 @@ class _SettingScreenState extends State<SettingScreen> {
         SharedPrefsHelper.getString('FACEAPIKEY') ?? '';
 
     isSetImageInClient = SharedPrefsHelper.getBool('SETIMAGEINCLIENT') ?? false;
-    isPassiveActive = SharedPrefsHelper.getBool('PASSIVEACTIVE') ?? false;
+    isPassiveActive = SharedPrefsHelper.getBool('PASSIVEACTIVE') ?? true;
 
     setState(() {});
   }
@@ -71,8 +71,6 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
               TextField(
                 controller: faceApiEndpointTextController,
-                minLines: 2,
-                maxLines: 3,
                 decoration: InputDecoration(
                   hintText: "https://",
                   filled: true,
