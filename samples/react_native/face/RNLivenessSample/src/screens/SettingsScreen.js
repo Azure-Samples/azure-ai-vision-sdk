@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Alert,
   StyleSheet,
+  Image,
 } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import {useDispatch, useSelector} from 'react-redux';
@@ -15,14 +16,17 @@ import {
   setActivePassive,
   setImageInClient,
 } from '../redux/slices/globalSlice';
+import {useNavigation} from '@react-navigation/native';
 
 const SettingsScreen = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const endpoint = useSelector(state => state.global.endpoint);
   const faceAPIKey = useSelector(state => state.global.apiKey);
   const isActivePassive = useSelector(state => state.global.isActivePassive);
   const isImageInClient = useSelector(state => state.global.isImageInClient);
+  const sessionId = useSelector(state => state.global.lastSessionId);
 
   const [apiEndpoint, setApiEndpoint] = useState(endpoint);
   const [apiKey, setApiKeyLocal] = useState(faceAPIKey);
@@ -46,6 +50,12 @@ const SettingsScreen = () => {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Image
+          source={require('../images/backArrow.png')}
+          style={{height: 22, width: 22, marginBottom: 10}}
+        />
+      </TouchableOpacity>
       <Text style={styles.label}>Face API endpoint:</Text>
       <TextInput
         style={styles.input}
@@ -58,12 +68,13 @@ const SettingsScreen = () => {
         style={[styles.input, {height: 80}]}
         placeholder="00000000000000000000000000000000"
         value={apiKey}
-        multiline
         onChangeText={setApiKeyLocal}
         secureTextEntry
       />
       <Text style={styles.label}>Last session apim-request-id:</Text>
-      <Text style={styles.placeholder}>[Your last session ID]</Text>
+      {sessionId?.length > 0 && (
+        <Text style={styles.placeholder}>[{sessionId}]</Text>
+      )}
 
       <TouchableOpacity
         onPress={() => changeActivePassive(!activePassive)}

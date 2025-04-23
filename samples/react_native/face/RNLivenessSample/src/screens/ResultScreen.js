@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getLivenessResult} from '../redux/slices/getLivenessResult';
 import {getLivenessWithVerifySession} from '../redux/slices/getLivenessWithVerificationResult';
 import {CommonActions} from '@react-navigation/native';
+import {setLastSessionId} from '../redux/slices/globalSlice';
 
 const ResultScreen = ({navigation, route}) => {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ const ResultScreen = ({navigation, route}) => {
           sessionId,
         }),
       );
+      dispatch(setLastSessionId(sessionId));
     } else {
       dispatch(
         getLivenessWithVerifySession({
@@ -39,6 +41,7 @@ const ResultScreen = ({navigation, route}) => {
           sessionId: verificationAuth?.sessionId,
         }),
       );
+      dispatch(setLastSessionId(verificationAuth?.sessionId));
     }
   }, []);
 
@@ -80,7 +83,9 @@ const ResultScreen = ({navigation, route}) => {
 
       <Text style={styles.label}>Liveness status:</Text>
       <Text style={styles.placeholder}>
-        {result?.status === 'error'
+        {result.status === 'failure'
+          ? result?.status
+          : result?.status === 'error'
           ? result?.livenessError
           : isLiveNess && getLivenessData?.results?.attempts?.length > 0
           ? getLivenessData?.results?.attempts[0]?.result?.livenessDecision
@@ -91,10 +96,14 @@ const ResultScreen = ({navigation, route}) => {
           : ''}
       </Text>
 
-      {result?.status === 'error' && (
+      {(result?.status === 'error' || result.status === 'failure') && (
         <>
           <Text style={styles.label}>Liveness failure reason:</Text>
-          <Text style={styles.placeholder}>{result?.livenessError}</Text>
+          <Text style={styles.placeholder}>
+            {result.status === 'failure'
+              ? result?.message
+              : result?.livenessError}
+          </Text>
         </>
       )}
 
@@ -109,17 +118,19 @@ const ResultScreen = ({navigation, route}) => {
         </>
       )}
 
-      {result?.status !== 'error' && !isLiveNess && (
-        <>
-          <Text style={styles.label}>Verification confidence:</Text>
-          <Text style={styles.placeholder}>
-            {getLivenessVerifySessionResult?.results?.attempts?.length > 0
-              ? getLivenessVerifySessionResult?.results?.attempts[0]?.result
-                  ?.verifyResult?.matchConfidence
-              : ''}
-          </Text>
-        </>
-      )}
+      {result?.status !== 'error' &&
+        !isLiveNess &&
+        result.status !== 'failure' && (
+          <>
+            <Text style={styles.label}>Verification confidence:</Text>
+            <Text style={styles.placeholder}>
+              {getLivenessVerifySessionResult?.results?.attempts?.length > 0
+                ? getLivenessVerifySessionResult?.results?.attempts[0]?.result
+                    ?.verifyResult?.matchConfidence
+                : ''}
+            </Text>
+          </>
+        )}
 
       <View style={styles.bottomView}>
         <TouchableOpacity style={styles.button} onPress={handleRetry}>

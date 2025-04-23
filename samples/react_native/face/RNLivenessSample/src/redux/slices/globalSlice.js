@@ -1,10 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
   endpoint: '',
   apiKey: '',
   isActivePassive: 'PassiveActive',
   isImageInClient: false,
+  lastSessionId: '',
 };
 
 const globalSlice = createSlice({
@@ -23,8 +24,11 @@ const globalSlice = createSlice({
     setImageInClient: (state, action) => {
       state.isImageInClient = action.payload;
     },
+    setLastSessionId: (state, action) => {
+      state.lastSessionId = action.payload;
+    },
   },
 });
 
-export const { setEndpoint, setApiKey, setActivePassive, setImageInClient } = globalSlice.actions;
+export const {setEndpoint, setApiKey, setActivePassive, setImageInClient, setLastSessionId} = globalSlice.actions;
 export default globalSlice.reducer;
