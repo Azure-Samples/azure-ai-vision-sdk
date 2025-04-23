@@ -273,7 +273,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = WVPRTX5NT8;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = RNAzureLiveness/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = RNAzureLiveness;
@@ -309,7 +309,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = WVPRTX5NT8;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = RNAzureLiveness/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = RNAzureLiveness;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
