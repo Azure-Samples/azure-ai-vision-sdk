@@ -18,8 +18,11 @@ In this sample, you will learn how to build and run the face liveness detection 
 ## Prerequisites 
 * An Azure Face API resource subscription.
 * A PC (Windows, Linux, Mac) with React Native installed with Android Studio and Xcode
+
+## For Android - 
+* Android studio minimum (version 2024.3) or higher
+* Make sure you have gradle version 8.12
 * An Android mobile device (API level 24 or higher).
-* An iOS mobile device (iOS)
 
 ## Step 1: Set up the environment
 
@@ -62,6 +65,7 @@ The sample app uses the Face UI SDK to perform face liveness detection. The foll
 ### Step 2.1 Build the sample app
 ![Build Sample](README-resources/build.png)
 Follow these steps to try out the sample app. The app performs liveness detection using the Vision SDK.
+* In the local.properties file, ensure that the sdk.dir path is correctly set.
 * On Android Studio Open the android folder under the "RNLivenessSample" folder 
 * Press Ctrl+R, or select **Run** \> **Run app**.
 
@@ -300,32 +304,31 @@ https://aka.ms/face/liveness-session/get-liveness-session-result
 
 > **Contents**
 >
-> * [API Reference Documentation](#api-reference-documentation)
-> * [Prerequisites](#prerequisites)
-> * [Step 1: Set up the environment](#step-1-set-up-the-environment)
-> * [Step 2: Build and run sample app](#step-2-build-and-run-sample-app)
+> * [API Reference Documentation For iOS](#api-reference-documentation-for-ios)
+> * [Prerequisites For iOS](#prerequisites-for-ios)
+> * [Step 1: Set up the environment For iOS](#step-1-set-up-the-environment-for-ios)
+> * [Step 2: Configure your Xcode Project](#step-2-configure-your-xcode-project)
 >   * [Test out key scenarios](#test-out-key-scenarios)
 >     * [Liveness](#liveness)
 >     * [LivenessWithVerify](#livenesswithverify)
 > * [Step 3: Integrate face liveness detection into your own application](#step-3-integrate-face-liveness-detection-into-your-own-application)
 > * [FAQ](#faq)
 >   * [Q: How do we use CocoaPods or other package managers?](#q-how-do-we-use-cocoapods-or-other-package-managers)
->   * [Q: Are there alternatives for access authorization?](#q-are-there-alternatives-for-access-authorization)
 >   * [Q: How can I get the results of the liveness session?](#q-how-can-i-get-the-results-of-the-liveness-session)
 >   * [Q: How do I provide localization?](#q-how-do-i-provide-localization)
 >   * [Q: How do I customize the displayed strings?](#q-how-do-i-customize-the-displayed-strings)
 
-## API Reference Documentation
+## API Reference Documentation For iOS
 
 * Swift API reference: [AzureAIVisionFaceUI](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionFaceUI/index.html)
 
-## Prerequisites
+## Prerequisites For iOS
 
 1. An Azure Face API resource subscription.
 2. A Mac (with iOS development environment, Xcode 13+), an iPhone (iOS 14+).
 3. An Apple developer account to install and run development apps on the iPhone.
 
-## Step 1: Set up the environment
+## Step 1: Set up the environment For iOS
 
 1. For the best experience, please do not open the sample project in Xcode yet before completing the environment setup.
 2. If this is your first time using your Mac to develop, you should build a sample app from [About Me &#x2014; Sample Apps Tutorials | Apple Developer Documentation](https://developer.apple.com/tutorials/sample-apps/aboutme) and run it on your phone before you attempt to build the App here. This will help ensure that your developer environment has been setup properly.
@@ -370,7 +373,14 @@ https://aka.ms/face/liveness-session/get-liveness-session-result
 
 6. If Xcode Command Line Tools is never installed on your machine, install it first [following instructions from Apple Developer website](https://developer.apple.com/library/archive/technotes/tn2339/_index.html).
 
-7. Install pods and run
+
+## Step 2: Configure your Xcode Project
+
+   1. In Xcode → Targets → Build Settings → Swift Compiler - Language, select the C++ and Objective-C Interoperability to be C++ / Objective-C++
+      ![Objective C](README-resources/objc.png)
+   2. In Xcode → Targets → Info → Custom iOS Target Properties, add Privacy - Camera Usage Description.
+      ![iOS Permission](README-resources/iOSpermission.png)
+   3. Install pods and run
 
 
 ### Test out key scenarios
@@ -483,9 +493,19 @@ await AzureLivenessManager.startLivenessDetection('YOUR_SESSION_TOKEN');
 
 Add the following lines to your project's Podfile. `'YourBuildTargetNameHere'` is an example target, and you should use your actual target project instead. You can also [specify your version requirement](https://guides.cocoapods.org/using/the-podfile.html#specifying-pod-versions) as needed.
 
+# add repo as source
+source 'https://msface.visualstudio.com/SDK/_git/AzureAIVisionFaceUI.podspec'
+target 'YourBuildTargetNameHere' do
+   # add the pod here, optionally with version specification as needed
+   pod 'AzureAIVisionFaceUI'
+end
+
 Also read: CocoaPods ([CocoaPods Guides - Getting Started](https://guides.cocoapods.org/using/getting-started.html))
 
 For other package managers, please consult their documentation and clone the framework repo manually.
+
+### Q: Are there alternatives for access authorization?
+There are some situations where the example plaintext token inside global git-config may not be suitable for your needs, such as automated build machines.
 
 If you are using `git-credential-manager`, `credential.azreposCredentialType` needs to be set to `pat`.
 
