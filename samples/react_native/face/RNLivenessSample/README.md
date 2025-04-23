@@ -46,7 +46,7 @@ mavenPassword=access_token
 >   * [Step 2.1 Build the sample app](#step-21-build-the-sample-app)
 >   * [Step 2.2 Run the sample](#step-22-run-the-sample)
 >   * [Step 2.3 Verification with liveness detection](#step-23-verification-with-liveness-detection)
-> * [Step 3 Integrate face liveness detection into your own application](#step-3-integrate-face-liveness-detection-into-your-own-application)
+> * [Step 3: Integrate face liveness detection into your own application for android](#step-3-integrate-face-liveness-detection-into-your-own-application-for-android)
 >   * [Step 3.1 The overview of face recognition with liveness detection in Azure AI Vision SDK for Android](#step-31-the-overview-of-face-recognition-with-liveness-detection-in-azure-ai-vision-sdk-for-android)
 >   * [Step 3.2 Add Camera Permissions](#step-32-add-camera-permissions)
 >   * [Step 3.3 Add react native code to Request Camera Permission](#step-33-add-permission-code-to-request-camera-permission)
@@ -92,7 +92,7 @@ Verification is a 1-1 matching. You can verify against a face, like the photo on
 
 To test out other liveness detection scenarios, repeat steps 1-5, this time holding up your ID card to the front-facing camera. Since this is not a live face, you should expect a "recognized" and a "spoof" result. 
 
-## Step 3 Integrate face liveness detection into your React Native application
+## Step 3 Integrate face liveness detection into your own application for android
 ### Step 3.1 The overview of face recognition with liveness detection in Azure AI Vision SDK for Android
 Here is the outline of the SDK sample and integration structure
 1. The solution uses azure maven repo artifact to add the binary enabling the liveness feature.  You will need to set up azure `maven` repo with any `username` and valid "access token" as "password.  It will be mentioned below in [Get Access Token to SDK Artifact](#get-access-token-to-sdk-artifact) section for getting the password, along with the [Add Build Dependencies](#add-build-dependency) to set the repo in the solution files.
@@ -156,8 +156,8 @@ Android Side
 ```
 * You need to add cred in the android/gradle.properties
 ```
-            mavenUser=any_username_string
-            mavenPassword=access_token
+            mavenUser=mavenUser
+            mavenPassword=mavenPassword
             mavenUrl=https://pkgs.dev.azure.com/msface/SDK/_packaging/AzureAIVision/maven/v1
 ```
 
@@ -308,6 +308,8 @@ https://aka.ms/face/liveness-session/get-liveness-session-result
 > * [Prerequisites For iOS](#prerequisites-for-ios)
 > * [Step 1: Set up the environment For iOS](#step-1-set-up-the-environment-for-ios)
 > * [Step 2: Configure your Xcode Project](#step-2-configure-your-xcode-project)
+> * [Step 3: Build and run sample app for ios](#step-3-build-and-run-sample-app-for-ios)
+>   * [Run the App](#run-the-app)
 >   * [Test out key scenarios](#test-out-key-scenarios)
 >     * [Liveness](#liveness)
 >     * [LivenessWithVerify](#livenesswithverify)
@@ -380,7 +382,31 @@ https://aka.ms/face/liveness-session/get-liveness-session-result
       ![Objective C](README-resources/objc.png)
    2. In Xcode → Targets → Info → Custom iOS Target Properties, add Privacy - Camera Usage Description.
       ![iOS Permission](README-resources/iOSpermission.png)
-   3. Install pods and run
+   3. Go to ios directory and install pods
+      - cd ios && pod install
+
+
+
+## Step 3: Build and run sample app for ios
+1. In Xcode → Targets → Signing & Capabilities, set the App bundle identifier and developer team.
+![Sample Peoject Signing](README-resources/sample_project_signing.png)
+
+2. Connect your iPhone to the Mac, then trust the Mac when prompted.
+![iPhone trust](README-resources/iphone_trust.png) ![iPhone trust passcode](README-resources/iphone_trust_passcode.png)
+
+3. Select your iPhone in the Xcode top bar.
+![iPhone select](README-resources/iphone_select.png)
+
+4. Build and run the app.
+
+
+
+### Run the App
+ 1. Allow camera permission when prompted.
+ 2. This sample creates token on the client, so it needs the API configuration. In production scenario, this will not be necessary. For now, go to the settings page and configure:
+    1. API endpoint
+    2. Subscription key
+ 3. Try one of the buttons (such as “Liveness”) to begin testing.
 
 
 ### Test out key scenarios
