@@ -6,17 +6,15 @@ export const detectLivenessWithVerification = createAsyncThunk(
   async ({ baseUrl, key, body }, thunkAPI) => {
     try {
       const response = await axios.post(
-        `${baseUrl}/detectLivenessWithVerify-sessions`,
+        `${baseUrl}face/v1.2/detectLivenessWithVerify-sessions`,
         body,
         { headers: {
           'Ocp-Apim-Subscription-Key': `${key}`,
           'Content-Type': 'multipart/form-data',
         } }
       );
-      console.log('--------response', response);
       return thunkAPI.fulfillWithValue(response);
     } catch (error) {
-      console.log('--------error', JSON.stringify(error));
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }
   }

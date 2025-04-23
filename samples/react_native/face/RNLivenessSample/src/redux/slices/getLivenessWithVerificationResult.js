@@ -6,7 +6,7 @@ export const getLivenessWithVerifySession = createAsyncThunk(
   async ({baseUrl, key, sessionId}, thunkAPI) => {
     try {
       const response = await axios.get(
-        `${baseUrl}/detectLivenessWithVerify-sessions/${sessionId}`,
+        `${baseUrl}face/v1.2/detectLivenessWithVerify-sessions/${sessionId}`,
         {
           headers: {
             'Ocp-Apim-Subscription-Key': `${key}`,
@@ -35,7 +35,7 @@ const getLivenessWithVerificationResult = createSlice({
         state.error = null;
       })
       .addCase(getLivenessWithVerifySession.fulfilled, (state, action) => {
-        state.loading = false;
+        state.loading = false;s
         state.data = action.payload;
       })
       .addCase(getLivenessWithVerifySession.rejected, (state, action) => {
