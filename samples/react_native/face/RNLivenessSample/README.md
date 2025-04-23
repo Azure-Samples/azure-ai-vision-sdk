@@ -156,8 +156,8 @@ Android Side
 ```
 * You need to add cred in the android/gradle.properties
 ```
-            mavenUser=mavenUser
-            mavenPassword=mavenPassword
+            mavenUser=any_username_string
+            mavenPassword=access_token
             mavenUrl=https://pkgs.dev.azure.com/msface/SDK/_packaging/AzureAIVision/maven/v1
 ```
 
