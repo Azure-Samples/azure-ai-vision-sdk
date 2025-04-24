@@ -1,9 +1,8 @@
 param (
-    [Parameter(Mandatory = $true)]
-    [string]$subscriptionId
+    [string]$subscriptionId,
+    [string]$tokenId
 )
 
-# do az login if needed
 try {
     $account = az account show --output none 2>$null
     if ($?) {
@@ -26,19 +25,32 @@ try {
     }
 }
 
-# Set tokenId
-$tokenId = 0
-
-# Get the bearer token
-try {
-    $bearerToken = $(az account get-access-token -s $subscriptionId -o tsv).split()[0]
-} catch {
-    Write-Host "Failed to retrieve the bearer token."
-    exit 1
+if (-not $subscriptionId) {
+    Write-Host "Info: Subscription ID is not provided."
+    Write-Host "Info: If you want to provide the subscription ID manually, please run the script as below."
+    Write-Host "Usage: .\get_face_access_token.ps1 -subscriptionId <subscriptionId> [-tokenId <tokenId>]"
+    Write-Host "Info: Valid token IDs are 0 or 1"
+    try {
+        $subscriptionId = az account show --query id -o tsv
+        if (-not $subscriptionId) {
+            throw "Failed to retrieve the subscription ID."
+        }
+        Write-Host "Info: Now using the default subscription ID $subscriptionId"
+    } catch {
+        Write-Host "Error: Failed to retrieve the subscription ID."
+        exit 1
+    }
 }
 
-# Generate the token
-Write-Host "Generating a new token..."
-$response = Invoke-RestMethod -Uri "https://face-sdk-gating-helper-2.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?id=${tokenId}" -Method POST -Headers @{"Authorization"="Bearer ${bearerToken}"}
-Write-Host "Token generated successfully."
-$response | Format-List
+if (-not $tokenId) {
+    Write-Host "Info: Token ID is not provided."
+    Write-Host "Info: If you want to provide the token ID manually, please run the script as below."
+    Write-Host "Usage: .\get_face_access_token.ps1 -subscriptionId <subscriptionId> [-tokenId <tokenId>]"
+    Write-Host "Info: Valid token IDs are 0 or 1"
+    $tokenArg = ""
+} else {
+    $tokenArg = "id=$tokenId"
+}
+
+Write-Host "Fetching a token..."
+az rest --method get --resource "https://management.core.windows.net/" --uri "https://face-sdk-gating-helper-2-staging.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?$tokenArg"
