@@ -6,7 +6,7 @@ export const getLivenessResult = createAsyncThunk(
   async ({ baseUrl, key, sessionId }, thunkAPI) => {
     try {
       const response = await axios.get(
-        `${baseUrl}face/v1.2/detectLiveness-sessions/${sessionId}`,
+        `${baseUrl}/face/v1.2/detectLiveness-sessions/${sessionId}`,
         { headers: {
           'Ocp-Apim-Subscription-Key': `${key}`,
           'Content-Type': 'application/json; charset=UTF-8',

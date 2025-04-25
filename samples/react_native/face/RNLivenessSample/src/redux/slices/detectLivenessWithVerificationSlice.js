@@ -6,7 +6,7 @@ export const detectLivenessWithVerification = createAsyncThunk(
   async ({ baseUrl, key, body }, thunkAPI) => {
     try {
       const response = await axios.post(
-        `${baseUrl}face/v1.2/detectLivenessWithVerify-sessions`,
+        `${baseUrl}/face/v1.2/detectLivenessWithVerify-sessions`,
         body,
         { headers: {
           'Ocp-Apim-Subscription-Key': `${key}`,
