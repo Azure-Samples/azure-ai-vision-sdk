@@ -145,7 +145,7 @@ Android Side
 
     dependencies {
          implementation("com.azure.android:azure-core-http-okhttp:1.0.0-beta.12")
-         implementation("com.azure.ai:azure-ai-vision-face-ui:1.1.0")
+         implementation("com.azure.ai:azure-ai-vision-face-ui:1.2.0")
          implementation("com.azure.android:azure-core-http-httpurlconnection:1.0.0-beta.10")
          implementation('androidx.appcompat:appcompat:1.7.0')
          implementation('androidx.activity:activity-compose:1.7.2')
