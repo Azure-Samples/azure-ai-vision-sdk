@@ -14,7 +14,8 @@ export const detectLiveness = createAsyncThunk(
         } }
       );
 
-      return thunkAPI.fulfillWithValue(response);
+      thunkAPI.fulfillWithValue(response);
+      return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }

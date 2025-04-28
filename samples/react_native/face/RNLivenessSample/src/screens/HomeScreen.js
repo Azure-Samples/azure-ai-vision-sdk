@@ -23,7 +23,6 @@ const emitter = new NativeEventEmitter(AzureLivenessManager);
 
 const HomeScreen = ({navigation, route}) => {
   const dispatch = useDispatch();
-  const [isLiveNess, setIsLiveNess] = useState('');
   const [image, setImage] = useState('');
 
   const endpoint = useSelector(state => state.global.endpoint);
@@ -36,7 +35,7 @@ const HomeScreen = ({navigation, route}) => {
   const isActivePassive = useSelector(state => state.global.isActivePassive);
 
   const isActionTriggeredRef = useRef(false);
-  let routeType = useRef(route?.params?.type || '');
+  let routeType = route?.params?.type || '';
 
   useEffect(() => {
     requestCameraPermission();
@@ -72,7 +71,8 @@ const HomeScreen = ({navigation, route}) => {
 
   const navigateToResultScreen = result => {
     navigation.navigate('ResultScreen', {
-      isLiveNess: result?.isLiveNess,
+      isLiveNess:
+        Platform.OS === 'android' ? result?.data : result?.isLiveNess,
       result,
     });
   };
@@ -107,7 +107,7 @@ const HomeScreen = ({navigation, route}) => {
     }
   };
 
-  const startLiveness = async sessionToken => {
+  const startLiveness = async (sessionToken, liveness) => {
     if (Platform.OS === 'android') {
       try {
         AzureLiveness.startLiveness(
@@ -115,18 +115,17 @@ const HomeScreen = ({navigation, route}) => {
           isImageInClient && image?.length > 0
             ? image?.replace('file://', '')
             : '',
-          isLiveNess,
+          liveness,
         );
       } catch (err) {
         console.error('Liveness error:', err);
       }
     } else {
       try {
-        const result = await AzureLivenessManager.startLivenessDetection(
+        await AzureLivenessManager.startLivenessDetection(
           sessionToken,
-          isLiveNess,
+          liveness,
         );
-        console.log('Liveness Result:', result);
       } catch (error) {
         console.error('Liveness Error:', error);
       }
@@ -134,25 +133,18 @@ const HomeScreen = ({navigation, route}) => {
   };
 
   useEffect(() => {
-    if (route && routeType?.current && routeType?.current !== 'home') {
-      setIsLiveNess(routeType?.current);
+    if (route && routeType !== 'home') {
+      if (route && route?.params?.isRetry) {
+        if (routeType && authToken?.length > 0) {
+          startLiveness(authToken, 'true');
+        } else if (!routeType && verificationAuth?.authToken?.length > 0) {
+          startLiveness(verificationAuth?.authToken, '');
+        }
+      }
     }
   }, [route && route?.params]);
 
-  useEffect(() => {
-    if (route && routeType?.current === 'home') {
-      console.log('type------', routeType?.current);
-    } else if (
-      (isLiveNess && authToken?.length > 0) ||
-      (!isLiveNess && verificationAuth?.authToken?.length > 0)
-    ) {
-      startLiveness(isLiveNess ? authToken : verificationAuth?.authToken);
-    }
-  }, [authToken, verificationAuth, isLiveNess]);
-
-  const handleLiveness = () => {
-    routeType.current = 'true';
-    setIsLiveNess('true');
+  const handleLiveness = async () => {
     if (!endpoint.length || !apiKey.length) {
       Alert.alert(
         'Error',
@@ -161,7 +153,7 @@ const HomeScreen = ({navigation, route}) => {
       return;
     }
 
-    dispatch(
+    const res = await dispatch(
       detectLiveness({
         baseUrl: endpoint,
         key: apiKey,
@@ -170,12 +162,13 @@ const HomeScreen = ({navigation, route}) => {
           deviceCorrelationId: '1234567890',
         },
       }),
-    );
+    ).unwrap();
+    if (res?.data?.authToken) {
+      startLiveness(res?.data?.authToken, 'true');
+    }
   };
 
   const handleLivenessWithVerification = () => {
-    routeType.current = '';
-    setIsLiveNess('');
     if (!endpoint.length || !apiKey.length) {
       Alert.alert(
         'Error',
@@ -198,7 +191,7 @@ const HomeScreen = ({navigation, route}) => {
       cropperActiveWidgetColor: 'white',
       freeStyleCropEnabled: true,
     })
-      .then(imgs => {
+      .then(async imgs => {
         setImage(imgs?.path);
         const formData = new FormData();
         formData.append('livenessOperationMode', isActivePassive);
@@ -211,13 +204,16 @@ const HomeScreen = ({navigation, route}) => {
           type: imgs?.mime,
           name: imgs?.filename || `${new Date().getTime()}.png`,
         });
-        dispatch(
+        const res = await dispatch(
           detectLivenessWithVerification({
             baseUrl: endpoint,
             key: apiKey,
             body: formData,
           }),
-        );
+        ).unwrap();
+        if (res?.data?.authToken) {
+          startLiveness(res?.data?.authToken, '');
+        }
       })
       .catch(e => {
         console.log('openPicker_e: ', e);

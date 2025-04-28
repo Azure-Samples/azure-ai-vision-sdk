@@ -54,6 +54,7 @@ const ResultScreen = ({navigation, route}) => {
             name: 'HomeScreen',
             params: {
               type: isLiveNess,
+              isRetry: true,
             },
           },
         ],
@@ -70,6 +71,7 @@ const ResultScreen = ({navigation, route}) => {
             name: 'HomeScreen',
             params: {
               type: 'home',
+              isRetry: false,
             },
           },
         ],

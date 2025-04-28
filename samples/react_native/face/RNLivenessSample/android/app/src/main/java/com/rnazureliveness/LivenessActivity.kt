@@ -22,10 +22,9 @@ class LivenessActivity : ComponentActivity() {
                 onSuccess = { result ->
                     val resultData = Intent().apply {
                         putExtra("status", "success")
-                        putExtra("resultId", isLiveNess)
+                        putExtra("resultId", result.resultId)
                         putExtra("digest", result.digest)
-                        putExtra("data", result.toString())
-
+                        putExtra("data", isLiveNess)
                     }
                     setResult(Activity.RESULT_OK, resultData)
                     finish()
@@ -35,7 +34,7 @@ class LivenessActivity : ComponentActivity() {
                         putExtra("status", "error")
                         putExtra("livenessError", error.livenessError.toString())
                         putExtra("recognitionError", error.recognitionError.toString())
-                        putExtra("data",  error.toString())
+                        putExtra("data",  isLiveNess)
                     }
                     setResult(Activity.RESULT_OK, errorData)
                     finish()

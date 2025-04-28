@@ -13,7 +13,8 @@ export const detectLivenessWithVerification = createAsyncThunk(
           'Content-Type': 'multipart/form-data',
         } }
       );
-      return thunkAPI.fulfillWithValue(response);
+      thunkAPI.fulfillWithValue(response);
+      return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }

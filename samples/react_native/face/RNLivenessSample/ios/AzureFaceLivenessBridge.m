@@ -10,8 +10,6 @@
 
 @interface RCT_EXTERN_MODULE(AzureLivenessManager, RCTEventEmitter)
 
-//RCT_EXTERN_METHOD(startLivenessDetection:(NSString *)sessionToken)
-
 RCT_EXTERN_METHOD(startLivenessDetection:(NSString *)sessionToken
                   isLiveness:(NSString *)isLiveness)
 
