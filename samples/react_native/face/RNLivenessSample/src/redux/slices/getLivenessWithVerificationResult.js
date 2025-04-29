@@ -35,7 +35,7 @@ const getLivenessWithVerificationResult = createSlice({
         state.error = null;
       })
       .addCase(getLivenessWithVerifySession.fulfilled, (state, action) => {
-        state.loading = false;s
+        state.loading = false;
         state.data = action.payload;
       })
       .addCase(getLivenessWithVerifySession.rejected, (state, action) => {
