@@ -115,7 +115,8 @@ Add permission for the app in `AndroidManifest.xml`
 Camera permission needs to be ready before calling the liveness process.
 Here is part of the code piece that asks camera permission
 ```
-         PermissionsAndroid.PERMISSIONS.CAMERA,
+  const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.CAMERA,
           {
             title: 'RNAzureLiveness Camera Permission',
             message:
