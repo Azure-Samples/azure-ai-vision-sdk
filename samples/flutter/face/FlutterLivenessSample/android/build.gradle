@@ -1,0 +1,34 @@
+allprojects {
+    ext {
+        mavenUrl = project.hasProperty('mavenUrl') ? project.mavenUrl : ""
+        mavenUser = project.hasProperty('mavenUser') ? project.mavenUser : ""
+        mavenPassword = project.hasProperty('mavenPassword') ? project.mavenPassword : ""
+    }
+
+
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        maven {
+            url = uri(mavenUrl)
+            credentials {
+                username = mavenUser
+                password = mavenPassword
+            }
+        }
+    }
+}
+
+
+rootProject.buildDir = "../build"
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(":app")
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}

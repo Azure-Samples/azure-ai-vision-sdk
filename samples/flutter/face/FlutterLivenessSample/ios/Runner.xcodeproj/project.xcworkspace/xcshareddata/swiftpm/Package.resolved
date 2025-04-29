@@ -1,0 +1,15 @@
+{
+  "originHash" : "3edd2730057683fda8d68f4f55cfa0e5b34275d328845b6773f9bfbf99486a5c",
+  "pins" : [
+    {
+      "identity" : "azureaivisionfaceui.xcframework",
+      "kind" : "remoteSourceControl",
+      "location" : "https://msface.visualstudio.com/SDK/_git/AzureAIVisionFaceUI.xcframework",
+      "state" : {
+        "revision" : "992585c9e090b2159be420b0cc32f1e4ca95e667",
+        "version" : "1.2.0"
+      }
+    }
+  ],
+  "version" : 3
+}
