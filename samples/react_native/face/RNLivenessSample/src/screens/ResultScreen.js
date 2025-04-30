@@ -115,7 +115,9 @@ const ResultScreen = ({navigation, route}) => {
           <Text style={styles.placeholder}>
             {result?.status === 'error'
               ? result?.recognitionError
-              : verificationAuth?.status}
+              : getLivenessVerifySessionResult?.results?.attempts?.length > 0
+              ? getLivenessVerifySessionResult?.results?.attempts[0]?.result?.verifyResult?.isIdentical?.toString()
+              : ''}
           </Text>
         </>
       )}
