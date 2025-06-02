@@ -1,11 +1,3 @@
-# Image Analysis Samples (C++, Windows x64 & Linux x64)
+# Image Analysis Samples (C++)
 
-These samples demonstrate how to run Image Analysis on an image file on disk or an image URL, using Microsoft's new Azure AI Vision SDK for Windows and Linux.
-
-**Note that the Vision SDK is in public preview. APIs are subject to change.**
-
-Only Windows 10 (or higher) x64 and Linux x64 versions are supported at the moment, via a NuGet package (for Windows) or Debian package (for Linux).
-
-For Windows x64, follow the instructions [here](README-Windows.md)
-
-For Linux x64, follow the instructions [here](README-Linux.md)
+Content has moved [here](https://learn.microsoft.com/azure/ai-services/computer-vision/sdk/overview-sdk#github-samples).
