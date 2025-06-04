@@ -3,13 +3,10 @@ page_type: sample
 languages:
 - cpp
 - csharp
-- python
+- dart
 - swift
 - kotlin
 - javascript
-- nextjs
-- angular
-- vuejs
 name: "Microsoft Azure AI Vision SDK Samples"
 description: "Learn how to use the Microsoft Azure AI Vision SDK to add computer vision features to your apps."
 products:
@@ -47,10 +44,6 @@ Alternatively, you can contact Microsoft's Vision SDK development team directly 
   git clone https://github.com/Azure-Samples/azure-ai-vision-sdk.git
   ```
 
-## Image Analysis
-
-**January 2024 update**: Samples for the new Image Analysis SDK versions 1.0.0-beta.1 and up are now located in several other Azure SDK GitHub repos. Please see the [Image Analysis SDK overview](https://learn.microsoft.com/azure/ai-services/computer-vision/sdk/overview-sdk) page for more details.
-
 ## Face Analysis
 
 ### Overview
@@ -84,6 +77,9 @@ Please see the readme documents listed below for instructions on how to build an
 | [Angular sample app for Web](samples/web/angularjs/) | Web | App with source code that demonstrates face analysis on Web |
 | [Vue.js sample app for Web](samples/web/vuejs/) | Web | App with source code that demonstrates face analysis on Web |
 | [JavaScript sample app for Web](samples/web/javascript/) | Web | App with source code that demonstrates face analysis on Web |
+| [MAUI sample app for Android and iOS](samples/maui/) | MAUI (Android, iOS) | App with source code that demonstrates face analysis on Android and iOS using MAUI |
+| [Flutter sample app for Android and iOS](samples/flutter/face/) | Flutter (Android, iOS) | App with source code that demonstrates face analysis on Android and iOS using Flutter |
+| [React Native sample app for Android and iOS](samples/react_native/face/) | React Native (Android, iOS) | App with source code that demonstrates face analysis on Android and iOS using React Native |
 
 ### API Reference Documentation
 
