@@ -53,4 +53,4 @@ if (-not $tokenId) {
 }
 
 Write-Host "Fetching a token..."
-az rest --method get --resource "https://management.core.windows.net/" --uri "https://face-sdk-gating-helper-2-staging.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?$tokenArg"
+az rest --method get --resource "https://management.core.windows.net/" --uri "https://face-sdk-gating-helper-2.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?$tokenArg"
