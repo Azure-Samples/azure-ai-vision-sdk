@@ -31,14 +31,20 @@ Install Azure Command-Line Interface (CLI) as per the documentation [here](https
 
    ```bash
    ./scripts/get_face_access_token.sh #SUBSCRIPTION_ID#
+   or
+   ## To Generate New Access Token
+   ./scripts/get_face_access_token.sh #SUBSCRIPTION_ID# #tokenId #New-Integer-Token-ID#
    ```
 
    **For PowerShell on Windows/Linux/MacOS :**
 
    ```powershell
    ./scripts/get_face_access_token.ps1 -subscriptionId #SUBSCRIPTION_ID#
+   or
+   ## To Generate New Access Token
+   ./scripts/get_face_access_token.ps1 -subscriptionId #SUBSCRIPTION_ID# --tokenId #New-Integer-Token-ID#
    ```
-> **Note:** The access token remains valid for one week from the date of creation.
+> **Note:** The access token remains valid for one week from the date of its creation.
 
 ## References
 
