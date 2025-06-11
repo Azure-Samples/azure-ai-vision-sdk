@@ -19,13 +19,13 @@ This guide provides step-by-step instructions to access Face Client SDK release 
 
 Install Azure Command-Line Interface (CLI) as per the documentation [here](https://learn.microsoft.com/cli/azure/).
 
-### Fetching Access Token
+### Fetching Access Token (Recommended)
 
 1. Open your command-line tool (e.g., Terminal in Linux/MacOS, PowerShell in Windows/Linux/MacOS).
 1. Run the following script:
 
    Parameters:
-   - **subscriptionId**: Azure Subscription ID that has been registered for Face API Limited Access.
+   - **`#SUBSCRIPTION_ID#`**: Azure Subscription ID that has been registered for Face API Limited Access.
 
    **For Linux/MacOS or Shell:**
 
@@ -43,7 +43,7 @@ Install Azure Command-Line Interface (CLI) as per the documentation [here](https
 
 This endpoint is available for token generations and queries:
 
-1. **Token Generation (POST) / Query (GET) Endpoint (`POST`):**
+1. **Token Generation (POST) / Query (GET) Endpoint:**
 
    ```text
    https://face-sdk-gating-helper-2.azurewebsites.net/sdk/subscriptions/{subscriptionId}/tokens?id={tokenId}
@@ -51,12 +51,33 @@ This endpoint is available for token generations and queries:
 
 > **Note:** The `GET` endpoint lists all tokens if `tokenId` is not specified. Use `POST` to generate tokens if none exist.
 
+> **Note:** `Authorization` header of `Bearer` scheme is required, so the most straightforward client to use is [`az rest`](https://learn.microsoft.com/cli/azure/reference-index?view=azure-cli-latest#az-rest) command from Azure CLI. Such calls can be made with the following command:
+>
+>   ```bash
+>   az rest --method {method} --uri "https://face-sdk-gating-helper-2.azurewebsites.net/sdk/subscriptions/{subscriptionId}/tokens?id={tokenId}"
+>   ```
+>
+> where `{method}` is either `GET` or `POST`, and `{tokenId}` is the token ID you want to query or generate. It is recommended to omit the `id` query parameter for `GET` requests to list all tokens.
+
 ## Troubleshooting
 
 Run this script on PowerShell to obtain diagnostics:
 
 ```powershell
 ./scripts/diagnose_token.ps1
+```
+Some users are reporting issues of getting expired tokens with GET method. If you encounter this, please try the POST method by running the following instead of the `get_face_access_token` script:
+
+**For Linux/MacOS or Shell:**
+
+```bash
+./scripts/create_face_access_token.sh #SUBSCRIPTION_ID#
+```
+
+**For PowerShell on Windows/Linux/MacOS :**
+
+```powershell
+./scripts/create_face_access_token.ps1 -subscriptionId #SUBSCRIPTION_ID#
 ```
 
 ## Additional Resources
