@@ -28,7 +28,7 @@ try {
 if (-not $subscriptionId) {
     Write-Host "Info: Subscription ID is not provided."
     Write-Host "Info: If you want to provide the subscription ID manually, please run the script as below."
-    Write-Host "Usage: .\get_face_access_token.ps1 -subscriptionId <subscriptionId> [-tokenId <tokenId>]"
+    Write-Host "Usage: .\create_face_access_token.ps1 -subscriptionId <subscriptionId> [-tokenId <tokenId>]"
     Write-Host "Info: Valid token IDs are 0 or 1"
     try {
         $subscriptionId = az account show --query id -o tsv
@@ -45,12 +45,13 @@ if (-not $subscriptionId) {
 if (-not $tokenId) {
     Write-Host "Info: Token ID is not provided."
     Write-Host "Info: If you want to provide the token ID manually, please run the script as below."
-    Write-Host "Usage: .\get_face_access_token.ps1 -subscriptionId <subscriptionId> [-tokenId <tokenId>]"
+    Write-Host "Usage: .\create_face_access_token.ps1 -subscriptionId <subscriptionId> [-tokenId <tokenId>]"
     Write-Host "Info: Valid token IDs are 0 or 1"
-    $tokenArg = ""
-} else {
-    $tokenArg = "id=$tokenId"
+    $tokenId = "0"
+    Write-Host "Info: Now using the default token ID $tokenId"
 }
+$tokenArg = "id=$tokenId"
+
 
 Write-Host "Fetching a token..."
-az rest --method get --resource "https://management.core.windows.net/" --uri "https://face-sdk-gating-helper-2.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?$tokenArg"
+az rest --method post --resource "https://management.core.windows.net/" --uri "https://face-sdk-gating-helper-2.azurewebsites.net/sdk/subscriptions/${subscriptionId}/tokens?$tokenArg"
