@@ -38,6 +38,7 @@ Install Azure Command-Line Interface (CLI) as per the documentation [here](https
    ```powershell
    ./scripts/get_face_access_token.ps1 -subscriptionId #SUBSCRIPTION_ID#
    ```
+> **Note:** The access token is valid for one week only from the creation date.
 
 ## References
 
