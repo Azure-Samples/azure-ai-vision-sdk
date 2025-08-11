@@ -47,6 +47,7 @@ app.post(
     const parameters = JSON.parse(req.body.parameters);
     const livenessOperationMode = parameters.livenessOperationMode;
     const deviceCorrelationId = parameters.deviceCorrelationId;
+    const userCorrelationId = parameters.userCorrelationId;
     const action = req.body.Action;
 
     if (req.file) {
@@ -85,11 +86,19 @@ app.post(
         token: null,
       });
     }
+    if (typeof userCorrelationId != "string") {
+      return res.status(400).send({
+        message: "userCorrelationId parameter not expected",
+        token: null,
+      });
+    } 
 
     // Note1: More information regarding each request parameter involved in creating a liveness session is here: https://aka.ms/face-api-reference-createlivenesssession
     let requestBody = JSON.stringify({
       livenessOperationMode,
       deviceCorrelationId,
+      userCorrelationId,
+      enableSessionImage:true
     });
 
     // Note2: You can create a liveness session with verification by attaching a verify image during session-create, reference: https://aka.ms/face-api-reference-createlivenesswithverifysession
@@ -98,6 +107,8 @@ app.post(
       requestBody.append("verifyImage", file, file.name);
       requestBody.append("livenessOperationMode", livenessOperationMode);
       requestBody.append("deviceCorrelationId", deviceCorrelationId);
+      requestBody.append("userCorrelationId", userCorrelationId);
+      requestBody.append("enableSessionImage", true);
     }
 
     // Token is fetched with API endpoint and key

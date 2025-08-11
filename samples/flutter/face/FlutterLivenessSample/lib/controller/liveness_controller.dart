@@ -114,7 +114,8 @@ class LivenessController extends GetxController {
 
       final data = {
         "livenessOperationMode": isPassiveActive ? "PassiveActive" : "Passive",
-        "deviceCorrelationId": "1234567890"
+        "deviceCorrelationId": "1234567890",
+        "userCorrelationId": "0987654321",
       };
 
       dio.Response response = await dio.Dio().post(
@@ -183,6 +184,7 @@ class LivenessController extends GetxController {
       final formData = dio.FormData.fromMap({
         "livenessOperationMode": isPassiveActive ? "PassiveActive" : "Passive",
         'deviceCorrelationId': '1234567890',
+        'userCorrelationId': '0987654321',
         'verifyImage': await dio.MultipartFile.fromFile(
           imagePath,
           filename: imageName,

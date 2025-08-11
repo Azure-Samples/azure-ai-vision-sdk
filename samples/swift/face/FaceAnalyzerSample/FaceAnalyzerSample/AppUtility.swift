@@ -33,10 +33,12 @@ func obtainToken(usingEndpoint endpoint: String,
     request.httpMethod = "POST"
 
     request.setValue(key, forHTTPHeaderField: "Ocp-Apim-Subscription-Key")
+    request.setValue("sample=swift-face-ios-sdk;appversion=1.1", forHTTPHeaderField: "X-MS-AZSDK-Telemetry")
 
     let parameters: [String: Any] = [
         "livenessOperationMode": livenessOperationMode,
         "deviceCorrelationId": UIDevice.current.identifierForVendor?.uuidString ?? UUID().uuidString,
+        "userCorrelationId": UUID().uuidString,
     ]
 
     do {

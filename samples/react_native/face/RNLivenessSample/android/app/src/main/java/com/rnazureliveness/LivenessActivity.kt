@@ -19,6 +19,7 @@ class LivenessActivity : ComponentActivity() {
                 sessionAuthorizationToken = sessionToken,
                 verifyImageFileContent = verifyImageFileContent,
                 deviceCorrelationId = null,
+                userCorrelationId = null,
                 onSuccess = { result ->
                     val resultData = Intent().apply {
                         putExtra("status", "success")

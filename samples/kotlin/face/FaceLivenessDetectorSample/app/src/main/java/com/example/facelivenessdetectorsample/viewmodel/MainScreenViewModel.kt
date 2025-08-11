@@ -57,6 +57,12 @@ class MainScreenViewModel(sharedPreferences: SharedPreferences) : ViewModel() {
         )
     )
 
+    var userId by mutableStateOf(
+        sharedPreferences.getString(SharedPrefKeys.USER_ID, null)?.let { 
+            UUID.fromString(it) 
+        } ?: UUID.randomUUID()
+    )
+
     var setImageInClient by mutableStateOf(
         sharedPreferences.getBoolean(
             SharedPrefKeys.SET_IMAGE_IN_CLIENT, false
@@ -92,6 +98,7 @@ class MainScreenViewModel(sharedPreferences: SharedPreferences) : ViewModel() {
         setImageInClient: Boolean,
         passiveActive: Boolean,
         deviceId: Long,
+        userId: UUID,
         onTokenFetched: (() -> Unit)? = null
     ) {
         fetchTokenJob?.cancel()
@@ -112,7 +119,8 @@ class MainScreenViewModel(sharedPreferences: SharedPreferences) : ViewModel() {
                     val parameters =
                         mapOf(
                             "livenessOperationMode" to livenessMode,
-                            "deviceCorrelationId" to UUID(deviceId, deviceId)
+                            "deviceCorrelationId" to UUID(deviceId, deviceId),
+                            "userCorrelationId" to userId
                         )
                     val charset: Charset = Charset.forName("UTF-8")
                     urlConnection = url.openConnection() as HttpsURLConnection
@@ -233,6 +241,7 @@ class MainScreenViewModel(sharedPreferences: SharedPreferences) : ViewModel() {
             verifyImageArray = verifyImageArray,
             setImageInClient = setImageInClient,
             deviceId = deviceId,
+            userId = userId,
             passiveActive = passiveActive,
             onTokenFetched = onTokenFetched
         )

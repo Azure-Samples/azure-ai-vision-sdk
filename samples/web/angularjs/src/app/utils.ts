@@ -20,6 +20,7 @@ export async function fetchTokenFromAPI(
   let parameters: { [key: string]: string | boolean } = {
     livenessOperationMode,
     deviceCorrelationId: await getDummyDeviceId(),
+    userCorrelationId: await getDummyUserId(),
   };
 
   let sessionCreationBody: FormData = new FormData();
@@ -97,4 +98,24 @@ const getDummyDeviceId = async (): Promise<string> => {
       .join('-') || '';
 
   return deviceId;
+};
+
+const getDummyUserId = async (): Promise<string> => {
+  let userId =
+      globalThis.crypto?.randomUUID()?.replace(/-/g, '') || '0'.repeat(64);
+
+  userId = '0'.repeat(64 - userId.length) + userId;
+  userId = (
+    BigInt('0x' + userId.substring(0, 32)) ^
+    BigInt('0x' + userId.substring(32, 64))
+  )
+    .toString(16)
+    .substring(0, 32);
+  userId =
+    ('0'.repeat(32 - userId.length) + userId)
+      .match(/^(.{8})(.{4})(.{4})(.{4})(.{12})$/)
+      ?.slice(1)
+      .join('-') || '';
+
+  return userId;
 };

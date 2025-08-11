@@ -20,8 +20,8 @@ object Routes {
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun AppNavHost(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = Routes.Main) {
+fun AppNavHost(navController: NavHostController, startDestination: String = Routes.Main) {
+    NavHost(navController = navController, startDestination = startDestination) {
         composable(Routes.Main) {
             MainScreen(navController)
         }

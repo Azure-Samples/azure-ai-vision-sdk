@@ -161,9 +161,12 @@ class LivenessScreenViewModel(sharedPreferences: SharedPreferences) : ViewModel(
             )
             _resultData.value = result
         }
-        fetchFaceAPILivenssResult(onResultFetched)
-
-
+        if (faceApiEndpoint.isNotBlank() && faceApiKey.isNotBlank()) {
+            fetchFaceAPILivenssResult(onResultFetched)
+        }
+        else {
+            onResultFetched()
+        }
     }
 
     fun onError(livenessDetectionError: Any) {

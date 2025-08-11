@@ -1,8 +1,8 @@
 <script setup lang="ts">
 
 // Step 1: Import the web component.
-import "azure-ai-vision-face-ui";
-import { FaceLivenessDetector, LivenessDetectionError } from 'azure-ai-vision-face-ui';
+import "@azure/ai-vision-face-ui";
+import { FaceLivenessDetector, LivenessDetectionError } from '@azure/ai-vision-face-ui';
 
 import { ref, watchEffect, defineProps, defineEmits } from "vue";
 import { SessionAuthorizationData, fetchTokenFromAPI, fetchSessionResultFromAPI } from "../utils/utils";

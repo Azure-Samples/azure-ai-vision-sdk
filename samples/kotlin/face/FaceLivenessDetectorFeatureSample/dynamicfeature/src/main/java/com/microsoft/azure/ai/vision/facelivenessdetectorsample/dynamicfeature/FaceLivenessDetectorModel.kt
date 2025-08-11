@@ -6,6 +6,7 @@ class FaceLivenessDetectorModel(
     val sessionAuthorizationToken: String,
     val verifyImageFileContent: ByteArray?,
     val deviceCorrelationId: String?,
+    val userCorrelationId: String?,
     val onSuccess: Consumer<Any>,
     val onError: Consumer<Any>
 )

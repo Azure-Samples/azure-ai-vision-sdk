@@ -1,8 +1,8 @@
 /* NOTE: This is an example of how to integrate the Face Liveness Detector Web Component with AngularJS. */
 
 // Step 1: Import the web component.
-import 'azure-ai-vision-face-ui';
-import { FaceLivenessDetector, LivenessDetectionError } from 'azure-ai-vision-face-ui';
+import '@azure/ai-vision-face-ui';
+import { FaceLivenessDetector, LivenessDetectionError } from '@azure/ai-vision-face-ui';
 
 import {
   CUSTOM_ELEMENTS_SCHEMA,

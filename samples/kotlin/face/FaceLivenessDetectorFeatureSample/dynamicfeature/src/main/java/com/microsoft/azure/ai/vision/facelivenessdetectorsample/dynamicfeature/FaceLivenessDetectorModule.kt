@@ -29,6 +29,7 @@ fun FaceLivenessDetectorModule(
         faceLivenessDetectorModel.sessionAuthorizationToken,
         faceLivenessDetectorModel.verifyImageFileContent,
         faceLivenessDetectorModel.deviceCorrelationId,
+        faceLivenessDetectorModel.userCorrelationId,
         onSuccess,
         onError)
 }

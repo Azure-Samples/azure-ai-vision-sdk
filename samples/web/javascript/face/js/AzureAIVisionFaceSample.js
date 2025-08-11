@@ -1,5 +1,5 @@
 // Step 1: Import the web component.
-import "./azure-ai-vision-face-ui/FaceLivenessDetector.js";
+import "./@azure/ai-vision-face-ui/FaceLivenessDetector.js";
 import { personIcon, heartPulseIcon, checkmarkCircleIcon, dismissCircleIcon, createOrUpdateFeedbackItem, createOrUpdateLine } from './Utils.js';
 
 // Setup steps:
@@ -17,7 +17,7 @@ const feedbackContainer = document.getElementById('feedbackContainer');
 var sessionToken = "";
 var sessionId = "";
 
-async function getDummyDeviceId() {
+async function getRandomId() {
   var length = 10;
   var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   var charactersLength = characters.length;
@@ -31,23 +31,24 @@ async function getDummyDeviceId() {
   return result;
 }
 
-function restartFaceLiveness() {
-  splash.toggleAttribute('hidden');
-  startPassiveButton.toggleAttribute("hidden");
-  startPassiveActiveButton.toggleAttribute("hidden");
-  verifyImageRow.toggleAttribute("hidden");
-  continueButton.toggleAttribute("hidden");
-  retryButton.toggleAttribute("hidden");
-  feedbackContainer.setAttribute('hidden', true);
-  feedbackContainer.style.display = "none";
+async function getDummyDeviceId() {
+  let deviceId = (await navigator.mediaDevices.enumerateDevices()).find(
+    (device) => device.deviceId !== ''
+  )?.deviceId;
+
+  if (deviceId === null || deviceId === '') {
+    deviceId = getRandomId();
+  }
+
+  return deviceId;
+};
+
+async function getDummyUserId() {
+  return getRandomId();
 }
 
 // This method shows how to start face liveness check.
 async function startFaceLiveness(event) {
-  // Step 2: query the azure-ai-vision-face-ui element to process face liveness.
-  // For scenarios where you want to use the same element to process multiple sessions, you can query the element once and store it in a variable.
-  // An example would be to retry in case of a failure.
-  var faceLivenessDetector = document.querySelector("azure-ai-vision-face-ui");
   let action = "detectLiveness";
   let sessionCreationHeaders = { 'Content-Type': 'application/json' };
   feedbackContainer.setAttribute('hidden', true);
@@ -58,21 +59,34 @@ async function startFaceLiveness(event) {
     startPassiveButton.toggleAttribute("hidden");
     startPassiveActiveButton.toggleAttribute("hidden");
     verifyImageRow.toggleAttribute("hidden");
-    // Step 3: Obtain session-authorization-token.
+    
+    // Step 2: Obtain session-authorization-token.
     // Disclaimer: This is just an illustration of what information is used to create a liveness session using a mocked backend. For more information on how to orchestrate the liveness solution, please refer to https://aka.ms/azure-ai-vision-face-liveness-tutorial
     // In your production environment, you should perform this step on your app-backend and pass down the session-authorization-token down to the frontend.
 
     // Note: The liveness-operation-mode is retrieved from 'data-mode' attribute of the start buttons, for more information: https://aka.ms/face-api-reference-livenessoperationmode
     const livenessOperationMode = event.target.dataset.mode;
+    let deviceId = await getDummyDeviceId();
+    let userId = await getDummyUserId();
+    
     // Note1: More information regarding each request parameter involved in creating a liveness session is here: https://aka.ms/face-api-reference-createlivenesssession
-    const sessionBodyStruct = { livenessOperationMode: livenessOperationMode, deviceCorrelationId: await getDummyDeviceId() };
+    const sessionBodyStruct = { 
+      livenessOperationMode: livenessOperationMode,
+      deviceCorrelationId: deviceId,
+      userCorrelationId: userId,
+      enableSessionImage:true 
+    };
     let sessionCreationBody = JSON.stringify(sessionBodyStruct);
+    
+    
     // Note2: You can also create a liveness session with verification by attaching a verify image during session-create, reference: https://aka.ms/face-api-reference-createlivenesswithverifysession
     if (useVerifyImageFileInput.files.length > 0) {
       sessionCreationBody = new FormData();
       sessionCreationBody.append("verifyImage", useVerifyImageFileInput.files[0], useVerifyImageFileInput.files[0].name);
       sessionCreationBody.append("livenessOperationMode", livenessOperationMode);
-      sessionCreationBody.append("deviceCorrelationId", await getDummyDeviceId());
+      sessionCreationBody.append("deviceCorrelationId", deviceId);
+      sessionCreationBody.append("userCorrelationId", userId);
+      sessionCreationBody.append("enableSessionImage", true);
       sessionCreationHeaders = {};
       action = "detectLivenessWithVerify";
     }
@@ -84,10 +98,16 @@ async function startFaceLiveness(event) {
   else {
     continueButton.toggleAttribute("hidden");
     retryButton.toggleAttribute("hidden");
-  }
 
+    var faceLivenessDetector = document.querySelector("azure-ai-vision-face-ui");
+    if (faceLivenessDetector != null) {
+      document.getElementById("container").removeChild(faceLivenessDetector);
+    }
+  }
+  
+  // Step 3: create the azure-ai-vision-face-ui element to process face liveness and attach it to DOM.
+  var faceLivenessDetector = document.querySelector("azure-ai-vision-face-ui");
   if (faceLivenessDetector == null) {
-    // Step 4: Create the face liveness detector element and attach it to DOM.
     faceLivenessDetector = document.createElement("azure-ai-vision-face-ui");
     document.getElementById("container").appendChild(faceLivenessDetector);
   }
@@ -95,22 +115,26 @@ async function startFaceLiveness(event) {
   // For multi-camera scenarios, you can set desired deviceId by using following APIs:
   // You can enumerate available devices and filter cameras using navigator.mediaDevices.enumerateDevices method.
   // You can then set the desired deviceId as an attribute faceLivenessDetector.mediaInfoDeviceId = <desired-device-id>
-
-  // Step 5: Start the face liveness check session and handle the promise returned appropriately.
+  // Step 4: Start the face liveness check session and handle the promise returned appropriately.
+  // Note: For added security, you are not required to trust the 'status' property from client.
+  // Your backend can and should verify this by querying about the session Face API directly.
   faceLivenessDetector.start(sessionToken)
   .then(async resultData => {
     console.log(resultData);
-    // Once the session is completed and promise fulfilled, the client does not receive the outcome whether face is live or spoof.
-    // You can query the result from your backend service by calling the sessions results API
-    // https://aka.ms/face/liveness-session/get-liveness-session-result
+    // Once the session is completed and promise fulfilled, you can query the result from your backend service by calling the sessions results API
+    // https://aka.ms/face-api-reference-createlivenesssessionwithverifyimage
     const sessionResult = await (await fetch(`/api/${action}-sessions/${sessionId}`, { method: "GET", headers: sessionCreationHeaders })).json();
+
     const livenessStatus = sessionResult?.results?.attempts?.[0]?.result?.livenessDecision ?? sessionResult?.result?.response?.body?.livenessDecision ?? null;
     const livenessCondition = livenessStatus == "realface";
     const livenessIcon = livenessCondition ? checkmarkCircleIcon : dismissCircleIcon;
-    
+    const abuseDetected = sessionResult?.results?.attempts?.[0]?.result?.abuseMonitoringResult?.isAbuseDetected ;
     let livenessText = null;
     if (livenessCondition) {
       livenessText = "Real Person";
+      if (abuseDetected != null && abuseDetected) {
+        livenessText += " - Abuse Detected";
+      }
     }
     else {
       livenessText = "Spoof";
@@ -165,7 +189,23 @@ async function startFaceLiveness(event) {
   });
 }
 
-// Step 8: Wire up face liveness check start method to the start buttons.
+function restartFaceLiveness() {
+  // Step 5: Remove the face liveness detector element from DOM.
+  var faceLivenessDetector = document.querySelector("azure-ai-vision-face-ui");
+  if (faceLivenessDetector != null) {
+    document.getElementById("container").removeChild(faceLivenessDetector);
+  }
+  splash.toggleAttribute('hidden');
+  startPassiveButton.toggleAttribute("hidden");
+  startPassiveActiveButton.toggleAttribute("hidden");
+  verifyImageRow.toggleAttribute("hidden");
+  continueButton.toggleAttribute("hidden");
+  retryButton.toggleAttribute("hidden");
+  feedbackContainer.setAttribute('hidden', true);
+  feedbackContainer.style.display = "none";
+}
+
+// Step 6: Wire up face liveness check start method to the start buttons.
 startPassiveButton.addEventListener('click', startFaceLiveness);
 startPassiveActiveButton.addEventListener('click', startFaceLiveness);
 continueButton.addEventListener('click', restartFaceLiveness);

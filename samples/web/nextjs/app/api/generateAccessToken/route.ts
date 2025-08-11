@@ -15,6 +15,7 @@ export async function POST(request: Request) {
   const parameters = await JSON.parse(paramString);
   const livenessOperationMode = parameters.livenessOperationMode;
   const deviceCorrelationId = parameters.deviceCorrelationId;
+  const userCorrelationId = parameters.userCorrelationId;
   const action = formData.get("Action");
 
   if (file == undefined && action == "detectLivenessWithVerify") {
@@ -60,11 +61,22 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
+  if (typeof userCorrelationId != "string") {
+    return Response.json(
+      {
+        message: "userCorrelationId parameter not expected",
+        token: null,
+      },
+      { status: 400 }
+    );
+  }
 
   // Note1: More information regarding each request parameter involved in creating a liveness session is here: https://aka.ms/face-api-reference-createlivenesssession
   let requestBody: FormData | string = JSON.stringify({
     livenessOperationMode,
     deviceCorrelationId,
+    userCorrelationId,
+    enableSessionImage:true
   });
 
   // Note2: You can create a liveness session with verification by attaching a verify image during session-create, reference: https://aka.ms/face-api-reference-createlivenesswithverifysession
@@ -73,6 +85,8 @@ export async function POST(request: Request) {
     requestBody.append("verifyImage", file, file.name);
     requestBody.append("livenessOperationMode", livenessOperationMode);
     requestBody.append("deviceCorrelationId", deviceCorrelationId);
+    requestBody.append("userCorrelationId", userCorrelationId);
+    requestBody.append("enableSessionImage", "true");
   }
 
   // Token is fetched with API endpoint and key

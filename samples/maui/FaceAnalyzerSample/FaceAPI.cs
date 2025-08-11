@@ -16,7 +16,8 @@ internal static partial class FaceAPI {
         var payload = new Dictionary<string, object>
         {
             ["livenessOperationMode"] = "PassiveActive",
-            ["deviceCorrelationId"] = Guid.NewGuid().ToString()
+            ["deviceCorrelationId"] = Guid.NewGuid().ToString(),
+            ["userCorrelationId"] = Guid.NewGuid().ToString()
         };
 
         var jsonPayload = System.Text.Json.JsonSerializer.Serialize(payload);
