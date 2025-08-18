@@ -183,6 +183,7 @@ fun FaceLivenessDetectorDynamicFeature(
     sessionAuthorizationToken: String,
     verifyImageFileContent: ByteArray?,
     deviceCorrelationId: String?,
+    userCorrelationId: String?,
     onSuccess: (Any) -> Unit,
     onError: (Any)-> Unit
 ) {
@@ -197,6 +198,7 @@ fun FaceLivenessDetectorDynamicFeature(
             String::class.java,    // Corresponds to sessionAuthorizationToken
             ByteArray::class.java, // Corresponds to verifyImageFileContent
             String::class.java,    // Corresponds to deviceCorrelationId
+            String::class.java,    // Corresponds to userCorrelationId
             Consumer::class.java,  // Corresponds to onSuccess (using Any -> Unit as proxy for a functional type)
             Consumer::class.java   // Corresponds to onError
         )
@@ -210,6 +212,7 @@ fun FaceLivenessDetectorDynamicFeature(
             sessionAuthorizationToken,
             verifyImageFileContent,
             deviceCorrelationId,
+            userCorrelationId,
             onSuccess,
             onError
         )

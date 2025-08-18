@@ -38,6 +38,7 @@ import com.microsoft.azure.ai.vision.facelivenessdetectorsample.token.FaceSessio
 import com.microsoft.azure.ai.vision.facelivenessdetectorsample.utils.getDeviceIdExt
 import com.microsoft.azure.ai.vision.facelivenessdetectorsample.viewmodel.MainScreenViewModel
 import com.microsoft.azure.ai.vision.facelivenessdetectorsample.viewmodel.MainScreenViewModelFactory
+import java.util.UUID
 
 @Preview(showBackground = true)
 @Composable
@@ -117,6 +118,7 @@ fun MainScreen(
         })
 
     val deviceId = LocalContext.current.getDeviceIdExt()
+    val userId = UUID.randomUUID()
 
     LaunchedEffect(true) {
         mainScreenViewModel.deviceId = deviceId
@@ -127,6 +129,7 @@ fun MainScreen(
             setImageInClient = mainScreenViewModel.setImageInClient,
             passiveActive = mainScreenViewModel.passiveActive,
             deviceId = deviceId,
+            userId = userId,
         )
     }
 

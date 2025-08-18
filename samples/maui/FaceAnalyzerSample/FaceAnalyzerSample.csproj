@@ -80,8 +80,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
+        <PackageReference Include="Microsoft.Maui.Controls" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" />
     </ItemGroup>
     <PropertyGroup>
         <GradleCaches Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android' AND ('$(OS)' == 'Unix')">$(HOME)/.gradle/caches</GradleCaches>
@@ -112,45 +112,45 @@
         <AndroidMavenLibrary Include="org.threeten:threetenbp" Version="1.5.1" Repository="Central" Bind="False" />
         <AndroidMavenLibrary Include="com.squareup.okhttp3:okhttp" Version="3.14.9" Repository="Central" Bind="False" />
         <AndroidMavenLibrary Include="com.squareup.okio:okio" Version="1.17.6" Repository="Central" Bind="False" />
-        <PackageReference Include="Xamarin.AndroidX.Activity.Compose" Version="1.9.3" />
-        <PackageReference Include="Xamarin.AndroidX.Activity.Ktx" Version="1.9.3" />
-        <PackageReference Include="Xamarin.AndroidX.Annotation.Experimental" Version="1.4.1.6" />
-        <PackageReference Include="Xamarin.AndroidX.AutoFill" Version="1.1.0.28" />
-        <PackageReference Include="Xamarin.AndroidX.Camera.Camera2" Version="1.1.0" />
-        <PackageReference Include="Xamarin.AndroidX.Camera.Lifecycle" Version="1.1.0" />
-        <PackageReference Include="Xamarin.AndroidX.Camera.View" Version="1.1.0" />
-        <PackageReference Include="Xamarin.AndroidX.Collection" Version="1.4.5" />
-        <PackageReference Include="Xamarin.AndroidX.Compose.Material3" Version="1.3.0" />
-        <PackageReference Include="Xamarin.AndroidX.Compose.UI" Version="1.7.5" />
-        <PackageReference Include="Xamarin.AndroidX.Compose.UI.Android" Version="1.7.5" />
-        <PackageReference Include="Xamarin.AndroidX.Compose.UI.Geometry" Version="1.7.5" />
-        <PackageReference Include="Xamarin.AndroidX.Compose.UI.Graphics" Version="1.7.5" />
-        <PackageReference Include="Xamarin.AndroidX.Compose.UI.Text" Version="1.7.5" />
-        <PackageReference Include="Xamarin.AndroidX.Compose.UI.Tooling.Preview" Version="1.7.5" />
-        <PackageReference Include="Xamarin.AndroidX.Compose.UI.Unit" Version="1.7.5" />
-        <PackageReference Include="Xamarin.AndroidX.Compose.UI.Util" Version="1.7.5" />
-        <PackageReference Include="Xamarin.AndroidX.Concurrent.Futures" Version="1.2.0.3" />
-        <PackageReference Include="Xamarin.AndroidX.Core" Version="1.15.0" />
-        <PackageReference Include="Xamarin.AndroidX.Core.Core.Ktx" Version="1.15.0" />
-        <PackageReference Include="Xamarin.AndroidX.CustomView.PoolingContainer" Version="1.0.0.15" />
-        <PackageReference Include="Xamarin.AndroidX.Emoji2" Version="1.5.0.1" />
-        <PackageReference Include="Xamarin.AndroidX.Lifecycle.Common.Java8" Version="2.8.7" />
-        <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" Version="2.8.7" />
-        <PackageReference Include="Xamarin.AndroidX.Lifecycle.Process" Version="2.8.7" />
-        <PackageReference Include="Xamarin.AndroidX.Lifecycle.Runtime.Compose" Version="2.8.7" />
-        <PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModel" Version="2.8.7" />
-        <PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModel.Ktx" Version="2.8.7" />
-        <PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModel.Compose" Version="2.8.7" />
-        <PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModel.Compose.Android" Version="2.8.7" />
-        <PackageReference Include="Xamarin.AndroidX.ProfileInstaller.ProfileInstaller" Version="1.4.1" />
-        <PackageReference Include="Xamarin.AndroidX.SavedState.SavedState.Ktx" Version="1.2.1.13" />
-        <PackageReference Include="Xamarin.Google.Accompanist.Permissions" Version="0.36.0" />
-        <PackageReference Include="Xamarin.Google.Guava.ListenableFuture" Version="1.0.0.24" />
-        <PackageReference Include="Xamarin.Google.AutoValue.Annotations" Version="1.9.0.2" />
-        <PackageReference Include="Xamarin.Kotlin.StdLib" Version="2.0.21.2" />
-        <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk7" Version="2.0.21.2" />
-        <PackageReference Include="Xamarin.KotlinX.Coroutines.Core.Jvm" Version="1.9.0.2" />
-        <PackageReference Include="Xamarin.KotlinX.Coroutines.Android" Version="1.9.0.2" />
+        <PackageReference Include="Xamarin.AndroidX.Activity.Compose" />
+        <PackageReference Include="Xamarin.AndroidX.Activity.Ktx" />
+        <PackageReference Include="Xamarin.AndroidX.Annotation.Experimental" />
+        <PackageReference Include="Xamarin.AndroidX.AutoFill" />
+        <PackageReference Include="Xamarin.AndroidX.Camera.Camera2" />
+        <PackageReference Include="Xamarin.AndroidX.Camera.Lifecycle" />
+        <PackageReference Include="Xamarin.AndroidX.Camera.View" />
+        <PackageReference Include="Xamarin.AndroidX.Collection" />
+        <PackageReference Include="Xamarin.AndroidX.Compose.Material3" />
+        <PackageReference Include="Xamarin.AndroidX.Compose.UI" />
+        <PackageReference Include="Xamarin.AndroidX.Compose.UI.Android" />
+        <PackageReference Include="Xamarin.AndroidX.Compose.UI.Geometry" />
+        <PackageReference Include="Xamarin.AndroidX.Compose.UI.Graphics" />
+        <PackageReference Include="Xamarin.AndroidX.Compose.UI.Text" />
+        <PackageReference Include="Xamarin.AndroidX.Compose.UI.Tooling.Preview" />
+        <PackageReference Include="Xamarin.AndroidX.Compose.UI.Unit" />
+        <PackageReference Include="Xamarin.AndroidX.Compose.UI.Util" />
+        <PackageReference Include="Xamarin.AndroidX.Concurrent.Futures" />
+        <PackageReference Include="Xamarin.AndroidX.Core" />
+        <PackageReference Include="Xamarin.AndroidX.Core.Core.Ktx" />
+        <PackageReference Include="Xamarin.AndroidX.CustomView.PoolingContainer" />
+        <PackageReference Include="Xamarin.AndroidX.Emoji2" />
+        <PackageReference Include="Xamarin.AndroidX.Lifecycle.Common.Java8" />
+        <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" />
+        <PackageReference Include="Xamarin.AndroidX.Lifecycle.Process" />
+        <PackageReference Include="Xamarin.AndroidX.Lifecycle.Runtime.Compose" />
+        <PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModel" />
+        <PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModel.Ktx" />
+        <PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModel.Compose" />
+        <PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModel.Compose.Android" />
+        <PackageReference Include="Xamarin.AndroidX.ProfileInstaller.ProfileInstaller" />
+        <PackageReference Include="Xamarin.AndroidX.SavedState.SavedState.Ktx" />
+        <PackageReference Include="Xamarin.Google.Accompanist.Permissions" />
+        <PackageReference Include="Xamarin.Google.Guava.ListenableFuture" />
+        <PackageReference Include="Xamarin.Google.AutoValue.Annotations" />
+        <PackageReference Include="Xamarin.Kotlin.StdLib" />
+        <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk7" />
+        <PackageReference Include="Xamarin.KotlinX.Coroutines.Core.Jvm" />
+        <PackageReference Include="Xamarin.KotlinX.Coroutines.Android" />
     </ItemGroup>
 
 </Project>

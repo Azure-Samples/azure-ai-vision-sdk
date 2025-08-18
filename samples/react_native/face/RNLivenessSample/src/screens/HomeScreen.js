@@ -160,6 +160,7 @@ const HomeScreen = ({navigation, route}) => {
         body: {
           livenessOperationMode: isActivePassive,
           deviceCorrelationId: '1234567890',
+          userCorrelationId: '0987654321',
         },
       }),
     ).unwrap();
@@ -197,6 +198,10 @@ const HomeScreen = ({navigation, route}) => {
         formData.append('livenessOperationMode', isActivePassive);
         formData.append(
           'deviceCorrelationId',
+          '00000000-0000-0000-0000-000000000000',
+        );
+        formData.append(
+          'userCorrelationId',
           '00000000-0000-0000-0000-000000000000',
         );
         formData.append('verifyImage', {

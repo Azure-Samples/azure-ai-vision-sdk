@@ -20,7 +20,7 @@ In this sample, you will learn how to build and run the face liveness detection 
 ## Step 1: Set up the environment
 
 1. If this is your first time using your .NET MAUI to develop, you should follow [.NET MAUI Installation instructions](https://learn.microsoft.com/dotnet/maui/get-started/installation?view=net-maui-9.0&viewFallbackFrom=net-maui-8.0&tabs=visual-studio-code#install-net-and-net-maui-workloads) before you attempt to build the App here. This will help ensure that your developer environment has been setup properly.
-2. Get the access token to access the release artifacts. More details can be found in [GET_FACE_ARTIFACTS_ACCESS.md](../../../../GET_FACE_ARTIFACTS_ACCESS.md).
+2. Get the access token to access the release artifacts using the API: [Liveness Session Operations - Get Client Assets Access Token](https://learn.microsoft.com/rest/api/face/liveness-session-operations/get-client-assets-access-token?view=rest-face-v1.3-preview).
 3. Prepare Git LFS
    * If you have never installed Git LFS, refer to [Git LFS official site](https://git-lfs.github.com/) for instructions.
    * For example:
@@ -52,7 +52,7 @@ In this sample, you will learn how to build and run the face liveness detection 
               helper =
               helper = "!f() { test \"$1\" = get && echo \"password=INSERT_PAT_HERE\"; }; f"
 
-              # get PAT from GET_FACE_ARTIFACTS_ACCESS.md and paste ^^^^^^^^^^^^^^^ above, replacing "INSERT_PAT_HERE".
+              # get PAT from Get Client Assets Access Token REST API and paste ^^^^^^^^^^^^^^^ above, replacing "INSERT_PAT_HERE".
               # username does not matter for PAT so long as it is not left blank.
               # the first blank helper line is necessary to override existing helpers and not a typo.
       ```

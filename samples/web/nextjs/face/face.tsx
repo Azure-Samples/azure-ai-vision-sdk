@@ -1,8 +1,8 @@
 "use client";
 
 // Step 1: Import the web component.
-import "azure-ai-vision-face-ui";
-import { FaceLivenessDetector, LivenessDetectionError } from 'azure-ai-vision-face-ui';
+import "@azure/ai-vision-face-ui";
+import { FaceLivenessDetector, LivenessDetectionError } from '@azure/ai-vision-face-ui';
 
 // Result page static assets
 const checkmarkCircleIcon = "CheckmarkCircle.png";

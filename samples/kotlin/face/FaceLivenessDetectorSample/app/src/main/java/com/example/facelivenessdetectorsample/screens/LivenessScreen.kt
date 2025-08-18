@@ -87,6 +87,7 @@ fun LivenessScreen(
             sessionAuthorizationToken = FaceSessionToken.sessionToken,
             verifyImageFileContent = FaceSessionToken.sessionSetInClientVerifyImage,
             deviceCorrelationId = null,
+            userCorrelationId = null,
             onSuccess = viewModel::onSuccess,
             onError = viewModel::onError
         )

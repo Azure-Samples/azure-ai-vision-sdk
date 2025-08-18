@@ -50,11 +50,10 @@ In this sample, you will learn how to build and run the face liveness detection 
 >   * [Step 3.1 The overview of face recognition with liveness detection in Azure AI Vision SDK for Android](#step-31-the-overview-of-face-recognition-with-liveness-detection-in-azure-ai-vision-sdk-for-android)
 >   * [Step 3.2 Add Camera Permissions](#step-32-add-camera-permissions)
 >   * [Step 3.3 Add Flutter code to Request Camera Permission](#step-33-add-flutter-code-to-request-camera-permission)
->   * [Step 3.4 Get Access Token to SDK Artifact](#step-34-get-access-token-to-sdk-artifact)
->   * [Step 3.5 Add Build Dependency](#step-35-add-build-dependency)
->   * [Step 3.6 Add code to interpret the result](#step-36-add-code-to-interpret-the-result)
->   * [Step 3.7 Run liveness flow](#step-37-run-liveness-flow)
->   * [Step 3.8 Add validation for the integrity of the service result](#step-38-add-validation-for-the-integrity-of-the-service-result)
+>   * [Step 3.4 Add Build Dependency](#step-34-add-build-dependency)
+>   * [Step 3.5 Add code to interpret the result](#step-35-add-code-to-interpret-the-result)
+>   * [Step 3.6 Run liveness flow](#step-36-run-liveness-flow)
+>   * [Step 3.7 Add validation for the integrity of the service result](#step-37-add-validation-for-the-integrity-of-the-service-result)
 > * [FAQ](#faq)
 >   * [Q: How can I get the results of the liveness session?](#q-how-can-i-get-the-results-of-the-liveness-session)
 >   * [Q: How do I provide localization?](#q-how-do-i-provide-localization)
@@ -62,8 +61,7 @@ In this sample, you will learn how to build and run the face liveness detection 
 ## Step 1: Set up the environment
 
 ### Step 1.1 Get Access Token to SDK Artifact
-The access token is used for maven authentication.  The solution uses azure maven repo artifact to add the binary enabling the liveness feature.  You will need to set up azure maven repo with any username and valid "access token" as "password".  This token will be used as `mavenPassword` in the [Add Build Dependency](#add-build-dependency) section below.
-See [GET_FACE_ARTIFACTS_ACCESS](/GET_FACE_ARTIFACTS_ACCESS.md).
+The access token is used for maven authentication. Get the access token to access the release artifacts using the API: [Liveness Session Operations - Get Client Assets Access Token](https://learn.microsoft.com/rest/api/face/liveness-session-operations/get-client-assets-access-token?view=rest-face-v1.3-preview). The solution uses azure maven repo artifact to add the binary enabling the liveness feature.  You will need to set up azure maven repo with any username and valid "access token" as "password".  This token will be used as `mavenPassword` in the [Add Build Dependency](#step-34-add-build-dependency) section below.
 
 ### Step 1.2 A or select **Build** \> **Make Project**.
 
@@ -118,10 +116,10 @@ Follow these steps to try out the sample app. The app performs liveness detectio
 ### Step 3.1 The overview of face recognition with liveness detection in Azure AI Vision SDK for Android
 
 Here is the outline of the SDK sample and integration structure
-1. The solution uses azure maven repo artifact to add the binary enabling the liveness feature.  You will need to set up azure `maven` repo with any `username` and valid "access token" as "password.  It will be mentioned below in [Get Access Token to SDK Artifact](#get-access-token-to-sdk-artifact) section for getting the password, along with the [Add Build Dependencies](#add-build-dependency) to set the repo in the solution files.
+1. The solution uses azure maven repo artifact to add the binary enabling the liveness feature.  You will need to set up azure `maven` repo with any `username` and valid "access token" as "password.  It will be mentioned in [Get Access Token to SDK Artifact](#step-11-get-access-token-to-sdk-artifact) section for getting the password, along with the [Add Build Dependencies](#add-build-dependency) to set the repo in the solution files.
 2. The app requires camera permission.  You will need to set it up in the app configuration and code.  It will be mentioned below in [Add Camera Permission](#add-camera-permissions) and [Add Flutter code to Request Camera Permission](#add-flutter-code-to-request-camera-permission) sections for demonstration.
 3. There is an compose method called `FaceLivenessDetector`.  The compose component consists a one stop bundle for the liveness feature with UI code.
-4. The compose method takes a set of parameters launching it, the parameters defines the liveness session and callback behaviour.  It will be mentioned below in [Add code to interpret the result](#add-code-to-interpret-the-result) section to demostrate how to use it.
+4. The compose method takes a set of parameters launching it, the parameters defines the liveness session and callback behaviour.  It will be mentioned below in [Add code to interpret the result](#step-35-add-code-to-interpret-the-result) section to demostrate how to use it.
 
 ### Step 3.2 Add Camera Permissions
 Face UI SDK requires access to the camera to perform liveness detection. You need to prompt the user to grant camera permission.  Here is how to add camera permissions and activity data in the manifest:
@@ -150,17 +148,13 @@ Here is part of the code piece that asks camera permission
   }
 ```
 
-### Step 3.4 Get Access Token to SDK Artifact
-The access token is used for maven authentication.  The solution uses azure maven repo artifact to add the binary enabling the liveness feature.  You will need to set up azure maven repo with any username and valid "access token" as "password".  This token will be used as `mavenPassword` in the "Add Build Dependency" section below.
-See [GET_FACE_ARTIFACTS_ACCESS](/GET_FACE_ARTIFACTS_ACCESS.md).
-
-### Step 3.5 Add Build Dependency
+### Step 3.4 Add Build Dependency
 Android Side
 * You need to add the following dependencies to build.gradle (app-level):
 ```
 dependencies {
     implementation("com.azure.android:azure-core-http-okhttp:1.0.0-beta.12")
-    implementation("com.azure.ai:azure-ai-vision-face-ui:1.1.0")
+    implementation("com.azure:azure-ai-vision-face-ui:+")
     implementation("com.azure.android:azure-core-http-httpurlconnection:1.0.0-beta.10")
     implementation('androidx.activity:activity-compose:1.7.2')
 }
@@ -175,7 +169,7 @@ dependencies {
                     }
                 }
 ```
-* You need to add credentials in gradle.properties to set up variable `mavenUser` and `mavenPassword` used above.  These are obtained through azure command from above [Get Access Token to SDK Artifact](#get-access-token-to-sdk-artifact) section.
+* You need to add credentials in gradle.properties to set up variable `mavenUser` and `mavenPassword` used above.  These are obtained through azure command from above [Get Access Token to SDK Artifact](#step-11-get-access-token-to-sdk-artifact) section.
 ```
 mavenUser=any_username_string
 mavenPassword=access_token
@@ -194,14 +188,15 @@ android {
     }
 }
 ```
-### Step 3.6 Add code to interpret the result
-The activity takes a set of parameters launching it.  The parameter defines the activity callback behaviour.  The parameters for input are `sessionAuthorizationToken`, `verifyImageFileContent`, `deviceCorrelationId`.  
+### Step 3.5 Add code to interpret the result
+The activity takes a set of parameters launching it.  The parameter defines the activity callback behaviour.  The parameters for input are `sessionAuthorizationToken`, `verifyImageFileContent`, `deviceCorrelationId`, `userCorrelationId`.
 
 * sessionAuthorizationToken: session authorization token from the server
 * verifyImageFileContent: when choosing livenessWithVerify and setting verify image in the client, this is the ByteArray of the file content of the image.  Otherwise it should be `null`.
 * deviceCorrelationId: when choosing not to set deviceCorrelationId in the token creation time, you can put the deviceCorrelationId here.  Otherwise it should be `null`.
+* userCorrelationId: when choosing not to set userCorrelationId in the token creation time, you can put the userCorrelationId here.  Otherwise it should be `null`.
 
-### Step 3.7 Run liveness flow
+### Step 3.6 Run liveness flow
 
 * Add method channel logic in Dart:
 ```
@@ -298,6 +293,7 @@ class MainActivity : FlutterActivity() {
                 sessionAuthorizationToken = sessionToken,
                 verifyImageFileContent = verifyImageFileContent,
                 deviceCorrelationId = null,
+                userCorrelationId = null,
                 onSuccess = { result ->
                     val resultData = Intent().apply {
                         putExtra("status", "success")
@@ -331,9 +327,9 @@ await startLivenessSession(
 );
 ```
 
-### Step 3.8 Add validation for the integrity of the service result
+### Step 3.7 Add validation for the integrity of the service result
 We highly recommend leveraging the "digest" generated within the solution to validate the integrity of the communication between your application and the Azure AI Vision Face service. This is necessary to ensure that the final liveness detection result is trustworthy. "Digest" is provided in the following two locations:
-1. "digest" property in LivenessDetectionSuccess shown in [Step 5 Add code to interpret the result](#add-code-to-interpret-the-result)
+1. "digest" property in LivenessDetectionSuccess shown in [Step 5 Add code to interpret the result](#step-35-add-code-to-interpret-the-result)
 2. The Azure AI Vision Face service.
 
    The "digest" will be contained within the liveness detection result when calling the detectLiveness-sessions/<session-id> REST call. Look for an example of the "digest" in the [tutorial](https://aka.ms/azure-ai-vision-face-liveness-tutorial) where the liveness detection result is shown.
@@ -378,7 +374,7 @@ The SDK provides default localization for 75 locales.  They should work automati
 
 1. For the best experience, please do not open the sample project in Xcode yet before completing the environment setup.
 2. If this is your first time using your Mac to develop, you should build a sample app from [About Me &#x2014; Sample Apps Tutorials | Apple Developer Documentation](https://developer.apple.com/tutorials/sample-apps/aboutme) and run it on your phone before you attempt to build the App here. This will help ensure that your developer environment has been setup properly.
-3. Get the access token to access the release artifacts. More details can be found in [GET_FACE_ARTIFACTS_ACCESS.md](./GET_FACE_ARTIFACTS_ACCESS.md).
+3. Get the access token to access the release artifacts using the API: [Liveness Session Operations - Get Client Assets Access Token](https://learn.microsoft.com/rest/api/face/liveness-session-operations/get-client-assets-access-token?view=rest-face-v1.3-preview).
 4. Prepare Git LFS
    * If you have never installed Git LFS, refer to [Git LFS official site](https://git-lfs.github.com/) for instructions.
    * For example:
@@ -410,7 +406,7 @@ The SDK provides default localization for 75 locales.  They should work automati
               helper =
               helper = "!f() { test \"$1\" = get && echo \"password=INSERT_PAT_HERE\"; }; f"
 
-              # get PAT from GET_FACE_ARTIFACTS_ACCESS.md and paste ^^^^^^^^^^^^^^^ above, replacing "INSERT_PAT_HERE".
+              # get access token from Get Client Assets Access Token REST API and paste ^^^^^^^^^^^^^^^ above, replacing "INSERT_PAT_HERE".
               # username does not matter for PAT so long as it is not left blank.
               # the first blank helper line is necessary to override existing helpers and not a typo.
       ```
