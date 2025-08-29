@@ -450,7 +450,7 @@
 /* Begin XCRemoteSwiftPackageReference section */
 		8C020C232B173467001E72AE /* XCRemoteSwiftPackageReference "AzureAIVisionFaceUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://msface.visualstudio.com/SDK/_git/AzureAIVisionFaceUI.xcframework";
+			repositoryURL = "https://github.com/Azure/AzureAIVisionFaceUI";
 			requirement = {
 				branch = main;
 				kind = branch;
