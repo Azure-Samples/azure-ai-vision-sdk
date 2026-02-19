@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.24" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.24" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FaceLivenessDetectorSample.Shared\FaceLivenessDetectorSample.Shared.csproj" />
+  </ItemGroup>
+
+  <!-- npm install if node_modules doesn't exist (ContinueOnError allows build when registry credentials are expired) -->
+  <Target Name="NpmInstall" BeforeTargets="BeforeBuild" Condition="!Exists('node_modules') And !Exists('wwwroot/FaceLivenessDetector.js')">
+    <Exec Command="npm install" WorkingDirectory="$(MSBuildProjectDirectory)" ContinueOnError="true" />
+  </Target>
+
+  <!-- Copy SDK assets to wwwroot after npm install -->
+  <Target Name="CopySdkAssets" AfterTargets="NpmInstall" BeforeTargets="BeforeBuild"
+          Condition="Exists('node_modules/@azure/ai-vision-face-ui')">
+    <Copy SourceFiles="node_modules/@azure/ai-vision-face-ui/FaceLivenessDetector.js"
+          DestinationFolder="wwwroot" SkipUnchangedFiles="true" />
+    <ItemGroup>
+      <SdkAssetFiles Include="node_modules/@azure-ai-vision-face/ui-assets/facelivenessdetector-assets/**/*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(SdkAssetFiles)"
+          DestinationFiles="@(SdkAssetFiles->'wwwroot/facelivenessdetector-assets/%(RecursiveDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>

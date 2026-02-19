@@ -1,0 +1,202 @@
+html, body {
+    font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+/* App container */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Splash iframe */
+.splash-frame {
+    flex: 1 1 80vh;
+    min-height: 50vh;
+    max-height: 70vh;
+    width: 100%;
+    border: none;
+    background: white;
+}
+
+/* Button row */
+.button-row {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0;
+    flex-wrap: wrap;
+}
+
+/* Primary button */
+.btn-primary {
+    color: #fff;
+    background-color: #036ac4;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #0473ce;
+}
+
+/* Secondary button (file select) */
+.btn-secondary {
+    color: #fff;
+    background-color: #838383;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background-color: #9a9a9a;
+}
+
+/* File input hidden */
+.file-input-hidden {
+    display: none;
+}
+
+/* Verify image preview */
+.verify-image-preview {
+    display: block;
+    margin: 0.5rem auto;
+    max-width: 100px;
+    max-height: 100px;
+}
+
+/* Face container — holds the SDK web component */
+.face-container {
+    width: 100%;
+    padding: 0 20px;
+    font-size: 14px;
+}
+
+/* Result view */
+.result-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 4rem 1rem;
+    gap: 3rem;
+    min-height: 100vh;
+}
+
+.result-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.result-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.result-row img {
+    width: 32px;
+    height: 32px;
+}
+
+.result-divider {
+    width: 10rem;
+    border: none;
+    border-top: 1px solid #999;
+    margin: 0.5rem 0;
+}
+
+/* Retry view */
+.retry-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 4rem 1rem;
+    gap: 3rem;
+    min-height: 100vh;
+}
+
+.error-message {
+    text-align: center;
+    width: 80%;
+    word-wrap: break-word;
+    font-size: 1.2rem;
+}
+
+/* Loading spinner */
+.loading-text {
+    font-size: 1.2rem;
+    color: #555;
+    padding: 2rem;
+    text-align: center;
+}
+
+/* Blazor framework styles */
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+}
+
+.loading-progress {
+    position: relative;
+    display: block;
+    width: 8rem;
+    height: 8rem;
+    margin: 20vh auto 1rem auto;
+}
+
+.loading-progress circle {
+    fill: none;
+    stroke: #e0e0e0;
+    stroke-width: 0.6rem;
+    transform-origin: 50% 50%;
+    transform: rotate(-90deg);
+}
+
+.loading-progress circle:last-child {
+    stroke: #1b6ec2;
+    stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
+    transition: stroke-dasharray 0.05s ease-in-out;
+}
+
+.loading-progress-text {
+    position: absolute;
+    text-align: center;
+    font-weight: bold;
+    inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
+}
+
+.loading-progress-text:after {
+    content: var(--blazor-load-percentage-text, "Loading");
+}
