@@ -1,12 +1,15 @@
 ---
 page_type: sample
 languages:
+- cpp
 - csharp
-- dart
+- python
 - swift
 - kotlin
 - javascript
-
+- nextjs
+- angular
+- vuejs
 name: "Microsoft Azure AI Vision SDK Samples"
 description: "Learn how to use the Microsoft Azure AI Vision SDK to add computer vision features to your apps."
 products:
@@ -79,12 +82,9 @@ Please see the readme documents listed below for instructions on how to build an
 | [Angular sample app for Web](samples/web/angularjs/) | Web | App with source code that demonstrates face analysis on Web |
 | [Vue.js sample app for Web](samples/web/vuejs/) | Web | App with source code that demonstrates face analysis on Web |
 | [JavaScript sample app for Web](samples/web/javascript/) | Web | App with source code that demonstrates face analysis on Web |
-| [MAUI sample app for Android and iOS](samples/maui/) | MAUI (Android, iOS) | App with source code that demonstrates face analysis on Android and iOS using MAUI |
-| [Flutter sample app for Android and iOS](samples/flutter/face/) | Flutter (Android, iOS) | App with source code that demonstrates face analysis on Android and iOS using Flutter |
-| [React Native sample app for Android and iOS](samples/react_native/face/) | React Native (Android, iOS) | App with source code that demonstrates face analysis on Android and iOS using React Native |
 
 ### API Reference Documentation
 
-* Kotlin API reference documents: [azure-ai-vision-face-ui](https://azure.github.io/azure-sdk-for-android/azure-ai-vision-face-ui/index.html)
-* Swift API reference documents: [AzureAIVisionFaceUI](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionFaceUI/index.html)
+* Kotlin API reference documents: [Azure SDK for Android](https://azure.github.io/azure-sdk-for-android/), [azure-ai-vision-common](https://azure.github.io/azure-sdk-for-android/azure-ai-vision-common/index.html), [azure-ai-vision-faceanalyzer](https://azure.github.io/azure-sdk-for-android/azure-ai-vision-faceanalyzer/com/azure/android/ai/vision/faceanalyzer/package-summary.html)
+* Swift API reference documents: [Azure SDK for iOS Docs](https://azure.github.io/azure-sdk-for-ios/), [AzureAIVisionCore](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionCore/index.html), [AzureAIVisionFace](https://azure.github.io/azure-sdk-for-ios/AzureAIVisionFace/index.html)
 * Web API reference documents: [AzureAIVisionFace](https://aka.ms/azure-ai-vision-face-liveness-client-sdk-web-api-reference)

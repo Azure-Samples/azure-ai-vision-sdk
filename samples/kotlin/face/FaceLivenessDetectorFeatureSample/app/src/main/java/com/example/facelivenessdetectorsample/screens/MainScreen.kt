@@ -35,6 +35,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.microsoft.azure.ai.vision.facelivenessdetectorsample.navigation.Routes
 import com.microsoft.azure.ai.vision.facelivenessdetectorsample.token.FaceSessionToken
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.ui.components.MicrosoftBranding
 import com.microsoft.azure.ai.vision.facelivenessdetectorsample.utils.getDeviceIdExt
 import com.microsoft.azure.ai.vision.facelivenessdetectorsample.viewmodel.MainScreenViewModel
 import com.microsoft.azure.ai.vision.facelivenessdetectorsample.viewmodel.MainScreenViewModelFactory
@@ -74,6 +75,7 @@ fun LivenessButtons(navController: NavController,
         Button(
             onClick = {
                 FaceSessionToken.sessionToken = ""
+                FaceSessionToken.deviceCorrelationIdInClient = null
                 imagePickerLauncher.launch("image/*")
             },
             modifier = Modifier
@@ -167,18 +169,22 @@ fun MainScreen(
                     }
                 }
 
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(30.dp),
-                    modifier = Modifier
-                        .padding(bottom = 30.dp)
-                        .align(Alignment.CenterHorizontally)
-                ) {
-                    Button(
-                        onClick = { navController.navigate(Routes.Settings) },
-                        modifier = Modifier.semantics { contentDescription = "settingsButton" }
+                Column {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(30.dp),
+                        modifier = Modifier
+                            .padding(bottom = 16.dp)
+                            .align(Alignment.CenterHorizontally)
                     ) {
-                        Text("Settings")
+                        Button(
+                            onClick = { navController.navigate(Routes.Settings) },
+                            modifier = Modifier.semantics { contentDescription = "settingsButton" }
+                        ) {
+                            Text("Settings")
+                        }
                     }
+
+                    MicrosoftBranding()
                 }
             }
         }

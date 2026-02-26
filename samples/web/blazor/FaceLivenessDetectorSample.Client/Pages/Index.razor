@@ -1,0 +1,275 @@
+@page "/"
+@inject FaceApiService FaceApi
+@inject IJSRuntime JS
+
+<PageTitle>Face Liveness Detector - Blazor Sample</PageTitle>
+
+<div class="app-container">
+    @if (state == DetectorState.Initial)
+    {
+        <!-- Initial View: Splash + buttons -->
+        <iframe class="splash-frame" title="splash" src="splash.html" credentialless></iframe>
+
+        <div class="button-row">
+            <label class="btn-secondary">
+                <InputFile OnChange="HandleFileSelected" accept="image/*" class="file-input-hidden" />
+                Select Verify Image
+            </label>
+        </div>
+
+        @if (verifyImageBytes != null)
+        {
+            <img class="verify-image-preview" src="@verifyImageDataUrl" alt="uploaded image" />
+        }
+
+        <div class="button-row">
+            <button class="btn-primary" @onclick='() => StartDetection("Passive")'>Start Passive</button>
+            <button class="btn-primary" @onclick='() => StartDetection("PassiveActive")'>Start PassiveActive</button>
+        </div>
+    }
+    else if (state == DetectorState.Loading)
+    {
+        <div class="loading-text">Generating session token...</div>
+    }
+    else if (state == DetectorState.LivenessDetector)
+    {
+        <!-- Container for the SDK web component — managed entirely by JS interop -->
+        <div class="face-container" id="face-container"></div>
+    }
+    else if (state == DetectorState.Result)
+    {
+        <!-- Result View -->
+        <div class="result-view">
+            <div class="result-section">
+                <div class="result-row">
+                    <img src="images/HeartPulse.png" alt="Liveness" />
+                    <span>Liveness</span>
+                </div>
+                <div class="result-row">
+                    <img src="images/@livenessIcon" alt="Status" />
+                    <span>@livenessText</span>
+                </div>
+
+                @if (isDetectLivenessWithVerify)
+                {
+                    <hr class="result-divider" />
+                    <div class="result-row">
+                        <img src="images/Person.png" alt="Verification" />
+                        <span>Verification</span>
+                    </div>
+                    <div class="result-row">
+                        <img src="images/@recognitionIcon" alt="Recognition Status" />
+                        <span>@recognitionText</span>
+                    </div>
+                }
+            </div>
+
+            <button class="btn-primary" @onclick="Reset">Continue</button>
+        </div>
+    }
+    else if (state == DetectorState.Retry)
+    {
+        <!-- Retry View -->
+        <div class="retry-view">
+            <p class="error-message">@errorMessage</p>
+            <button class="btn-primary" @onclick="Reset">Retry</button>
+        </div>
+    }
+</div>
+
+@code {
+    private enum DetectorState { Initial, Loading, LivenessDetector, Result, Retry }
+
+    private DetectorState state = DetectorState.Initial;
+    private IJSObjectReference? jsModule;
+    private DotNetObjectReference<Index>? dotNetRef;
+
+    // Verify image
+    private byte[]? verifyImageBytes;
+    private string? verifyImageFileName;
+    private string? verifyImageDataUrl;
+
+    // Session
+    private string? currentAction;
+    private string? currentSessionId;
+
+    // Result
+    private bool isDetectLivenessWithVerify;
+    private string livenessIcon = "CheckmarkCircle.png";
+    private string livenessText = "Real Person";
+    private string recognitionIcon = "CheckmarkCircle.png";
+    private string recognitionText = "Same Person";
+
+    // Error
+    private string errorMessage = "";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            jsModule = await JS.InvokeAsync<IJSObjectReference>("import", "./js/faceLivenessInterop.js");
+        }
+
+        // When we transition to LivenessDetector state, start detection after DOM renders
+        if (state == DetectorState.LivenessDetector && dotNetRef != null && currentAction != null)
+        {
+            var authToken = currentAuthToken;
+            if (!string.IsNullOrEmpty(authToken))
+            {
+                currentAuthToken = null; // consume it so we don't re-trigger
+                await jsModule!.InvokeVoidAsync("startLivenessDetection", "face-container", authToken, dotNetRef);
+            }
+        }
+    }
+
+    private string? currentAuthToken;
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        using var stream = file.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024);
+        using var ms = new System.IO.MemoryStream();
+        await stream.CopyToAsync(ms);
+        verifyImageBytes = ms.ToArray();
+        verifyImageFileName = file.Name;
+        verifyImageDataUrl = $"data:{file.ContentType};base64,{Convert.ToBase64String(verifyImageBytes)}";
+    }
+
+    private async Task StartDetection(string livenessOperationMode)
+    {
+        state = DetectorState.Loading;
+        StateHasChanged();
+
+        try
+        {
+            currentAction = verifyImageBytes != null ? "detectLivenessWithVerify" : "detectLiveness";
+
+            var deviceId = await jsModule!.InvokeAsync<string>("getDummyDeviceId");
+            var userId = await jsModule!.InvokeAsync<string>("getDummyUserId");
+
+            var result = await FaceApi.GenerateAccessTokenAsync(
+                currentAction,
+                livenessOperationMode,
+                deviceId,
+                userId,
+                verifyImageBytes,
+                verifyImageFileName);
+
+            // Check for error in response
+            if (result.TryGetProperty("error", out var errorObj))
+            {
+                var msg = errorObj.TryGetProperty("message", out var msgProp)
+                    ? msgProp.GetString() ?? "Unknown error"
+                    : "Unknown error";
+                errorMessage = msg;
+                state = DetectorState.Retry;
+                StateHasChanged();
+                return;
+            }
+
+            // Extract auth token and session ID
+            var sessionData = result.GetProperty("sessionData");
+            currentAuthToken = sessionData.GetProperty("authToken").GetString();
+            currentSessionId = sessionData.GetProperty("sessionId").GetString();
+
+            dotNetRef = DotNetObjectReference.Create(this);
+            state = DetectorState.LivenessDetector;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+            state = DetectorState.Retry;
+            StateHasChanged();
+        }
+    }
+
+    [JSInvokable]
+    public async Task OnLivenessSuccess(string resultJson)
+    {
+        try
+        {
+            isDetectLivenessWithVerify = currentAction == "detectLivenessWithVerify";
+
+            var sessionResult = await FaceApi.GetSessionResultAsync(currentAction!, currentSessionId!);
+
+            // Parse liveness result
+            var attempts = sessionResult.GetProperty("results").GetProperty("attempts");
+            var firstAttempt = attempts[0].GetProperty("result");
+
+            var livenessDecision = firstAttempt.GetProperty("livenessDecision").GetString();
+            var isReal = livenessDecision == "realface";
+
+            livenessIcon = isReal ? "CheckmarkCircle.png" : "DismissCircle.png";
+            livenessText = isReal ? "Real Person" : "Spoof";
+
+            // Parse verification result if applicable
+            if (isDetectLivenessWithVerify &&
+                firstAttempt.TryGetProperty("verifyResult", out var verifyResult))
+            {
+                var isIdentical = verifyResult.GetProperty("isIdentical").GetBoolean();
+                recognitionIcon = isIdentical ? "CheckmarkCircle.png" : "DismissCircle.png";
+                recognitionText = isIdentical ? "Same Person" : "Not the same person";
+            }
+
+            state = DetectorState.Result;
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+            state = DetectorState.Retry;
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    [JSInvokable]
+    public async Task OnLivenessError(string errorJson)
+    {
+        try
+        {
+            isDetectLivenessWithVerify = currentAction == "detectLivenessWithVerify";
+
+            var errorData = System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.JsonElement>(errorJson);
+            var livenessError = errorData.TryGetProperty("livenessError", out var le) ? le.GetString() : "Unknown error";
+
+            livenessIcon = "DismissCircle.png";
+            livenessText = livenessError ?? "Unknown error";
+
+            if (isDetectLivenessWithVerify)
+            {
+                var recognitionError = errorData.TryGetProperty("recognitionError", out var re) ? re.GetString() : "";
+                recognitionIcon = "DismissCircle.png";
+                recognitionText = recognitionError ?? "";
+            }
+
+            state = DetectorState.Result;
+        }
+        catch
+        {
+            errorMessage = errorJson;
+            state = DetectorState.Retry;
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private void Reset()
+    {
+        state = DetectorState.Initial;
+        verifyImageBytes = null;
+        verifyImageFileName = null;
+        verifyImageDataUrl = null;
+        currentAction = null;
+        currentSessionId = null;
+        currentAuthToken = null;
+        dotNetRef?.Dispose();
+        dotNetRef = null;
+        errorMessage = "";
+    }
+
+    public void Dispose()
+    {
+        dotNetRef?.Dispose();
+    }
+}

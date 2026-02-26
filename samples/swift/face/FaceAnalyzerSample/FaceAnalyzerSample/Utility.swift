@@ -10,6 +10,9 @@ extension SessionData {
     func sessionResultMessage(livenessDetectionResult: LivenessDetectionResult?) -> String {
         switch (livenessDetectionResult) {
         case .success:
+            if(sessionId == nil) {
+                return "Check Complete"
+            }
             if let result = obtainResult(usingEndpoint: endpoint, key: key, withVerify: livenessWithVerify, sessionId: sessionId!) {
                 
                 var livenessResultString = "Liveness status: \(result.livenessDecision)\n"

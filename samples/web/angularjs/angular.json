@@ -27,7 +27,7 @@
               },
               {
                 "glob": "**/*",
-                "input": "./node_modules/azure-ai-vision-face-ui/facelivenessdetector-assets",
+                "input": "./node_modules/@azure-ai-vision-face/ui-assets/facelivenessdetector-assets",
                 "output": "/facelivenessdetector-assets"
               }
             ],

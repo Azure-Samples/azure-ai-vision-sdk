@@ -72,6 +72,7 @@ struct ImageSelectionView: View {
                                                livenessOperationMode: sessionData.livenessMode.livenessOperationMode) {
                     sessionData.token = auth.token
                     sessionData.sessionId = auth.id
+                    sessionData.deviceCorrelationIdInClient = nil
                 }
             } catch {
                 errorState.show(error.localizedDescription) {

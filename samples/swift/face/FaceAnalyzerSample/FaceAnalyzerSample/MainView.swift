@@ -28,6 +28,7 @@ class SessionData: ObservableObject {
     @Published var resultId: String = ""
     @Published var resultDigest: String = ""
     @Published var referenceImageData: Data? = nil
+    @Published var callbackUrl: String? = nil
     @Published var endpoint: String = "https://your.azure.endpoint.com"
     @Published var key: String = ""
     @Published var token: String? = nil
@@ -38,6 +39,7 @@ class SessionData: ObservableObject {
     @Published var resultMessage = ""
     @Published var livenessWithVerify = false
     @Published var livenessMode: LivenessMode = .passiveActive
+    @Published var deviceCorrelationIdInClient: String? = nil
 
     var settingsConfigured: Bool {
         !endpoint.isEmpty && !key.isEmpty
@@ -62,7 +64,8 @@ struct MainView: View {
 
             case .liveness:
                 FaceLivenessDetectorView(result: $livenessDetectionResult,
-                                         sessionAuthorizationToken: sessionData.token!)
+                                         sessionAuthorizationToken: sessionData.token!,
+                                         deviceCorrelationId: sessionData.deviceCorrelationIdInClient)
                 .onChange(of: livenessDetectionResult) { result in
                     if let result = result {
                         sessionData.resultMessage = sessionData.sessionResultMessage(livenessDetectionResult: result)
@@ -105,6 +108,14 @@ struct MainView: View {
                     .background(Color.red)
                     .cornerRadius(8)
                 }.padding()
+            }
+
+            if (pageSelection.current != Page.settings)
+            {
+                VStack {
+                    Spacer()
+                    MicrosoftLogoView()
+                }
             }
         }
     }

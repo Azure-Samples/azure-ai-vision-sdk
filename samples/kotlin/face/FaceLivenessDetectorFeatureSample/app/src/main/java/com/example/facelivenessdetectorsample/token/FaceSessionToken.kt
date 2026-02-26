@@ -9,4 +9,5 @@ object FaceSessionToken {
     var livenessStatus: String? = null
     var verificationStatus: String? = null
     var verificationMatchConfidence: String? = null
+    var deviceCorrelationIdInClient: String? = null
 }

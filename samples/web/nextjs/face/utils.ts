@@ -92,7 +92,7 @@ export const getDummyUserId = async (): Promise<string> => {
 
 export const getDummyDeviceId = async (): Promise<string> => {
   let deviceId = (await navigator.mediaDevices.enumerateDevices()).find(
-    (device) => device.deviceId !== ""
+    (device) => device.deviceId !== "" && (/^[a-f0-9]+$/i.test(device.deviceId) || device.deviceId.endsWith("="))
   )?.deviceId;
 
   if (deviceId) {

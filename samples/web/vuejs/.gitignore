@@ -6,6 +6,7 @@ public/facelivenessdetector-assets
 # local env files
 .env.local
 .env.*.local
+.npmrc
 
 # Log files
 npm-debug.log*

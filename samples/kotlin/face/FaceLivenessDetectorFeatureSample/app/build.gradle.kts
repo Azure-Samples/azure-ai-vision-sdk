@@ -50,6 +50,15 @@ android {
         }
     }
     dynamicFeatures += setOf(":dynamicfeature")
+
+    sourceSets {
+        getByName("main") {
+            java.srcDirs(
+                "src/main/java",
+                "../../common/java"
+            )
+        }
+    }
 }
 
 dependencies {
@@ -66,4 +75,5 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation(platform("androidx.compose:compose-bom:2024.09.03"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    implementation("com.azure:azure-ai-vision-face-ui:+")
 }
