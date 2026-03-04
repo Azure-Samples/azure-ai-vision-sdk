@@ -82,6 +82,10 @@ Please see the readme documents listed below for instructions on how to build an
 | [Angular sample app for Web](samples/web/angularjs/) | Web | App with source code that demonstrates face analysis on Web |
 | [Vue.js sample app for Web](samples/web/vuejs/) | Web | App with source code that demonstrates face analysis on Web |
 | [JavaScript sample app for Web](samples/web/javascript/) | Web | App with source code that demonstrates face analysis on Web |
+| [Blazor sample app for Web](samples/web/blazor/) | Web | App with source code that demonstrates face analysis on Web using Blazor WebAssembly |
+| [MAUI sample app for Android and iOS](samples/maui/) | MAUI (Android, iOS) | App with source code that demonstrates face analysis on Android and iOS using MAUI |
+| [Flutter sample app for Android and iOS](samples/flutter/face/) | Flutter (Android, iOS) | App with source code that demonstrates face analysis on Android and iOS using Flutter |
+| [React Native sample app for Android and iOS](samples/react_native/face/) | React Native (Android, iOS) | App with source code that demonstrates face analysis on Android and iOS using React Native |
 
 ### API Reference Documentation
 
