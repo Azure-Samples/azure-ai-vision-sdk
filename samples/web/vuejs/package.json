@@ -9,6 +9,7 @@
     "dev": "vue-cli-service build && node server.js"
   },
   "dependencies": {
+    "@azure/ai-vision-face-ui": "^1.4.7",
     "@types/node": "^14.17.34",
     "core-js": "^3.8.3",
     "vue": "^3.2.13"

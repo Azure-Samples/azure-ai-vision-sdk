@@ -2,7 +2,9 @@ package com.microsoft.azure.ai.vision.facelivenessdetectorsample.screens
 
 import android.preference.PreferenceManager
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -23,6 +25,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.microsoft.azure.ai.vision.facelivenessdetectorsample.utils.getCameraPermissionState
 import com.microsoft.azure.ai.vision.facelivenessdetectorsample.token.FaceSessionToken
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.ui.components.MicrosoftBranding
 import com.microsoft.azure.ai.vision.facelivenessdetectorsample.viewmodel.LivenessScreenViewModel
 import com.microsoft.azure.ai.vision.facelivenessdetectorsample.viewmodel.LivenessScreenViewModelFactory
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -82,41 +85,51 @@ fun LivenessScreen(
     // If the initial permission is granted, then we directly show the analyze screen, as we don't need permission.
     // If we need permission and have acquired it, then we wait for the user to click the button and verify if the button was clicked by checking viewModel.shouldShowLivenessAnalyze
     if (!(!initialPermissionState && cameraPermissionState.status.isGranted) || shouldShowLivenessAnalyze) {
-        if(com.example.facelivenessdetectorsample.utils.FeatureOnDemandUtils.CheckModule() == true) {
-            com.example.facelivenessdetectorsample.utils.FaceLivenessDetectorDynamicFeature(
-                viewModel = viewModel,
-                sessionAuthorizationToken = FaceSessionToken.sessionToken,
-                verifyImageFileContent = FaceSessionToken.sessionSetInClientVerifyImage,
-                deviceCorrelationId = null,
-                userCorrelationId = null,
-                onSuccess = viewModel::onSuccess,
-                onError = viewModel::onError
+        Box(modifier = Modifier.fillMaxSize()) {
+            if (com.example.facelivenessdetectorsample.utils.FeatureOnDemandUtils.CheckModule() == true) {
+                com.example.facelivenessdetectorsample.utils.FaceLivenessDetectorDynamicFeature(
+                    viewModel = viewModel,
+                    sessionAuthorizationToken = FaceSessionToken.sessionToken,
+                    verifyImageFileContent = FaceSessionToken.sessionSetInClientVerifyImage,
+                    deviceCorrelationId = FaceSessionToken.deviceCorrelationIdInClient,
+                    userCorrelationId = null,
+                    onSuccess = viewModel::onSuccess,
+                    onError = viewModel::onError
+                )
+            } else {
+                Text(text = "Liveness Module isn't installed yet!", Modifier.padding(16.dp), textAlign = Center)
+            }
+
+            MicrosoftBranding(
+                modifier = Modifier.align(Alignment.BottomCenter)
             )
-        }
-        else{
-            Text(text = "Liveness Module isn't installed yet!", Modifier.padding(16.dp), textAlign = Center)
         }
     } else {
         Column(
             modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            val textToShow = if (cameraPermissionState.status.shouldShowRationale) {
-                "The camera is required for this app. Please grant the permission."
-            } else {
-                "Camera permission required for this feature to be available. " + "Please grant the permission."
-            }
-            Text(text = textToShow, Modifier.padding(16.dp), textAlign = Center)
-            Button(onClick = { cameraPermissionState.launchPermissionRequest() }) {
-                Text("Request permission")
-            }
-
-            Button(
-                onClick = { viewModel.showLivenessAnalyze() },
-                enabled = cameraPermissionState.status.isGranted
+            verticalArrangement = Arrangement.SpaceBetween)
+        {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "Start liveness")
+                val textToShow = if (cameraPermissionState.status.shouldShowRationale) {
+                    "The camera is required for this app. Please grant the permission."
+                } else {
+                    "Camera permission required for this feature to be available. " + "Please grant the permission."
+                }
+                Text(text = textToShow, Modifier.padding(16.dp), textAlign = Center)
+                Button(onClick = { cameraPermissionState.launchPermissionRequest() }) {
+                    Text("Request permission")
+                }
+
+                Button(
+                    onClick = { viewModel.showLivenessAnalyze() },
+                    enabled = cameraPermissionState.status.isGranted
+                ) {
+                    Text(text = "Start liveness")
+                }
             }
         }
     }

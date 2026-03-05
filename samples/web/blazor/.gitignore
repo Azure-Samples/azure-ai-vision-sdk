@@ -1,0 +1,17 @@
+# Build outputs
+bin/
+obj/
+
+# Node
+node_modules/
+
+# SDK assets copied by MSBuild targets
+FaceLivenessDetectorSample.Client/wwwroot/FaceLivenessDetector.js
+FaceLivenessDetectorSample.Client/wwwroot/facelivenessdetector-assets/
+
+# User secrets
+appsettings.Development.json
+
+# IDE
+.vs/
+*.user

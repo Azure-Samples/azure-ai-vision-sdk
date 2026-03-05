@@ -21,6 +21,7 @@
     "@angular/platform-server": "^18.0.0",
     "@angular/router": "^18.0.0",
     "@angular/ssr": "^18.0.4",
+    "@azure/ai-vision-face-ui": "^1.4.7",
     "@fluentui/web-components": "^2.6.1",
     "@microsoft/fast-element": "^1.13.0",
     "cors": "^2.8.5",

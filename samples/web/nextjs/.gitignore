@@ -8,6 +8,7 @@
 /.pnp
 .pnp.js
 .yarn/install-state.gz
+.npmrc
 
 # testing
 /coverage

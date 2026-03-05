@@ -14,10 +14,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.NavOptions
 import com.microsoft.azure.ai.vision.facelivenessdetectorsample.models.ResultData
 import com.microsoft.azure.ai.vision.facelivenessdetectorsample.navigation.Routes
 import com.microsoft.azure.ai.vision.facelivenessdetectorsample.token.FaceSessionToken
+import com.microsoft.azure.ai.vision.facelivenessdetectorsample.ui.components.MicrosoftBranding
 
 @Composable
 fun ResultScreen(navController: NavController, resultData: ResultData) {
@@ -71,6 +71,7 @@ fun ResultScreen(navController: NavController, resultData: ResultData) {
         Button(
             onClick = {
                 FaceSessionToken.sessionToken = ""
+                FaceSessionToken.deviceCorrelationIdInClient = null
                 FaceSessionToken.isVerifyImage = false
                 FaceSessionToken.verificationStatus = null
                 FaceSessionToken.verificationMatchConfidence = null
@@ -102,5 +103,9 @@ fun ResultScreen(navController: NavController, resultData: ResultData) {
         ) {
             Text("Retry with the same token")
         }
+
+        MicrosoftBranding(
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
     }
 }

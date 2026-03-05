@@ -22,6 +22,7 @@
 		8C07F2B22B699582009CFF14 /* SecureInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C07F2B12B699582009CFF14 /* SecureInputView.swift */; };
 		8C725A892DA87FF600070A4E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8C725A872DA87FF600070A4E /* Localizable.strings */; };
 		8C725A8B2DA8834100070A4E /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C725A8A2DA8834100070A4E /* Utility.swift */; };
+		B1EA63A42E20581D009453F0 /* MicrosoftLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA63A32E20581D009453F0 /* MicrosoftLogoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -54,6 +55,7 @@
 		8C07F2B12B699582009CFF14 /* SecureInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureInputView.swift; sourceTree = "<group>"; };
 		8C725A882DA87FF600070A4E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8C725A8A2DA8834100070A4E /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		B1EA63A32E20581D009453F0 /* MicrosoftLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrosoftLogoView.swift; sourceTree = "<group>"; };
 		D36DEE3B2D31D06000970057 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,6 +92,7 @@
 		8C020B582B0C1086001E72AE /* FaceAnalyzerSample */ = {
 			isa = PBXGroup;
 			children = (
+				B1EA63A32E20581D009453F0 /* MicrosoftLogoView.swift */,
 				8C725A8A2DA8834100070A4E /* Utility.swift */,
 				8C725A872DA87FF600070A4E /* Localizable.strings */,
 				8C020C172B0CA42B001E72AE /* Info.plist */,
@@ -207,6 +210,7 @@
 				8C020C1D2B16A524001E72AE /* AppUtility.swift in Sources */,
 				8C020B732B0C1197001E72AE /* SettingsView.swift in Sources */,
 				8C725A8B2DA8834100070A4E /* Utility.swift in Sources */,
+				B1EA63A42E20581D009453F0 /* MicrosoftLogoView.swift in Sources */,
 				8C020B762B0C1197001E72AE /* LaunchView.swift in Sources */,
 				8C020B712B0C1197001E72AE /* ClientStartView.swift in Sources */,
 				8C020B722B0C1197001E72AE /* MainView.swift in Sources */,
