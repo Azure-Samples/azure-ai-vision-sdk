@@ -62,6 +62,7 @@ const FaceLivenessDetectorComponent = ({
   }, [sessionData, loadingToken]);
 
   useEffect(() => {
+    if (!sessionData) return;
     let action = (file !== undefined) ? "detectLivenessWithVerify": "detectLiveness";
     // Step 3: query the azure-ai-vision-face-ui element to process face liveness.
     // For scenarios where you want to use the same element to process multiple sessions, you can query the element once and store it in a variable.
