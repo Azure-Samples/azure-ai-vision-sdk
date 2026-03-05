@@ -29,7 +29,6 @@ open class FaceLivenessDetectorWrapper : ComponentActivity() {
                         sessionAuthorizationToken = sessionAuthorizationToken,
                         verifyImageFileContent = null,
                         deviceCorrelationId = null,
-                        userCorrelationId = null,
                         onSuccess = { success ->
                             val resultIntent = Intent(ACTION_VIEW)
                             resultIntent.addCategory("com.example.azureaivisionfaceuiwrapper.result")

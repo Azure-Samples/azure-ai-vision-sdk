@@ -85,7 +85,7 @@
     </ItemGroup>
     <PropertyGroup>
         <GradleCaches Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android' AND ('$(OS)' == 'Unix')">$(HOME)/.gradle/caches</GradleCaches>
-        <GradleCaches Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android' AND ('$(OS)' == 'Windows_NT')">%USERPROFILE%/.gradle/caches</GradleCaches>
+        <GradleCaches Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android' AND ('$(OS)' == 'Windows_NT')">$(USERPROFILE)/.gradle/caches</GradleCaches>
     </PropertyGroup>
         
     <ItemGroup>
@@ -112,6 +112,7 @@
         <AndroidMavenLibrary Include="org.threeten:threetenbp" Version="1.5.1" Repository="Central" Bind="False" />
         <AndroidMavenLibrary Include="com.squareup.okhttp3:okhttp" Version="3.14.9" Repository="Central" Bind="False" />
         <AndroidMavenLibrary Include="com.squareup.okio:okio" Version="1.17.6" Repository="Central" Bind="False" />
+        <PackageReference Include="Xamarin.AndroidX.Activity" />
         <PackageReference Include="Xamarin.AndroidX.Activity.Compose" />
         <PackageReference Include="Xamarin.AndroidX.Activity.Ktx" />
         <PackageReference Include="Xamarin.AndroidX.Annotation.Experimental" />
