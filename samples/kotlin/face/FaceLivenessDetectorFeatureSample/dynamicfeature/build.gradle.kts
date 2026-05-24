@@ -1,6 +1,6 @@
 plugins {
     id("com.android.dynamic-feature")
-    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 android {
     namespace = "com.microsoft.azure.ai.vision.facelivenessdetectorsample.dynamicfeature"
@@ -14,14 +14,8 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.4"
     }
     buildTypes {
         release {
