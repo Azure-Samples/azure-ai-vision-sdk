@@ -99,7 +99,9 @@ class MainScreenViewModel(sharedPreferences: SharedPreferences) : ViewModel() {
         passiveActive: Boolean,
         deviceId: Long,
         userId: UUID,
-        onTokenFetched: (() -> Unit)? = null
+        onTokenFetched: (() -> Unit)? = null,
+        alwaysEnforceActive: Boolean = false,
+        minClientSdkVersion: String? = null
     ) {
         fetchTokenJob?.cancel()
 
@@ -116,12 +118,21 @@ class MainScreenViewModel(sharedPreferences: SharedPreferences) : ViewModel() {
                 try {
                     url = URL("$faceApiEndpoint/face/${FaceSessionToken.mFaceApiVersion}/$type-sessions")
                     val livenessMode = if (passiveActive) "PassiveActive" else "Passive"
-                    val parameters =
-                        mapOf(
-                            "livenessOperationMode" to livenessMode,
-                            "deviceCorrelationId" to UUID(deviceId, deviceId),
-                            "userCorrelationId" to userId
-                        )
+                    val parameters = mutableMapOf<String, Any>(
+                        "livenessOperationMode" to livenessMode,
+                        "deviceCorrelationId" to UUID(deviceId, deviceId),
+                        "userCorrelationId" to userId
+                    )
+                    if (alwaysEnforceActive || minClientSdkVersion != null) {
+                        val extraMetadata = mutableMapOf<String, Any>()
+                        if (alwaysEnforceActive) {
+                            extraMetadata["alwaysEnforceActive"] = true
+                        }
+                        if (minClientSdkVersion != null) {
+                            extraMetadata["minClientSdkVersion"] = minClientSdkVersion
+                        }
+                        parameters["extraMetadata"] = JSONObject(extraMetadata as Map<String, Any>).toString()
+                    }
                     val charset: Charset = Charset.forName("UTF-8")
                     urlConnection = url.openConnection() as HttpsURLConnection
                     urlConnection.setConnectTimeout(30000)

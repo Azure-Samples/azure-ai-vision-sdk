@@ -86,10 +86,6 @@ android {
         compose true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.5.3'
-    }
-
     defaultConfig {
         applicationId "com.rnazureliveness"
         minSdkVersion rootProject.ext.minSdkVersion

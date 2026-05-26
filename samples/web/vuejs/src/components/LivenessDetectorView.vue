@@ -53,9 +53,14 @@ async function startFaceLiveness(sessionData: SessionAuthorizationData, file: st
     containerRef.value?.appendChild(faceLivenessDetector.value);
   }
 
-  // For multi-camera scenarios, you can set desired deviceId by using following APIs
-  // You can enumerate available devices and filter cameras using navigator.mediaDevices.enumerateDevices method
-  // You can then set the desired deviceId as an attribute faceLivenessDetector.mediaInfoDeviceId = <desired-device-id>
+  // For multi-camera scenarios, pin a specific camera before calling start():
+  // 1) Enumerate cameras with navigator.mediaDevices.enumerateDevices()
+  //    (keep entries where kind === "videoinput").
+  // 2) Set the deviceId. The most reliable form is the JavaScript property:
+  //      faceLivenessDetector.value.mediaInfoDeviceId = "<desired-device-id>";
+  //    The HTML attribute (mediaInfoDeviceId / media-info-device-id) is also
+  //    honored on supported SDK versions, but property assignment avoids
+  //    framework-specific attribute-binding quirks.
 
   // Step 4: Start the face liveness check session and handle the promise returned appropriately.
   faceLivenessDetector.value.start(sessionData.authToken)

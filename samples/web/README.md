@@ -41,7 +41,13 @@ Follow these steps to quickly run a sample app built with Next.js, Angular, or V
 
 1. Follow the steps in `Installation` section to install the npm package.
 
-2. Copy `facelivenessdetector-assets/` folder from `node_modules/@azure-ai-vision-face/ui-assets` to `public/`.
+2. Create a symlink from `public/facelivenessdetector-assets` to `node_modules/@azure-ai-vision-face/ui-assets/facelivenessdetector-assets`:
+
+    ```sh
+    ln -s ../node_modules/@azure-ai-vision-face/ui-assets/facelivenessdetector-assets public/facelivenessdetector-assets
+    ```
+
+    Note: On Windows, use `mklink /D` instead of `ln -s`.
 
 3. Update the variables in `.env.local` with your own face-api key and endpoint.
 

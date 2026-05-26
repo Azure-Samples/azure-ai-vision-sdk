@@ -62,7 +62,6 @@ const FaceLivenessDetectorComponent = ({
   }, [sessionData, loadingToken]);
 
   useEffect(() => {
-    if (!sessionData) return;
     let action = (file !== undefined) ? "detectLivenessWithVerify": "detectLiveness";
     // Step 3: query the azure-ai-vision-face-ui element to process face liveness.
     // For scenarios where you want to use the same element to process multiple sessions, you can query the element once and store it in a variable.
@@ -79,9 +78,26 @@ const FaceLivenessDetectorComponent = ({
       containerRef.current.appendChild(faceLivenessDetector);
     }
 
-    // For multi-camera scenarios, you can set desired deviceId by using following APIs
-    // You can enumerate available devices and filter cameras using navigator.mediaDevices.enumerateDevices method
-    // You can then set the desired deviceId as an attribute faceLivenessDetector.mediaInfoDeviceId = <desired-device-id>
+    // For multi-camera scenarios, pin a specific camera before calling start():
+    // 1) Enumerate cameras with navigator.mediaDevices.enumerateDevices()
+    //    (keep entries where kind === "videoinput").
+    // 2) Set the deviceId. The most reliable form is the JavaScript property:
+    //      faceLivenessDetector.mediaInfoDeviceId = "<desired-device-id>";
+    //    The HTML attribute (mediaInfoDeviceId / media-info-device-id) is also
+    //    honored on supported SDK versions, but property assignment avoids
+    //    framework-specific attribute-binding quirks.
+    //
+    // React JSX alternative (SDK >= 1.4.9 — declarative form): render the
+    // element with the prop in JSX instead of constructing it imperatively.
+    // React forwards unknown props on custom elements to setAttribute on the
+    // lowercased name, which the SDK's attributeChangedCallback then routes
+    // through the same property setter as the imperative line above:
+    //
+    //   <azure-ai-vision-face-ui mediaInfoDeviceId={selectedDeviceId} />
+    //
+    // Useful if you'd rather declare the deviceId where the element is
+    // rendered than reach into the DOM with querySelector + an imperative
+    // assignment.
 
     // Step 5: Start the face liveness check session and handle the promise returned appropriately.
     faceLivenessDetector.start(sessionData?.authToken as string)

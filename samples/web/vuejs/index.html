@@ -6,13 +6,15 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     
     <script type="module" src="https://unpkg.com/@fluentui/web-components@2.0.0" crossorigin="anonymous" integrity="sha512-wyYWUoZ8xBnVgKl15H3yF8GUSVSs45CMvJDjl3o3tHX/I403ECl1pEbsgva+gQ/1CZTM9NIKLzvg6uaAzo9ZXg=="></script>
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <link rel="icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/styles/fabric-9.6.1.min.css">
+    <title>Face Liveness Detector</title>
   </head>
   <body class="ms-Fabric">
     <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong>We're sorry but this app doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <main id="app"></main>
+    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
