@@ -384,8 +384,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://msface.visualstudio.com/SDK/_git/AzureAIVisionFaceUI.xcframework";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.0;
+				kind = exactVersion;
+				version = 1.3.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

@@ -26,7 +26,7 @@ fileprivate var apiVersion = "v1.2"
 
 // this method is for sample App demonstration purpose, the session token should be obtained in customer backend
 func obtainToken(usingEndpoint endpoint: String,
-                 key: String, withVerify: Bool, verifyImage: Data? = nil, livenessOperationMode: String = "PassiveActive") throws -> (token: String, id: String, type: String)? {
+                 key: String, withVerify: Bool, verifyImage: Data? = nil, livenessOperationMode: String = "PassiveActive", alwaysEnforceActive: Bool = false, minClientSdkVersion: String? = nil) throws -> (token: String, id: String, type: String)? {
     let type = withVerify ? "detectLivenessWithVerify" : "detectLiveness"
     let createSessionUri = URL(string: endpoint + "/face/\(apiVersion)/\(type)-sessions")!
     var request = URLRequest(url: createSessionUri)
@@ -35,11 +35,22 @@ func obtainToken(usingEndpoint endpoint: String,
     request.setValue(key, forHTTPHeaderField: "Ocp-Apim-Subscription-Key")
     request.setValue("sample=swift-face-ios-sdk;appversion=1.1", forHTTPHeaderField: "X-MS-AZSDK-Telemetry")
 
-    let parameters: [String: Any] = [
+    var parameters: [String: Any] = [
         "livenessOperationMode": livenessOperationMode,
         "deviceCorrelationId": UIDevice.current.identifierForVendor?.uuidString ?? UUID().uuidString,
         "userCorrelationId": UUID().uuidString,
     ]
+    if alwaysEnforceActive || minClientSdkVersion != nil {
+        var extraMetadata: [String: Any] = [:]
+        if alwaysEnforceActive {
+            extraMetadata["alwaysEnforceActive"] = true
+        }
+        if let minClientSdkVersion = minClientSdkVersion {
+            extraMetadata["minClientSdkVersion"] = minClientSdkVersion
+        }
+        let extraMetadataData = try JSONSerialization.data(withJSONObject: extraMetadata, options: [])
+        parameters["extraMetadata"] = String(data: extraMetadataData, encoding: .utf8) ?? "{}"
+    }
 
     do {
         let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: [])

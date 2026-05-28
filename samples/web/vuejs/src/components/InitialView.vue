@@ -20,7 +20,7 @@ function onFileChange(e: Event) {
 
 <template>
   <div class="page ms-Fabric">
-    <iframe id="splash" title="splash" src="splash.html" role="status"></iframe>
+    <iframe id="splash" title="splash" src="/splash.html" role="status"></iframe>
     <div class="feedback" id="feedbackContainer" role="status" hidden></div>
     <div id="container"></div>
     <div class="row" id="verifyImageRow">

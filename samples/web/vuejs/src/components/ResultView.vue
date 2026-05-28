@@ -3,8 +3,8 @@
 To see how to use the SDK in your application please see face-vuejs/src/components/LivenessDetectorView.vue */
 import { ref, defineProps } from "vue";
 
-const checkIcon = 'CheckmarkCircle.png';
-const dismissIcon = 'DismissCircle.png';
+const checkIcon = '/CheckmarkCircle.png';
+const dismissIcon = '/DismissCircle.png';
 
 const props = defineProps([
   "livenessText",
@@ -24,7 +24,7 @@ const props = defineProps([
     <div class="feedback">
   <div class="feedback-column">
     <div class="item">
-      <img src="HeartPulse.png" alt="Liveness Icon" />
+      <img src="/HeartPulse.png" alt="Liveness Icon" />
       <span>Liveness</span>
     </div>
     <div class="item">
@@ -33,7 +33,7 @@ const props = defineProps([
     </div>
     <div class="separationLine" v-if="recognitionIcon"></div>
     <div class="item" v-if="recognitionIcon">
-      <img src="Person.png" alt="Verification Icon" />
+      <img src="/Person.png" alt="Verification Icon" />
       <span>Verification</span>
     </div>
     <div class="item" v-if="recognitionIcon">

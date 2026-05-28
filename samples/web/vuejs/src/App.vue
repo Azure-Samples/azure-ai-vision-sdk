@@ -86,8 +86,6 @@ function continueFaceLivenessDetector() {
 </template>
 
 <style>
-@import "../public/styles/fabric-9.6.1.min.css";
-
 .page {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;

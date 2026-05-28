@@ -1,0 +1,7 @@
+.metadata text
+.xcode.env text
+app.manifest text
+Gemfile text
+PrivacyInfo.xcprivacy text
+WorkspaceSettings.xcsettings text
+*.ttf binary
