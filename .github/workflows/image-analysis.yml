@@ -32,7 +32,7 @@ jobs:
     runs-on:  ubuntu-20.04
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
     - name: Install build tools
       run: |
         sudo apt-get install build-essential libssl-dev wget dpkg cmake g++
@@ -93,9 +93,9 @@ jobs:
     runs-on:  windows-latest
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
     - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1 # See https://github.com/marketplace/actions/setup-msbuild
+      uses: microsoft/setup-msbuild@ede762b26a2de8d110bb5a3db4d7e0e080c0e917 # v1.3.3
     - name: Build C++ public docs code snippets
       shell: pwsh
       run: |
@@ -164,9 +164,9 @@ jobs:
        os: [ubuntu-20.04, windows-latest]
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
     - name: Set up Python ${{ env.PYTHON_VERSION }}
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@7f4fc3e22c37d6ff65e88745f38bd3157c663f7c # v4.9.1
       with:
         python-version: ${{ env.PYTHON_VERSION }}
         architecture: 'x64'
@@ -229,9 +229,9 @@ jobs:
        os: [ubuntu-20.04, windows-latest]
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3 # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
     - name: Setup .NET ${{ env.DOTNET_VERSION }} environment
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@55ec9447dda3d1cf6bd587150f3262f30ee10815 # v3.4.2
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
     - name: Show installed .NET SDK and runtime versions
