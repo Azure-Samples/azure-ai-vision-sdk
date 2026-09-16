@@ -5,6 +5,10 @@ local
 [device-attestation client library](../../../../client_libraries/ios/AzureAIVisionFaceDeviceAttestation)
 and connect to any of the [backend samples](../../../../backend_samples).
 
+The backend environment-variable examples in this guide use the Python, Java,
+and Node.js names. For .NET, use the `AppSettings__...` equivalents in the
+[backend configuration table](../../../../backend_samples/README.md#configuration).
+
 ## Universal Link location
 
 The backend website creates links in this form:

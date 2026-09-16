@@ -5,6 +5,10 @@ This project is the Android AzureLiveness app. It uses the local
 and opens liveness sessions created by any of the
 [backend samples](../../../../backend_samples).
 
+The backend environment-variable examples in this guide use the Python, Java,
+and Node.js names. For .NET, use the `AppSettings__...` equivalents in the
+[backend configuration table](../../../../backend_samples/README.md#configuration).
+
 ## App Link location
 
 The backend website creates links in this form:
@@ -35,6 +39,24 @@ livenessHost=my-backend.azurewebsites.net
 A comma-separated value binds the app to multiple backend hosts. Gradle adds an
 intent filter and runtime allowlist entry for each host; every host must publish
 its own matching Digital Asset Links document.
+
+## Play Integrity configuration
+
+Set the Google Cloud project number configured for your app's Play Integrity
+integration before building. Use the `CLOUD_PROJECT_NUMBER` environment variable
+or the `cloudProjectNumber` Gradle property in
+[`gradle.properties`](gradle.properties):
+
+```properties
+cloudProjectNumber=123456789012
+```
+
+Replace the example number with your own numeric project number, not the textual
+project ID. The environment variable takes precedence over the Gradle property.
+This setting is independent of `livenessHost` and is used to prepare the Play
+Integrity token provider. The backend also needs Play Integrity API credentials
+configured through `GOOGLE_SERVICE_ACCOUNT_JSON`
+(`AppSettings__GoogleServiceAccountJson` on .NET).
 
 ## How the website URL is bound
 

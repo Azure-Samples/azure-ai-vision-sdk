@@ -4,7 +4,7 @@ These samples show how to build the **server side** of the Azure AI Vision Face
 liveness *device-attestation* flow. The backend sits between a native mobile
 client (iOS / Android) and the Azure Face service, and its job is to release a
 Face liveness session token **only to a genuine, attested app instance**, then
-relay the final liveness result back to the client.
+relay the final liveness result back to the browser.
 
 The same backend is implemented in .NET, Java, Python, and Node.js, each
 pairing a small, framework-agnostic attestation library with a runnable web
@@ -80,11 +80,12 @@ sequenceDiagram
     App->>Face: Run Face liveness with the token
     App->>Backend: POST /api/liveness/digest  (signed result digest)
 
-    Note over App,Face: 5. Return the outcome
-    App->>Backend: GET /api/session/result
+   Note over Website,Face: 5. Return the outcome
+   App->>Website: Open validated result callback (if provided)
+   Website->>Backend: GET /api/session/result
     Backend->>Face: Poll result (server-held credentials)
     Face-->>Backend: liveness decision
-    Backend-->>App: final result
+   Backend-->>Website: final result
 ```
 
 Step by step:
@@ -103,9 +104,11 @@ Step by step:
    liveness token, but only to a device that passed attestation.
 5. **Liveness digest** — after running the Face liveness check, the client
    submits a signed/encrypted digest to `POST /api/liveness/digest`.
-6. **Result** — `GET /api/session/result` polls the Azure Face service with the
-   server-held credentials and returns the final liveness decision. The Face
-   subscription key never leaves the backend — it is used only for server-side
+6. **Result** — the app opens the validated result callback in the browser when
+   one is provided. The browser polls `GET /api/session/result`; the backend
+   queries the Azure Face service with the server-held credentials and returns
+   the final liveness decision to the browser. The Face subscription key is not
+   sent to the mobile app and is used only for server-side
    session creation and result polling.
 
 ### How attestation establishes trust
@@ -203,9 +206,9 @@ as well.
 The app passes the `challengeHash` to App Attest as the `clientDataHash`. The
 backend validates the chain to the pinned Apple App Attest root, preventing an
 attacker from supplying its own root and credential. It also checks that the
-`rpIdHash` identifies the configured `IOS_APP_ID`, that the AAGUID passes the
-production/development policy, and that the credential certificate contains
-the expected nonce:
+`rpIdHash` identifies the configured `IOS_APP_ID` (`AppSettings__IosAppId` on
+.NET), that the AAGUID passes the production/development policy, and that the
+credential certificate contains the expected nonce:
 
 `SHA-256(authenticatorData || challengeHash bytes)`
 
@@ -291,7 +294,8 @@ making both sides name each other:
    `ANDROID_SHA256_CERT_FINGERPRINTS` for Android. Set `IOS_APPLINK_APP_ID`
    (`TeamID.BundleID`) for iOS, or let it fall back to `IOS_APP_ID`; set
    `IOS_APP_CLIP_ID` when using the App Clip. The backend generates the two
-   association documents from these values.
+   association documents from these values. For .NET, use the equivalent
+   environment-variable names in [Configuration](#configuration).
 3. **The operating system verifies both claims.** Android fetches
    `https://<host>/.well-known/assetlinks.json` and matches its package name and
    signing-certificate fingerprints. iOS fetches
@@ -313,23 +317,36 @@ Play Integrity on Android separately establish device and app integrity.
 
 ## Configuration
 
-All samples read the same set of environment variables; see each sample's
-`.env.example` for the complete list. The sample index pages show whether the
-most important variables are configured:
+Python, Java, and Node.js use the environment-variable names in the first
+column below. .NET binds its `AppSettings` configuration section using the
+`AppSettings__...` names in the second column; it does not read the corresponding
+bare names. The sample index pages show whether the most important settings are
+configured.
 
-| Variable | Purpose |
-| --- | --- |
-| `IOS_APP_ID` | iOS App Attest identity (`TeamID.BundleID`) |
-| `IOS_APP_CLIP_ID` | iOS App Clip ID published in the AASA file |
-| `IOS_APPLINK_APP_ID` | iOS Universal Link identity (falls back to `IOS_APP_ID`) |
-| `ANDROID_PACKAGE_NAME` | Android package for Play Integrity + App Links |
-| `ANDROID_SHA256_CERT_FINGERPRINTS` | App Link certificate fingerprints |
-| `GOOGLE_SERVICE_ACCOUNT_JSON` | Play Integrity API credentials (secret) |
-| `APPLINK_PATH` | Universal/App Link path pattern |
-| `DEBUG_MODE` | Loosens attestation policy for development builds |
-| `ALLOW_DEVICE_INTEGRITY` / `ALLOW_BASIC_INTEGRITY` | Allow weaker Android integrity verdicts |
-| `ALLOW_ANDROID_ATTESTATION_WHEN_GOOGLE_UNAVAILABLE` | Allow hardware Key Attestation alone when Play Integrity is unavailable |
-| `IOS_APP_STORE_URL` / `ANDROID_PLAY_STORE_URL` | Store links shown on the session landing page |
+See each backend's configuration file for the complete list and defaults:
+
+- **.NET**: [`appsettings.json`](backend/dotnet/appsettings.json), under `AppSettings`.
+- **Java**: [`application.yml`](backend/java/src/main/resources/application.yml).
+- **Python**: [`.env.example`](backend/python/.env.example).
+- **Node.js**: [`.env.example`](backend/react/.env.example).
+
+Only Python and Node.js provide `.env.example` files.
+
+| Python / Java / Node.js variable | .NET environment variable | Purpose |
+| --- | --- | --- |
+| `IOS_APP_ID` | `AppSettings__IosAppId` | iOS App Attest identity (`TeamID.BundleID`) |
+| `IOS_APP_CLIP_ID` | `AppSettings__IosAppClipId` | iOS App Clip ID published in the AASA file |
+| `IOS_APPLINK_APP_ID` | `AppSettings__IosApplinkAppId` | iOS Universal Link identity (falls back to the App Attest identity) |
+| `ANDROID_PACKAGE_NAME` | `AppSettings__AndroidPackageName` | Android package for Play Integrity + App Links |
+| `ANDROID_SHA256_CERT_FINGERPRINTS` | `AppSettings__AndroidSha256CertFingerprints` | App Link certificate fingerprints |
+| `GOOGLE_SERVICE_ACCOUNT_JSON` | `AppSettings__GoogleServiceAccountJson` | Play Integrity API credentials (secret) |
+| `APPLINK_PATH` | `AppSettings__ApplinkPath` | Universal/App Link path pattern |
+| `DEBUG_MODE` | `AppSettings__DebugMode` | Loosens attestation policy for development builds |
+| `ALLOW_DEVICE_INTEGRITY` | `AppSettings__AllowDeviceIntegrity` | Allow the weaker Android device-integrity verdict |
+| `ALLOW_BASIC_INTEGRITY` | `AppSettings__AllowBasicIntegrity` | Allow the weaker Android basic-integrity verdict |
+| `ALLOW_ANDROID_ATTESTATION_WHEN_GOOGLE_UNAVAILABLE` | `AppSettings__AllowAndroidAttestationWhenGoogleUnavailable` | Allow hardware Key Attestation alone when Play Integrity is unavailable |
+| `IOS_APP_STORE_URL` | `AppSettings__IosAppStoreUrl` | iOS store or App Clip link shown on the session landing page |
+| `ANDROID_PLAY_STORE_URL` | `AppSettings__AndroidPlayStoreUrl` | Android store link shown on the session landing page |
 
 ## Bicep deployment
 
@@ -352,9 +369,9 @@ Each backend contains the same modular template set under its
 | **Node.js** | [`backend/react/deployment/bicep`](backend/react/deployment/bicep) | [`main.parameters.json`](backend/react/deployment/main.parameters.json) | [`deploy.ps1`](backend/react/deployment/deploy.ps1) / [`deploy.sh`](backend/react/deployment/deploy.sh) |
 
 The scripts provision the infrastructure, build the selected backend, and
-deploy it to App Service. Secrets such as `GOOGLE_SERVICE_ACCOUNT_JSON` are
-intentionally not stored in the Bicep templates and must be configured securely
-after deployment.
+deploy it to App Service. Secrets such as `GOOGLE_SERVICE_ACCOUNT_JSON`
+(`AppSettings__GoogleServiceAccountJson` on .NET) are intentionally not stored
+in the Bicep templates and must be configured securely after deployment.
 
 ## Security notes
 

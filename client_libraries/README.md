@@ -56,7 +56,6 @@ client_libraries/
 └── ios/
     └── AzureAIVisionFaceDeviceAttestation/   # Swift package
         ├── Package.swift                     #   product/target AzureAIVisionFaceDeviceAttestation
-        ├── README.md                         #   iOS-specific quick start
         └── Sources/AzureAIVisionFaceDeviceAttestation/
             ├── DeviceAttestation.swift       #   public entry point (initialize / startSession)
             ├── AttestationSession.swift      #   per-session token + digest calls
@@ -126,12 +125,13 @@ Step by step:
    or **registers** a first-run device with full hardware attestation. On
    success it returns an `AttestationSession`.
 3. **Session token** — `fetchSessionToken` sends an encrypted, signed request
-   and decrypts the **Face liveness token**. The device is authenticated by the
-   auth-cert ECDSA signature — trust was already established by the verify or
-   register step in `startSession`, so no fresh hardware attestation (App Attest
-   / Play Integrity) is repeated here.
+  and decrypts the **Face liveness token**. Both platforms authenticate the
+  request with the registered auth-cert ECDSA signature. iOS additionally
+  includes a fresh App Attest assertion over the encrypted request. Full
+  registration attestation is not repeated here.
 4. **Liveness digest** — after the Face liveness UI runs, `submitLivenessDigest`
-   sends the signed result digest. This is the final call: the session's
+  sends the encrypted, signed result digest, with another fresh App Attest
+  assertion on iOS. This is the final call: the session's
    ephemeral encryption key is wiped and the session is released automatically.
 
 ### Endpoints
@@ -211,8 +211,8 @@ case .exception(let error): break
 _ = await DeviceAttestation.shared.currentSession()?.submitLivenessDigest(digest)
 ```
 
-See the iOS package's own [README](ios/AzureAIVisionFaceDeviceAttestation/README.md)
-for Xcode setup details.
+See the [iOS sample app README](../samples/swift/face/AzureVisionLiveness/README.md)
+for backend-host, Universal Link, and App Clip configuration.
 
 ## Using the libraries in an app
 
