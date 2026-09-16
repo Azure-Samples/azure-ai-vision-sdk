@@ -1,0 +1,106 @@
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 0; line-height: 1.5;
+    min-height: 100vh; background: #0f1220; color: #f5f6fa; }
+main { max-width: 760px; margin: 0 auto; padding: 2rem 1.25rem; }
+h1 { font-size: 1.5rem; }
+h2 { font-size: 1.15rem; margin-top: 2rem; }
+code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+pre { background: rgba(127,127,127,.12); padding: 1rem; border-radius: 8px; overflow: auto; }
+.card { display: flex; flex-direction: column; gap: .75rem; max-width: 460px; }
+.card label { display: flex; flex-direction: column; gap: .25rem; font-size: .9rem; }
+.card input, .card select { padding: .5rem; font-size: 1rem; }
+.resource-endpoint { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem; }
+.resource-endpoint input { flex: 1 1 9rem; min-width: 0; }
+.resource-endpoint > span { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; white-space: nowrap; }
+button, .btn { display: inline-block; padding: .6rem 1rem; font-size: 1rem; border: 0; border-radius: 8px;
+    background: #0b6bcb; color: #fff; cursor: pointer; text-decoration: none; }
+.error { color: #b3261e; font-weight: 600; }
+.qr { image-rendering: pixelated; border: 1px solid rgba(127,127,127,.3); border-radius: 8px; }
+table.status { border-collapse: collapse; }
+table.status th, table.status td { border: 1px solid rgba(127,127,127,.3); padding: .35rem .75rem; text-align: left; }
+td.yes { color: #1a7f37; } td.no { color: #b3261e; } td.muted { color: #888; }
+
+/* Session / deep-link landing page ---------------------------------------- */
+.session-page { min-height: calc(100vh - 4rem); display: flex; align-items: flex-start;
+    justify-content: center; text-align: center; }
+.session-card { width: 100%; max-width: 680px; padding: .5rem; }
+.session-panel { max-width: 420px; margin: 0 auto; }
+.session-page p { color: #b8bcd0; }
+.session-page .store { display: inline-block; margin: .5rem; padding: .75rem 1.25rem;
+    border-radius: 10px; background: #2d6cdf; color: #fff; text-decoration: none;
+    font-weight: 600; }
+.session-page .store:hover { background: #3b78e7; }
+.qr-block { margin: 1.5rem auto .5rem; }
+.qr-block img { display: block; width: 220px; height: 220px; margin: 0 auto;
+    padding: 12px; border: 0; border-radius: 12px; background: #fff;
+    image-rendering: pixelated; }
+.session-page .qr-hint { margin-top: .75rem; color: #f5f6fa; font-weight: 600; }
+.session-id code, .launch-details code { padding: 2px 6px; border-radius: 4px;
+    background: #1c2030; }
+.session-error h1 { font-size: 1.4rem; }
+.session-page .error { padding: .85rem 1rem; border-radius: 10px; background: #3a1620;
+    color: #ffb3c0; }
+
+.session-result { max-width: 420px; margin: 1.25rem auto 0; padding: 1rem;
+    border-radius: 12px; background: #1c2030; }
+.session-result h2 { margin: 0 0 .5rem; color: #f5f6fa; font-size: 1.2rem; }
+.session-result .result-section { margin-top: 1rem; padding-top: .75rem;
+    border-top: 1px solid #2a2f45; }
+.session-result .result-section:first-of-type { margin-top: .5rem; padding-top: 0;
+    border-top: 0; }
+.session-result .result-section h3 { margin: 0; color: #9ec1ff; font-size: .95rem;
+    text-align: left; }
+.session-result .section-note { margin: .25rem 0 .5rem; color: #8a8fa8;
+    font-size: .78rem; text-align: left; }
+.session-result pre { max-height: 360px; margin: 0; padding: 0; overflow: auto;
+    background: transparent; color: #d6dbf0; font-size: .8rem; text-align: left;
+    white-space: pre-wrap; overflow-wrap: anywhere; }
+.session-result .polling { margin: 0; color: #b8bcd0; }
+.session-result .warn { margin: 0; color: #ffb3c0; }
+
+.advanced { max-width: 640px; margin: 1.5rem auto 0; }
+.advanced-toggle { width: auto; padding: .5rem 1.1rem; border: 1px solid #2a2f45;
+    border-radius: 8px; background: #1c2030; color: #9ec1ff; font-size: .85rem;
+    font-weight: 600; }
+.advanced-toggle:hover { background: #242a40; }
+.advanced-panel { margin-top: 1rem; }
+.launch-details h1 { font-size: 1.1rem; }
+
+.flow-guide { max-width: 640px; margin: 1.75rem auto 0; padding: 1rem 1.1rem;
+    border: 1px solid #2a2f45; border-radius: 12px; background: #161a28;
+    text-align: left; }
+.guide-title { color: #f5f6fa; font-size: 1rem; font-weight: 700; cursor: pointer; }
+.guide-intro { margin: .6rem 0 .25rem; color: #b8bcd0; font-size: .84rem; }
+.guide-step { padding: .65rem 0; border-top: 1px solid #2a2f45; }
+.guide-step summary { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem;
+    font-size: .85rem; cursor: pointer; }
+.guide-number { padding: 1px 8px; border-radius: 6px; background: #2d6cdf;
+    color: #fff; font-size: .8rem; font-weight: 700; }
+.guide-api { color: #9ec1ff; font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: .8rem; }
+.guide-who { color: #8a8fa8; font-size: .75rem; }
+.guide-row { margin: .5rem 0 0; color: #cfd4ea !important; font-size: .82rem;
+    line-height: 1.5; }
+.guide-tag { display: inline-block; min-width: 52px; margin-right: .5rem;
+    padding: 1px 6px; border-radius: 5px; font-size: .66rem; font-weight: 700;
+    letter-spacing: .04em; text-transform: uppercase; vertical-align: top; }
+.guide-client { background: #243a5e; color: #9ec1ff; }
+.guide-server { background: #2b3a2e; color: #7ee0a3; }
+.guide-verify { background: #3a2e1c; color: #ffd28a; }
+.guide-note, .guide-warning { margin: .85rem 0 .15rem; padding: .75rem .85rem;
+    border-radius: 8px; font-size: .8rem; line-height: 1.55; }
+.guide-note { border: 1px solid #5a4420; background: #2a2113; color: #ffe1b0 !important; }
+.guide-note a { color: #ffd28a; }
+.guide-warning { border: 1px solid #5a2030; background: #2a1620;
+    color: #ffd0d6 !important; }
+.guide-warning strong { color: #ffe1e6; }
+.flow-guide code { padding: 1px 5px; border-radius: 4px; background: #1c2030;
+    font-size: .78rem; }
+
+@media (max-width: 520px) {
+    main { padding: 1rem; }
+    .session-card { padding: 0; }
+    .flow-guide { padding: .85rem; }
+    .guide-step summary { align-items: flex-start; }
+}

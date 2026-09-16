@@ -68,7 +68,21 @@ async function startFaceLiveness(event) {
     const livenessOperationMode = event.target.dataset.mode;
     let deviceId = await getDummyDeviceId();
     let userId = await getDummyUserId();
-    
+
+    const alwaysEnforceActive = event.target.dataset.alwaysEnforceActive === "true";
+    const minClientSdkVersion = event.target.dataset.minClientSdkVersion ?? null;
+    let extraMetadata = null;
+    if (alwaysEnforceActive || minClientSdkVersion !== null) {
+      const extra = {};
+      if (alwaysEnforceActive) {
+        extra.alwaysEnforceActive = true;
+      }
+      if (minClientSdkVersion !== null) {
+        extra.minClientSdkVersion = minClientSdkVersion;
+      }
+      extraMetadata = JSON.stringify(extra);
+    }
+
     // Note1: More information regarding each request parameter involved in creating a liveness session is here: https://aka.ms/face-api-reference-createlivenesssession
     const sessionBodyStruct = { 
       livenessOperationMode: livenessOperationMode,
@@ -76,6 +90,9 @@ async function startFaceLiveness(event) {
       userCorrelationId: userId,
       enableSessionImage:true 
     };
+    if (extraMetadata !== null) {
+      sessionBodyStruct.extraMetadata = extraMetadata;
+    }
     let sessionCreationBody = JSON.stringify(sessionBodyStruct);
     
     
@@ -87,6 +104,9 @@ async function startFaceLiveness(event) {
       sessionCreationBody.append("deviceCorrelationId", deviceId);
       sessionCreationBody.append("userCorrelationId", userId);
       sessionCreationBody.append("enableSessionImage", true);
+      if (extraMetadata !== null) {
+        sessionCreationBody.append("extraMetadata", extraMetadata);
+      }
       sessionCreationHeaders = {};
       action = "detectLivenessWithVerify";
     }
@@ -112,9 +132,14 @@ async function startFaceLiveness(event) {
     document.getElementById("container").appendChild(faceLivenessDetector);
   }
    
-  // For multi-camera scenarios, you can set desired deviceId by using following APIs:
-  // You can enumerate available devices and filter cameras using navigator.mediaDevices.enumerateDevices method.
-  // You can then set the desired deviceId as an attribute faceLivenessDetector.mediaInfoDeviceId = <desired-device-id>
+  // For multi-camera scenarios, pin a specific camera before calling start():
+  // 1) Enumerate cameras with navigator.mediaDevices.enumerateDevices()
+  //    (keep entries where kind === "videoinput").
+  // 2) Set the deviceId. The most reliable form is the JavaScript property:
+  //      faceLivenessDetector.mediaInfoDeviceId = "<desired-device-id>";
+  //    The HTML attribute (mediaInfoDeviceId / media-info-device-id) is also
+  //    honored on supported SDK versions, but property assignment avoids
+  //    framework-specific attribute-binding quirks.
   // Step 4: Start the face liveness check session and handle the promise returned appropriately.
   // Note: For added security, you are not required to trust the 'status' property from client.
   // Your backend can and should verify this by querying about the session Face API directly.

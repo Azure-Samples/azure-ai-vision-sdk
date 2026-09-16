@@ -7,5 +7,7 @@ data class ResultData(
     val livenessStatus: String? = null,
     val livenessFailureReason: String? = null,
     val verificationStatus: String? = null,
-    val verificationConfidence: String? = null
+    val verificationConfidence: String? = null,
+    val digest: String? = null,
+    val resultId: String? = null
 )

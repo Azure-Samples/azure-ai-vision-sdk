@@ -1,0 +1,109 @@
+:root {
+  color-scheme: light dark;
+  --bg: #0f1117;
+  --card: #1a1d27;
+  --text: #e6e6e6;
+  --muted: #9aa0ae;
+  --accent: #4f8cff;
+  --ok: #2ecc71;
+  --missing: #ff5c5c;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+h1 { font-size: 1.6rem; }
+h2 { margin-top: 2rem; font-size: 1.2rem; }
+.lead { color: var(--muted); }
+.muted { color: var(--muted); font-size: 0.9rem; }
+
+.card {
+  background: var(--card);
+  border: 1px solid #262a36;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin: 1rem 0;
+}
+
+form.card label {
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+input, select {
+  display: block;
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #333a4a;
+  background: #11141c;
+  color: var(--text);
+}
+
+/* Face resource name shown as a full URL: https://[input].cognitiveservices.azure.com */
+.url-field {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+  margin: 0.35rem 0 1rem;
+}
+.url-field span {
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  white-space: nowrap;
+}
+.url-field input {
+  flex: 1 1 10rem;
+  width: auto;
+  min-width: 8rem;
+  margin-top: 0;
+}
+
+button, .button {
+  display: inline-block;
+  padding: 0.65rem 1.1rem;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.link { display: inline-block; margin-left: 1rem; color: var(--accent); }
+
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 0.5rem 0.4rem; border-bottom: 1px solid #262a36; font-size: 0.9rem; }
+
+.badge { padding: 0.15rem 0.5rem; border-radius: 999px; font-size: 0.8rem; }
+.badge.ok { background: rgba(46, 204, 113, 0.15); color: var(--ok); }
+.badge.missing { background: rgba(255, 92, 92, 0.15); color: var(--missing); }
+.badge.muted { background: rgba(154, 160, 174, 0.15); color: var(--muted); }
+
+.error {
+  background: rgba(255, 92, 92, 0.12);
+  border: 1px solid var(--missing);
+  color: #ffb4b4;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+code { background: #11141c; padding: 0.1rem 0.35rem; border-radius: 6px; }
+pre { overflow-x: auto; background: #11141c; padding: 1rem; border-radius: 8px; }

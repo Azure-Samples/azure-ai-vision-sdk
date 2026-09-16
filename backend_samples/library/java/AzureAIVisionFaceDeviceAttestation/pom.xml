@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.azure</groupId>
+  <artifactId>azure-ai-vision-face-deviceattestation</artifactId>
+  <version>0.0.2</version>
+  <packaging>jar</packaging>
+
+  <name>Azure AI Vision Face Device Attestation</name>
+  <description>Azure AI Vision Face device-attestation backend library. Server-side verification for the
+    liveness attestation flow — the backend counterpart to the iOS and Android device-attestation client
+    SDKs.</description>
+  <url>https://github.com/Azure-Samples/azure-ai-vision-sdk</url>
+
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://opensource.org/licenses/MIT</url>
+    </license>
+  </licenses>
+
+  <organization>
+    <name>Microsoft Corporation</name>
+    <url>https://www.microsoft.com</url>
+  </organization>
+
+  <properties>
+    <maven.compiler.release>17</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- Google Play Integrity server-side verification (Android). -->
+    <google.api.client.version>2.7.0</google.api.client.version>
+    <google.auth.version>1.30.1</google.auth.version>
+    <google.playintegrity.version>v1-rev20250828-2.0.0</google.playintegrity.version>
+    <junit.version>5.10.2</junit.version>
+    <bouncycastle.version>1.86</bouncycastle.version>
+    <jackson.version>2.22.2</jackson.version>
+    <tink.version>1.23.0</tink.version>
+  </properties>
+
+  <dependencies>
+    <!-- Google Play Integrity API generated client + OAuth2 (service-account) auth. -->
+    <dependency>
+      <groupId>com.google.apis</groupId>
+      <artifactId>google-api-services-playintegrity</artifactId>
+      <version>${google.playintegrity.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.api-client</groupId>
+      <artifactId>google-api-client</artifactId>
+      <version>${google.api.client.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.auth</groupId>
+      <artifactId>google-auth-library-oauth2-http</artifactId>
+      <version>${google.auth.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.auth</groupId>
+      <artifactId>google-auth-library-credentials</artifactId>
+      <version>${google.auth.version}</version>
+    </dependency>
+
+    <!-- Internal JSON (parse the signed payload, build the encrypted response). -->
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.11.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk18on</artifactId>
+      <version>${bouncycastle.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-cbor</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.crypto.tink</groupId>
+      <artifactId>tink</artifactId>
+      <version>${tink.version}</version>
+    </dependency>
+
+    <!-- Tests -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.2.5</version>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

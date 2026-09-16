@@ -1,0 +1,157 @@
+@model FaceLivenessAttestationBackendSample.Pages.LandingViewModel
+<div class="session-page">
+    <section class="session-card">
+        <div class="session-panel">
+            <div class="qr-block">
+                <img src="@Model.QrDataUri" alt="QR code that opens this session in the mobile app" width="220" height="220" />
+                <p class="qr-hint">Scan with your phone to open the app.</p>
+            </div>
+
+            @if (Model.Platform == "android")
+            {
+                <p>Open the app to run the check now. If it isn't installed yet, this takes you to Google Play.</p>
+                @if (!string.IsNullOrEmpty(Model.ActionUrl))
+                {
+                    <p><a class="store open-app" href="@Model.ActionUrl">Open in app</a></p>
+                }
+            }
+            else if (Model.Platform == "ios")
+            {
+                <p>Open the App Clip to run the check now, or get the full app from the App Store.</p>
+                @if (!string.IsNullOrEmpty(Model.ActionUrl))
+                {
+                    <p><a class="store" href="@Model.ActionUrl">Open App Clip</a></p>
+                }
+            }
+            else
+            {
+                <p>Scan the QR code above with your phone to open the app.</p>
+            }
+
+            <div id="result" class="session-result" role="status" aria-live="polite">
+                <p id="polling" class="polling">Checking session…</p>
+                <p id="result-warning" class="warn" hidden></p>
+                <div id="result-complete" hidden>
+                    <h2>Session complete</h2>
+                    <section id="digest-section" class="result-section" hidden>
+                        <h3>Client digest</h3>
+                        <p class="section-note">
+                            The backend verified that this client digest matches the digest in
+                            the liveness service result below.
+                        </p>
+                        <pre id="client-digest"></pre>
+                    </section>
+                    <section class="result-section">
+                        <h3>Liveness service result (JSON)</h3>
+                        <p class="section-note">This is the raw JSON the Face liveness service returned for the session.</p>
+                        <pre id="service-result"></pre>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <div class="advanced">
+            <button id="advanced-toggle" class="advanced-toggle" type="button" aria-expanded="false">
+                Advanced ▼
+            </button>
+            <div id="advanced-panel" class="advanced-panel" hidden>
+                <div class="launch-details">
+                    <h1>Open in the app</h1>
+                    <p>
+                        This Face Liveness QR Sample opens the mobile sample app. If it didn't open
+                        automatically, use the option above for your device.
+                    </p>
+                    <p class="session-id">Session: <code>@Model.SessionId</code></p>
+                </div>
+                <partial name="_FlowGuide" />
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    (() => {
+        const sessionId = @Html.Raw(JsonSerializer.Serialize(Model.SessionId));
+        const resultPath = @Html.Raw(JsonSerializer.Serialize(Model.ResultPath));
+        const sessionIdParam = @Html.Raw(JsonSerializer.Serialize(Model.SessionIdParam));
+        const resultUrl = new URL(resultPath, window.location.origin);
+        resultUrl.searchParams.set(sessionIdParam, sessionId);
+
+        const polling = document.getElementById('polling');
+        const warning = document.getElementById('result-warning');
+        const complete = document.getElementById('result-complete');
+        const digestSection = document.getElementById('digest-section');
+        const clientDigest = document.getElementById('client-digest');
+        const serviceResult = document.getElementById('service-result');
+        let tries = 0;
+        const maxTries = 600;
+
+        function showWarning(message) {
+            polling.hidden = true;
+            complete.hidden = true;
+            warning.textContent = message;
+            warning.setAttribute('role', 'alert');
+            warning.hidden = false;
+        }
+
+        function scheduleNextPoll() {
+            if (tries < maxTries) {
+                window.setTimeout(poll, 1000);
+            } else {
+                polling.textContent = 'Still waiting… the session may not be complete yet.';
+            }
+        }
+
+        async function poll() {
+            tries += 1;
+            try {
+                const response = await fetch(resultUrl, { cache: 'no-store' });
+                const data = await response.json();
+
+                if (response.ok && data.status === 'done') {
+                    polling.hidden = true;
+                    warning.hidden = true;
+                    complete.hidden = false;
+                    if (data.clientDigest) {
+                        clientDigest.textContent = data.clientDigest;
+                        digestSection.hidden = false;
+                    } else {
+                        digestSection.hidden = true;
+                    }
+                    serviceResult.textContent = JSON.stringify(data.result, null, 2);
+                    return;
+                }
+
+                if (response.ok && data.status === 'pending') {
+                    warning.hidden = true;
+                    polling.hidden = false;
+                    polling.textContent = tries < maxTries
+                        ? 'Waiting for the liveness result…'
+                        : 'Still waiting… the session may not be complete yet.';
+                    scheduleNextPoll();
+                    return;
+                }
+
+                showWarning(data.code === 'DIGEST_MISMATCH'
+                    ? 'Session rejected: the client and service digests are missing or do not match.'
+                    : data.status === 'notfound' ? 'Session not found or expired.'
+                    : data.message || `Could not load result (HTTP ${response.status}).`);
+            } catch {
+                showWarning('Could not load the liveness result.' + (tries < maxTries ? ' Retrying...' : ''));
+                if (tries < maxTries) {
+                    window.setTimeout(poll, 1000);
+                }
+            }
+        }
+
+        const advancedToggle = document.getElementById('advanced-toggle');
+        const advancedPanel = document.getElementById('advanced-panel');
+        advancedToggle.addEventListener('click', () => {
+            const open = advancedToggle.getAttribute('aria-expanded') === 'true';
+            advancedToggle.setAttribute('aria-expanded', String(!open));
+            advancedToggle.textContent = open ? 'Advanced ▼' : 'Advanced ▲';
+            advancedPanel.hidden = open;
+        });
+
+        poll();
+    })();
+</script>

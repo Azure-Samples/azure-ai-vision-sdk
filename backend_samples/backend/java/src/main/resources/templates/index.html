@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Face Liveness — Attestation Backend</title>
+  <link rel="stylesheet" th:href="@{/styles.css}"/>
+</head>
+<body>
+<main>
+  <h1>Face Liveness — Attestation Backend</h1>
+  <p class="lead">
+    Start a liveness session for a native iOS/Android app. The device must pass
+    attestation (App Attest / Key Attestation + Play Integrity) before the Face
+    token is released.
+  </p>
+
+  <div class="error" th:if="${error}" th:text="${error}"></div>
+
+  <form method="post" action="/generate" enctype="multipart/form-data" class="card">
+    <label for="resource">Face resource name</label>
+    <div class="url-field">
+      <span>https://</span>
+      <input id="resource" type="text" name="resource" required placeholder="my-face-resource"/>
+      <span>.cognitiveservices.azure.com</span>
+    </div>
+    <label>Face API key
+      <input type="password" name="apiKey" required autocomplete="off"/>
+    </label>
+    <label>Liveness mode
+      <select name="mode">
+        <option value="Passive">Passive</option>
+        <option value="PassiveActive">PassiveActive</option>
+      </select>
+    </label>
+    <label>Verify image (optional)
+      <input type="file" name="verifyImage" accept="image/*"/>
+    </label>
+    <button type="submit">Start session</button>
+  </form>
+
+  <h2>Attestation configuration</h2>
+  <p class="muted">Presence only — values are never displayed.</p>
+  <table class="card">
+    <thead><tr><th>Variable</th><th>Required</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr th:each="c : ${config}">
+        <td><code th:text="${c.label}"></code></td>
+        <td th:text="${c.required} ? 'required' : 'optional'"></td>
+        <td>
+          <span th:classappend="${c.set} ? 'badge ok' : (${c.required} ? 'badge missing' : 'badge muted')"
+                th:text="${c.set} ? 'Set' : 'Not set'"></span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</main>
+</body>
+</html>

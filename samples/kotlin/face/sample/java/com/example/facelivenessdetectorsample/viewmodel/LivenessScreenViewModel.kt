@@ -146,7 +146,6 @@ class LivenessScreenViewModel(sharedPreferences: SharedPreferences) : ViewModel(
         editor.putString(SharedPrefKeys.LAST_SESSION_APIM_REQ_ID, livenessDetectionSuccess.resultId)
         editor.commit()
         val livenessResult = LivenessResult(livenessDetectionSuccess, null)
-       
         // Once the session is completed, the client does not receive the outcome whether face is live or spoof.
         // You can query the result from your backend service by calling the sessions results API
         // https://aka.ms/face/liveness-session/get-liveness-session-result
@@ -156,7 +155,9 @@ class LivenessScreenViewModel(sharedPreferences: SharedPreferences) : ViewModel(
                 livenessStatus = FaceSessionToken.livenessStatus,
                 livenessFailureReason = null,
                 verificationStatus = FaceSessionToken.verificationStatus,
-                verificationConfidence = FaceSessionToken.verificationMatchConfidence
+                verificationConfidence = FaceSessionToken.verificationMatchConfidence,
+                digest = livenessDetectionSuccess.digest,
+                resultId = livenessDetectionSuccess.resultId
             )
             _resultData.value = result
         }

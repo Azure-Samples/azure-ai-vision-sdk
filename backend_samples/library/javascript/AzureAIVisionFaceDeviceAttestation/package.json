@@ -1,0 +1,45 @@
+{
+  "name": "@azure/ai-vision-face-deviceattestation",
+  "version": "0.0.2",
+  "description": "Azure AI Vision Face device-attestation backend library. Server-side verification for the liveness attestation flow — the backend counterpart to the iOS and Android device-attestation client SDKs.",
+  "homepage": "https://github.com/Azure-Samples/azure-ai-vision-sdk",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "esbuild tests/index.ts --bundle --platform=node --format=cjs --target=node18 --outfile=node_modules/.cache/attestation-tests.cjs && node node_modules/.cache/attestation-tests.cjs",
+    "bundle": "esbuild src/index.ts --bundle --platform=node --format=cjs --target=node18 --legal-comments=none --external:@googleapis/playintegrity --outfile=dist/index.js",
+    "types": "dts-bundle-generator --no-check --out-file dist/index.d.ts src/index.ts",
+    "build": "npm run clean && npm run typecheck && npm run bundle && npm run types",
+    "prepack": "npm run build"
+  },
+  "dependencies": {
+    "@googleapis/playintegrity": "^24.0.0",
+    "asn1js": "^3.0.10",
+    "cbor": "^9.0.2",
+    "pkijs": "^3.4.0",
+    "zod": "^4.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "dts-bundle-generator": "^9.5.1",
+    "esbuild": "^0.28.1",
+    "typescript": "^5"
+  }
+}

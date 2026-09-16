@@ -1,0 +1,81 @@
+@page
+@model FaceLivenessAttestationBackendSample.Pages.IndexModel
+@{
+    ViewData["Title"] = "Start liveness";
+}
+<h1>Azure Face liveness — device-attestation backend (.NET)</h1>
+<p>
+    Start a Face liveness session from a resource + API key, then hand off to the
+    native app (proven genuine via App Attest / Play Integrity) or the fallback
+    landing page.
+</p>
+
+@if (Model.Error is not null)
+{
+    <p class="error">@Model.Error</p>
+}
+
+<form method="post" enctype="multipart/form-data" class="card">
+    <label>
+        Face resource name
+        <span class="resource-endpoint">
+            <span>https://</span>
+            <input name="Resource" value="@Model.Resource" placeholder="my-face-resource" required />
+            <span>.cognitiveservices.azure.com</span>
+        </span>
+    </label>
+    <label>API key
+        <input name="ApiKey" type="password" required />
+    </label>
+    <label>Liveness mode
+        <select name="Mode">
+            <option value="Passive">Passive</option>
+            <option value="PassiveActive">PassiveActive</option>
+        </select>
+    </label>
+    <label>Verify image (optional — creates a detectLivenessWithVerify session)
+        <input name="VerifyImage" type="file" accept="image/*" />
+    </label>
+    <button type="submit">Create session</button>
+</form>
+
+<h2>Attestation / deep-link configuration</h2>
+<p>Presence only — values are never exposed to the browser.</p>
+@if (Model.MissingRequired.Count > 0)
+{
+    <p class="error">Not configured (required): @string.Join(", ", Model.MissingRequired)</p>
+}
+else
+{
+    <p>All required deep-link / attestation variables are configured.</p>
+}
+
+<h3>Required</h3>
+<table class="status">
+    <thead><tr><th>Setting</th><th>Status</th><th>Purpose</th></tr></thead>
+    <tbody>
+        @foreach (var v in Model.RequiredVars)
+        {
+            <tr>
+                <td>@v.Name</td>
+                <td class="@(v.Set ? "yes" : "no")">@(v.Set ? "Set" : "Not set")</td>
+                <td>@v.Purpose</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Optional</h3>
+<table class="status">
+    <thead><tr><th>Setting</th><th>Status</th><th>Purpose</th></tr></thead>
+    <tbody>
+        @foreach (var v in Model.OptionalVars)
+        {
+            <tr>
+                <td>@v.Name</td>
+                <td class="@(v.Set ? "yes" : "muted")">@(v.Set ? "Set" : "Not set")</td>
+                <td>@v.Purpose</td>
+            </tr>
+        }
+    </tbody>
+</table>

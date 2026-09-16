@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>teamID</key>
+	<string>UBF8T346G9</string>
+	<key>destination</key>
+	<string>export</string>
+	<key>method</key>
+	<string>app-store</string>
+	<key>embedOnDemandResourcesAssetPacksInBundle</key>
+	<true/>
+	<key>compileBitcode</key>
+	<false/>
+	<key>uploadBitcode</key>
+	<false/>
+	<key>iCloudContainerEnvironment</key>
+	<string>Production</string>
+	<key>signingStyle</key>
+	<string>manual</string>
+	<key>thinning</key>
+	<string>&lt;none&gt;</string>
+	<key>provisioningProfiles</key>
+	<dict>
+		<key>com.microsoft.azurevisionliveness</key>
+		<string>Azure Vision Liveness Distribution</string>
+		<key>com.microsoft.azurevisionliveness.Clip</key>
+		<string>Azure Vision Liveness Clip Distribution</string>
+	</dict>
+</dict>
+
+</plist>

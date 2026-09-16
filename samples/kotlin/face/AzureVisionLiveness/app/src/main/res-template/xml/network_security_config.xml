@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Template: the @livenessHost@ token is replaced by the Gradle
+     generateNetworkSecurityConfig task. Edit build.gradle.kts to change the host. -->
+<network-security-config>
+    <!-- Base configuration: trust only system certificates, reject user-installed CAs -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+
+    <!-- Domain-specific config for Azure Face API. The @livenessHostDomains@
+         token is expanded by the generateNetworkSecurityConfig Gradle task into
+         one <domain> element per configured liveness host. -->
+    <domain-config cleartextTrafficPermitted="false">
+        @livenessHostDomains@
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </domain-config>
+</network-security-config>

@@ -4,10 +4,10 @@ plugins {
 }
 android {
     namespace = "com.microsoft.azure.ai.vision.facelivenessdetectorsample.dynamicfeature"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 31
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
