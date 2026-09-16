@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>4.1.1</version>
+    <relativePath/>
+  </parent>
+
+  <groupId>com.azure.ai.vision.face</groupId>
+  <artifactId>face-liveness-attestation-backend-sample</artifactId>
+  <version>0.0.1</version>
+  <name>Face Liveness Attestation Backend Sample (Java / Spring Boot)</name>
+  <description>Spring Boot host for the Azure AI Vision Face device-attestation backend library.</description>
+
+  <properties>
+    <java.version>17</java.version>
+    <tomcat.version>11.0.25</tomcat.version>
+    <deviceattestation.version>0.0.2</deviceattestation.version>
+    <zxing.version>3.5.3</zxing.version>
+    <azure.identity.version>1.18.5</azure.identity.version>
+    <redis.authx.version>0.2.0</redis.authx.version>
+  </properties>
+
+  <dependencies>
+      <!-- Built from ../library/java/AzureAIVisionFaceDeviceAttestation by the
+        reactor POM at ../pom.xml; this artifact is not published to a feed. -->
+    <dependency>
+      <groupId>com.azure</groupId>
+      <artifactId>azure-ai-vision-face-deviceattestation</artifactId>
+      <version>${deviceattestation.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-redis</artifactId>
+    </dependency>
+
+    <!-- Entra ID auth for Azure Managed Redis (no access keys). -->
+    <dependency>
+      <groupId>com.azure</groupId>
+      <artifactId>azure-identity</artifactId>
+      <version>${azure.identity.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>redis.clients.authentication</groupId>
+      <artifactId>redis-authx-entraid</artifactId>
+      <version>${redis.authx.version}</version>
+    </dependency>
+
+    <!-- QR code generation for the fallback landing page. -->
+    <dependency>
+      <groupId>com.google.zxing</groupId>
+      <artifactId>core</artifactId>
+      <version>${zxing.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.zxing</groupId>
+      <artifactId>javase</artifactId>
+      <version>${zxing.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>face-liveness-attestation-backend-sample</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

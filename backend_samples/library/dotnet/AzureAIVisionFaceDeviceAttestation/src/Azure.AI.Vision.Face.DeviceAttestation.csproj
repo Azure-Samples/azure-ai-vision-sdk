@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>Azure.AI.Vision.Face.DeviceAttestation</RootNamespace>
+    <AssemblyName>Azure.AI.Vision.Face.DeviceAttestation</AssemblyName>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+
+    <!-- These are self-contained public samples; opt out of the repo-root
+         central package management so dependency versions live inline. -->
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <PropertyGroup Label="NuGet package metadata">
+    <IsPackable>true</IsPackable>
+    <PackageId>Azure.AI.Vision.Face.DeviceAttestation</PackageId>
+    <Version>0.0.2</Version>
+    <Authors>Microsoft Corporation</Authors>
+    <Company>Microsoft Corporation</Company>
+    <Description>Azure AI Vision Face device-attestation backend library. Server-side verification for the liveness attestation flow — the backend counterpart to the iOS and Android device-attestation client SDKs.</Description>
+    <PackageProjectUrl>https://github.com/Azure-Samples/azure-ai-vision-sdk</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>azure;ai;vision;face;liveness;device-attestation;app-attest;play-integrity</PackageTags>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)..\artifacts</PackageOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Apis.PlayIntegrity.v1" Version="1.74.0.3892" />
+    <PackageReference Include="System.Formats.Cbor" Version="10.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Azure.AI.Vision.Face.DeviceAttestation.Tests" />
+  </ItemGroup>
+
+</Project>

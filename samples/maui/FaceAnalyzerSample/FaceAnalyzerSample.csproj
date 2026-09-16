@@ -94,8 +94,8 @@
     <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
     </ItemGroup>
     <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
-        <AndroidMavenLibrary Include="com.azure:azure-ai-vision-face-ui" Version="1.4.8" Repository="Central"
-            JavaArtifact="AzureAIVisionFaceUIWrapper:azure-ai-vision-face-ui:1.4.8"
+        <AndroidMavenLibrary Include="com.azure:azure-ai-vision-face-ui" Version="1.5.0" Repository="Central"
+            JavaArtifact="AzureAIVisionFaceUIWrapper:azure-ai-vision-face-ui:1.5.0"
             Bind="False" />
     </ItemGroup>
     <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">

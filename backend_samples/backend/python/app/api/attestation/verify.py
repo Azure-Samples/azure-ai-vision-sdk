@@ -1,0 +1,29 @@
+"""POST /api/attestation/verify — thin adapter over the attestation library."""
+
+from __future__ import annotations
+
+from fastapi import APIRouter, Request
+from fastapi.responses import JSONResponse
+
+from azure_ai_vision_face_deviceattestation import ROUTES, AttestationVerifyRequest
+
+from ...attestation_service import get_attestation_service
+from ...telemetry.fastapi_telemetry import with_api_telemetry
+
+router = APIRouter()
+ROUTE = ROUTES["verify"]
+
+
+@router.post("/api/attestation/verify")
+@with_api_telemetry(ROUTE)
+async def attestation_verify(request: Request):
+    qp = request.query_params
+    try:
+        body = await request.json()
+    except Exception:
+        body = None
+    req = AttestationVerifyRequest(
+        session_id=qp.get("s"), client_id=qp.get("cid"), system=qp.get("sys"), body=body
+    )
+    outcome = await get_attestation_service().verify(req)
+    return JSONResponse(outcome.body, status_code=outcome.status)

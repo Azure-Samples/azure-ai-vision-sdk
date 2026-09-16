@@ -1,0 +1,15 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "env": { "value": "dev" },
+    "location": { "value": "eastus" },
+    "locationabbr": { "value": "eus" },
+    "iosAppId": { "value": "" },
+    "iosAppClipId": { "value": "" },
+    "androidPackageName": { "value": "" },
+    "androidSha256Fingerprints": { "value": "" },
+    "iosAppStoreUrl": { "value": "" },
+    "androidPlayStoreUrl": { "value": "" }
+  }
+}

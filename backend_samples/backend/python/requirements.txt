@@ -1,0 +1,23 @@
+# --- The attestation library (this repo) ---
+# Install the sibling source directly; this package is not published to a feed.
+-e ../../library/python/AzureAIVisionFaceDeviceAttestation
+
+# --- Web framework ---
+fastapi>=0.110
+uvicorn[standard]>=0.27
+gunicorn>=21.2
+python-dotenv>=1.0
+python-multipart>=0.0.9
+
+# --- Face API calls (create session + poll result) ---
+httpx>=0.27
+
+# --- Landing-page QR code ---
+segno>=1.6
+
+# --- Store (Redis) ---
+redis>=5.0.1
+
+# --- Azure (Managed Redis auth + App Insights) ---
+azure-identity>=1.15
+azure-monitor-opentelemetry>=1.2

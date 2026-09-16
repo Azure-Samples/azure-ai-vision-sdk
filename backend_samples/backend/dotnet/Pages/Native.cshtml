@@ -1,0 +1,18 @@
+@page
+@model FaceLivenessAttestationBackendSample.Pages.NativeModel
+@{
+    ViewData["Title"] = "Liveness";
+}
+@if (Model.Error is not null)
+{
+    <div class="session-page">
+        <section class="session-card session-error">
+            <h1>Session unavailable</h1>
+            <p class="error">@Model.Error</p>
+        </section>
+    </div>
+}
+else
+{
+    <partial name="_Landing" model="Model.Landing" />
+}

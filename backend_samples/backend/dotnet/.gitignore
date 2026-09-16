@@ -1,0 +1,9 @@
+bin/
+obj/
+*.user
+.vs/
+# Deploy artifacts
+publish/
+publish.zip
+# Local-only settings that may contain secrets — never commit.
+appsettings.*.local.json

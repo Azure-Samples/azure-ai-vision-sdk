@@ -1,0 +1,48 @@
+server:
+  port: ${PORT:8080}
+  forward-headers-strategy: framework
+
+spring:
+  application:
+    name: face-liveness-attestation-backend-sample
+  jackson:
+    default-property-inclusion: non_null
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 12MB
+  thymeleaf:
+    cache: false
+
+# Attestation + app configuration, sourced from the deployment environment
+# variables (same names as the other backend samples).
+app:
+  max-cert-size: ${MAX_CERT_SIZE:10240}
+  android-package-name: ${ANDROID_PACKAGE_NAME:}
+  google-service-account-json: ${GOOGLE_SERVICE_ACCOUNT_JSON:}
+  debug-mode: ${DEBUG_MODE:false}
+  allow-device-integrity: ${ALLOW_DEVICE_INTEGRITY:false}
+  allow-basic-integrity: ${ALLOW_BASIC_INTEGRITY:false}
+  # Degraded mode: accept Android registration on the hardware Key Attestation chain
+  # alone when Google is offline (5xx/unreachable) or quota is exceeded (429), and the
+  # revocation list can't be fetched. A malformed/bad token (4xx) never falls back.
+  # Such a cert is trusted only by its own session.
+  allow-android-attestation-when-google-unavailable: ${ALLOW_ANDROID_ATTESTATION_WHEN_GOOGLE_UNAVAILABLE:false}
+  ios-app-id: ${IOS_APP_ID:}
+  ios-applink-app-id: ${IOS_APPLINK_APP_ID:}
+  ios-app-clip-id: ${IOS_APP_CLIP_ID:}
+  android-sha256-cert-fingerprints: ${ANDROID_SHA256_CERT_FINGERPRINTS:}
+  applink-path: ${APPLINK_PATH:/native*}
+  session-token-ttl: ${SESSION_TOKEN_TTL:600}
+  cert-ttl: ${CERT_TTL:604800}
+  face-api-version: ${FACE_API_VERSION:v1.2}
+  use-local-redis: ${USE_LOCAL_REDIS:false}
+  redis-hostname: ${REDIS_HOSTNAME:}
+  redis-port: ${REDIS_PORT:6380}
+  ios-app-store-url: ${IOS_APP_STORE_URL:}
+  android-play-store-url: ${ANDROID_PLAY_STORE_URL:}
+
+logging:
+  level:
+    root: INFO
+    attestation: INFO

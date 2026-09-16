@@ -1,0 +1,987 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 70;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8C020B5A2B0C1086001E72AE /* FaceAnalyzerSampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C020B592B0C1086001E72AE /* FaceAnalyzerSampleApp.swift */; };
+		8C020B5E2B0C1088001E72AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C020B5D2B0C1088001E72AE /* Assets.xcassets */; };
+		8C020B612B0C1088001E72AE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C020B602B0C1088001E72AE /* Preview Assets.xcassets */; };
+		A0CFCFCF410000010000CFCC /* AzureAIVisionFaceUI in Frameworks */ = {isa = PBXBuildFile; productRef = A0CFCFCF410000040000CFCC /* AzureAIVisionFaceUI */; };
+		A0CFCFCF410000020000CFCC /* AzureAIVisionFaceUI in Frameworks */ = {isa = PBXBuildFile; productRef = A0CFCFCF410000050000CFCC /* AzureAIVisionFaceUI */; };
+		A0DA7E540000000000000E04 /* AzureAIVisionFaceDeviceAttestation in Frameworks */ = {isa = PBXBuildFile; productRef = A0DA7E540000000000000E02 /* AzureAIVisionFaceDeviceAttestation */; };
+		A0DA7E540000000000000E05 /* AzureAIVisionFaceDeviceAttestation in Frameworks */ = {isa = PBXBuildFile; productRef = A0DA7E540000000000000E03 /* AzureAIVisionFaceDeviceAttestation */; };
+		A00AE0972DFA6C4B00AC07FE /* ImageSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00AE0942DFA6C4B00AC07FE /* ImageSelectionView.swift */; };
+		A00AE0992DFA6C4B00AC07FE /* ClientStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00AE0922DFA6C4B00AC07FE /* ClientStartView.swift */; };
+		A00AE09A2DFA6C4B00AC07FE /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00AE0932DFA6C4B00AC07FE /* ImagePicker.swift */; };
+		A00AE09B2DFA6C4B00AC07FE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00AE0952DFA6C4B00AC07FE /* SettingsView.swift */; };
+		A00AE09C2DFA6C4B00AC07FE /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00AE0912DFA6C4B00AC07FE /* AppUtility.swift */; };
+		A00AE09D2DFA6C4B00AC07FE /* ImageSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00AE0942DFA6C4B00AC07FE /* ImageSelectionView.swift */; };
+		A00AE09F2DFA6C4B00AC07FE /* ClientStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00AE0922DFA6C4B00AC07FE /* ClientStartView.swift */; };
+		A00AE0A02DFA6C4B00AC07FE /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00AE0932DFA6C4B00AC07FE /* ImagePicker.swift */; };
+		A00AE0A12DFA6C4B00AC07FE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00AE0952DFA6C4B00AC07FE /* SettingsView.swift */; };
+		A00AE0A22DFA6C4B00AC07FE /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00AE0912DFA6C4B00AC07FE /* AppUtility.swift */; };
+		A00AE0A82DFA6C6500AC07FE /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00AE0A42DFA6C6500AC07FE /* MainView.swift */; };
+		A00AE0A92DFA6C6500AC07FE /* SecureInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00AE0A62DFA6C6500AC07FE /* SecureInputView.swift */; };
+		A00AE0AC2DFA6C6500AC07FE /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00AE0A42DFA6C6500AC07FE /* MainView.swift */; };
+		A00AE0AD2DFA6C6500AC07FE /* SecureInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00AE0A62DFA6C6500AC07FE /* SecureInputView.swift */; };
+		A02FF2502E739B7B00CCF08E /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02FF24F2E739B7800CCF08E /* LaunchView.swift */; };
+		A02FF2512E739B7B00CCF08E /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02FF24F2E739B7800CCF08E /* LaunchView.swift */; };
+		A03120B62F3E729F007732EA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A03120B42F3E729F007732EA /* Localizable.strings */; };
+		A03120B72F3E729F007732EA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A03120B42F3E729F007732EA /* Localizable.strings */; };
+		A036041B2DEA4C33000CB0A5 /* AzureVisionLivenessAppClip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = A036040F2DEA4C31000CB0A5 /* AzureVisionLivenessAppClip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A04D62072E691A54003C24FE /* ResultViewFullApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04D62062E691A4F003C24FE /* ResultViewFullApp.swift */; };
+		A04D620B2E691E92003C24FE /* UtilityFullApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04D62092E691E8F003C24FE /* UtilityFullApp.swift */; };
+		A04E76342FD225C70015816B /* AppLinkUIState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04E76232FD225C70015816B /* AppLinkUIState.swift */; };
+		A04E76352FD225C70015816B /* UniversalLinkProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04E761A2FD225C70015816B /* UniversalLinkProcessor.swift */; };
+		A04E76452FD225C70015816B /* AppLinkUIState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04E76232FD225C70015816B /* AppLinkUIState.swift */; };
+		A04E76462FD225C70015816B /* UniversalLinkProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04E761A2FD225C70015816B /* UniversalLinkProcessor.swift */; };
+		A0CE48712FA1343C002C02C1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0CE48692FA13291002C02C1 /* Security.framework */; };
+		B1EA63A32E20581D009453F0 /* MicrosoftLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C020C212C16A8B8001E72AE /* MicrosoftLogoView.swift */; };
+		B1EB63A32E20581D009453F0 /* MicrosoftLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C020C212C16A8B8001E72AE /* MicrosoftLogoView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A03604192DEA4C33000CB0A5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8C020B4E2B0C1086001E72AE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A036040E2DEA4C31000CB0A5;
+			remoteInfo = FaceAnalyzerSampleAppClip;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A08E3D6E2DE8A9EC002432C5 /* Embed App Clips */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/AppClips";
+			dstSubfolderSpec = 16;
+			files = (
+				A036041B2DEA4C33000CB0A5 /* AzureVisionLivenessAppClip.app in Embed App Clips */,
+			);
+			name = "Embed App Clips";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		8C020B562B0C1086001E72AE /* AzureVisionLiveness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AzureVisionLiveness.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C020B592B0C1086001E72AE /* FaceAnalyzerSampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceAnalyzerSampleApp.swift; sourceTree = "<group>"; };
+		8C020B5D2B0C1088001E72AE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8C020B602B0C1088001E72AE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		8C020C172B0CA42B001E72AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8C020C212C16A8B8001E72AE /* MicrosoftLogoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MicrosoftLogoView.swift; path = ../../FaceAnalyzerSample/FaceAnalyzerSample/MicrosoftLogoView.swift; sourceTree = "<group>"; };
+		A00AE0912DFA6C4B00AC07FE /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppUtility.swift; path = ../../FaceAnalyzerSample/FaceAnalyzerSample/AppUtility.swift; sourceTree = "<group>"; };
+		A00AE0922DFA6C4B00AC07FE /* ClientStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ClientStartView.swift; path = ../../FaceAnalyzerSample/FaceAnalyzerSample/ClientStartView.swift; sourceTree = "<group>"; };
+		A00AE0932DFA6C4B00AC07FE /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ImagePicker.swift; path = ../../FaceAnalyzerSample/FaceAnalyzerSample/ImagePicker.swift; sourceTree = "<group>"; };
+		A00AE0942DFA6C4B00AC07FE /* ImageSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ImageSelectionView.swift; path = ../../FaceAnalyzerSample/FaceAnalyzerSample/ImageSelectionView.swift; sourceTree = "<group>"; };
+		A00AE0952DFA6C4B00AC07FE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsView.swift; path = ../../FaceAnalyzerSample/FaceAnalyzerSample/SettingsView.swift; sourceTree = "<group>"; };
+		A00AE0A42DFA6C6500AC07FE /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainView.swift; path = ../../FaceAnalyzerSample/FaceAnalyzerSample/MainView.swift; sourceTree = "<group>"; };
+		A00AE0A62DFA6C6500AC07FE /* SecureInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SecureInputView.swift; path = ../../FaceAnalyzerSample/FaceAnalyzerSample/SecureInputView.swift; sourceTree = "<group>"; };
+		A02FF24F2E739B7800CCF08E /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
+		A03120692F3E729F007732EA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A031206A2F3E729F007732EA /* af-ZA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "af-ZA"; path = "af-ZA.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A031206B2F3E729F007732EA /* am-ET */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "am-ET"; path = "am-ET.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A031206C2F3E729F007732EA /* ar-SA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ar-SA"; path = "ar-SA.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A031206D2F3E729F007732EA /* as-IN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "as-IN"; path = "as-IN.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A031206E2F3E729F007732EA /* az-Latn-AZ */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "az-Latn-AZ"; path = "az-Latn-AZ.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A031206F2F3E729F007732EA /* bg-BG */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "bg-BG"; path = "bg-BG.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120702F3E729F007732EA /* bn-IN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "bn-IN"; path = "bn-IN.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120712F3E729F007732EA /* bs-Latn-BA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "bs-Latn-BA"; path = "bs-Latn-BA.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120722F3E729F007732EA /* ca-ES */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ca-ES"; path = "ca-ES.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120732F3E729F007732EA /* cs-CZ */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "cs-CZ"; path = "cs-CZ.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120742F3E729F007732EA /* da-DK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "da-DK"; path = "da-DK.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120752F3E729F007732EA /* de-DE */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "de-DE"; path = "de-DE.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120762F3E729F007732EA /* el-GR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "el-GR"; path = "el-GR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120772F3E729F007732EA /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120782F3E729F007732EA /* es-ES */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-ES"; path = "es-ES.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120792F3E729F007732EA /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A031207A2F3E729F007732EA /* et-EE */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "et-EE"; path = "et-EE.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A031207B2F3E729F007732EA /* eu-ES */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "eu-ES"; path = "eu-ES.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A031207C2F3E729F007732EA /* fa-IR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fa-IR"; path = "fa-IR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A031207D2F3E729F007732EA /* fi-FI */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fi-FI"; path = "fi-FI.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A031207E2F3E729F007732EA /* fil-PH */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fil-PH"; path = "fil-PH.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A031207F2F3E729F007732EA /* fr-CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-CA"; path = "fr-CA.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120802F3E729F007732EA /* fr-FR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-FR"; path = "fr-FR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120812F3E729F007732EA /* ga-IE */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ga-IE"; path = "ga-IE.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120822F3E729F007732EA /* gl-ES */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "gl-ES"; path = "gl-ES.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120832F3E729F007732EA /* gu-IN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "gu-IN"; path = "gu-IN.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120842F3E729F007732EA /* he-IL */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "he-IL"; path = "he-IL.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120852F3E729F007732EA /* hi-IN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "hi-IN"; path = "hi-IN.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120862F3E729F007732EA /* hr-HR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "hr-HR"; path = "hr-HR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120872F3E729F007732EA /* hu-HU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "hu-HU"; path = "hu-HU.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120892F3E729F007732EA /* id-ID */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "id-ID"; path = "id-ID.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A031208A2F3E729F007732EA /* is-IS */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "is-IS"; path = "is-IS.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A031208B2F3E729F007732EA /* it-IT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "it-IT"; path = "it-IT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A031208C2F3E729F007732EA /* ja-JP */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ja-JP"; path = "ja-JP.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A031208D2F3E729F007732EA /* ka-GE */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ka-GE"; path = "ka-GE.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A031208E2F3E729F007732EA /* kk-KZ */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "kk-KZ"; path = "kk-KZ.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A031208F2F3E729F007732EA /* km-KH */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "km-KH"; path = "km-KH.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120902F3E729F007732EA /* kn-IN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "kn-IN"; path = "kn-IN.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120912F3E729F007732EA /* ko-KR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ko-KR"; path = "ko-KR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120922F3E729F007732EA /* lo-LA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "lo-LA"; path = "lo-LA.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120932F3E729F007732EA /* lt-LT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "lt-LT"; path = "lt-LT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120942F3E729F007732EA /* lv-LV */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "lv-LV"; path = "lv-LV.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120952F3E729F007732EA /* mk-MK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "mk-MK"; path = "mk-MK.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120962F3E729F007732EA /* ml-IN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ml-IN"; path = "ml-IN.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120972F3E729F007732EA /* mr-IN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "mr-IN"; path = "mr-IN.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120982F3E729F007732EA /* ms-MY */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ms-MY"; path = "ms-MY.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120992F3E729F007732EA /* nb-NO */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "nb-NO"; path = "nb-NO.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A031209A2F3E729F007732EA /* ne-NP */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ne-NP"; path = "ne-NP.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A031209B2F3E729F007732EA /* nl-NL */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "nl-NL"; path = "nl-NL.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A031209C2F3E729F007732EA /* nn-NO */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "nn-NO"; path = "nn-NO.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A031209D2F3E729F007732EA /* or-IN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "or-IN"; path = "or-IN.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A031209E2F3E729F007732EA /* pa-IN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pa-IN"; path = "pa-IN.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A031209F2F3E729F007732EA /* pl-PL */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pl-PL"; path = "pl-PL.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120A02F3E729F007732EA /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120A12F3E729F007732EA /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120A22F3E729F007732EA /* ro-RO */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ro-RO"; path = "ro-RO.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120A32F3E729F007732EA /* ru-RU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ru-RU"; path = "ru-RU.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120A42F3E729F007732EA /* sk-SK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "sk-SK"; path = "sk-SK.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120A52F3E729F007732EA /* sl-SI */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "sl-SI"; path = "sl-SI.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120A62F3E729F007732EA /* sq-AL */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "sq-AL"; path = "sq-AL.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120A72F3E729F007732EA /* sr-Cyrl-RS */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "sr-Cyrl-RS"; path = "sr-Cyrl-RS.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120A82F3E729F007732EA /* sr-Latn-RS */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "sr-Latn-RS"; path = "sr-Latn-RS.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120A92F3E729F007732EA /* sv-SE */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "sv-SE"; path = "sv-SE.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120AA2F3E729F007732EA /* ta-IN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ta-IN"; path = "ta-IN.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120AB2F3E729F007732EA /* te-IN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "te-IN"; path = "te-IN.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120AC2F3E729F007732EA /* th-TH */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "th-TH"; path = "th-TH.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120AD2F3E729F007732EA /* tr-TR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "tr-TR"; path = "tr-TR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120AE2F3E729F007732EA /* ug-CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ug-CN"; path = "ug-CN.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120AF2F3E729F007732EA /* uk-UA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "uk-UA"; path = "uk-UA.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120B02F3E729F007732EA /* ur-PK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ur-PK"; path = "ur-PK.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120B12F3E729F007732EA /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "vi-VN"; path = "vi-VN.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120B22F3E729F007732EA /* zh-CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-CN"; path = "zh-CN.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A03120B32F3E729F007732EA /* zh-TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-TW"; path = "zh-TW.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A036040F2DEA4C31000CB0A5 /* AzureVisionLivenessAppClip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AzureVisionLivenessAppClip.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A036042C2DEA5036000CB0A5 /* FaceAnalyzerSample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FaceAnalyzerSample.entitlements; sourceTree = "<group>"; };
+		A04D62062E691A4F003C24FE /* ResultViewFullApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewFullApp.swift; sourceTree = "<group>"; };
+		A04D62092E691E8F003C24FE /* UtilityFullApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityFullApp.swift; sourceTree = "<group>"; };
+		A04E761A2FD225C70015816B /* UniversalLinkProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLinkProcessor.swift; sourceTree = "<group>"; };
+		A04E76232FD225C70015816B /* AppLinkUIState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLinkUIState.swift; sourceTree = "<group>"; };
+		A0CE48692FA13291002C02C1 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		A0CFCFCF300000010000CFCC /* AzureVisionLiveness.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AzureVisionLiveness.xcconfig; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A036041C2DEA4C33000CB0A5 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = A036040E2DEA4C31000CB0A5 /* AzureVisionLivenessAppClip */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		A03604102DEA4C31000CB0A5 /* FaceAnalyzerSampleAppClip */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (A036041C2DEA4C33000CB0A5 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = FaceAnalyzerSampleAppClip; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8C020B532B0C1086001E72AE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A0CFCFCF410000010000CFCC /* AzureAIVisionFaceUI in Frameworks */,
+				A0DA7E540000000000000E04 /* AzureAIVisionFaceDeviceAttestation in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A036040C2DEA4C31000CB0A5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A0CE48712FA1343C002C02C1 /* Security.framework in Frameworks */,
+				A0CFCFCF410000020000CFCC /* AzureAIVisionFaceUI in Frameworks */,
+				A0DA7E540000000000000E05 /* AzureAIVisionFaceDeviceAttestation in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8C020B4D2B0C1086001E72AE = {
+			isa = PBXGroup;
+			children = (
+				A0CFCFCF300000010000CFCC /* AzureVisionLiveness.xcconfig */,
+				A03120B52F3E729F007732EA /* Localization */,
+				8C020B582B0C1086001E72AE /* FaceAnalyzerSample */,
+				A03604102DEA4C31000CB0A5 /* FaceAnalyzerSampleAppClip */,
+				8C020B572B0C1086001E72AE /* Products */,
+				8C020B772B0C11C6001E72AE /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		8C020B572B0C1086001E72AE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8C020B562B0C1086001E72AE /* AzureVisionLiveness.app */,
+				A036040F2DEA4C31000CB0A5 /* AzureVisionLivenessAppClip.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8C020B582B0C1086001E72AE /* FaceAnalyzerSample */ = {
+			isa = PBXGroup;
+			children = (
+				A02FF24F2E739B7800CCF08E /* LaunchView.swift */,
+				A04D62092E691E8F003C24FE /* UtilityFullApp.swift */,
+				A04D62062E691A4F003C24FE /* ResultViewFullApp.swift */,
+				A00AE0A42DFA6C6500AC07FE /* MainView.swift */,
+				A00AE0A62DFA6C6500AC07FE /* SecureInputView.swift */,
+				A00AE0912DFA6C4B00AC07FE /* AppUtility.swift */,
+				A00AE0922DFA6C4B00AC07FE /* ClientStartView.swift */,
+				A00AE0932DFA6C4B00AC07FE /* ImagePicker.swift */,
+				A00AE0942DFA6C4B00AC07FE /* ImageSelectionView.swift */,
+				A00AE0952DFA6C4B00AC07FE /* SettingsView.swift */,
+				A04E761A2FD225C70015816B /* UniversalLinkProcessor.swift */,
+				A04E76232FD225C70015816B /* AppLinkUIState.swift */,
+				A036042C2DEA5036000CB0A5 /* FaceAnalyzerSample.entitlements */,
+				8C020C172B0CA42B001E72AE /* Info.plist */,
+				8C020B5F2B0C1088001E72AE /* Preview Content */,
+				8C020C212C16A8B8001E72AE /* MicrosoftLogoView.swift */,
+				8C020B592B0C1086001E72AE /* FaceAnalyzerSampleApp.swift */,
+				8C020B5D2B0C1088001E72AE /* Assets.xcassets */,
+			);
+			path = FaceAnalyzerSample;
+			sourceTree = "<group>";
+		};
+		8C020B5F2B0C1088001E72AE /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				8C020B602B0C1088001E72AE /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		8C020B772B0C11C6001E72AE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A0CE48692FA13291002C02C1 /* Security.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A03120B52F3E729F007732EA /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				A03120B42F3E729F007732EA /* Localizable.strings */,
+			);
+			name = Localization;
+			path = Resources/Localization;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8C020B552B0C1086001E72AE /* AzureVisionLiveness */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8C020B642B0C1088001E72AE /* Build configuration list for PBXNativeTarget "AzureVisionLiveness" */;
+			buildPhases = (
+				A0CFCFCF300000020000CFCC /* Verify LIVENESS_HOST */,
+				8C020B522B0C1086001E72AE /* Sources */,
+				8C020B532B0C1086001E72AE /* Frameworks */,
+				8C020B542B0C1086001E72AE /* Resources */,
+				A08E3D6E2DE8A9EC002432C5 /* Embed App Clips */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A036041A2DEA4C33000CB0A5 /* PBXTargetDependency */,
+			);
+			name = AzureVisionLiveness;
+			packageProductDependencies = (
+				A0CFCFCF410000040000CFCC /* AzureAIVisionFaceUI */,
+				A0DA7E540000000000000E02 /* AzureAIVisionFaceDeviceAttestation */,
+			);
+			productName = FaceAnalyzerSample;
+			productReference = 8C020B562B0C1086001E72AE /* AzureVisionLiveness.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A036040E2DEA4C31000CB0A5 /* AzureVisionLivenessAppClip */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A036041D2DEA4C33000CB0A5 /* Build configuration list for PBXNativeTarget "AzureVisionLivenessAppClip" */;
+			buildPhases = (
+				A036040B2DEA4C31000CB0A5 /* Sources */,
+				A036040C2DEA4C31000CB0A5 /* Frameworks */,
+				A036040D2DEA4C31000CB0A5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				A03604102DEA4C31000CB0A5 /* FaceAnalyzerSampleAppClip */,
+			);
+			name = AzureVisionLivenessAppClip;
+			packageProductDependencies = (
+				A0CFCFCF410000050000CFCC /* AzureAIVisionFaceUI */,
+				A0DA7E540000000000000E03 /* AzureAIVisionFaceDeviceAttestation */,
+			);
+			productName = FaceAnalyzerSampleAppClip;
+			productReference = A036040F2DEA4C31000CB0A5 /* AzureVisionLivenessAppClip.app */;
+			productType = "com.apple.product-type.application.on-demand-install-capable";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8C020B4E2B0C1086001E72AE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1640;
+				LastUpgradeCheck = 1640;
+				TargetAttributes = {
+					8C020B552B0C1086001E72AE = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					A036040E2DEA4C31000CB0A5 = {
+						CreatedOnToolsVersion = 16.4;
+					};
+				};
+			};
+			buildConfigurationList = 8C020B512B0C1086001E72AE /* Build configuration list for PBXProject "AzureVisionLiveness" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				"zh-Hans",
+				"is-IS",
+				"lt-LT",
+				"or-IN",
+				"az-Latn-AZ",
+				"lo-LA",
+				"zh-TW",
+				"el-GR",
+				"ms-MY",
+				"uk-UA",
+				"it-IT",
+				"kn-IN",
+				"nb-NO",
+				"sr-Latn-RS",
+				"ca-ES",
+				"en-GB",
+				"pa-IN",
+				"eu-ES",
+				"ru-RU",
+				"sr-Cyrl-RS",
+				"ga-IE",
+				"te-IN",
+				"nn-NO",
+				"fr-CA",
+				"tr-TR",
+				"es-ES",
+				"ka-GE",
+				"ar-SA",
+				"fr-FR",
+				"ja-JP",
+				"bg-BG",
+				"ur-PK",
+				"ko-KR",
+				"id-ID",
+				"kk-KZ",
+				"vi-VN",
+				"sq-AL",
+				"ne-NP",
+				"km-KH",
+				"mr-IN",
+				"af-ZA",
+				"fa-IR",
+				"ro-RO",
+				"fi-FI",
+				"hr-HR",
+				"da-DK",
+				"hi-IN",
+				"ta-IN",
+				"bn-IN",
+				"et-EE",
+				"hu-HU",
+				"gu-IN",
+				"bs-Latn-BA",
+				"pt-BR",
+				"lv-LV",
+				"nl-NL",
+				"es-MX",
+				"cs-CZ",
+				"zh-CN",
+				"fil-PH",
+				"ml-IN",
+				"am-ET",
+				"sk-SK",
+				"de-DE",
+				"sl-SI",
+				id,
+				"pl-PL",
+				"as-IN",
+				"sv-SE",
+				"mk-MK",
+				"pt-PT",
+				"gl-ES",
+				"he-IL",
+				"ug-CN",
+				"th-TH",
+				"az-AZ",
+				"bs-BA",
+				"sr-RS",
+			);
+			mainGroup = 8C020B4D2B0C1086001E72AE;
+			packageReferences = (
+				A0CFCFCF410000030000CFCC /* XCRemoteSwiftPackageReference "AzureAIVisionFaceUI" */,
+				A0DA7E540000000000000E01 /* XCLocalSwiftPackageReference "AzureAIVisionFaceDeviceAttestation" */,
+			);
+			productRefGroup = 8C020B572B0C1086001E72AE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8C020B552B0C1086001E72AE /* AzureVisionLiveness */,
+				A036040E2DEA4C31000CB0A5 /* AzureVisionLivenessAppClip */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8C020B542B0C1086001E72AE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C020B612B0C1088001E72AE /* Preview Assets.xcassets in Resources */,
+				A03120B72F3E729F007732EA /* Localizable.strings in Resources */,
+				8C020B5E2B0C1088001E72AE /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A036040D2DEA4C31000CB0A5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A03120B62F3E729F007732EA /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A0CFCFCF300000020000CFCC /* Verify LIVENESS_HOST */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Verify LIVENESS_HOST";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ -z \"${LIVENESS_HOST}\" ] || [ \"${LIVENESS_HOST}\" = '$(LIVENESS_HOST)' ] || [ \"${LIVENESS_HOST}\" = \"example.com\" ]; then\n  echo \"error: LIVENESS_HOST is unset or still the example.com placeholder. Edit AzureVisionLiveness.xcconfig and set it to the host of your liveness backend before building.\" >&2\n  exit 1\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8C020B522B0C1086001E72AE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A00AE0AC2DFA6C6500AC07FE /* MainView.swift in Sources */,
+				A02FF2512E739B7B00CCF08E /* LaunchView.swift in Sources */,
+				A00AE0AD2DFA6C6500AC07FE /* SecureInputView.swift in Sources */,
+				8C020B5A2B0C1086001E72AE /* FaceAnalyzerSampleApp.swift in Sources */,
+				A00AE09D2DFA6C4B00AC07FE /* ImageSelectionView.swift in Sources */,
+				A04D62072E691A54003C24FE /* ResultViewFullApp.swift in Sources */,
+				A04E76342FD225C70015816B /* AppLinkUIState.swift in Sources */,
+				A04E76352FD225C70015816B /* UniversalLinkProcessor.swift in Sources */,
+				A04D620B2E691E92003C24FE /* UtilityFullApp.swift in Sources */,
+				A00AE09F2DFA6C4B00AC07FE /* ClientStartView.swift in Sources */,
+				A00AE0A02DFA6C4B00AC07FE /* ImagePicker.swift in Sources */,
+				A00AE0A12DFA6C4B00AC07FE /* SettingsView.swift in Sources */,
+				A00AE0A22DFA6C4B00AC07FE /* AppUtility.swift in Sources */,
+				B1EA63A32E20581D009453F0 /* MicrosoftLogoView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A036040B2DEA4C31000CB0A5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A02FF2502E739B7B00CCF08E /* LaunchView.swift in Sources */,
+				A00AE0A82DFA6C6500AC07FE /* MainView.swift in Sources */,
+				A00AE0A92DFA6C6500AC07FE /* SecureInputView.swift in Sources */,
+				A04E76452FD225C70015816B /* AppLinkUIState.swift in Sources */,
+				A04E76462FD225C70015816B /* UniversalLinkProcessor.swift in Sources */,
+				A00AE0972DFA6C4B00AC07FE /* ImageSelectionView.swift in Sources */,
+				A00AE0992DFA6C4B00AC07FE /* ClientStartView.swift in Sources */,
+				A00AE09A2DFA6C4B00AC07FE /* ImagePicker.swift in Sources */,
+				A00AE09B2DFA6C4B00AC07FE /* SettingsView.swift in Sources */,
+				A00AE09C2DFA6C4B00AC07FE /* AppUtility.swift in Sources */,
+				B1EB63A32E20581D009453F0 /* MicrosoftLogoView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A036041A2DEA4C33000CB0A5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A036040E2DEA4C31000CB0A5 /* AzureVisionLivenessAppClip */;
+			targetProxy = A03604192DEA4C33000CB0A5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A03120B42F3E729F007732EA /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A03120692F3E729F007732EA /* en */,
+				A031206A2F3E729F007732EA /* af-ZA */,
+				A031206B2F3E729F007732EA /* am-ET */,
+				A031206C2F3E729F007732EA /* ar-SA */,
+				A031206D2F3E729F007732EA /* as-IN */,
+				A031206E2F3E729F007732EA /* az-Latn-AZ */,
+				A031206F2F3E729F007732EA /* bg-BG */,
+				A03120702F3E729F007732EA /* bn-IN */,
+				A03120712F3E729F007732EA /* bs-Latn-BA */,
+				A03120722F3E729F007732EA /* ca-ES */,
+				A03120732F3E729F007732EA /* cs-CZ */,
+				A03120742F3E729F007732EA /* da-DK */,
+				A03120752F3E729F007732EA /* de-DE */,
+				A03120762F3E729F007732EA /* el-GR */,
+				A03120772F3E729F007732EA /* en-GB */,
+				A03120782F3E729F007732EA /* es-ES */,
+				A03120792F3E729F007732EA /* es-MX */,
+				A031207A2F3E729F007732EA /* et-EE */,
+				A031207B2F3E729F007732EA /* eu-ES */,
+				A031207C2F3E729F007732EA /* fa-IR */,
+				A031207D2F3E729F007732EA /* fi-FI */,
+				A031207E2F3E729F007732EA /* fil-PH */,
+				A031207F2F3E729F007732EA /* fr-CA */,
+				A03120802F3E729F007732EA /* fr-FR */,
+				A03120812F3E729F007732EA /* ga-IE */,
+				A03120822F3E729F007732EA /* gl-ES */,
+				A03120832F3E729F007732EA /* gu-IN */,
+				A03120842F3E729F007732EA /* he-IL */,
+				A03120852F3E729F007732EA /* hi-IN */,
+				A03120862F3E729F007732EA /* hr-HR */,
+				A03120872F3E729F007732EA /* hu-HU */,
+				A03120892F3E729F007732EA /* id-ID */,
+				A031208A2F3E729F007732EA /* is-IS */,
+				A031208B2F3E729F007732EA /* it-IT */,
+				A031208C2F3E729F007732EA /* ja-JP */,
+				A031208D2F3E729F007732EA /* ka-GE */,
+				A031208E2F3E729F007732EA /* kk-KZ */,
+				A031208F2F3E729F007732EA /* km-KH */,
+				A03120902F3E729F007732EA /* kn-IN */,
+				A03120912F3E729F007732EA /* ko-KR */,
+				A03120922F3E729F007732EA /* lo-LA */,
+				A03120932F3E729F007732EA /* lt-LT */,
+				A03120942F3E729F007732EA /* lv-LV */,
+				A03120952F3E729F007732EA /* mk-MK */,
+				A03120962F3E729F007732EA /* ml-IN */,
+				A03120972F3E729F007732EA /* mr-IN */,
+				A03120982F3E729F007732EA /* ms-MY */,
+				A03120992F3E729F007732EA /* nb-NO */,
+				A031209A2F3E729F007732EA /* ne-NP */,
+				A031209B2F3E729F007732EA /* nl-NL */,
+				A031209C2F3E729F007732EA /* nn-NO */,
+				A031209D2F3E729F007732EA /* or-IN */,
+				A031209E2F3E729F007732EA /* pa-IN */,
+				A031209F2F3E729F007732EA /* pl-PL */,
+				A03120A02F3E729F007732EA /* pt-BR */,
+				A03120A12F3E729F007732EA /* pt-PT */,
+				A03120A22F3E729F007732EA /* ro-RO */,
+				A03120A32F3E729F007732EA /* ru-RU */,
+				A03120A42F3E729F007732EA /* sk-SK */,
+				A03120A52F3E729F007732EA /* sl-SI */,
+				A03120A62F3E729F007732EA /* sq-AL */,
+				A03120A72F3E729F007732EA /* sr-Cyrl-RS */,
+				A03120A82F3E729F007732EA /* sr-Latn-RS */,
+				A03120A92F3E729F007732EA /* sv-SE */,
+				A03120AA2F3E729F007732EA /* ta-IN */,
+				A03120AB2F3E729F007732EA /* te-IN */,
+				A03120AC2F3E729F007732EA /* th-TH */,
+				A03120AD2F3E729F007732EA /* tr-TR */,
+				A03120AE2F3E729F007732EA /* ug-CN */,
+				A03120AF2F3E729F007732EA /* uk-UA */,
+				A03120B02F3E729F007732EA /* ur-PK */,
+				A03120B12F3E729F007732EA /* vi-VN */,
+				A03120B22F3E729F007732EA /* zh-CN */,
+				A03120B32F3E729F007732EA /* zh-TW */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8C020B622B0C1088001E72AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A0CFCFCF300000010000CFCC /* AzureVisionLiveness.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		8C020B632B0C1088001E72AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A0CFCFCF300000010000CFCC /* AzureVisionLiveness.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8C020B652B0C1088001E72AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FaceAnalyzerSample/FaceAnalyzerSample.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 12345667;
+				DEVELOPMENT_ASSET_PATHS = "\"FaceAnalyzerSample/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UBF8T346G9;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FaceAnalyzerSample/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AzureFaceLiveness;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSCameraUsageDescription = "The app utilizes the device’s camera to showcase its identity verification and liveness detection capabilities.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to photo library.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.4.5;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azurevisionliveness;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Azure Vision Liveness Development";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8C020B662B0C1088001E72AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FaceAnalyzerSample/FaceAnalyzerSample.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 12345667;
+				DEVELOPMENT_ASSET_PATHS = "\"FaceAnalyzerSample/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UBF8T346G9;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FaceAnalyzerSample/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AzureFaceLiveness;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSCameraUsageDescription = "The app utilizes the device’s camera to showcase its identity verification and liveness detection capabilities.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to photo library.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.4.5;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azurevisionliveness;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Azure Vision Liveness Development";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A036041E2DEA4C33000CB0A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FaceAnalyzerSampleAppClip/FaceAnalyzerSampleAppClip.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 12345667;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UBF8T346G9;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FaceAnalyzerSampleAppClip/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AzureFaceLiveness;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSCameraUsageDescription = "The app uses the camera to verify your identity and to confirm you're a real person using a liveness check.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.4.5;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azurevisionliveness.Clip;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Azure Vision Liveness Clip Development";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A036041F2DEA4C33000CB0A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FaceAnalyzerSampleAppClip/FaceAnalyzerSampleAppClip.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 12345667;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UBF8T346G9;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FaceAnalyzerSampleAppClip/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AzureFaceLiveness;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSCameraUsageDescription = "The app uses the camera to verify your identity and to confirm you're a real person using a liveness check.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.4.5;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azurevisionliveness.Clip;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Azure Vision Liveness Clip Development";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8C020B512B0C1086001E72AE /* Build configuration list for PBXProject "AzureVisionLiveness" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8C020B622B0C1088001E72AE /* Debug */,
+				8C020B632B0C1088001E72AE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8C020B642B0C1088001E72AE /* Build configuration list for PBXNativeTarget "AzureVisionLiveness" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8C020B652B0C1088001E72AE /* Debug */,
+				8C020B662B0C1088001E72AE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A036041D2DEA4C33000CB0A5 /* Build configuration list for PBXNativeTarget "AzureVisionLivenessAppClip" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A036041E2DEA4C33000CB0A5 /* Debug */,
+				A036041F2DEA4C33000CB0A5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		A0DA7E540000000000000E01 /* XCLocalSwiftPackageReference "AzureAIVisionFaceDeviceAttestation" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../../../client_libraries/ios/AzureAIVisionFaceDeviceAttestation;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A0CFCFCF410000030000CFCC /* XCRemoteSwiftPackageReference "AzureAIVisionFaceUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Azure/AzureAIVisionFaceUI";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A0CFCFCF410000040000CFCC /* AzureAIVisionFaceUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A0CFCFCF410000030000CFCC /* XCRemoteSwiftPackageReference "AzureAIVisionFaceUI" */;
+			productName = AzureAIVisionFaceUI;
+		};
+		A0CFCFCF410000050000CFCC /* AzureAIVisionFaceUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A0CFCFCF410000030000CFCC /* XCRemoteSwiftPackageReference "AzureAIVisionFaceUI" */;
+			productName = AzureAIVisionFaceUI;
+		};
+		A0DA7E540000000000000E02 /* AzureAIVisionFaceDeviceAttestation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A0DA7E540000000000000E01 /* XCLocalSwiftPackageReference "AzureAIVisionFaceDeviceAttestation" */;
+			productName = AzureAIVisionFaceDeviceAttestation;
+		};
+		A0DA7E540000000000000E03 /* AzureAIVisionFaceDeviceAttestation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A0DA7E540000000000000E01 /* XCLocalSwiftPackageReference "AzureAIVisionFaceDeviceAttestation" */;
+			productName = AzureAIVisionFaceDeviceAttestation;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 8C020B4E2B0C1086001E72AE /* Project object */;
+}

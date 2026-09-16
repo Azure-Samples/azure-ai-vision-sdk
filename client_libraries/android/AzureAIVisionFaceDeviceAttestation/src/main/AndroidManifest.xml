@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- The attestation flow talks to the liveness backend over HTTPS. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+</manifest>

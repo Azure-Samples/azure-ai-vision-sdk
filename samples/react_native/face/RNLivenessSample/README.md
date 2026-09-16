@@ -369,6 +369,12 @@ https://aka.ms/face/liveness-session/get-liveness-session-result
    * for other methods of dependency such as CocoaPods, or other methods of git authentication, please refer to the [FAQ](#faq) section of this document.
 
 6. If Xcode Command Line Tools is never installed on your machine, install it first [following instructions from Apple Developer website](https://developer.apple.com/library/archive/technotes/tn2339/_index.html).
+7. Install the Ruby dependencies with Bundler 2.x before running CocoaPods:
+
+   ```sh
+   gem install bundler -v '>= 2.0.0'
+   bundle install
+   ```
 
 
 ## Step 2: Configure your Xcode Project
@@ -378,7 +384,7 @@ https://aka.ms/face/liveness-session/get-liveness-session-result
    2. In Xcode → Targets → Info → Custom iOS Target Properties, add Privacy - Camera Usage Description.
       ![iOS Permission](README-resources/iOSpermission.png)
    3. Go to ios directory and install pods
-      - cd ios && pod install
+      - cd ios && bundle exec pod install
 
 
 

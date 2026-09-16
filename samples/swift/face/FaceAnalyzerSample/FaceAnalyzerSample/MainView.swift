@@ -29,6 +29,11 @@ class SessionData: ObservableObject {
     @Published var resultDigest: String = ""
     @Published var referenceImageData: Data? = nil
     @Published var callbackUrl: String? = nil
+    /// The liveness backend host resolved for the current QuickLink session —
+    /// taken from the inbound link host (full app) or the `domain` query
+    /// parameter (App Clip), validated against the built-in whitelist. Used to
+    /// target attestation and to same-origin-validate the callbackUrl.
+    @Published var livenessHost: String = ""
     @Published var endpoint: String = "https://your.azure.endpoint.com"
     @Published var key: String = ""
     @Published var token: String? = nil

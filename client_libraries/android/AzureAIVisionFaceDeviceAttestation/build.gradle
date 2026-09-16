@@ -1,0 +1,25 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdkVersion 36
+
+    defaultConfig {
+        minSdkVersion 31
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    namespace 'com.azure.android.ai.vision.face.deviceattestation'
+}
+
+dependencies {
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2'
+    implementation 'com.google.android.play:integrity:1.6.0'
+    implementation 'com.google.crypto.tink:tink-android:1.18.0'
+}

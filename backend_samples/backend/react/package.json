@@ -1,0 +1,40 @@
+{
+  "name": "liveness-web-react",
+  "version": "0.1.0",
+  "private": true,
+  "description": "React (Next.js) backend sample for the Azure Face liveness QuickLink attestation flow. Functionally mirrors the Python backend sample.",
+  "scripts": {
+    "build:attestation": "npm --prefix ../../library/javascript/AzureAIVisionFaceDeviceAttestation ci --include=dev --no-audit --no-fund && npm --prefix ../../library/javascript/AzureAIVisionFaceDeviceAttestation run build",
+    "predev": "npm run build:attestation",
+    "dev": "next dev -p 3000 -H 0.0.0.0",
+    "prebuild": "npm run build:attestation",
+    "build": "next build",
+    "start": "next start",
+    "test": "tsc --outDir node_modules/.cache/result-tests --noEmitOnError --module commonjs --moduleResolution node --target es2022 --esModuleInterop --skipLibCheck tests/session_result.test.ts && node node_modules/.cache/result-tests/tests/session_result.test.js",
+    "lint": "eslint .",
+    "pretypecheck": "npm run build:attestation",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@azure/ai-vision-face-deviceattestation": "file:../../library/javascript/AzureAIVisionFaceDeviceAttestation",
+    "@azure/core-auth": "^1.11.0",
+    "@azure/identity": "4.13.2",
+    "@redis/client": "^1.6.0",
+    "applicationinsights": "^3.16.0",
+    "jose": "^5.10.0",
+    "next": "^16.3.4",
+    "qrcode": "^1.5.4",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^10.9.1",
+    "globals": "^16.4.0",
+    "typescript": "^5",
+    "typescript-eslint": "^8.69.0"
+  }
+}

@@ -1,0 +1,512 @@
+/*
+ * Global styles for the liveness backend sample.
+ *
+ * Rules are scoped under `.index-page` (the token-generation form) and
+ * `.session-page` (the deep-link landing page) so the two pages don't clash.
+ * The landing page injects HTML fragments (result JSON, flow guide) whose
+ * class names must be global, hence a plain global stylesheet rather than
+ * CSS modules.
+ */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, system-ui, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+  background: #0f1220;
+  color: #f5f6fa;
+}
+
+/* ------------------------------------------------------------------ */
+/* Index / token-generation page                                       */
+/* ------------------------------------------------------------------ */
+
+.index-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+}
+.index-page .card {
+  width: 100%;
+  max-width: 760px;
+  padding: 32px;
+}
+.index-page h1 {
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+}
+.index-page p.help {
+  color: #b8bcd0;
+  line-height: 1.5;
+  margin-top: 0;
+}
+.index-page label {
+  display: block;
+  margin: 16px 0 6px;
+  font-weight: 600;
+}
+.index-page input,
+.index-page select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #2a2f45;
+  background: #1c2030;
+  color: #f5f6fa;
+  font-size: 1rem;
+}
+.index-page input[type='file'] {
+  padding: 8px;
+}
+.index-page .url-field {
+  display: flex;
+  align-items: stretch;
+  border-radius: 8px;
+  border: 1px solid #2a2f45;
+  background: #1c2030;
+  overflow: hidden;
+}
+.index-page .url-field .affix {
+  display: flex;
+  align-items: center;
+  padding: 10px 8px;
+  color: #8a8fa8;
+  background: #161a28;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+.index-page .url-field input {
+  border: 0;
+  border-radius: 0;
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+}
+.index-page .hint {
+  color: #8a8fa8;
+  font-size: 0.82rem;
+  margin: 6px 0 0;
+}
+.index-page button {
+  margin-top: 24px;
+  width: 100%;
+  padding: 12px;
+  border: 0;
+  border-radius: 10px;
+  background: #2d6cdf;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.index-page .error {
+  background: #3a1620;
+  color: #ffb3c0;
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+.index-page .row {
+  display: flex;
+  gap: 12px;
+}
+.index-page .row > div {
+  flex: 1;
+}
+.index-page .config {
+  margin-top: 24px;
+  border: 1px solid #2a2f45;
+  border-radius: 10px;
+  padding: 12px 14px;
+  background: #161a28;
+}
+.index-page .config summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #f5f6fa;
+}
+.index-page table.cfg {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+.index-page table.cfg td {
+  padding: 6px 6px;
+  border-top: 1px solid #2a2f45;
+  vertical-align: top;
+  font-size: 0.8rem;
+}
+.index-page .cfg-name {
+  width: 40%;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  color: #9ec1ff;
+  overflow-wrap: anywhere;
+}
+.index-page .cfg-use {
+  color: #b8bcd0;
+}
+.index-page .cfg-doc {
+  color: #9ec1ff;
+  text-decoration: none;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.index-page .cfg-doc:hover {
+  text-decoration: underline;
+}
+.index-page .pill {
+  display: inline-block;
+  padding: 1px 9px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.index-page .pill.ok {
+  background: #16361f;
+  color: #7ee0a3;
+}
+.index-page .pill.miss {
+  background: #3a2a16;
+  color: #ffd28a;
+}
+.index-page .pill.muted {
+  background: #232838;
+  color: #9aa0b8;
+}
+.index-page tr.cfg-group td {
+  padding: 12px 6px 4px;
+  color: #8a8fa8;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ------------------------------------------------------------------ */
+/* Session / deep-link landing page                                    */
+/* ------------------------------------------------------------------ */
+
+.session-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 32px 16px;
+  box-sizing: border-box;
+}
+.session-page .card {
+  width: 100%;
+  max-width: 800px;
+  padding: 8px;
+  text-align: center;
+}
+.session-page .panel {
+  max-width: 520px;
+  margin: 0 auto;
+}
+.session-page h1 {
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+}
+.session-page p {
+  color: #b8bcd0;
+  line-height: 1.5;
+}
+.session-page .store {
+  display: inline-block;
+  margin: 8px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  background: #2d6cdf;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+}
+.session-page .qr {
+  margin: 24px auto 8px;
+}
+.session-page .qr svg,
+.session-page .qr img {
+  display: block;
+  margin: 0 auto;
+  background: #fff;
+  padding: 12px;
+  border-radius: 12px;
+  width: min(320px, 100%);
+  height: auto;
+  aspect-ratio: 1;
+}
+.session-page .qr-hint {
+  margin-top: 12px;
+  font-weight: 600;
+  color: #f5f6fa;
+}
+.session-page .sid code {
+  background: #1c2030;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.session-page .error {
+  background: #3a1620;
+  color: #ffb3c0;
+  padding: 14px 16px;
+  border-radius: 10px;
+}
+.session-page .result {
+  margin-top: 20px;
+  background: #1c2030;
+  border-radius: 12px;
+  padding: 16px;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.session-page .result h2 {
+  margin: 0 0 8px;
+  font-size: 1.2rem;
+  color: #f5f6fa;
+}
+.session-page .result .section {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #2a2f45;
+}
+.session-page .result .section:first-of-type {
+  margin-top: 8px;
+  padding-top: 0;
+  border-top: 0;
+}
+.session-page .result .section h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #9ec1ff;
+  text-align: left;
+}
+.session-page .result .section-note {
+  text-align: left;
+  margin: 4px 0 8px;
+  font-size: 0.78rem;
+  color: #8a8fa8;
+}
+.session-page .result pre {
+  text-align: left;
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 0.8rem;
+  color: #d6dbf0;
+  max-height: 360px;
+  overflow: auto;
+}
+.session-page .result .warn {
+  color: #ffb3c0;
+}
+.session-page .result .polling {
+  color: #b8bcd0;
+}
+.session-page .result .steps {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+  text-align: left;
+}
+.session-page .result .steps li {
+  font-size: 0.85rem;
+  color: #8a8fa8;
+  padding: 3px 0;
+}
+.session-page .result .steps li.done {
+  color: #7ee0a3;
+}
+.session-page .result .steps li .mark {
+  display: inline-block;
+  width: 1.4em;
+}
+.session-page .result .kvs {
+  margin-top: 8px;
+}
+.session-page .result .kv {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 0;
+  border-bottom: 1px dashed #2a2f45;
+  font-size: 0.8rem;
+  text-align: left;
+}
+.session-page .result .kv:last-child {
+  border-bottom: 0;
+}
+.session-page .result .kv .k {
+  color: #9ec1ff;
+  white-space: nowrap;
+}
+.session-page .result .kv .v {
+  color: #d6dbf0;
+  text-align: right;
+  word-break: break-all;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+}
+.session-page .guide {
+  max-width: 640px;
+  margin: 28px auto 0;
+  text-align: left;
+  background: #161a28;
+  border: 1px solid #2a2f45;
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+.session-page .guide-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f5f6fa;
+  cursor: pointer;
+}
+.session-page .guide-intro {
+  font-size: 0.84rem;
+  color: #b8bcd0;
+  margin: 10px 0 4px;
+}
+.session-page .g-step {
+  border-top: 1px solid #2a2f45;
+  padding: 10px 0;
+}
+.session-page .g-step summary {
+  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+}
+.session-page .g-num {
+  background: #2d6cdf;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 6px;
+  padding: 1px 8px;
+  font-size: 0.8rem;
+}
+.session-page .g-api {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  color: #9ec1ff;
+  font-size: 0.8rem;
+}
+.session-page .g-who {
+  color: #8a8fa8;
+  font-size: 0.75rem;
+}
+.session-page .g-row {
+  font-size: 0.82rem;
+  color: #cfd4ea;
+  margin: 8px 0 0;
+  line-height: 1.5;
+}
+.session-page .g-tag {
+  display: inline-block;
+  min-width: 52px;
+  margin-right: 8px;
+  padding: 1px 6px;
+  border-radius: 5px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  vertical-align: top;
+}
+.session-page .g-client {
+  background: #243a5e;
+  color: #9ec1ff;
+}
+.session-page .g-server {
+  background: #2b3a2e;
+  color: #7ee0a3;
+}
+.session-page .g-verify {
+  background: #3a2e1c;
+  color: #ffd28a;
+}
+.session-page .g-note {
+  margin: 14px 0 2px;
+  padding: 12px 14px;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: #ffe1b0;
+  background: #2a2113;
+  border: 1px solid #5a4420;
+  border-radius: 8px;
+}
+.session-page .g-note a {
+  color: #ffd28a;
+}
+.session-page .g-warn {
+  margin: 12px 0 2px;
+  padding: 12px 14px;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: #ffd0d6;
+  background: #2a1620;
+  border: 1px solid #5a2030;
+  border-radius: 8px;
+}
+.session-page .g-warn strong {
+  color: #ffe1e6;
+}
+.session-page .guide code {
+  background: #1c2030;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+}
+.session-page .adv {
+  max-width: 640px;
+  margin: 24px auto 0;
+  text-align: center;
+}
+.session-page .adv-toggle {
+  background: #1c2030;
+  color: #9ec1ff;
+  border: 1px solid #2a2f45;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.session-page .adv-toggle:hover {
+  background: #242a40;
+}
+.session-page .adv-panel {
+  margin-top: 16px;
+}
+.session-page .adv-panel #launch h1 {
+  font-size: 1.1rem;
+}
+.session-page #advanced-live:empty {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .index-page {
+    padding: 16px 8px;
+  }
+  .index-page .card {
+    padding: 20px 12px;
+  }
+  .session-page .qr svg,
+  .session-page .qr img {
+    width: min(260px, 100%);
+  }
+}

@@ -10,12 +10,12 @@ plugins {
 }
 android {
     namespace = "com.microsoft.azure.ai.vision.facelivenessdetectorsample"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.microsoft.azure.ai.vision.facelivenessdetectorsample"
-        minSdk = 24
-        targetSdk = 34
+        minSdk = 31
+        targetSdk = 36
         versionCode = 1
         versionName = "1"
 

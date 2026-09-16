@@ -1,0 +1,19 @@
+// Single source of truth for the AzureVisionLiveness sample backend host.
+// Referenced from:
+//   - FaceAnalyzerSample/FaceAnalyzerSample.entitlements        (applinks:$(LIVENESS_HOST))
+//   - FaceAnalyzerSampleAppClip/FaceAnalyzerSampleAppClip.entitlements (appclips:/applinks:$(LIVENESS_HOST))
+//   - FaceAnalyzerSample/Info.plist and FaceAnalyzerSampleAppClip/Info.plist (LivenessHost = $(LIVENESS_HOST))
+//   - FaceAnalyzerSample/UniversalLinkProcessor.swift reads LivenessHost from Bundle at runtime.
+//
+// Replace `example.com` below with the host of the liveness backend you operate
+// before building. The "Verify LIVENESS_HOST" build phase will fail the build
+// if this is left as the example.com placeholder.
+//
+// This single value drives local single-domain builds. To associate the apps
+// with ONE or MULTIPLE backend domains, run scripts/apply-liveness-hosts.sh with
+// your host list (see scripts/README.md). That script — which lives with this
+// sample, not the CI pipeline — sets LIVENESS_HOST below to the primary (first)
+// host and expands the full list into the associated-domains entitlements + the
+// LivenessHosts Info.plist whitelist (read at runtime by allowedLivenessHosts()).
+// The CI pipeline invokes the same script.
+LIVENESS_HOST = example.com

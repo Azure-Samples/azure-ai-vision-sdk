@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Liveness session</title>
+  <link rel="stylesheet" th:href="@{/styles.css}"/>
+</head>
+<body>
+<main>
+  <h1>Liveness session</h1>
+
+  <div class="error" th:unless="${exists}">Session not found or expired.</div>
+
+  <div th:if="${exists}">
+    <p>Session <code th:text="${sessionId}"></code></p>
+
+    <div class="card">
+      <p>Scan with your phone to open the app:</p>
+      <img th:src="${qr}" alt="QR code" width="240" height="240"/>
+    </div>
+
+    <div class="card" th:if="${platform != 'desktop'}">
+      <p th:if="${platform == 'android'}">Open the app to run the check now. If it isn't installed yet, this takes you to Google Play.</p>
+      <p th:if="${platform == 'ios'}">Open the App Clip to run the check now, or get the full app from the App Store.</p>
+      <a class="button" th:if="${actionUrl != ''}" th:href="${actionUrl}" th:text="${actionLabel}"></a>
+    </div>
+
+    <div class="card">
+      <div id="status" role="status" aria-live="polite">Waiting for the device…</div>
+      <div id="result" hidden>
+        <section>
+          <h2>Client digest</h2>
+          <p class="muted">
+            The backend verified that this client digest matches the digest in
+            the liveness service result below.
+          </p>
+          <pre id="client-digest"></pre>
+        </section>
+        <section>
+          <h2>Liveness service result (JSON)</h2>
+          <p class="muted">Raw JSON returned by the Face liveness service for this session.</p>
+          <pre id="service-result"></pre>
+        </section>
+      </div>
+    </div>
+
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      const pollUrl = /*[[${resultPollUrl}]]*/ '';
+      let tries = 0;
+      const maxTries = 600;
+      async function poll() {
+        tries += 1;
+        const status = document.getElementById('status');
+        try {
+          const response = await fetch(pollUrl, { cache: 'no-store', headers: { accept: 'application/json' } });
+          const data = await response.json();
+          if (response.ok && data.status === 'done') {
+            status.className = '';
+            status.setAttribute('role', 'status');
+            status.textContent = 'Liveness complete.';
+            document.getElementById('client-digest').textContent =
+                typeof data.clientDigest === 'string' ? data.clientDigest : '(not returned)';
+            document.getElementById('service-result').textContent = JSON.stringify(data.result, null, 2);
+            document.getElementById('result').hidden = false;
+            return;
+          }
+          if (!response.ok || data.status !== 'pending') {
+            document.getElementById('result').hidden = true;
+            status.className = 'error';
+            status.setAttribute('role', 'alert');
+            status.textContent = data.code === 'DIGEST_MISMATCH'
+                ? 'Session rejected: the client and service digests are missing or do not match.'
+                : data.status === 'notfound' ? 'Session not found or expired.'
+                : data.message || `Could not load result (HTTP ${response.status}).`;
+            return;
+          }
+          status.className = '';
+          status.setAttribute('role', 'status');
+          status.textContent = tries < maxTries ? 'Waiting for the device…' : 'Still waiting… the session may not be complete yet.';
+        } catch (e) {
+          document.getElementById('result').hidden = true;
+          status.className = 'error';
+          status.setAttribute('role', 'alert');
+          status.textContent = 'Could not load the liveness result.' + (tries < maxTries ? ' Retrying...' : '');
+        }
+        if (tries < maxTries) setTimeout(poll, 1000);
+      }
+      poll();
+      /*]]>*/
+    </script>
+  </div>
+</main>
+</body>
+</html>

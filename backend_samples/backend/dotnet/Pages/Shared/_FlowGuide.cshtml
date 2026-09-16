@@ -1,0 +1,30 @@
+<section class="result-section">
+    <h2>How the API flow works</h2>
+    <ol>
+        <li>
+            <strong>Create a session.</strong> The backend starts a Face liveness session and keeps
+            its token, Face resource, and API key server-side. The mobile app receives the session ID.
+        </li>
+        <li>
+            <strong>Issue a challenge.</strong> The backend binds a fresh challenge to the session,
+            client application, and platform.
+        </li>
+        <li>
+            <strong>Verify or register the device.</strong> A returning device proves possession of
+            its registered key. A new device supplies platform attestation and a signed key exchange.
+        </li>
+        <li>
+            <strong>Release the token.</strong> The backend validates the signed token request and
+            encrypts the Face session token for the verified client.
+        </li>
+        <li>
+            <strong>Submit the digest.</strong> After the mobile SDK runs the liveness session,
+            the client posts its digest in a signed, encrypted request.
+        </li>
+        <li>
+            <strong>Validate the result.</strong> The backend queries the Face service and compares
+            the signed client digest with the service attempt's digest. Only an exact, nonblank match
+            releases the result. Missing or mismatched digests return <code>DIGEST_MISMATCH</code>.
+        </li>
+    </ol>
+</section>
