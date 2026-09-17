@@ -3,11 +3,11 @@
 This project is the Android AzureLiveness app. It uses the local
 [device-attestation client library](../../../../client_libraries/android/AzureAIVisionFaceDeviceAttestation)
 and opens liveness sessions created by any of the
-[backend samples](../../../../backend_samples).
+[backend samples](../../../../backend_samples/OVERVIEW.md).
 
 The backend environment-variable examples in this guide use the Python, Java,
 and Node.js names. For .NET, use the `AppSettings__...` equivalents in the
-[backend configuration table](../../../../backend_samples/README.md#configuration).
+[backend configuration table](../../../../backend_samples/OVERVIEW.md#configuration).
 
 ## App Link location
 
@@ -150,3 +150,26 @@ adb shell am start -a android.intent.action.VIEW -d "https://<backend-host>/nati
 
 If verification fails or the app is not installed, the URL opens the backend's
 browser landing page instead.
+
+### Link Diagnostics
+
+For a GUI check, open **Settings > Apps > Your app > Open by default**
+(or **Set as default**) and inspect **Open supported links** and the listed
+host. Labels vary by device. Manually enabling a domain does not prove its
+website association was verified. This screen does not verify the signing
+certificate fingerprint or Play Integrity.
+
+To request verification again, follow Google's
+[App Links verification guide](https://developer.android.com/training/app-links/verify-applinks).
+On a connected test device, reset the domain-verification state and run:
+
+```shell
+adb shell pm set-app-links --package com.microsoft.azurevisionliveness 0 all
+adb shell pm verify-app-links --re-verify com.microsoft.azurevisionliveness
+adb shell pm get-app-links com.microsoft.azurevisionliveness
+```
+
+Allow the verifier to finish before the last command. Expect the host's
+domain-verification state to be `verified`. A user-selected domain or a
+successful app launch alone does not prove automatic association verification,
+and link verification does not prove attestation succeeded.

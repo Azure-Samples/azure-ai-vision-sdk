@@ -2,7 +2,7 @@
 
 These libraries implement the **client (device) side** of the Azure AI Vision
 Face liveness *device-attestation* flow. They are the mobile counterpart of the
-[backend samples](../backend_samples): the backend releases a Face liveness
+[backend samples](../backend_samples/OVERVIEW.md): the backend releases a Face liveness
 session token **only to a genuine, attested app instance**, and these libraries
 are what prove the device is genuine and then drive the encrypted token/digest
 exchange from the app.
@@ -17,8 +17,8 @@ Node.js backends.
 
 | Platform | Language | Packaging | Library | Sample app |
 | --- | --- | --- | --- | --- |
-| **Android** | Kotlin | Gradle library module (`com.android.library`) | [`android/AzureAIVisionFaceDeviceAttestation`](android/AzureAIVisionFaceDeviceAttestation) | [`AzureLiveness`](../samples/kotlin/face/AzureVisionLiveness) |
-| **iOS** | Swift | Swift Package (SPM) | [`ios/AzureAIVisionFaceDeviceAttestation`](ios/AzureAIVisionFaceDeviceAttestation) | [`AzureLiveness`](../samples/swift/face/AzureVisionLiveness) |
+| **Android** | Kotlin | Gradle library module (`com.android.library`) | [`android/AzureAIVisionFaceDeviceAttestation`](android/AzureAIVisionFaceDeviceAttestation) | [`AzureLiveness`](../samples/kotlin/face/AzureVisionLiveness/OVERVIEW.md) |
+| **iOS** | Swift | Swift Package (SPM) | [`ios/AzureAIVisionFaceDeviceAttestation`](ios/AzureAIVisionFaceDeviceAttestation) | [`AzureLiveness`](../samples/swift/face/AzureVisionLiveness/OVERVIEW.md) |
 
 Both libraries expose the **same interface** — a `DeviceAttestation` entry point
 that runs the attestation flow and hands back an `AttestationSession` that owns
@@ -211,7 +211,7 @@ case .exception(let error): break
 _ = await DeviceAttestation.shared.currentSession()?.submitLivenessDigest(digest)
 ```
 
-See the [iOS sample app README](../samples/swift/face/AzureVisionLiveness/README.md)
+See the [iOS sample app overview](../samples/swift/face/AzureVisionLiveness/OVERVIEW.md)
 for backend-host, Universal Link, and App Clip configuration.
 
 ## Using the libraries in an app
@@ -222,11 +222,11 @@ liveness sample apps in [`../samples`](../samples):
 - **Android** — the sample includes the module by relative path in its
   `settings.gradle.kts` and depends on it as
   `implementation(project(":azure-ai-vision-face-deviceattestation"))`. See
-  the [`AzureLiveness` Android app](../samples/kotlin/face/AzureVisionLiveness).
+  the [`AzureLiveness` Android app](../samples/kotlin/face/AzureVisionLiveness/OVERVIEW.md).
 - **iOS** — the sample adds this directory as a local Swift package dependency
   and links the `AzureAIVisionFaceDeviceAttestation` product to the app (and App
   Clip) target. See
-  the [`AzureLiveness` iOS app](../samples/swift/face/AzureVisionLiveness).
+  the [`AzureLiveness` iOS app](../samples/swift/face/AzureVisionLiveness/OVERVIEW.md).
 
 ## Security notes
 
