@@ -11,19 +11,18 @@ use the [integration quick start](README.md).
 
 ![Scan a QR code or tap a session link, then complete device attestation and start liveness.](../docs/face/qr-to-liveness.svg)
 
-## 1. Links and QR Codes Carry Text
+## 1. Scan a QR Code or Tap a Link
 
-A session link is a web address, such as
-`https://liveness.example.com/native?s=...`. A browser can use it to load a web
-page, while an app set up to handle the link can read the session ID and start
-the check. The value after `s=` identifies the session.
+A session link is a web address for the check, such as
+`https://liveness.example.com/native?s=...`. The value after `s=` is the
+session ID, which identifies the check.
 
-For this flow, a QR code stores the same HTTPS session link as a scannable
-pattern. When a phone's camera app scans it, the code is decoded into that
-link text, equivalent to passing the link directly to the camera app.
+A QR code stores that same link as a scannable pattern. Your camera reads
+the pattern and can offer to open the link.
 
-The camera app can recognize it as a link and offer to open it. When the user
-taps, the phone's app-link and browser rules determine what opens next.
+Whether you tap the session link or open it from a QR scan, your phone
+receives the same web address. Next, it decides: **should this link open
+the app or a webpage?**
 
 <details>
 <summary>Optional: how the same text behaves in different programs</summary>
@@ -43,18 +42,20 @@ chooses whether to print it, open a file, or do something else.
 
 </details>
 
-## 2. How the Phone Chooses App or Browser
+## 2. Your Phone Chooses App or Browser
 
-The website and app must both agree on which links the app handles. The
-website names the allowed app, and the app names the website it handles.
-**Android App Links** and **iOS Universal Links** are the platform features
-that establish this two-sided association.
+To make that choice, the phone checks whether an installed app is allowed
+to open links from that website. The website names the allowed app, and
+the app names the website whose links it handles. This two-sided connection
+is called an **association**, set up using **Android App Links** or
+**iOS Universal Links**.
 
 ![The website names an allowed app, the app declares the website's host, and the phone's OS checks both declarations.](../docs/face/app-link-association.svg)
 
-The phone checks this association and can open a matching installed app
-directly. When the link stays in the browser instead, the website provides
-another way to continue.
+With that connection in place, the phone can open the app and pass it the
+link, so the app can read the session ID and continue the check. If the link
+opens in the browser instead, you reach a webpage. **How does that page
+help you get to the app?**
 
 <details>
 <summary>Technical details: how the app and website are associated</summary>
@@ -88,17 +89,30 @@ and Apple's [associated domains explanation](https://developer.apple.com/documen
 
 </details>
 
-## 3. What the Website Displays
+## 3. The Webpage Helps You Continue
 
-The website's session page is also its **fallback page**: it helps the user
-continue when the link opens in the browser instead of the app. On a computer,
-the page offers a QR code to scan. On a phone, it offers a button to open the
-Android app or an App Clip, a small part of an iOS app that can run without
-installing the full app.
+When the link opens in a browser, design the page to give the user a
+clear next step toward the app. Help users on a computer continue on
+their phone, and help users already on a phone open the app.
+
+Keep the user connected to the same check throughout these steps, even
+when moving from one device to another.
+
+<details>
+<summary>Technical details: webpage actions and link contents</summary>
+
+The webpage offers a way to open the app: **Open in app** on Android, or
+**Open App Clip** on iPhone. An App Clip is a small part of an iOS app that
+runs without installing the full app.
+
+Because this page helps you continue when the link opens in the browser,
+it is called a **fallback page**. It is also the page you can start from
+on a computer, where it shows a QR code to scan with your phone.
 
 ![The website selects a browser presentation: a desktop QR containing the HTTPS session URL, an Android Open in app button, or an iPhone Open App Clip button.](../docs/face/website-platform-actions.svg)
 
-The link carries the session ID, not the **Face session token**, a temporary
+The QR code and buttons carry the same session ID, so the app knows which
+check to continue. They do not carry the **Face session token**, a temporary
 credential that gives the app permission to run the check.
 
 A webpage can use **JavaScript** (code that runs in the browser) to choose
@@ -125,14 +139,22 @@ on the server using information sent by the browser (`User-Agent`), and also
 displays the QR on mobile. This choice affects what the page shows; the phone
 still controls whether a link opens an app.
 
+The next two sections explain how to design these steps so the user has
+a clear route into the app on Android or iPhone.
+
+</details>
+
 ## 4. Android: From Link to Liveness
 
-Scan the QR code or tap the link on your Android phone. It can open the app
-directly, or show a webpage where you tap **Open in app**. If the app needs
-to be installed first, the page can take you to Google Play. Install it,
-then tap **Open**.
+Whether the camera or a browser opens the link, design a clear path to
+your Android app. Let the link open the installed app where possible.
+If a webpage opens instead, give the user an **Open in app** button. If
+the app needs to be installed, guide the user to Google Play and make
+the next action clear: install the app, then tap **Open**.
 
-The app is where you complete the liveness check.
+Each step should lead to the next, so the user can reach the app and
+complete the check. Opening a webpage or the store is an intermediate
+step, not the destination.
 
 <details>
 <summary>Technical details: Android routing and link contents</summary>
@@ -190,15 +212,17 @@ and the [sample's installation recovery](../samples/kotlin/face/AzureVisionLiven
 
 ## 5. iOS: From Link to Liveness
 
-An **App Clip** is a small part of the app that lets you do the check without
-installing the full app.
+Design the iPhone route with the same goal: each starting point should
+guide the user into your app or **App Clip**, a small part of the app that
+runs without installing the full app.
 
-Scan the QR code or tap the link on your iPhone. If the app is installed,
-it can open directly. Otherwise, the phone can offer an App Clip card;
-tap **Open** to continue.
+For a QR scan, set up the link so iOS can open the installed app or offer
+an App Clip card, where the user taps **Open**. For someone already on
+your website in Safari, provide an **Open App Clip** button to start
+that route.
 
-If you are already on the website in Safari, tap **Open App Clip** to
-start the check from that page.
+Connect each route to the check in your app or App Clip, with a clear
+action for the user whenever another step is needed.
 
 <details>
 <summary>Technical details: iOS routing and link contents</summary>
@@ -262,6 +286,14 @@ and the [App Clip integration steps](README.md#52-use-an-app-clip).
 
 ## 6. After Handoff: Attestation and Liveness
 
+Once the user reaches the app, the backend checks that the app is genuine
+and unmodified, and that the phone's software is unmodified and meets your
+security requirements. Only after these checks pass can the app establish
+an **encrypted session with the backend** for the liveness check.
+
+<details>
+<summary>Technical details: attestation, encryption, and result checks</summary>
+
 **Device attestation** helps check that the phone's software has not been
 tampered with and that the app is genuine and unmodified. These checks use
 security evidence from Android or iOS and depend on the platform and your
@@ -294,7 +326,12 @@ check passed. Your flow can then continue in the app or return the user to
 the browser.
 
 See the [full session pipeline](README.md#session-pipeline) for the detailed
-sequence.
+sequence. For more on attestation, see:
+
+- [How the backend verifies Android and iOS attestation](OVERVIEW.md#how-attestation-establishes-trust).
+- [Client attestation, encryption, and signing flow](../client_libraries/OVERVIEW.md#the-attestation-flow-client-side).
+
+</details>
 
 ## Next: Integrate It
 
