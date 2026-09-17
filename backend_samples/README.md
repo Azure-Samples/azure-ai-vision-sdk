@@ -1,383 +1,572 @@
-# Azure AI Vision Face — Liveness Attestation Backend Samples
+# Azure Face Liveness: Integration Quick Start
 
-These samples show how to build the **server side** of the Azure AI Vision Face
-liveness *device-attestation* flow. The backend sits between a native mobile
-client (iOS / Android) and the Azure Face service, and its job is to release a
-Face liveness session token **only to a genuine, attested app instance**, then
-relay the final liveness result back to the browser.
+Use this guide to start a Face liveness check from your website, complete it
+in your mobile app, and verify the result on your backend. Device attestation
+checks the app and device before the backend releases a Face session token.
 
-The same backend is implemented in .NET, Java, Python, and Node.js, each
-pairing a small, framework-agnostic attestation library with a runnable web
-sample. All four share the same endpoints, wire protocol, and flow, allowing
-you to adopt whichever stack best fits your environment.
+## Integration Parts
 
-## The four languages
+You connect **three parts of your application**:
 
-| Language | Framework | Sample | Reusable library |
-| --- | --- | --- | --- |
-| **.NET (C#)** | ASP.NET Core | [`backend/dotnet`](backend/dotnet) | [`library/dotnet`](library/dotnet/AzureAIVisionFaceDeviceAttestation) |
-| **Java** | Spring Boot (Java 17) | [`backend/java`](backend/java) | [`library/java`](library/java/AzureAIVisionFaceDeviceAttestation) |
-| **Python** | FastAPI | [`backend/python`](backend/python) | [`library/python`](library/python/AzureAIVisionFaceDeviceAttestation) |
-| **Node.js** | Next.js (TypeScript, React) | [`backend/react`](backend/react) | [`library/javascript`](library/javascript/AzureAIVisionFaceDeviceAttestation) |
-
-Each library is **framework-agnostic** (no web framework coupling),
-**environment-free** (reads no environment variables), **storage-agnostic** (you
-inject a `ClusterStore`), and **telemetry-injected** (you inject a logger). The
-sample is the thin host that wires the library to a web framework, a store
-(Redis or in-memory), configuration, and telemetry.
-
-## Repository layout
-
-```
-backend_samples/
-├── backend/                # Four runnable web samples (the host apps)
-│   ├── dotnet/             #   ASP.NET Core
-│   ├── java/               #   Spring Boot
-│   ├── python/             #   FastAPI
-│   ├── react/              #   Next.js
-│   └── pom.xml             #   Maven aggregator (builds Java library + sample)
-└── library/                # The reusable attestation library, one per language
-    ├── dotnet/
-    ├── java/
-    ├── javascript/
-    └── python/
-```
-
-## Basic flow
-
-The backend brokers trust between the mobile client SDK and the Azure Face
-service. A device must prove it is a genuine, unmodified app instance (via
-**App Attest** on iOS, **Key Attestation + Play Integrity** on Android) before
-the backend will hand out a Face liveness session token.
-
-```mermaid
-sequenceDiagram
-   participant Website as Sample website
-    participant App as Mobile app (iOS / Android)
-    participant Backend as Backend sample
-    participant Face as Azure Face service
-
-   Note over Website,Face: 1. Create session on the website
-   Website->>Backend: Submit Face resource + API key
-    Backend->>Face: createSession
-    Face-->>Backend: sessionId + auth token
-   Backend-->>Website: Session page with QR / App Link
-   Website-->>App: Open link with sessionId
-
-    Note over App,Backend: 2. Prove the device is genuine
-    App->>Backend: POST /api/attestation/challenge
-   Backend-->>App: one-time challengeHash
-   App->>Backend: POST /api/attestation/register + client encryption cert (first run)
-    Note right of Backend: Verify App Attest /<br/>Key Attestation + Play Integrity
-   App->>Backend: POST /api/attestation/verify + client encryption cert (returning device)
-   Backend-->>App: per-session server encryption public key
-
-    Note over App,Backend: 3. Release the Face token — only to attested devices
-   App->>Backend: POST /api/session/token (encrypted + signed)
-   Backend-->>App: Face token encrypted to client session key
-
-    Note over App,Face: 4. Run the liveness check
-    App->>Face: Run Face liveness with the token
-    App->>Backend: POST /api/liveness/digest  (signed result digest)
-
-   Note over Website,Face: 5. Return the outcome
-   App->>Website: Open validated result callback (if provided)
-   Website->>Backend: GET /api/session/result
-    Backend->>Face: Poll result (server-held credentials)
-    Face-->>Backend: liveness decision
-   Backend-->>Website: final result
-```
-
-Step by step:
-
-1. **Create session** — on the sample website, the user enters the Face resource
-   and API key to start a liveness session. The backend calls the Face service's
-   `createSession`, keeps the credentials and auth token **server-side only**,
-   and shows a QR code or App Link containing only the session ID.
-2. **Challenge** — `POST /api/attestation/challenge` returns a one-time
-   `challengeHash` that binds the following attestation to this session.
-3. **Register / Verify** — on first run the device sends full hardware
-   attestation to `POST /api/attestation/register`; a returning device uses the
-   cheaper `POST /api/attestation/verify`. The backend validates the attestation
-   and stores the device's public certificate.
-4. **Session token** — `POST /api/session/token` releases the **encrypted** Face
-   liveness token, but only to a device that passed attestation.
-5. **Liveness digest** — after running the Face liveness check, the client
-   submits a signed/encrypted digest to `POST /api/liveness/digest`.
-6. **Result** — the app opens the validated result callback in the browser when
-   one is provided. The browser polls `GET /api/session/result`; the backend
-   queries the Azure Face service with the server-held credentials and returns
-   the final liveness decision to the browser. The Face subscription key is not
-   sent to the mobile app and is used only for server-side
-   session creation and result polling.
-
-### How attestation establishes trust
-
-The protocol binds four things together: the backend session, a hardware-backed
-device key, the genuine app identity, and each request that can release or
-submit liveness data.
-
-**Android trust chain**
-
-```mermaid
-flowchart TB
-   subgraph ServerTrust["Server trust inputs"]
-      direction LR
-      AndroidRoot["Pinned Google hardware root<br/>Trust only Google attestation chains"]
-      PlayIntegrity["Google Play Integrity verdict<br/>Reject an unrecognized app or device failing policy"]
-      Challenge["Stored one-time challengeHash<br/>Reject a proof replayed from another session"]
-   end
-
-   AuthCert["Validated Key Attestation leaf<br/>identifies the hardware-backed authentication key"]
-   TrustedAuth["Backend trusts this device key<br/>for the current session"]
-   Payload["Register / verify payload signed by hardware key<br/>includes client encryption certificate"]
-   ClientCert["Accepted per-session client encryption certificate<br/>private key remains on device"]
-   ServerKey["Backend creates one session key pair<br/>and returns only its public key over HTTPS"]
-
-   AndroidRoot -->|"proves the certificate chain came from Google"| AuthCert
-   PlayIntegrity -->|"SHA-256(leaf DER) ties the verdict to this exact key"| AuthCert
-   Challenge -->|"KeyMint challenge proves it is fresh for this session"| AuthCert
-   AuthCert -->|"hardware, app/device, and freshness checks pass"| TrustedAuth
-   TrustedAuth -->|"matching private key signs the request"| Payload
-   Challenge -->|"request carries the same session challenge"| Payload
-   Payload -->|"trusted device chose this encryption key"| ClientCert
-   ClientCert -->|"trusted key exchange complete"| ServerKey
-```
-
-**iOS trust chain**
-
-```mermaid
-flowchart TB
-   subgraph ServerTrust["Server trust inputs"]
-      direction LR
-      AppleRoot["Pinned Apple App Attest root<br/>Trust only Apple-issued credentials"]
-      AppIdentity["Expected app and environment<br/>Reject another app or unapproved build"]
-      Challenge["Stored one-time challengeHash<br/>Reject a proof replayed from another session"]
-   end
-
-   CredentialCert["Apple-issued App Attest credential<br/>trusted for this app and session"]
-   Assertion["Verified App Attest assertion<br/>registration: binds the request signer<br/>verify: binds the request payload directly"]
-   Payload["Register / verify payload<br/>contains client encryption certificate"]
-   ClientCert["Accepted per-session client encryption certificate<br/>private key remains on device"]
-   ServerKey["Backend creates one session key pair<br/>and returns only its public key over HTTPS"]
-
-   AppleRoot -->|"credential chain ends at Apple"| CredentialCert
-   AppIdentity -->|"proof is for this app and an approved environment"| CredentialCert
-   Challenge -->|"credential nonce matches this session"| CredentialCert
-   CredentialCert -->|"verifies the assertion signature"| Assertion
-   Assertion -->|"carries Apple-attested trust into this request"| Payload
-   Challenge -->|"request carries the same session challenge"| Payload
-   Payload -->|"proves the attested app approved this encryption key"| ClientCert
-   ClientCert -->|"trusted key exchange complete"| ServerKey
-```
-
-#### One-time challenge
-
-The challenge endpoint derives a 32-byte `challengeHash` from fresh random data,
-stores it with the session, client ID, and platform, and returns it once. The
-client must use those exact challenge bytes in its platform attestation. The
-backend rejects an attestation whose embedded challenge does not match the
-stored value, preventing a proof from another session from being replayed.
-
-#### Android registration
-
-The app creates a hardware-backed Android Keystore signing key with the
-`challengeHash` as the Key Attestation challenge. Android places it in the leaf
-certificate's KeyMint/Keymaster attestation extension. Registration sends that
-certificate, its hardware attestation chain, and a Play Integrity token. The
-registration payload is also signed with the corresponding private key to prove
-key possession.
-
-The backend requires the authentication certificate to be the attestation
-chain's leaf, checks the embedded challenge, and validates every chain signature
-to a pinned Google Hardware Attestation root. Root pinning establishes that the
-chain came from Google's hardware-attestation PKI; otherwise an attacker could
-create a root and claim that a software key is hardware-backed.
-
-The backend also requires the Play Integrity `requestHash` to equal
-`hex(SHA-256(authentication certificate DER))`. This binds Google's recognized
-app and device-integrity verdict to that exact certificate. Without the match,
-a valid Play Integrity token from another key or registration could be paired
-with the presented certificate. Certificate validity and revocation are checked
-as well.
-
-#### iOS registration
-
-The app passes the `challengeHash` to App Attest as the `clientDataHash`. The
-backend validates the chain to the pinned Apple App Attest root, preventing an
-attacker from supplying its own root and credential. It also checks that the
-`rpIdHash` identifies the configured `IOS_APP_ID` (`AppSettings__IosAppId` on
-.NET), that the AAGUID passes the production/development policy, and that the
-credential certificate contains the expected nonce:
-
-`SHA-256(authenticatorData || challengeHash bytes)`
-
-The nonce binds the Apple credential to this session and prevents replay. The
-request-signing certificate is a separate Secure Enclave certificate; it is not
-directly issued or attested by Apple. The app therefore creates an App Attest
-assertion over its hash. Verifying that assertion with the Apple credential
-binds the exact request-signing key to the attested app and prevents another
-key from being substituted. The attestation and assertion are sent together in
-the registration call.
-
-#### Signed authenticated calls
-
-Android signs each authenticated request (`register`, `verify`, `token`, and
-`digest`) with its hardware-attested authentication key. The backend first
-verifies the certificate chain and that the Play Integrity token is bound to
-the same certificate, then trusts signatures from that key.
-
-iOS signs the same requests with its registered device authentication key.
-Registration uses an App Attest assertion to bind that key to the
-Apple-attested key; later `verify`, `token`, and `digest` calls include fresh
-assertions, keeping the Apple attestation proof attached to each request.
-
-#### Per-session encryption
-
-During registration or returning-device verification, the device generates a
-fresh P-256 encryption key pair and sends its short-lived public certificate
-inside the authentication-key-signed payload. The backend accepts it only after
-the attestation proof passes, then generates one P-256 key pair for the session
-and returns its public key over HTTPS. Neither private key crosses the network.
-
-For token and digest calls, the device encrypts the payload to the server key
-with Tink-compatible ECIES (P-256 ECDH, HKDF-SHA-256, and AES-256-GCM), then
-signs the ciphertext with its authentication key. iOS also adds a fresh App
-Attest assertion over the same bytes. The backend verifies these proofs before
-decrypting, and encrypts its response to the device's ephemeral public key so
-only that device can read the Face token or digest acknowledgement.
-
-In the normal successful flow, each recipient public key is used exactly twice:
-the server key encrypts the token and digest requests, while the device
-certificate's key encrypts the token response and digest acknowledgement. That
-is **two encrypted API calls and four ciphertexts per session**. Each ECIES
-ciphertext also uses a fresh per-message sender key.
-
-The recipient keys are single-session, not single-message. The client destroys
-its ephemeral key after the digest or when the session is replaced, while the
-backend key expires with session state. This payload encryption complements,
-rather than replaces, HTTPS.
-
-### Shared API surface
-
-Every sample exposes the same endpoints:
-
-| Endpoint | Method | Purpose |
+| Part | Responsibility | What You Add |
 | --- | --- | --- |
-| `/api/attestation/challenge` | POST | Issue a one-time attestation nonce |
-| `/api/attestation/register` | POST | First-run device attestation (App Attest / Key Attestation + Play Integrity) |
-| `/api/attestation/verify` | POST | Returning-device attestation check |
-| `/api/session/token` | POST | Release the encrypted Face liveness token to an attested device |
-| `/api/liveness/digest` | POST | Accept the signed liveness result digest from the device |
-| `/api/session/result` | GET | Poll the Face service and return the final decision |
-| `/.well-known/apple-app-site-association` | GET | iOS Universal Link binding (generated from config) |
-| `/.well-known/assetlinks.json` | GET | Android App Link binding (generated from config) |
-| `/healthz` | GET | Health probe |
+| Website | Requests a session from your backend and presents a launch link or QR code. | Calls to your backend; no attestation library runs in the browser. |
+| Backend | Creates and stores sessions, verifies attestation, releases tokens, and validates results. | One backend attestation library, your storage implementation, and calls to Azure Face. |
+| Mobile app | Opens the session link, attests, runs liveness, and submits its digest. | The client attestation library **and** the separate Face liveness UI SDK. |
 
-## Mobile apps and backend binding
+Choose one backend language and integrate Android, iOS, or both. An optional
+iOS [App Clip](#52-use-an-app-clip) provides the mobile flow without installing
+the full app; [Play installation recovery](#51-resume-after-google-play-installation)
+can continue an Android session after installation.
 
-Every backend works with both AzureLiveness mobile apps through the matching
-[device-attestation client library](../client_libraries):
+## Session Pipeline
 
-| Platform | Mobile app | Backend host configuration in the app |
+At runtime, each session follows this sequence:
+
+1. **[Create the session](#13-create-sessions-and-launch-links):** The website asks your backend to start liveness.
+   The backend creates a session with Azure Face, stores its ID and token,
+   and returns a launch link containing the session ID, never the token.
+2. **Open the app:** The user taps the link or scans its QR code.
+   [Android App Links](#23-configure-and-check-android-app-links-on-the-backend)
+   or [iOS Universal Links](#33-configure-and-check-ios-universal-links-on-the-backend)
+   route it to your app. Configure both the backend and app; link handling
+   does not attest the app.
+3. **Attest and obtain the token:** The [Android](#21-configure-android-identity-and-play-integrity)
+   or [iOS](#31-configure-ios-identity-and-app-attest) attestation library sends
+   app and device proof to your [backend APIs](#12-expose-the-attestation-endpoints).
+   The backend verifies it before releasing the encrypted Face session token.
+4. **Run liveness:** Your app passes the token to the Face liveness UI SDK.
+   That SDK captures and submits the liveness data to Azure Face and returns
+   a digest, a fingerprint of the submitted payload.
+5. **Submit the client digest:** Your app sends that digest to your backend
+   through the attestation library, using the same authenticated session.
+   See the [Android](#25-run-attestation-and-liveness) or
+   [iOS runtime flow](#35-run-attestation-and-liveness) for steps 3-5.
+6. **[Validate and use the result](#14-validate-the-liveness-result):** Your backend retrieves the Face result
+   for the same session and **requires its digest to match the client digest**.
+   Reject missing or mismatched digests. Matching binds the Face result to
+   the attested client's submission; then use the result's liveness decision
+   in your business workflow. A match alone does not mean liveness passed.
+
+## Integration Roadmap
+
+Follow this implementation order. Complete the shared backend work, then the
+mobile platforms you support.
+
+1. **Prepare:** Complete the [prerequisites](#prerequisites) and collect the
+   configuration values listed in [backend setup](#11-configure-the-library-and-storage).
+2. **Integrate the backend and website:** Configure the [library and storage](#11-configure-the-library-and-storage),
+   expose the [attestation endpoints](#12-expose-the-attestation-endpoints),
+   then implement [session creation and launch links](#13-create-sessions-and-launch-links)
+   and [result validation](#14-validate-the-liveness-result).
+3. **Integrate your mobile app:** Follow [Android](#2-android-integration),
+   [iOS](#3-ios-integration), or both, in section order: app identity,
+   libraries and permissions, link configuration on the backend and app,
+   then the attestation and liveness flow.
+4. **Verify the core flow:** [Run one complete session](#4-verify-one-complete-session)
+   on a supported physical device and check the documented failure cases.
+5. **Add optional installation flows:** Configure [Play installation recovery](#51-resume-after-google-play-installation)
+   or an [App Clip](#52-use-an-app-clip) if needed, then repeat the
+   complete-session checks for each flow.
+6. **Prepare for production:** Complete the [Before Shipping](#before-shipping)
+   checklist.
+
+## Prerequisites
+
+- Have an Azure Face resource enabled for liveness and access to the Face
+   liveness UI SDK. The attestation library does not replace that SDK.
+- Use a publicly reachable HTTPS backend. Replace `liveness.example.com` and
+   all example app identifiers with your values.
+- Test with signed apps on physical devices: Android 12+ or iOS 15+ with App
+   Attest support. iOS development requires macOS and Xcode.
+- Keep Face and Google service-account credentials on the backend. Never put
+   them or the Face session token in a browser bundle, log, QR code, or link.
+
+**Local development:** Set the backend configuration's `debugMode` to `true`
+to support locally installed development builds (`DebugMode` in .NET,
+`debug_mode` in Python). This is not a mobile initialization parameter and
+does not disable attestation. Keep it `false` in production; see the
+[development-policy reference](OVERVIEW.md#local-development-policy) for details.
+
+## 1. Backend and Website Integration
+
+### 1.1. Configure the Library and Storage
+
+Choose one language and add its local source library using the sample's
+dependency mechanism. Do not assume these packages are on a public feed.
+
+| Backend | Library to Add | Integration Example |
 | --- | --- | --- |
-| **Android** | [`AzureLiveness` Android app](../samples/kotlin/face/AzureVisionLiveness) | Set `LIVENESS_HOST` or the Gradle `livenessHost` property; the build adds an HTTPS `autoVerify` intent filter for that host and `/native` |
-| **iOS** | [`AzureLiveness` iOS app](../samples/swift/face/AzureVisionLiveness) | Set `LIVENESS_HOST` in [`AzureVisionLiveness.xcconfig`](../samples/swift/face/AzureVisionLiveness/AzureVisionLiveness.xcconfig); the build signs `applinks:<host>` into the app's associated-domains entitlement |
+| .NET | [library/dotnet/AzureAIVisionFaceDeviceAttestation](library/dotnet/AzureAIVisionFaceDeviceAttestation), as a project reference | [backend/dotnet/Program.cs](backend/dotnet/Program.cs) |
+| Java | [library/java/AzureAIVisionFaceDeviceAttestation](library/java/AzureAIVisionFaceDeviceAttestation), as a built Maven dependency | [backend/pom.xml](backend/pom.xml) and [backend/java/pom.xml](backend/java/pom.xml) |
+| Python | [library/python/AzureAIVisionFaceDeviceAttestation](library/python/AzureAIVisionFaceDeviceAttestation), as a local package or built wheel | [backend/python/app/attestation_service.py](backend/python/app/attestation_service.py) |
+| Node.js / TypeScript | [library/javascript/AzureAIVisionFaceDeviceAttestation](library/javascript/AzureAIVisionFaceDeviceAttestation), as a built local npm package | [backend/react/app/_lib/attestation_service.ts](backend/react/app/_lib/attestation_service.ts) |
 
-App Links and Universal Links bind a signed app to a backend's HTTPS domain by
-making both sides name each other:
+Prepare an `AttestationConfig` before creating the service. **The library does
+not read environment variables:** your application supplies the configuration.
+This guide uses Java/TypeScript field names; use your language's definition
+for all fields and defaults:
+[.NET](library/dotnet/AzureAIVisionFaceDeviceAttestation/src/Configuration/AttestationConfig.cs),
+[Java](library/java/AzureAIVisionFaceDeviceAttestation/src/main/java/com/azure/ai/vision/face/deviceattestation/config/AttestationConfig.java),
+[Python](library/python/AzureAIVisionFaceDeviceAttestation/azure_ai_vision_face_deviceattestation/config.py),
+[TypeScript](library/javascript/AzureAIVisionFaceDeviceAttestation/src/config.ts).
 
-1. **The app names the backend.** Android declares the backend host and
-   `/native` path in an `android:autoVerify="true"` intent filter. iOS declares
-   `applinks:<host>`; its App Clip also declares `appclips:<host>`.
-2. **The backend names the app.** Set `ANDROID_PACKAGE_NAME` and
-   `ANDROID_SHA256_CERT_FINGERPRINTS` for Android. Set `IOS_APPLINK_APP_ID`
-   (`TeamID.BundleID`) for iOS, or let it fall back to `IOS_APP_ID`; set
-   `IOS_APP_CLIP_ID` when using the App Clip. The backend generates the two
-   association documents from these values. For .NET, use the equivalent
-   environment-variable names in [Configuration](#configuration).
-3. **The operating system verifies both claims.** Android fetches
-   `https://<host>/.well-known/assetlinks.json` and matches its package name and
-   signing-certificate fingerprints. iOS fetches
-   `https://<host>/.well-known/apple-app-site-association` and matches the app
-   ID and `APPLINK_PATH` (default `/native*`). The files must be publicly
-   available over HTTPS on the same host configured in the app.
-4. **The verified link starts the mobile flow.** After creating and storing a
-   Face session, the backend produces `https://<host>/native?s=<session-id>`;
-   the QR code also carries a browser result callback. The OS opens the verified
-   AzureLiveness app, which validates the host against its build-time allowlist,
-   reads the session ID, and calls the attestation endpoints on that same
-   backend. The Face session token never appears in the link and remains
-   server-side until attestation succeeds.
-
-If the app is not installed or the association cannot be verified, the HTTPS
-URL stays in the browser and the backend serves its fallback landing page. Link
-association controls URL routing; App Attest on iOS and Key Attestation plus
-Play Integrity on Android separately establish device and app integrity.
-
-## Configuration
-
-Python, Java, and Node.js use the environment-variable names in the first
-column below. .NET binds its `AppSettings` configuration section using the
-`AppSettings__...` names in the second column; it does not read the corresponding
-bare names. The sample index pages show whether the most important settings are
-configured.
-
-See each backend's configuration file for the complete list and defaults:
-
-- **.NET**: [`appsettings.json`](backend/dotnet/appsettings.json), under `AppSettings`.
-- **Java**: [`application.yml`](backend/java/src/main/resources/application.yml).
-- **Python**: [`.env.example`](backend/python/.env.example).
-- **Node.js**: [`.env.example`](backend/react/.env.example).
-
-Only Python and Node.js provide `.env.example` files.
-
-| Python / Java / Node.js variable | .NET environment variable | Purpose |
-| --- | --- | --- |
-| `IOS_APP_ID` | `AppSettings__IosAppId` | iOS App Attest identity (`TeamID.BundleID`) |
-| `IOS_APP_CLIP_ID` | `AppSettings__IosAppClipId` | iOS App Clip ID published in the AASA file |
-| `IOS_APPLINK_APP_ID` | `AppSettings__IosApplinkAppId` | iOS Universal Link identity (falls back to the App Attest identity) |
-| `ANDROID_PACKAGE_NAME` | `AppSettings__AndroidPackageName` | Android package for Play Integrity + App Links |
-| `ANDROID_SHA256_CERT_FINGERPRINTS` | `AppSettings__AndroidSha256CertFingerprints` | App Link certificate fingerprints |
-| `GOOGLE_SERVICE_ACCOUNT_JSON` | `AppSettings__GoogleServiceAccountJson` | Play Integrity API credentials (secret) |
-| `APPLINK_PATH` | `AppSettings__ApplinkPath` | Universal/App Link path pattern |
-| `DEBUG_MODE` | `AppSettings__DebugMode` | Loosens attestation policy for development builds |
-| `ALLOW_DEVICE_INTEGRITY` | `AppSettings__AllowDeviceIntegrity` | Allow the weaker Android device-integrity verdict |
-| `ALLOW_BASIC_INTEGRITY` | `AppSettings__AllowBasicIntegrity` | Allow the weaker Android basic-integrity verdict |
-| `ALLOW_ANDROID_ATTESTATION_WHEN_GOOGLE_UNAVAILABLE` | `AppSettings__AllowAndroidAttestationWhenGoogleUnavailable` | Allow hardware Key Attestation alone when Play Integrity is unavailable |
-| `IOS_APP_STORE_URL` | `AppSettings__IosAppStoreUrl` | iOS store or App Clip link shown on the session landing page |
-| `ANDROID_PLAY_STORE_URL` | `AppSettings__AndroidPlayStoreUrl` | Android store link shown on the session landing page |
-
-## Bicep deployment
-
-Each backend contains the same modular template set under its
-`deployment/bicep/` folder:
-
-| Template | Purpose |
+| Configuration to Collect | Where to Get the Values |
 | --- | --- |
-| `main.bicep` | Subscription-scope entry point that creates the resource group |
-| `resource-group.bicep` | Coordinates resource creation inside the resource group |
-| `app-service.bicep` | Creates the Linux App Service plan, web app, and managed identity |
-| `redis.bicep` | Creates Azure Managed Redis and grants the web app identity access |
-| `app-settings.bicep` | Configures Redis, attestation, App Link, and runtime settings |
+| `androidPackageName`, `androidSha256CertFingerprints`, `googleServiceAccountJson` | [Android identity and Play Integrity](#21-configure-android-identity-and-play-integrity) |
+| `iosAppId`, `iosApplinkAppId`, `applinkPath` | [iOS identity](#31-configure-ios-identity-and-app-attest) and [Universal Links](#33-configure-and-check-ios-universal-links-on-the-backend) |
+| `debugMode` | `false` for production; see the local-development note above |
 
-| Backend | Bicep folder | Parameters | Deployment scripts |
-| --- | --- | --- | --- |
-| **.NET** | [`backend/dotnet/deployment/bicep`](backend/dotnet/deployment/bicep) | [`main.parameters.json`](backend/dotnet/deployment/main.parameters.json) | [`deploy.ps1`](backend/dotnet/deployment/deploy.ps1) / [`deploy.sh`](backend/dotnet/deployment/deploy.sh) |
-| **Java** | [`backend/java/deployment/bicep`](backend/java/deployment/bicep) | [`main.parameters.json`](backend/java/deployment/main.parameters.json) | [`deploy.ps1`](backend/java/deployment/deploy.ps1) / [`deploy.sh`](backend/java/deployment/deploy.sh) |
-| **Python** | [`backend/python/deployment/bicep`](backend/python/deployment/bicep) | [`main.parameters.json`](backend/python/deployment/main.parameters.json) | [`deploy.ps1`](backend/python/deployment/deploy.ps1) / [`deploy.sh`](backend/python/deployment/deploy.sh) |
-| **Node.js** | [`backend/react/deployment/bicep`](backend/react/deployment/bicep) | [`main.parameters.json`](backend/react/deployment/main.parameters.json) | [`deploy.ps1`](backend/react/deployment/deploy.ps1) / [`deploy.sh`](backend/react/deployment/deploy.sh) |
+Supply a logger and your implementation of `ClusterStore` (`IClusterStore`
+on .NET). This is a storage interface, not a database: Redis, SQL, or Azure
+Table Storage can satisfy its [contract](library/javascript/AzureAIVisionFaceDeviceAttestation/src/store/cluster_store.ts),
+including expiration and atomic, version-checked updates. All server instances
+must share the store; in-memory storage is only for single-instance evaluation.
 
-The scripts provision the infrastructure, build the selected backend, and
-deploy it to App Service. Secrets such as `GOOGLE_SERVICE_ACCOUNT_JSON`
-(`AppSettings__GoogleServiceAccountJson` on .NET) are intentionally not stored
-in the Bicep templates and must be configured securely after deployment.
+Create one service at startup. For example, with a complete `config` and your
+application's `store` and `logger` in Node.js/TypeScript:
 
-## Security notes
+```typescript
+import { createAttestationService } from '@azure/ai-vision-face-deviceattestation';
 
-- These samples ship a policy suitable for evaluation. Review the attestation
-  policy, certificate-to-user association, and store implementation before
-  production use.
-- The Face session **token** is released only to an attested device and is
-  **encrypted end-to-end** to that device's key, so it is never exposed in the
-  clear; a browser/QR landing page only ever sees the final liveness decision.
+const attestation = createAttestationService(config, store, logger);
+```
+
+The [sample-host configuration reference](OVERVIEW.md#configuration) covers
+environment-variable mappings; they are not required by the library.
+
+### 1.2. Expose the Attestation Endpoints
+
+Delegate these routes to the library, preserving the sample adapters'
+query parameters, JSON bodies, HTTP status codes, and responses. Keep
+them outside login-page redirects. The POST paths are defaults.
+
+| Method | Path | Implement With |
+| --- | --- | --- |
+| POST | `/api/attestation/challenge` | Attestation service |
+| POST | `/api/attestation/register` | Attestation service |
+| POST | `/api/attestation/verify` | Attestation service |
+| POST | `/api/session/token` | Attestation service |
+| POST | `/api/liveness/digest` | Attestation service |
+| GET | `/.well-known/assetlinks.json` | Service's Android association document |
+| GET | `/.well-known/apple-app-site-association` | Service's Apple association document |
+
+**Custom API paths:** Change the backend routes and pass matching
+`DeviceAttestationEndpoints` to `initialize` on Android and iOS. Paths are
+host-relative, without a leading `/`; unspecified fields keep their defaults.
+See [endpoint configuration](../client_libraries/OVERVIEW.md#endpoints).
+The two `/.well-known/...` association URLs must stay unchanged and publicly
+accessible without authentication or redirects.
+
+### 1.3. Create Sessions and Launch Links
+
+When your website requests a liveness check, create a Face session on the
+server, then save its ID and token through the attestation service's
+session-storage API before publishing the link. Keep credentials and
+application metadata in your own server-side store. The library does not
+create Face sessions; see the [Node.js creation example](backend/react/app/actions.ts).
+
+Return a launch link or QR code to your website and serve a browser fallback
+at the same path. `/native` is the sample launch route, not a library requirement:
+
+```text
+https://liveness.example.com/native?s=<session-id>
+```
+
+You can change `/native`; keep backend routing, generated links, and mobile
+link matching consistent. `applinkPath` changes AASA matching, not backend
+routes. Launch paths are separate from `DeviceAttestationEndpoints` API paths;
+see the [routing reference](OVERVIEW.md#custom-launch-paths).
+
+Optionally append `callbackUrl=<percent-encoded-return-url>` for a browser
+return. Use an HTTPS page on your backend origin, outside the app-opening
+path pattern.
+
+**Verify:** Deploy behind HTTPS, create a session, and check that its launch
+link contains no token or credentials.
+
+### 1.4. Validate the Liveness Result
+
+After digest submission, check completion through the attestation service and
+retrieve the Face result for the same session on your server. Require a
+non-empty client digest and an exact match with the Face result's digest.
+Reject missing or mismatched digests before using the liveness decision.
+Your backend application is responsible for this comparison.
+
+Use the verified outcome internally in your business workflow. The sample's
+`GET /api/session/result` and `/result` page only display results; neither
+browser polling nor result display is required in production. See the
+[Node.js verification example](backend/react/app/api/session/result/route.ts).
+
+**Verify:** Test matching, missing, and mismatched digests. Only the matching
+case may reach the business workflow that uses the liveness decision.
+
+## 2. Android Integration
+
+Use the [Android sample app](../samples/kotlin/face/AzureVisionLiveness/OVERVIEW.md)
+as an implementation example, not an app dependency. Its overview covers the
+sample's host and Play project settings. Use your own app identity, signing,
+backend configuration, and UI.
+Open the project in Android Studio from the repository checkout; it uses
+shared sample sources.
+
+### 2.1. Configure Android Identity and Play Integrity
+
+Set `androidPackageName` and `androidSha256CertFingerprints` in the backend's
+`AttestationConfig` to match the installed app's `applicationId` (for example,
+`com.example.liveness`) and signing certificate. Supply fingerprints as a
+collection of colon-separated SHA-256 strings. For Play builds, use the
+[Play App Signing certificate](https://developer.android.com/studio/publish/app-signing#certificates),
+not the upload certificate.
+
+Google's [Digital Asset Links guide](https://developer.android.com/training/app-links/configure-assetlinks)
+explains the `sha256_cert_fingerprints` field and where to find its value.
+
+Enable Play Integrity and link the Cloud project to your app. Follow Google's
+[project-number lookup instructions](https://docs.cloud.google.com/resource-manager/docs/view-update-projects#identifying_projects)
+and [Play Integrity setup](https://developer.android.com/google/play/integrity/setup).
+Use the numeric **project number**, not the project ID. Opt in to
+`MEETS_STRONG_INTEGRITY`, which the backend's default policy requires.
+
+Load the service-account JSON contents securely into `googleServiceAccountJson`
+on the backend, with access to decode your app's Play Integrity tokens. Follow
+Google's [service-account key instructions](https://docs.cloud.google.com/iam/docs/keys-create-delete#creating)
+to download the JSON key. It contains a private key; never commit it or include
+it in your app.
+
+### 2.2. Add the Android Library and Permissions
+
+Add the attestation module alongside your
+[Face liveness UI SDK](../samples/kotlin/face/FaceLivenessDetectorSample/README.md).
+
+1. Copy the [Android library module](../client_libraries/android/AzureAIVisionFaceDeviceAttestation)
+   into `azure-ai-vision-face-deviceattestation` under your project root. Use
+   `minSdk` 31+, `compileSdk` 36, and `google()` / `mavenCentral()` repositories.
+   Match the sample's [AGP 9.1 build setup](../samples/kotlin/face/AzureVisionLiveness/build.gradle.kts),
+   which uses built-in Kotlin. Include the module in your Gradle settings:
+
+```kotlin
+include(":azure-ai-vision-face-deviceattestation")
+```
+
+Add it to your app's `dependencies` block:
+
+```kotlin
+implementation(project(":azure-ai-vision-face-deviceattestation"))
+```
+
+2. Add Internet and camera permissions to your manifest and handle the runtime
+   camera permission request before showing the Face liveness UI.
+
+### 2.3. Configure and Check Android App Links on the Backend
+
+Publish the library's Android association document using the package name
+and signing fingerprint from [Android identity setup](#21-configure-android-identity-and-play-integrity).
+
+**Verify:** After deploying or restarting the backend, expect HTTP 200 JSON
+with your package name and signing fingerprint, without login or redirects:
+
+```shell
+curl -i https://liveness.example.com/.well-known/assetlinks.json
+```
+
+### 2.4. Configure and Check Android App Links in the App
+
+Add this filter to the exported activity that handles liveness links:
+
+```xml
+<intent-filter android:autoVerify="true">
+    <action android:name="android.intent.action.VIEW" />
+    <category android:name="android.intent.category.DEFAULT" />
+    <category android:name="android.intent.category.BROWSABLE" />
+    <data android:scheme="https"
+          android:host="liveness.example.com"
+          android:pathPrefix="/native" />
+</intent-filter>
+```
+
+Handle both initial and new intents. Accept only HTTPS links for your
+allowlisted host and expected path, and read `s` as the session ID. Validate
+any callback against your backend's HTTPS origin before opening it.
+See the sample's [manifest](../samples/kotlin/face/AzureVisionLiveness/app/src/main/AndroidManifest.xml)
+and [AppCenterActivity.kt](../samples/kotlin/face/AzureVisionLiveness/app/src/main/java/com/example/faceanalyzersamplecomposeinternal/AppCenterActivity.kt)
+for app configuration and intent handling.
+
+**Verify**
+
+Install a build signed by the configured certificate and allow Android's
+automatic link verification to finish. Confirm that the host is `verified`:
+
+```shell
+adb shell pm get-app-links com.example.liveness
+```
+
+Tap a fresh session link from another app and confirm your app receives its
+session ID. This checks routing, not attestation. For GUI settings, retries,
+or failures, see [Android link diagnostics](../samples/kotlin/face/AzureVisionLiveness/OVERVIEW.md#link-diagnostics).
+
+### 2.5. Run Attestation and Liveness
+
+See [AppLinkAuthFlow.kt](../samples/kotlin/face/AzureVisionLiveness/app/src/main/java/com/example/faceanalyzersamplecomposeinternal/AppLinkAuthFlow.kt)
+for the sample's attestation and token flow.
+
+From the validated link handler, run this in a coroutine. Supply `context`,
+`sessionId`, and a persistent app-owned `deviceId`; replace the example host
+and project number with your configuration.
+
+```kotlin
+import com.azure.android.ai.vision.face.deviceattestation.AttestationSession
+import com.azure.android.ai.vision.face.deviceattestation.DeviceAttestation
+
+DeviceAttestation.initialize(
+   context = context,
+   livenessHost = "liveness.example.com",
+   cloudProjectNumber = 123456789012L
+)
+
+val session = when (val result = DeviceAttestation.startSession(context, sessionId, deviceId)) {
+   is DeviceAttestation.StartSessionResult.Success -> result.session
+   is DeviceAttestation.StartSessionResult.Error -> error("Attestation failed: ${result.code}")
+   is DeviceAttestation.StartSessionResult.Exception -> throw result.exception
+}
+
+val token = when (val result = session.fetchSessionToken()) {
+   is AttestationSession.SessionTokenResult.Success -> result.token
+   is AttestationSession.SessionTokenResult.Error -> error("Token request failed: ${result.code}")
+   is AttestationSession.SessionTokenResult.Exception -> throw result.exception
+}
+```
+
+Pass `token` to the Face liveness UI SDK, as shown in the shared
+[LivenessScreen.kt](../samples/kotlin/face/sample/java/com/example/facelivenessdetectorsample/screens/LivenessScreen.kt).
+Submit its non-empty digest using the same session; see
+[ResultScreen.kt](../samples/kotlin/face/AzureVisionLiveness/app/src/main/java/com/example/facelivenessdetectorsample/screens/ResultScreen.kt)
+for the sample's submission handler. Handle success, error, and exception
+results in your UI:
+
+```kotlin
+val digestResult = session.submitLivenessDigest(digest)
+```
+
+After wiring this flow, run [end-to-end verification](#4-verify-one-complete-session).
+
+## 3. iOS Integration
+
+Use the [iOS sample app](../samples/swift/face/AzureVisionLiveness/OVERVIEW.md)
+as an implementation example. Its overview covers host configuration for the
+full app and optional App Clip. Use your own signing, bundle identifiers,
+backend configuration, and UI.
+Open its [Xcode project](../samples/swift/face/AzureVisionLiveness/AzureVisionLiveness.xcodeproj)
+from the repository checkout; it uses shared sample sources.
+
+### 3.1. Configure iOS Identity and App Attest
+
+Set your signing team and bundle identifier, and enable App Attest with
+an environment accepted by your backend; distributed builds use production.
+See the [sample entitlements](../samples/swift/face/AzureVisionLiveness/FaceAnalyzerSample/FaceAnalyzerSample.entitlements).
+
+Set `iosAppId` in the backend's `AttestationConfig` to your full app's signed
+application identifier, such as `ABCDE12345.com.example.liveness`:
+`<AppIDPrefix>.<BundleID>`. The prefix is often the Team ID, but use the actual
+signing value.
+
+`iosAppId` controls App Attest. Check `DCAppAttestService.shared.isSupported`
+in your app and handle unsupported devices.
+
+### 3.2. Add the iOS Library and Permissions
+
+Add the attestation package alongside your
+[Face liveness UI SDK](../samples/swift/face/FaceAnalyzerSample/README.md).
+
+1. In Xcode, use **File > Add Package Dependencies > Add Local** to add the
+   [Swift package](../client_libraries/ios/AzureAIVisionFaceDeviceAttestation).
+   Link its `AzureAIVisionFaceDeviceAttestation` product to your app target.
+   The package requires iOS 15+ and Swift tools 5.9+.
+2. Add a camera usage description and request permission before liveness.
+
+### 3.3. Configure and Check iOS Universal Links on the Backend
+
+Set `iosApplinkAppId` and `applinkPath` in the backend's `AttestationConfig`
+to the full app's signed identifier (such as `ABCDE12345.com.example.liveness`)
+and launch-path pattern (`/native*`). `iosApplinkAppId` controls Universal Links
+and defaults to `iosAppId` when unset.
+
+For the AASA format and hosting requirements, see Apple's
+[associated domains guide](https://developer.apple.com/documentation/xcode/supporting-associated-domains).
+
+**Verify:** Deploy or restart, then check the Apple App Site Association (AASA)
+endpoint. Expect HTTP 200 `application/json`, no login or redirects, and
+`applinks` details containing your full app identifier and `/native*`:
+
+```shell
+curl -i https://liveness.example.com/.well-known/apple-app-site-association
+```
+
+### 3.4. Configure and Check iOS Universal Links in the App
+
+Follow Apple's [Universal Links setup guide](https://developer.apple.com/documentation/xcode/allowing-apps-and-websites-to-link-to-your-content)
+for app configuration and incoming link handling.
+In **Signing & Capabilities > Associated Domains**, add your host without
+a scheme, path, or trailing slash:
+
+```text
+applinks:liveness.example.com
+```
+
+Handle `NSUserActivity.webpageURL` (SwiftUI:
+`.onContinueUserActivity(NSUserActivityTypeBrowsingWeb)`). Validate HTTPS, the
+allowlisted host, and the expected path before reading `s` with `URLComponents`.
+Validate any callback against your backend's HTTPS origin before opening it.
+See [UniversalLinkProcessor.swift](../samples/swift/face/AzureVisionLiveness/FaceAnalyzerSample/UniversalLinkProcessor.swift)
+for the sample's link validation and attestation flow.
+
+**Verify:** Rebuild and install a signed app after changing entitlements.
+Create a fresh session and tap its launch link from Notes or Mail, not
+Safari's address bar. Expect your app to receive the session ID. This checks
+link handling, not attestation or the liveness result.
+
+### 3.5. Run Attestation and Liveness
+
+From an async throwing function, supply the validated `sessionId`, a stable
+UUID-format `clientId`, and a stable `deviceUUID` for the local key. Initialize
+with your validated backend host:
+
+```swift
+import Foundation
+import AzureAIVisionFaceDeviceAttestation
+
+await DeviceAttestation.shared.initialize(livenessHost: "liveness.example.com")
+
+let session: AttestationSession
+switch await DeviceAttestation.shared.startSession(
+   sessionId: sessionId,
+   clientId: clientId,
+   deviceUUID: deviceUUID
+) {
+case .success(let started):
+   session = started
+case .error(let code, let message):
+   throw NSError(domain: "LivenessAttestation", code: code,
+              userInfo: [NSLocalizedDescriptionKey: message])
+case .exception(let error):
+   throw error
+}
+
+let token: String
+switch await session.fetchSessionToken() {
+case .success(let fetched):
+   token = fetched
+case .error(let code, let message):
+   throw NSError(domain: "LivenessAttestation", code: code,
+              userInfo: [NSLocalizedDescriptionKey: message])
+case .exception(let error):
+   throw error
+}
+```
+
+Pass `token` to the Face liveness UI SDK, as shown in the shared
+[MainView.swift](../samples/swift/face/FaceAnalyzerSample/FaceAnalyzerSample/MainView.swift).
+Submit its non-empty digest using the same session; see
+[ResultViewFullApp.swift](../samples/swift/face/AzureVisionLiveness/FaceAnalyzerSample/ResultViewFullApp.swift)
+for the sample's submission handler. Handle success, error, and exception
+results in your UI:
+
+```swift
+let digestResult = await session.submitLivenessDigest(digest)
+```
+
+After wiring this flow, run [end-to-end verification](#4-verify-one-complete-session).
+
+## 4. Verify One Complete Session
+
+Use a supported physical device. For final production-policy verification,
+set `debugMode` to `false` in the backend configuration and install through
+a Play test track (Android) or TestFlight/App Store (iOS).
+
+Run one session at a time and keep its host and Play project configuration
+unchanged throughout the flow.
+
+1. Create a fresh session on your website and open its launch link or QR code.
+   Confirm that the intended app receives the correct session ID.
+2. Confirm that the app completes attestation and obtains the Face session
+   token. Failed attestation must prevent token delivery.
+3. Complete the Face liveness UI flow and await successful submission of its
+   non-empty digest through the originating attestation session.
+4. Confirm that your backend applies [result validation](#14-validate-the-liveness-result)
+   before using the liveness decision. Missing or mismatched digests must
+   prevent the result from reaching your business workflow.
+5. If you use a browser return, open only a validated callback after successful
+   digest submission. The sample result screens can still return after
+   submission failures; gate this explicitly in your app.
+
+Also test first and returning-device sessions, expiration, unsupported devices,
+denied camera access, and untrusted hosts or callbacks. Handle failures in your
+UI and fail closed when attestation or digest verification fails.
+
+## 5. Optional Installation Flows
+
+### 5.1. Resume After Google Play Installation
+
+Use Play Install Referrer when the user must install your Android app before
+continuing the session. Encode the session launch link in the Play Store URL's
+`referrer`; retrieve and validate it when the installed app first opens.
+The store URL belongs to your website/backend, not `AttestationConfig`.
+
+Follow [Resuming after Play installation](../samples/kotlin/face/AzureVisionLiveness/OVERVIEW.md#resume-after-google-play-installation)
+for link construction, one-time consumption, and expiration checks.
+Test installation and session recovery through Google Play, not `adb`.
+
+### 5.2. Use an App Clip
+
+An App Clip runs the iOS liveness flow without installing the full app. Build
+and publish your own Clip using the same libraries and runtime flow as above.
+
+1. Follow Apple's [creation guide](https://developer.apple.com/documentation/appclip/creating-an-app-clip-with-xcode).
+   Use the full app's signing team and parent-app association. Share the
+   attestation package, Face liveness UI SDK, and invocation handler; enable
+   App Attest and camera access in the Clip too.
+2. Add `appclips:liveness.example.com` to **Associated Domains** on both
+   targets. Keep `applinks:liveness.example.com` on the full app and add it to
+   the Clip for this sample's flow. Use the same runtime host allowlist.
+3. Set `iosAppClipId` in the backend configuration to the signed Clip ID,
+   such as `ABCDE12345.com.example.liveness.Clip`. Keep `iosAppId` set to the
+   **full app's** identity for [App Attest verification](https://developer.apple.com/documentation/devicecheck/validating-apps-that-connect-to-your-server);
+   the Clip ID is only for link association.
+4. Rebuild and sign, then upload the full app with its embedded Clip and
+   configure a [default experience](https://developer.apple.com/documentation/appclip/configuring-the-launch-experience-of-your-app-clip).
+   Store its generated default link in your host's link-generation settings,
+   not `AttestationConfig`. A demo link cannot carry session parameters.
+   Public links require App Store approval and release; TestFlight is for beta testing.
+5. For custom-domain invocation, configure an experience matching your launch
+   URL and follow Apple's [website association guide](https://developer.apple.com/documentation/appclip/associating-your-app-clip-with-your-website).
+
+Build invocation URLs with a URL/query encoder. Include the session ID and
+backend host; add an encoded `callbackUrl` only for an optional browser return:
+
+```text
+https://appclip.apple.com/id?p=com.example.liveness.Clip&s=<session-id>&domain=liveness.example.com
+```
+
+For Apple-hosted links, select the backend from the allowlisted `domain`, not
+`appclip.apple.com`. Direct backend links use their validated host. Reject
+missing sessions and untrusted hosts or callbacks; see the
+[sample invocation handler](../samples/swift/face/AzureVisionLiveness/FaceAnalyzerSampleAppClip/FaceAnalyzerSampleAppClipApp.swift).
+
+**Verify:** Check AASA `appclips.apps` and `applinks` for the Clip/app identities
+and launch-path pattern; confirm domain validation in App Store Connect.
+Follow Apple's [testing guide](https://developer.apple.com/documentation/appclip/testing-the-launch-experience-of-your-app-clip)
+for Xcode (`_XCAppClipURL`) and TestFlight, then test a released link with the
+full app absent and installed. Remove local experience overrides first and
+run the [complete-session checks](#4-verify-one-complete-session) in both cases;
+development testing alone does not verify public launch.
+
+## Before Shipping
+
+- Disable development mode in the library configuration. Keep weaker integrity
+   and Google-outage fallback policies disabled unless deliberately reviewed.
+- Add your own authorization, session expiration, shared storage, secret
+   management, and safe logging. Attestation is not user authentication.
+
+For the trust model and further considerations, see the
+[backend security notes](OVERVIEW.md#security-notes) and
+[client security notes](../client_libraries/OVERVIEW.md#security-notes).

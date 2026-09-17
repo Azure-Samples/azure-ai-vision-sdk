@@ -3,11 +3,11 @@
 This project contains the iOS AzureLiveness full app and App Clip. Both use the
 local
 [device-attestation client library](../../../../client_libraries/ios/AzureAIVisionFaceDeviceAttestation)
-and connect to any of the [backend samples](../../../../backend_samples).
+and connect to any of the [backend samples](../../../../backend_samples/OVERVIEW.md).
 
 The backend environment-variable examples in this guide use the Python, Java,
 and Node.js names. For .NET, use the `AppSettings__...` equivalents in the
-[backend configuration table](../../../../backend_samples/README.md#configuration).
+[backend configuration table](../../../../backend_samples/OVERVIEW.md#configuration).
 
 ## Universal Link location
 
