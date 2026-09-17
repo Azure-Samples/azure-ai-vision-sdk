@@ -127,15 +127,15 @@ still controls whether a link opens an app.
 
 ## 4. Android: From Link to Liveness
 
-On Android, scanning the QR or tapping the session link can open your
-installed app. If the browser opens instead, the website offers an
-**Open in app** button. In a supporting browser such as Chrome, this button
-can open the app or offer Google Play installation when configured.
+Scan the QR code or tap the link on your Android phone. It can open the app
+directly, or show a webpage where you tap **Open in app**. If the app needs
+to be installed first, the page can take you to Google Play. Install it,
+then tap **Open**.
 
-With installation recovery configured, the user installs and opens the app,
-which reads the original session link through **Play Install Referrer**, a
-Google Play feature for passing that link through installation. The app can
-then resume the same check if the session is still valid.
+The app is where you complete the liveness check.
+
+<details>
+<summary>Technical details: Android routing and link contents</summary>
 
 ```mermaid
 flowchart TD
@@ -148,9 +148,6 @@ flowchart TD
     Referrer --> App
     App --> Check["Attestation, then liveness"]
 ```
-
-<details>
-<summary>Technical details: what the Android link contains</summary>
 
 In supporting browsers such as Chrome, a user tap on the `intent://` link
 requests the named app. If the intent cannot be handled, the browser can
@@ -193,23 +190,24 @@ and the [sample's installation recovery](../samples/kotlin/face/AzureVisionLiven
 
 ## 5. iOS: From Link to Liveness
 
-An **App Clip** is a small part of your iOS app that can run without installing
-the full app.
+An **App Clip** is a small part of the app that lets you do the check without
+installing the full app.
 
-On an iPhone, the session link can open the installed full app. If the user
-stays in Safari, the website's **Open App Clip** button can show an App Clip
-card. The user taps **Open** to run the check. If the full app is installed,
-it handles that link instead.
+Scan the QR code or tap the link on your iPhone. If the app is installed,
+it can open directly. Otherwise, the phone can offer an App Clip card;
+tap **Open** to continue.
 
-An App Clip can also be offered directly from a QR scan when the link has
-been configured with Apple and is recognized as an App Clip launch.
+If you are already on the website in Safari, tap **Open App Clip** to
+start the check from that page.
+
+<details>
+<summary>Technical details: iOS routing and link contents</summary>
 
 ```mermaid
 flowchart TD
     Entry["iPhone: scan QR or tap SESSION_URL"] -->|Universal Link; handoff allowed| App["Full iOS app receives the link"]
-    Entry -->|Full app absent; matching Clip experience| Card["App Clip card"]
-    Entry -->|Browser handles the link| Web["Safari: load session page<br/>Page JS selects the iOS action"]
-    Web --> Button["Show Open App Clip link<br/>https://appclip.apple.com/id?p=CLIP<br/>&amp;s=SID&amp;domain=HOST"]
+    Entry -->|Full app absent; matching Clip experience| Card["iOS presents App Clip card"]
+    Web["User is already on the website in Safari"] --> Button["Show Open App Clip link<br/>https://appclip.apple.com/id?p=CLIP<br/>&amp;s=SID&amp;domain=HOST"]
     Button -->|User taps; full app installed| App
     Button -->|User taps; full app absent| Card
     Card -->|User taps Open| Clip["App Clip receives invocation URL<br/>Reads SID and validates HOST"]
@@ -217,8 +215,8 @@ flowchart TD
     Clip --> Check
 ```
 
-<details>
-<summary>Technical details: what the iOS link contains</summary>
+The chart shows configured launch routes. Links without a recognized app or
+App Clip association may still open a webpage.
 
 The QR contains `SESSION_URL`, not an Apple URL. The **Open App Clip** button
 instead uses Apple's invocation (launch) URL, which contains the Clip's
