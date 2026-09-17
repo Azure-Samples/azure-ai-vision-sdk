@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="584" viewBox="0 0 640 584" role="img" aria-labelledby="encryption-title encryption-description">
+  <title id="encryption-title">Verify the app and phone, then exchange encrypted messages</title>
+  <desc id="encryption-description">First, the mobile app sends Android or iOS platform evidence for the backend to check. After the checks pass, the attestation libraries establish session encryption. A locked session-token message travels from the backend to the app. After liveness, a locked digest message travels from the app to the backend through the same attested session. The locks represent protection of these messages, not all app traffic.</desc>
+  <defs>
+    <pattern id="encryption-grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#e9eef1" stroke-width="1"/>
+    </pattern>
+    <symbol id="encryption-phone" viewBox="0 0 88 144">
+      <rect x="1" y="1" width="86" height="142" rx="16" fill="#26383f"/>
+      <rect x="7" y="8" width="74" height="127" rx="10" fill="#ffffff"/>
+      <rect x="29" y="8" width="30" height="8" rx="4" fill="#26383f"/>
+      <rect x="25" y="46" width="38" height="38" rx="8" fill="#e2f3ed"/>
+      <path d="M35 57h6v6h-6zM47 57h6v6h-6zM35 69h6v6h-6zM47 69h6v6h-6z" fill="#087c70"/>
+      <path d="M32 124h24" fill="none" stroke="#a7b8c0" stroke-width="3" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="encryption-backend" viewBox="0 0 108 112">
+      <g fill="#ffffff" stroke="#33474e" stroke-width="2.5" stroke-linejoin="round">
+        <rect x="2" y="2" width="104" height="29" rx="6"/>
+        <rect x="2" y="41" width="104" height="29" rx="6"/>
+        <rect x="2" y="80" width="104" height="29" rx="6"/>
+      </g>
+      <g fill="#168c88">
+        <circle cx="18" cy="16" r="4"/>
+        <circle cx="18" cy="55" r="4"/>
+        <circle cx="18" cy="94" r="4"/>
+      </g>
+      <path d="M36 16h52M36 55h52M36 94h52" fill="none" stroke="#a7b8c0" stroke-width="3" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="message-lock" viewBox="0 0 24 28">
+      <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 11V8a6 6 0 0 1 12 0v3"/>
+        <rect x="3" y="11" width="18" height="15" rx="3" fill="#ffffff"/>
+        <path d="M12 17v4"/>
+      </g>
+    </symbol>
+  </defs>
+  <rect width="640" height="584" fill="#ffffff"/>
+  <rect x="16" y="96" width="608" height="148" fill="url(#encryption-grid)"/>
+  <rect x="16" y="384" width="608" height="156" fill="url(#encryption-grid)"/>
+
+  <g font-family="Segoe UI, sans-serif" letter-spacing="0" fill="#26383f">
+    <text x="24" y="38" font-size="28" font-weight="600">1. Verify app and phone</text>
+    <g text-anchor="middle" font-size="24">
+      <text x="76" y="86">App</text>
+      <text x="562" y="86">Backend</text>
+    </g>
+    <use href="#encryption-phone" x="32" y="101" width="88" height="144"/>
+    <use href="#encryption-backend" x="508" y="113" width="108" height="112"/>
+    <g fill="none" stroke="#0078d4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M132 169h74m-10-10 10 10-10 10"/>
+      <path d="M434 169h62m-10-10 10 10-10 10"/>
+    </g>
+    <path d="M218 128h172l32 28v50H218z" fill="#f4f9fc" stroke="#33474e" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M390 128v28h32" fill="none" stroke="#33474e" stroke-width="2.5" stroke-linejoin="round"/>
+    <g text-anchor="middle" font-size="24">
+      <text x="313" y="160">Platform</text>
+      <text x="313" y="190">evidence</text>
+    </g>
+    <path d="m251 248 7 7 13-16" fill="none" stroke="#087c70" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="285" y="257" font-size="24" fill="#087c70">Checks pass</text>
+
+    <path d="M24 284h592" fill="none" stroke="#dce5e9" stroke-width="2"/>
+    <text x="24" y="326" font-size="28" font-weight="600">2. Exchange encrypted messages</text>
+    <g text-anchor="middle" font-size="24">
+      <text x="76" y="375">App</text>
+      <text x="562" y="375">Backend</text>
+    </g>
+    <use href="#encryption-phone" x="32" y="389" width="88" height="144"/>
+    <use href="#encryption-backend" x="508" y="395" width="108" height="112"/>
+
+    <g fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M496 418H132m10-10-10 10 10 10" stroke="#0078d4"/>
+      <path d="M132 490h364m-10-10 10 10-10 10" stroke="#087c70"/>
+    </g>
+    <rect x="211" y="389" width="218" height="60" rx="6" fill="#e5f2fc" stroke="#0078d4" stroke-width="2"/>
+    <use href="#message-lock" x="223" y="404" width="24" height="28" color="#0078d4"/>
+    <text x="332" y="428" text-anchor="middle" font-size="24" fill="#0068b8">Session token</text>
+
+    <rect x="211" y="459" width="218" height="70" rx="6" fill="#e2f3ed" stroke="#087c70" stroke-width="2"/>
+    <use href="#message-lock" x="223" y="479" width="24" height="28" color="#087c70"/>
+    <text x="332" y="488" text-anchor="middle" font-size="24" fill="#087c70">Digest</text>
+    <text x="332" y="516" text-anchor="middle" font-size="22" fill="#526b75">after liveness</text>
+    <text x="320" y="567" text-anchor="middle" font-size="24">Same attested session</text>
+  </g>
+</svg>

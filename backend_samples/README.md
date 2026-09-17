@@ -4,6 +4,9 @@ Use this guide to start a Face liveness check from your website, complete it
 in your mobile app, and verify the result on your backend. Device attestation
 checks the app and device before the backend releases a Face session token.
 
+For a plain-language explanation with examples and a diagram, read
+[How Web-to-Mobile Liveness Works](INTRODUCTION.md).
+
 ## Integration Parts
 
 You connect **three parts of your application**:

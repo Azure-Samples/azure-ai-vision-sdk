@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="440" viewBox="0 0 640 440" role="img" aria-labelledby="association-title association-description">
+  <title id="association-title">Both sides agree on link handling</title>
+  <desc id="association-description">The website example.com names App A as an allowed app. App A declares that it handles links from example.com. Both declarations lead to the phone's operating system, which checks the website and app association.</desc>
+  <defs>
+    <pattern id="association-grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#e9eef1" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="640" height="440" fill="#ffffff"/>
+  <rect x="16" y="64" width="608" height="312" fill="url(#association-grid)"/>
+
+  <g font-family="Segoe UI, sans-serif" letter-spacing="0" text-anchor="middle" fill="#26383f">
+    <g font-size="28" font-weight="600">
+      <text x="156" y="44">Website</text>
+      <text x="498" y="44">Mobile app</text>
+    </g>
+
+    <g stroke="#33474e" stroke-width="3" stroke-linejoin="round">
+      <rect x="24" y="84" width="264" height="232" rx="8" fill="#ffffff"/>
+      <path d="M25 120h262" fill="none" stroke="#dce5e9" stroke-width="2"/>
+    </g>
+    <g fill="#a7b8c0">
+      <circle cx="45" cy="102" r="4"/>
+      <circle cx="61" cy="102" r="4"/>
+      <circle cx="77" cy="102" r="4"/>
+    </g>
+    <text x="156" y="156" fill="#0078d4" font-size="23" font-weight="600">example.com</text>
+    <g font-size="24">
+      <text x="156" y="204">This app may</text>
+      <text x="156" y="235">handle my links.</text>
+    </g>
+    <text x="156" y="284" fill="#087c70" font-size="26" font-weight="600">App A</text>
+
+    <rect x="425" y="74" width="156" height="266" rx="22" fill="#22343b" opacity="0.12"/>
+    <rect x="420" y="68" width="156" height="266" rx="22" fill="#26383f"/>
+    <rect x="427" y="77" width="142" height="248" rx="16" fill="#ffffff"/>
+    <rect x="473" y="77" width="50" height="10" rx="5" fill="#26383f"/>
+    <text x="498" y="132" fill="#087c70" font-size="26" font-weight="600">App A</text>
+    <g font-size="24">
+      <text x="498" y="182">I handle</text>
+      <text x="498" y="213">links from</text>
+    </g>
+    <text x="498" y="256" fill="#0078d4" font-size="22" font-weight="600">example.com</text>
+    <path d="M479 313h38" fill="none" stroke="#a7b8c0" stroke-width="3" stroke-linecap="round"/>
+
+    <g fill="none" stroke="#0078d4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M156 317v43h126m-10-10 10 10-10 10"/>
+      <path d="M498 335v25H358m10-10-10 10 10 10"/>
+    </g>
+    <g transform="translate(296 336) scale(2)" fill="none" stroke="#087c70" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 17H7a5 5 0 0 1 0-10h2m6 0h2a5 5 0 0 1 0 10h-2M8 12h8"/>
+    </g>
+    <text x="320" y="414" font-size="28" font-weight="600">OS checks both</text>
+  </g>
+</svg>

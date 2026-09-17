@@ -72,10 +72,28 @@ Please see the readme documents listed below for instructions on how to build an
 
 - You will need to get access to the SDK artifacts in order to run these samples. To get started you would need to apply for the [Face Recognition Limited Access Features](https://customervoice.microsoft.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbR7en2Ais5pxKtso_Pz4b1_xUQjA5SkYzNDM4TkcwQzNEOE1NVEdKUUlRRCQlQCN0PWcu) to get access to the SDK artifacts. For more information, see the [Face Limited Access](https://learn.microsoft.com/legal/cognitive-services/computer-vision/limited-access-identity?context=%2Fazure%2Fcognitive-services%2Fcomputer-vision%2Fcontext%2Fcontext) page.  
 
+### Liveness with Device Attestation
+
+For a plain-language explanation of the website-to-mobile flow, read the
+[introduction](backend_samples/INTRODUCTION.md). To implement it, follow the
+[technical integration quick start](backend_samples/README.md).
+It covers .NET, Java, Python, and Node.js backends paired with Android or iOS apps.
+
+The website presents a session link or QR code that opens your app through
+**Android App Links** or **iOS Universal Links**. The backend verifies app and
+device attestation before releasing a Face session token. After liveness,
+the app submits its digest and the backend requires it to match the Face
+result's digest before using the liveness decision. Link handling and
+attestation are separate checks.
+
+The quick start also covers optional Play installation recovery and App Clips.
+For architecture and configuration, see the [backend overview](backend_samples/OVERVIEW.md).
+
 ### Samples
 
 | Sample                                                   | Platform | Description                              |
 | ------------------------------------------------------------ | -------- | ---------------------------------------- |
+| [Backend and mobile liveness integration](backend_samples/README.md) | Backend, Android, iOS | Website-to-app liveness with device attestation, App Links or Universal Links, and backend result validation |
 | [Kotlin sample app for Android](samples/kotlin/face) | Android | App with source code that demonstrates face analysis on Android |
 | [Swift sample app for iOS](samples/swift/face) | iOS | App with source code that demonstrates face analysis on iOS |
 | [Next.js sample app for Web](samples/web/nextjs/) | Web | App with source code that demonstrates face analysis on Web |

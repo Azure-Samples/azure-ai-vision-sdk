@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="500" viewBox="0 0 640 500" role="img" aria-labelledby="views-title views-description">
+  <title id="views-title">One website, three browser presentations</title>
+  <desc id="views-description">The website selects a presentation for the browser platform. A desktop screen shows a QR code containing the backend HTTPS session URL. An Android phone shows Open in app, an intent link. An iPhone shows Open App Clip, an App Clip invocation link. These simplified screens emphasize the primary action; the sample also shows the QR on mobile. The illustrated QR pattern is not a real session link.</desc>
+  <defs>
+    <pattern id="views-grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#e9eef1" stroke-width="1"/>
+    </pattern>
+    <symbol id="views-qr" viewBox="0 0 29 29">
+      <rect width="29" height="29" fill="#ffffff"/>
+      <g fill="#22343b" shape-rendering="crispEdges">
+        <path fill-rule="evenodd" d="M2 2h7v7H2z M3 3v5h5V3z M20 2h7v7h-7z M21 3v5h5V3z M2 20h7v7H2z M3 21v5h5v-5z"/>
+        <path d="M4 4h3v3H4z M22 4h3v3h-3z M4 22h3v3H4z M11 2h2v2h-2z M15 2h3v1h-3z M12 5h3v2h-3z M16 4h2v4h-2z M10 8h3v2h-3z M14 9h4v2h-4z M2 11h3v2H2z M6 10h2v1H6z M6 13h3v2H6z M3 15h2v3H3z M8 16h3v2h-3z M11 12h2v4h-2z M14 13h3v2h-3z M16 16h3v3h-3z M12 18h2v3h-2z M10 22h3v2h-3z M11 26h3v1h-3z M15 22h2v4h-2z M18 21h3v2h-3z M19 25h3v2h-3z M23 24h4v3h-4z M24 20h3v2h-3z M22 17h2v3h-2z M25 14h2v3h-2z M20 11h3v2h-3z M25 10h2v2h-2z M19 14h3v2h-3z"/>
+      </g>
+    </symbol>
+  </defs>
+  <rect width="640" height="500" fill="#ffffff"/>
+  <rect x="16" y="190" width="608" height="240" fill="url(#views-grid)"/>
+
+  <g font-family="Segoe UI, sans-serif" letter-spacing="0" text-anchor="middle" fill="#26383f">
+    <text x="320" y="38" font-size="28" font-weight="600">Website selects a view</text>
+    <text x="320" y="72" fill="#526b75" font-size="24">Browser platform</text>
+    <g fill="none" stroke="#0078d4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M320 90v22H130v31m-8-8 8 8 8-8M320 112h216v31m-8-8 8 8 8-8M344 112v31m-8-8 8 8 8-8"/>
+    </g>
+    <g font-size="26" font-weight="600">
+      <text x="130" y="180">Desktop</text>
+      <text x="344" y="180">Android</text>
+      <text x="536" y="180">iPhone</text>
+    </g>
+
+    <g stroke="#33474e" stroke-width="3" stroke-linejoin="round">
+      <path d="M113 388v27h34v-27" fill="#edf2f4"/>
+      <path d="M90 417h80" fill="none" stroke-linecap="round"/>
+      <rect x="20" y="218" width="220" height="172" rx="8" fill="#ffffff"/>
+      <path d="M21 252h218" fill="none" stroke="#dce5e9" stroke-width="2"/>
+    </g>
+    <g fill="#a7b8c0">
+      <circle cx="38" cy="235" r="3"/>
+      <circle cx="51" cy="235" r="3"/>
+      <circle cx="64" cy="235" r="3"/>
+    </g>
+    <use href="#views-qr" x="77" y="266" width="106" height="106"/>
+    <path d="M82 262H73v9m105-9h9v9M73 367v9h9m105-9v9h-9" fill="none" stroke="#0078d4" stroke-width="2" stroke-linecap="round"/>
+
+    <rect x="264" y="206" width="168" height="222" rx="24" fill="#22343b" opacity="0.12"/>
+    <rect x="260" y="200" width="168" height="222" rx="24" fill="#26383f"/>
+    <rect x="267" y="209" width="154" height="204" rx="17" fill="#ffffff"/>
+    <rect x="315" y="209" width="58" height="11" rx="5" fill="#26383f"/>
+    <text x="344" y="261" font-size="23">Session</text>
+    <rect x="280" y="290" width="128" height="74" rx="6" fill="#0078d4"/>
+    <g fill="#ffffff" font-size="24" font-weight="600">
+      <text x="344" y="320">Open</text>
+      <text x="344" y="349">in app</text>
+    </g>
+    <path d="M325 401h38" fill="none" stroke="#a7b8c0" stroke-width="3" stroke-linecap="round"/>
+
+    <rect x="456" y="206" width="168" height="222" rx="24" fill="#22343b" opacity="0.12"/>
+    <rect x="452" y="200" width="168" height="222" rx="24" fill="#26383f"/>
+    <rect x="459" y="209" width="154" height="204" rx="17" fill="#ffffff"/>
+    <rect x="507" y="209" width="58" height="11" rx="5" fill="#26383f"/>
+    <text x="536" y="261" font-size="23">Session</text>
+    <rect x="472" y="290" width="128" height="74" rx="6" fill="#087c70"/>
+    <g fill="#ffffff" font-size="24" font-weight="600">
+      <text x="536" y="320">Open</text>
+      <text x="536" y="349">App Clip</text>
+    </g>
+    <path d="M517 401h38" fill="none" stroke="#a7b8c0" stroke-width="3" stroke-linecap="round"/>
+
+    <g font-size="22" fill="#526b75">
+      <text x="130" y="455">QR contains</text>
+      <text x="130" y="483">HTTPS session URL</text>
+      <text x="344" y="455">Intent link</text>
+      <text x="536" y="455">App Clip link</text>
+    </g>
+  </g>
+</svg>
