@@ -74,11 +74,10 @@ Please see the readme documents listed below for instructions on how to build an
 
 ### Liveness with Device Attestation
 
-For a website-to-mobile liveness flow, start with the
-[backend and mobile integration quick start](backend_samples/README.md).
+For a plain-language explanation of the website-to-mobile flow, read the
+[introduction](backend_samples/INTRODUCTION.md). To implement it, follow the
+[technical integration quick start](backend_samples/README.md).
 It covers .NET, Java, Python, and Node.js backends paired with Android or iOS apps.
-
-![Scan a QR code or tap a session link on your phone, then complete device attestation and start liveness.](docs/face/qr-to-liveness.svg)
 
 The website presents a session link or QR code that opens your app through
 **Android App Links** or **iOS Universal Links**. The backend verifies app and
