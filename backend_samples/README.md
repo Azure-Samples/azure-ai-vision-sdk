@@ -21,8 +21,7 @@ can continue an Android session after installation.
 
 ## Session Pipeline
 
-Start with [prerequisites](#prerequisites), then [backend setup](#11-configure-the-library-and-storage).
-The links below lead to the corresponding implementation steps.
+At runtime, each session follows this sequence:
 
 1. **[Create the session](#13-create-sessions-and-launch-links):** The website asks your backend to start liveness.
    The backend creates a session with Azure Face, stores its ID and token,
@@ -49,8 +48,28 @@ The links below lead to the corresponding implementation steps.
    the attested client's submission; then use the result's liveness decision
    in your business workflow. A match alone does not mean liveness passed.
 
-Finish with [end-to-end verification](#4-verify-one-complete-session)
-and [Before Shipping](#before-shipping).
+## Integration Roadmap
+
+Follow this implementation order. Complete the shared backend work, then the
+mobile platforms you support.
+
+1. **Prepare:** Complete the [prerequisites](#prerequisites) and collect the
+   configuration values listed in [backend setup](#11-configure-the-library-and-storage).
+2. **Integrate the backend and website:** Configure the [library and storage](#11-configure-the-library-and-storage),
+   expose the [attestation endpoints](#12-expose-the-attestation-endpoints),
+   then implement [session creation and launch links](#13-create-sessions-and-launch-links)
+   and [result validation](#14-validate-the-liveness-result).
+3. **Integrate your mobile app:** Follow [Android](#2-android-integration),
+   [iOS](#3-ios-integration), or both, in section order: app identity,
+   libraries and permissions, link configuration on the backend and app,
+   then the attestation and liveness flow.
+4. **Verify the core flow:** [Run one complete session](#4-verify-one-complete-session)
+   on a supported physical device and check the documented failure cases.
+5. **Add optional installation flows:** Configure [Play installation recovery](#51-resume-after-google-play-installation)
+   or an [App Clip](#52-use-an-app-clip) if needed, then repeat the
+   complete-session checks for each flow.
+6. **Prepare for production:** Complete the [Before Shipping](#before-shipping)
+   checklist.
 
 ## Prerequisites
 
