@@ -1,8 +1,9 @@
 # How Web-to-Mobile Liveness Works
 
-A user starts on your website, scans a QR code or taps a link, and completes
-a liveness check in your Android app, iOS app, or iOS App Clip. Your backend
-connects these steps using the same session ID. The liveness check assesses
+A user starts a liveness check on your website, then scans a QR code or taps
+a link to continue in your Android app, iOS app, or iOS App Clip. Your
+**backend** (the server behind your website) connects these steps using a
+**session ID**, a reference number for that check. The liveness check assesses
 whether a live person is in front of the camera.
 
 This introduction explains the idea with examples. For implementation,
@@ -11,6 +12,21 @@ use the [integration quick start](README.md).
 ![Scan a QR code or tap a session link, then complete device attestation and start liveness.](../docs/face/qr-to-liveness.svg)
 
 ## 1. Links and QR Codes Carry Text
+
+A session link is a web address, such as
+`https://liveness.example.com/native?s=...`. A browser can use it to load a web
+page, while an app set up to handle the link can read the session ID and start
+the check. The value after `s=` identifies the session.
+
+For this flow, a QR code stores the same HTTPS session link as a scannable
+pattern. When a phone's camera app scans it, the code is decoded into that
+link text, equivalent to passing the link directly to the camera app.
+
+The camera app can recognize it as a link and offer to open it. When the user
+taps, the phone's app-link and browser rules determine what opens next.
+
+<details>
+<summary>Optional: how the same text behaves in different programs</summary>
 
 Consider the string `C:\Pictures\sample.jpg`. What happens depends on which
 program receives it:
@@ -25,37 +41,23 @@ program receives it:
 The string does not become an image or unreadable text. The receiving program
 chooses whether to print it, open a file, or do something else.
 
-Try this in **Windows PowerShell**, replacing the path with an existing JPEG:
-
-```powershell
-$imagePath = 'C:\Pictures\sample.jpg'
-Write-Output $imagePath
-Start-Process -FilePath $imagePath
-notepad.exe $imagePath
-```
-
-These commands print the path, open its default viewer, and open the file in
-Notepad. Close Notepad without saving. In a remote session, the path refers
-to the remote computer unless you explicitly use a shared or redirected drive.
-
-The same idea applies to `https://liveness.example.com/native?s=...`:
-a browser can request a web page, while an associated mobile app can read
-the session ID and start its own workflow.
-
-For this flow, a QR code encodes an HTTPS session link. When a phone's camera
-app scans it, the code is decoded into that link string, equivalent to passing
-the link directly to the camera app.
-
-The camera app can recognize it as a link and offer to open it. When the user
-taps, the phone's app-link and browser rules determine what opens next.
+</details>
 
 ## 2. How the Phone Chooses App or Browser
 
-For verified HTTPS-link handoff, an app declaring a URL is not enough.
-**Android App Links** and **iOS Universal Links** establish a two-sided
-association, like an allowlist:
+The website and app must both agree on which links the app handles. The
+website names the allowed app, and the app names the website it handles.
+**Android App Links** and **iOS Universal Links** are the platform features
+that establish this two-sided association.
 
 ![The website names an allowed app, the app declares the website's host, and the phone's OS checks both declarations.](../docs/face/app-link-association.svg)
+
+The phone checks this association and can open a matching installed app
+directly. When the link stays in the browser instead, the website provides
+another way to continue.
+
+<details>
+<summary>Technical details: how the app and website are associated</summary>
 
 | Platform | The App Declares | The Website Declares |
 | --- | --- | --- |
@@ -84,20 +86,30 @@ Test a real tap or scan and keep the fallback page usable.
 See Google's [App Links explanation](https://developer.android.com/training/app-links/about)
 and Apple's [associated domains explanation](https://developer.apple.com/documentation/xcode/supporting-associated-domains).
 
+</details>
+
 ## 3. What the Website Displays
 
-Serve a useful web page at the same HTTPS URL your apps handle. This is the
-**fallback page**: it helps the user continue whenever the phone stays in
-the browser.
+The website's session page is also its **fallback page**: it helps the user
+continue when the link opens in the browser instead of the app. On a computer,
+the page offers a QR code to scan. On a phone, it offers a button to open the
+Android app or an App Clip, a small part of an iOS app that can run without
+installing the full app.
+
+![The website selects a browser presentation: a desktop QR containing the HTTPS session URL, an Android Open in app button, or an iPhone Open App Clip button.](../docs/face/website-platform-actions.svg)
+
+The link carries the session ID, not the **Face session token**, a temporary
+credential that gives the app permission to run the check.
+
+A webpage can use **JavaScript** (code that runs in the browser) to choose
+which view to show based on the browser's operating system (OS), such as
+Android or iOS.
 
 The diagrams use `SESSION_URL` for `https://HOST/native?s=SID`. `HOST` is your
 backend hostname, such as `liveness.example.com`, and `SID` is the same session
 ID throughout. `PACKAGE` is the Android package name; `CLIP` is the App Clip
-bundle ID. Optional callback parameters are omitted. None of these URLs
-contains the Face session token.
-
-When the page loads, JavaScript can infer the browser's OS from browser
-information, such as `navigator.userAgent`, and choose which action to show:
+bundle ID. These names identify the apps to open. Optional browser-return
+parameters are omitted.
 
 ```mermaid
 flowchart TD
@@ -107,21 +119,23 @@ flowchart TD
     Detect -->|iOS| Ios["Show an Open App Clip link<br/>Apple invocation URL shown below"]
 ```
 
-This shows a **page-JavaScript design**. The current
-[backend sample](backend/react/app/_lib/session_landing.ts) makes the platform
-choice on the server using the HTTP `User-Agent` header, and also displays the
-QR code on mobile pages. Either approach only selects the page's presentation;
-it does not prove the OS, detect whether the app is installed, or attest the
-device.
-
-![The website selects a browser presentation: a desktop QR containing the HTTPS session URL, an Android Open in app button, or an iPhone Open App Clip button.](../docs/face/website-platform-actions.svg)
+The chart shows a browser-side approach. The
+[sample](backend/react/app/_lib/session_landing.ts) instead selects the view
+on the server using information sent by the browser (`User-Agent`), and also
+displays the QR on mobile. This choice affects what the page shows; the phone
+still controls whether a link opens an app.
 
 ## 4. Android: From Link to Liveness
 
-A QR scan supplies the HTTPS `SESSION_URL`. If it opens the website instead
-of the app, the page offers a different link: an Android intent containing
-the session URL's host, path, and query, the app package, and a Play fallback.
-The following assumes a supporting browser and a configured Google Play URL.
+On Android, scanning the QR or tapping the session link can open your
+installed app. If the browser opens instead, the website offers an
+**Open in app** button. In a supporting browser such as Chrome, this button
+can open the app or offer Google Play installation when configured.
+
+With installation recovery configured, the user installs and opens the app,
+which reads the original session link through **Play Install Referrer**, a
+Google Play feature for passing that link through installation. The app can
+then resume the same check if the session is still valid.
 
 ```mermaid
 flowchart TD
@@ -135,15 +149,17 @@ flowchart TD
     App --> Check["Attestation, then liveness"]
 ```
 
+<details>
+<summary>Technical details: what the Android link contains</summary>
+
 In supporting browsers such as Chrome, a user tap on the `intent://` link
 requests the named app. If the intent cannot be handled, the browser can
 use the encoded fallback URL to go to Google Play.
 
 The Play URL also carries a **referrer**: the original session link, encoded
-as a query parameter. After installation, the user opens the app, and the app
-reads that value through the Play Install Referrer API. It validates the link
-and resumes the session if it is still valid. Installation alone does not
-automatically start the liveness check.
+as a query parameter. After installation, the app reads that value through
+the Play Install Referrer API and validates it before use. Installation
+alone does not automatically start the liveness check.
 
 Example **Open in app** link, using placeholder values:
 
@@ -173,21 +189,20 @@ Browser launch restrictions still apply, so use a user-tapped button, not a
 timer or an assumed automatic redirect. See [Chrome's intent guidance](https://developer.chrome.com/docs/android/intents)
 and the [sample's installation recovery](../samples/kotlin/face/AzureVisionLiveness/OVERVIEW.md#resume-after-google-play-installation).
 
+</details>
+
 ## 5. iOS: From Link to Liveness
 
 An **App Clip** is a small part of your iOS app that can run without installing
-the full app. You build and publish it with its parent app and configure its
-launch experience in App Store Connect.
+the full app.
 
-The same QR contains `SESSION_URL`, not an Apple URL. A matching Universal
-Link can open the installed full app. If the page opens in Safari, its
-**Open App Clip** link instead contains Apple's invocation URL, the Clip
-bundle ID, the session ID, and the backend host.
+On an iPhone, the session link can open the installed full app. If the user
+stays in Safari, the website's **Open App Clip** button can show an App Clip
+card. The user taps **Open** to run the check. If the full app is installed,
+it handles that link instead.
 
-An iPhone without the full app can offer an App Clip from a QR code **only when
-the URL is configured and recognized as an App Clip invocation**. An ordinary
-Universal Link does not automatically download an App Clip. Otherwise, the
-web page and its App Clip button provide the next step.
+An App Clip can also be offered directly from a QR scan when the link has
+been configured with Apple and is recognized as an App Clip launch.
 
 ```mermaid
 flowchart TD
@@ -202,8 +217,14 @@ flowchart TD
     Clip --> Check
 ```
 
-Safari can present an App Clip card; the user chooses to open it. iOS passes
-the invocation URL to the Clip, which reads `s` and uses the allowlisted
+<details>
+<summary>Technical details: what the iOS link contains</summary>
+
+The QR contains `SESSION_URL`, not an Apple URL. The **Open App Clip** button
+instead uses Apple's invocation (launch) URL, which contains the Clip's
+bundle ID, the session ID, and the backend host.
+
+iOS passes the invocation URL to the Clip, which reads `s` and uses the allowlisted
 `domain` as its backend. `appclip.apple.com` is the launch host, not your backend.
 If the full app is installed, it handles the invocation instead and must
 support the same flow.
@@ -228,12 +249,18 @@ https://appclip.apple.com/id?p=com.example.liveness.Clip&s=11111111-2222-4333-84
 | **`&s=...`** | The same session ID used by the website. |
 | **`&domain=liveness.example.com`** | The backend hostname the Clip validates before use. |
 
+You build and publish the Clip with its parent app and configure its launch
+experience in App Store Connect. An ordinary Universal Link does not
+automatically download an App Clip.
+
 Public links require a released, approved App Clip experience. Demo links
 cannot carry these session parameters. A custom-domain QR invocation also
 requires the matching website association and App Clip experience; creating
 the URL string alone does not configure any of this. See Apple's
 [App Clip experiences guide](https://developer.apple.com/documentation/appclip/configuring-the-launch-experience-of-your-app-clip)
 and the [App Clip integration steps](README.md#52-use-an-app-clip).
+
+</details>
 
 ## 6. After Handoff: Attestation and Liveness
 
@@ -242,13 +269,16 @@ tampered with and that the app is genuine and unmodified. These checks use
 security evidence from Android or iOS and depend on the platform and your
 backend's security policy.
 
-After those checks pass, the attestation libraries use the verified app
-identity to establish an **encrypted session between the app and backend**.
-Messages carrying the Face session token and liveness digest are encrypted,
-so other apps or anyone intercepting those messages cannot read their contents
-without the required encryption keys. This encryption protects the token and
-digest messages exchanged by the attestation libraries; it does not change
-how the app's other traffic is handled.
+After those checks pass, the **attestation libraries** (reusable code in your
+app and backend) use the verified app identity to establish an **encrypted
+session between the app and backend**.
+
+The encrypted messages carry the Face session token and a **digest**, a
+fingerprint of the data submitted for the liveness check. Other apps or
+anyone intercepting these messages cannot read them without the required
+encryption keys. This encryption protects the token and digest messages
+exchanged by the attestation libraries; it does not change how the app's
+other traffic is handled.
 
 ![The backend first checks the app's platform evidence. It then sends an encrypted session token to the app, which returns an encrypted digest after liveness through the same attested session.](../docs/face/attestation-encrypted-session.svg)
 

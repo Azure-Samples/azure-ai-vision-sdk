@@ -9,7 +9,7 @@
       <rect width="29" height="29" fill="#ffffff"/>
       <g fill="#22343b" shape-rendering="crispEdges">
         <path fill-rule="evenodd" d="M2 2h7v7H2z M3 3v5h5V3z M20 2h7v7h-7z M21 3v5h5V3z M2 20h7v7H2z M3 21v5h5v-5z"/>
-        <path d="M4 4h3v3H4z M22 4h3v3h-3z M4 22h3v3H4z M11 2h2v2h-2z M15 2h3v1h-3z M12 5h3v2h-3z M16 4h2v4h-2z M10 8h3v2h-3z M14 9h4v2h-4z M2 11h3v2H2z M6 10h2v1H6z M6 13h3v2H6z M3 15h2v3H3z M8 16h3v2h-3z M11 12h2v4h-2z M14 13h3v2h-3z M16 16h3v3h-3z M12 18h2v3h-2z M10 22h3v2h-3z M11 26h3v1h-3z M15 22h2v4h-2z M18 21h3v2h-3z M19 25h3v2h-3z M23 24h4v3h-4z M24 20h3v2h-3z M22 17h2v3h-2z M25 14h2v3h-2z M20 11h3v2H3z M25 10h2v2h-2z M19 14h3v2h-3z"/>
+        <path d="M4 4h3v3H4z M22 4h3v3h-3z M4 22h3v3H4z M11 2h2v2h-2z M15 2h3v1h-3z M12 5h3v2h-3z M16 4h2v4h-2z M10 8h3v2h-3z M14 9h4v2h-4z M2 11h3v2H2z M6 10h2v1H6z M6 13h3v2H6z M3 15h2v3H3z M8 16h3v2h-3z M11 12h2v4h-2z M14 13h3v2h-3z M16 16h3v3h-3z M12 18h2v3h-2z M10 22h3v2h-3z M11 26h3v1h-3z M15 22h2v4h-2z M18 21h3v2h-3z M19 25h3v2h-3z M23 24h4v3h-4z M24 20h3v2h-3z M22 17h2v3h-2z M25 14h2v3h-2z M20 11h3v2h-3z M25 10h2v2h-2z M19 14h3v2h-3z"/>
       </g>
     </symbol>
   </defs>
